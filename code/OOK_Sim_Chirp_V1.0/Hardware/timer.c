@@ -32,7 +32,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
     if(htim->Instance==TIM3)
 	{
 		__HAL_RCC_TIM3_CLK_ENABLE();            //使能TIM3时钟
-		HAL_NVIC_SetPriority(TIM3_IRQn,1,3);    //设置中断优先级，抢占优先级1，子优先级3
+		HAL_NVIC_SetPriority(TIM3_IRQn,0,0);    //设置中断优先级，抢占优先级1，子优先级3
 		HAL_NVIC_EnableIRQ(TIM3_IRQn);          //开启ITM3中断   
 	}
 }
@@ -52,7 +52,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //      HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
 //				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
 			time_count += 5;
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_5);
+//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_5);
 //			if(time_count > 1000000)
 //			{
 //				HAL_TIM_Base_Stop_IT(&TIM3_Handler);

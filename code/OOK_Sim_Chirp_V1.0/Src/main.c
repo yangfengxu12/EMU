@@ -52,11 +52,11 @@
 #include "Freq_Set.h"
 
 
-#define RF_FREQUENCY                                450000000 // Hz
+#define RF_FREQUENCY                                470000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
 
 #define LoRa_BW																			125000		// Hz
-#define LoRa_SF																			11				// spread factor
+#define LoRa_SF																			7				// spread factor
 #define LoRa_Base_Freq															(RF_FREQUENCY - (LoRa_BW >> 1)) // Hz
 #define LoRa_Max_Freq																(RF_FREQUENCY + (LoRa_BW >> 1)) // Hz
 #define LoRa_Freq_Step															(LoRa_BW >> LoRa_SF)
@@ -113,11 +113,10 @@ void SetChannel( uint32_t freq );
 int main(void)
 {
 //  bool isMaster = true;
-//  uint8_t i;
+  uint8_t i;
 	uint32_t fdev = 0;
-	uint32_t datarate = 25000  ;
-	uint8_t m,n;
-	
+	uint32_t datarate = 25000;
+	uint8_t m,n,count;
 	
   HAL_Init();
 
@@ -132,6 +131,7 @@ int main(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
 	
   GPIO_InitStruct.Pin   = GPIO_PIN_5;
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
@@ -141,6 +141,13 @@ int main(void)
 	
 	HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET);
 	
+	GPIO_InitStruct.Pin   = GPIO_PIN_9;
+  GPIO_InitStruct.Mode  = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull  = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	
+	
 //	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 	
 //	SX1276SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3000);
@@ -148,11 +155,13 @@ int main(void)
 	SX1276Write( REG_PACKETCONFIG2, ( SX1276Read( REG_PACKETCONFIG2 ) & RF_PACKETCONFIG2_DATAMODE_CONTINUOUS ) );
 	
 	SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_00 );
-  SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_01 | RF_DIOMAPPING2_DIO5_11 );
+  SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_01 | RF_DIOMAPPING2_DIO5_01 );
 	
 	SX1276Write( REG_OPMODE, ( SX1276Read( REG_OPMODE ) & RF_OPMODE_MODULATIONTYPE_MASK ) | RF_OPMODE_MODULATIONTYPE_OOK );	
 	
-	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_1000_US );
+	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+	
+	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_75 );
 
 	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );	
 
@@ -164,39 +173,40 @@ int main(void)
 	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
 	SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
 	
-	
-//	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
+	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 	DelayMs(100);
   while (1)
   {
 		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-		for(m=0;m<6;m++)
+		for(m=0;m<8;m++)
 		{
 			LoRa_upChirp();
 		}
-		for(n=0;n<2;n++)
-		{
-			LoRa_downChirp();
-		}
+//		SX1276SetOpMode (RF_OPMODE_SYNTHESIZER_TX);
+//		for(n=0;n<2;n++)
+//		{
+//			LoRa_downChirp();
+//		}
 		SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
-		DelayMs(1000);
+		DelayMs(2000);
 		
+//		SX1276SetChannel( RF_FREQUENCY );
+// 		for(i = 0; i < 2 ; i++)
+//		{
+//			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET);
+//			DelayMs(200);
+////			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
+////			DelayMs(200);
+//		}
+//		SX1276SetChannel( RF_FREQUENCY + LoRa_BW  );
 //		for(i = 0; i < 2 ; i++)
 //		{
 //			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET);
-//			DelayMs(500);
+//			DelayMs(200);
 //			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
-//			DelayMs(500);
+//			DelayMs(200);
 //		}
-//		SX1276SetChannel( RF_FREQUENCY + 125000 );
-//		for(i = 0; i < 2 ; i++)
-//		{
-//			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET);
-//			DelayMs(500);
-//			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
-//			DelayMs(500);
-//		}
-		
   }
 }
 
@@ -216,18 +226,34 @@ void LoRa_upChirp()
 {
 //	uint32_t i;
 	uint16_t Count = 0;
+	uint32_t time_temp = 0;
+	uint32_t increaed = 0;
 	
 	time_count = 0;
-	
-	Generate_chip(LoRa_Base_Freq);
 	HAL_TIM_Base_Start_IT(&TIM3_Handler);
+	Generate_chip(LoRa_Base_Freq);
+//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 	while(1)
 	{
-		if(time_count > 95 )
+//		if()
+		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
+			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
 		{
 			HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+			time_temp = time_count;
 			time_count = 0;
-			Count ++;
+			HAL_TIM_Base_Start_IT(&TIM3_Handler);
+			increaed += ceil(time_temp / 8) * LoRa_Freq_Step;
+			Generate_chip(LoRa_Base_Freq + increaed);
+			if(increaed > LoRa_BW)
+			{
+				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+				time_count = 0;
+				break;
+			}
+			
+//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_5);
+//			Count ++;
 //			Generate_chip(LoRa_Base_Freq + Count * LoRa_Freq_Step * 12);
 //			if(Count * LoRa_Freq_Step * 12 > LoRa_BW)
 //			{
@@ -235,17 +261,16 @@ void LoRa_upChirp()
 //				time_count = 0;
 //				break;
 //			}
-			Generate_chip(RF_FREQUENCY + Freq_Set[96 * Count]);
-			if(96 * Count >= 16384 - 1)
-			{
-				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-				time_count = 0;
-				break;
-			}
-			HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//			Generate_chip(RF_FREQUENCY + Freq_Set[96 * Count]);
+//			if(96 * Count >= 16384 - 1)
+//			{
+//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+//				time_count = 0;
+//				break;
+//			}
+//			HAL_TIM_Base_Start_IT(&TIM3_Handler);
 		}
 	}
-
 }
 
 
