@@ -179,10 +179,10 @@ int main(void)
   while (1)
   {
 		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-		for(m=0;m<8;m++)
-		{
-			LoRa_upChirp();
-		}
+//		for(m=0;m<8;m++)
+//		{
+//			LoRa_upChirp();
+//		}
 //		SX1276SetOpMode (RF_OPMODE_SYNTHESIZER_TX);
 //		for(n=0;n<2;n++)
 //		{
