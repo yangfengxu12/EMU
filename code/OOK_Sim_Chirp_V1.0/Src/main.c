@@ -56,7 +56,7 @@
 #define TX_OUTPUT_POWER                             14        // dBm
 
 #define LoRa_BW																			125000		// Hz
-#define LoRa_SF																			7				// spread factor
+#define LoRa_SF																			12				// spread factor
 #define LoRa_Base_Freq															(RF_FREQUENCY - (LoRa_BW >> 1)) // Hz
 #define LoRa_Max_Freq																(RF_FREQUENCY + (LoRa_BW >> 1)) // Hz
 #define LoRa_Freq_Step															(LoRa_BW >> LoRa_SF)
@@ -188,7 +188,7 @@ int main(void)
 //		{
 //			LoRa_downChirp();
 //		}
-		SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
+//		SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
 		DelayMs(2000);
 		
 //		SX1276SetChannel( RF_FREQUENCY );
