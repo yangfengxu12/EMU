@@ -57,7 +57,7 @@
 #define TX_OUTPUT_POWER                             14        // dBm
 
 #define LoRa_BW																			125000		// Hz
-#define LoRa_SF																			12				// spread factor
+#define LoRa_SF																			11				// spread factor
 #define LoRa_Base_Freq															(RF_FREQUENCY - (LoRa_BW >> 1)) // Hz
 #define LoRa_Max_Freq																(RF_FREQUENCY + (LoRa_BW >> 1)) // Hz
 #define LoRa_Freq_Step															(LoRa_BW >> LoRa_SF)
@@ -116,10 +116,7 @@ int main(void)
 //  bool isMaster = true;
   uint8_t i;
 	uint32_t fdev = 0;
-	uint32_t datarate = 25000;
-	uint8_t m,n,count;
-	uint8_t paConfig = 0;
-  uint8_t paDac = 0;
+	uint8_t m;
 	
   HAL_Init();
 
@@ -149,39 +146,6 @@ int main(void)
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	
-//	SX1276Reset();
-////	HAL_TIM_Base_Start_IT(&TIM3_Handler);
-//	
-////	SX1276SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3000);
-//	
-//	SX1276SetChannel( RF_FREQUENCY );
-//	
-//	SX1276Write( REG_PACKETCONFIG2, ( SX1276Read( REG_PACKETCONFIG2 ) & RF_PACKETCONFIG2_DATAMODE_CONTINUOUS ) );
-//	
-//	SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_00 );
-//  SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_01 | RF_DIOMAPPING2_DIO5_01 );
-//	
-//	SX1276Write( REG_OPMODE, ( SX1276Read( REG_OPMODE ) & RF_OPMODE_MODULATIONTYPE_MASK ) | RF_OPMODE_MODULATIONTYPE_OOK );	
-//	
-//	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
-//	
-////	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MODULATIONSHAPING_MASK ) | RF_PARAMP_MODULATIONSHAPING_10 );
-//	
-////	SX1276Write( REG_PACONFIG, ( SX1276Read( REG_PACONFIG ) & RF_PACONFIG_MAX_POWER_MASK ) | 0x0f );
-//	SX1276SetRfTxPower( 15);
-//	
-//	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_75 );
-
-//	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );	
-
-//	fdev = ( uint16_t )( ( double )fdev / ( double )FREQ_STEP );
-//  SX1276Write( REG_FDEVMSB, ( uint8_t )( fdev >> 8 ) );
-//  SX1276Write( REG_FDEVLSB, ( uint8_t )( fdev & 0xFF ) );
-//	
-//	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )datarate );
-//	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
-//	SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
 	
 	Radio.Init(&RadioEvents);
 
@@ -243,7 +207,6 @@ void SetChannel( uint32_t freq )
 
 void LoRa_upChirp()
 {
-//	uint32_t i;
 	uint16_t Count = 0;
 	uint32_t time_temp = 0;
 	uint32_t increaed = 0;
@@ -251,10 +214,8 @@ void LoRa_upChirp()
 	time_count = 0;
 	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 	Generate_chip(LoRa_Base_Freq);
-//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 	while(1)
 	{
-//		if()
 		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
 			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
 		{
@@ -270,24 +231,6 @@ void LoRa_upChirp()
 				time_count = 0;
 				break;
 			}
-			
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_5);
-//			Count ++;
-//			Generate_chip(LoRa_Base_Freq + Count * LoRa_Freq_Step * 12);
-//			if(Count * LoRa_Freq_Step * 12 > LoRa_BW)
-//			{
-//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-//				time_count = 0;
-//				break;
-//			}
-//			Generate_chip(RF_FREQUENCY + Freq_Set[96 * Count]);
-//			if(96 * Count >= 16384 - 1)
-//			{
-//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-//				time_count = 0;
-//				break;
-//			}
-//			HAL_TIM_Base_Start_IT(&TIM3_Handler);
 		}
 	}
 }
