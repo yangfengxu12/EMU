@@ -602,7 +602,9 @@ void SX1276SetTxConfig( RadioModems_t modem, int8_t power, uint32_t fdev,
                         uint8_t hopPeriod, bool iqInverted, uint32_t timeout )
 {
     SX1276SetModem( modem );
-
+		
+		SX1276Write( REG_OPMODE, ( SX1276Read( REG_OPMODE ) & RF_OPMODE_MODULATIONTYPE_MASK ) | RF_OPMODE_MODULATIONTYPE_OOK );
+	
     LoRaBoardCallbacks->SX1276BoardSetRfTxPower( power );
 
     switch( modem )
@@ -1175,16 +1177,16 @@ void SX1276SetTxContinuousWave( uint32_t freq, int8_t power, uint16_t time )
 
     SX1276SetTxConfig( MODEM_FSK, power, 0, 0, 4800, 0, 5, false, false, 0, 0, 0, timeout );
 
-    SX1276Write( REG_PACKETCONFIG2, ( SX1276Read( REG_PACKETCONFIG2 ) & RF_PACKETCONFIG2_DATAMODE_CONTINUOUS ) );
+    SX1276Write( REG_PACKETCONFIG2, ( SX1276Read( REG_PACKETCONFIG2 ) & RF_PACKETCONFIG2_DATAMODE_MASK ) );
     // Disable radio interrupts
-    SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_00 );
-    SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_01 | RF_DIOMAPPING2_DIO5_11 );
+    SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_11 );
+    SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_01 | RF_DIOMAPPING2_DIO5_10 );
 
-    TimerSetValue( &TxTimeoutTimer, timeout );
+//    TimerSetValue( &TxTimeoutTimer, timeout );
 
-    SX1276.Settings.State = RF_TX_RUNNING;
-    TimerStart( &TxTimeoutTimer );
-//    SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+//    SX1276.Settings.State = RF_TX_RUNNING;
+//    TimerStart( &TxTimeoutTimer );
+    SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 }
 
 int16_t SX1276ReadRssi( RadioModems_t modem )

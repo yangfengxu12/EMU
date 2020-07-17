@@ -67,3 +67,4 @@ reload\main.o: ..\BSP\SX1276\sx1276Regs-Fsk.h
 reload\main.o: ..\BSP\SX1276\sx1276Regs-LoRa.h
 reload\main.o: ..\Hardware\timer.h
 reload\main.o: ..\Hardware\Freq_Set.h
+reload\main.o: ..\BSP\SX1276\sx1276mb1mas.h

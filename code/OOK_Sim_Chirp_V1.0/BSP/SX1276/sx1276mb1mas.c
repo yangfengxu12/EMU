@@ -69,7 +69,7 @@ uint8_t SX1276GetPaSelect( uint32_t channel );
 
 void SX1276SetAntSwLowPower( bool status );
 
-void SX1276SetRfTxPower( int8_t power );
+
 
 void SX1276SetAntSw( uint8_t opMode );
 /*!

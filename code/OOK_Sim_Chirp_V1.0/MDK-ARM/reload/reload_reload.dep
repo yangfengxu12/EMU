@@ -1,7 +1,7 @@
 Dependencies for Project 'reload', Target 'reload': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::.\ARMCC
 F (startup_stm32l476xx.s)(0x5F0C01DA)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include--pd "__UVISION_VERSION SETA 530" --pd "_RTE_ SETA 1" --pd "STM32L476xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32l476xx.lst --xref -o reload\startup_stm32l476xx.o --depend reload\startup_stm32l476xx.d)
-F (../Src/main.c)(0x5F0FCA87)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\main.o --omf_browse reload\main.crf --depend reload\main.d)
+F (../Src/main.c)(0x5F11A4F7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\main.o --omf_browse reload\main.crf --depend reload\main.d)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5F03E049)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h)(0x5F03E048)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5F03E04E)
@@ -56,7 +56,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -69,6 +69,7 @@ I (..\BSP\SX1276\sx1276Regs-Fsk.h)(0x5DE7E0D8)
 I (..\BSP\SX1276\sx1276Regs-LoRa.h)(0x5DE7E0D8)
 I (..\Hardware\timer.h)(0x5F07146F)
 I (..\Hardware\Freq_Set.h)(0x5F08624C)
+I (..\BSP\SX1276\sx1276mb1mas.h)(0x5F11551B)
 F (../Src/stm32l4xx_it.c)(0x5F0C134A)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\stm32l4xx_it.o --omf_browse reload\stm32l4xx_it.crf --depend reload\stm32l4xx_it.d)
 I (..\Hardware\hw.h)(0x5DE7E11E)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\math.h)(0x5E53505A)
@@ -123,7 +124,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -184,7 +185,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1245,7 +1246,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5F03E04E)
-F (..\BSP\SX1276\sx1276.c)(0x5F0820D6)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\sx1276.o --omf_browse reload\sx1276.crf --depend reload\sx1276.d)
+F (..\BSP\SX1276\sx1276.c)(0x5F11A48E)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\sx1276.o --omf_browse reload\sx1276.crf --depend reload\sx1276.d)
 I (..\Hardware\hw.h)(0x5DE7E11E)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
@@ -1299,7 +1300,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1310,7 +1311,7 @@ I (..\BSP\SX1276\sx1276.h)(0x5DE7E0D8)
 I (..\BSP\SX1276\sx1276Regs-Fsk.h)(0x5DE7E0D8)
 I (..\BSP\SX1276\sx1276Regs-LoRa.h)(0x5DE7E0D8)
 I (..\Utilities\timeServer.h)(0x5DE7E105)
-F (..\BSP\SX1276\sx1276mb1mas.c)(0x5DE7E0E8)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\sx1276mb1mas.o --omf_browse reload\sx1276mb1mas.crf --depend reload\sx1276mb1mas.d)
+F (..\BSP\SX1276\sx1276mb1mas.c)(0x5F11551C)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\sx1276mb1mas.o --omf_browse reload\sx1276mb1mas.crf --depend reload\sx1276mb1mas.d)
 I (..\Hardware\hw.h)(0x5DE7E11E)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
@@ -1364,7 +1365,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1374,7 +1375,7 @@ I (..\BSP\SX1276\radio.h)(0x5DE7E105)
 I (..\BSP\SX1276\sx1276.h)(0x5DE7E0D8)
 I (..\BSP\SX1276\sx1276Regs-Fsk.h)(0x5DE7E0D8)
 I (..\BSP\SX1276\sx1276Regs-LoRa.h)(0x5DE7E0D8)
-I (..\BSP\SX1276\sx1276mb1mas.h)(0x5DE7E0E8)
+I (..\BSP\SX1276\sx1276mb1mas.h)(0x5F11551B)
 F (..\Hardware\stm32l4xx_hw.c)(0x5F07000F)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\SX1276 -I ..\Hardware -I ..\Utilities --C99-I.\RTE\_reload-ID:\Keil_v5_ARM_Pack\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER-o reload\stm32l4xx_hw.o --omf_browse reload\stm32l4xx_hw.crf --depend reload\stm32l4xx_hw.d)
 I (..\Hardware\hw.h)(0x5DE7E11E)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\math.h)(0x5E53505A)
@@ -1429,7 +1430,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1490,7 +1491,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1550,7 +1551,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1611,7 +1612,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (..\Hardware\debug.h)(0x5DE7E11E)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -1671,7 +1672,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1771,7 +1772,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)
@@ -1934,7 +1935,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (..\Hardware\debug.h)(0x5DE7E11E)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -1997,7 +1998,7 @@ I (..\Utilities\trace.h)(0x5DE7E105)
 I (..\Hardware\utilities_conf.h)(0x5DE7E11E)
 I (..\Hardware\vcom.h)(0x5DE7E11E)
 I (..\Hardware\hw_msp.h)(0x5DE7E11E)
-I (..\Utilities\util_console.h)(0x5DE7E105)
+I (..\Utilities\util_console.h)(0x5F113BEE)
 I (..\Utilities\systime.h)(0x5DE7E105)
 I (D:\Keil_v5_ARM\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (..\Hardware\debug.h)(0x5DE7E11E)

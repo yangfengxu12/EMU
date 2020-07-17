@@ -80,7 +80,7 @@ bool SX1276CheckRfFrequency( uint32_t frequency );
  * Radio hardware and global parameters
  */
 extern SX1276_t SX1276;
-
+void SX1276SetRfTxPower( int8_t power );
 #ifdef __cplusplus
 }
 #endif

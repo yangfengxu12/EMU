@@ -50,13 +50,14 @@
 #include "sx1276.h"
 #include "timer.h"
 #include "Freq_Set.h"
+#include "sx1276mb1mas.h"
 
 
 #define RF_FREQUENCY                                470000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
 
 #define LoRa_BW																			125000		// Hz
-#define LoRa_SF																			7				// spread factor
+#define LoRa_SF																			12				// spread factor
 #define LoRa_Base_Freq															(RF_FREQUENCY - (LoRa_BW >> 1)) // Hz
 #define LoRa_Max_Freq																(RF_FREQUENCY + (LoRa_BW >> 1)) // Hz
 #define LoRa_Freq_Step															(LoRa_BW >> LoRa_SF)
@@ -73,7 +74,7 @@ typedef enum
 
 #define RX_TIMEOUT_VALUE                            1000
 #define BUFFER_SIZE                                 64 // Define the payload size here
-#define LED_PERIOD_MS               200
+#define LED_PERIOD_MS               50
 
 #define LEDS_OFF   do{ \
                    LED_Off( LED_BLUE ) ;   \
@@ -94,8 +95,8 @@ States_t State = LOWPOWER;
 int8_t RssiValue = 0;
 int8_t SnrValue = 0;
 
-/* Led Timers objects*/
-//static  TimerEvent_t timerLed;
+static RadioEvents_t RadioEvents;
+									 
 extern TIM_HandleTypeDef TIM3_Handler;
 extern uint32_t time_count;
 /* Private function prototypes -----------------------------------------------*/
@@ -117,6 +118,8 @@ int main(void)
 	uint32_t fdev = 0;
 	uint32_t datarate = 25000;
 	uint8_t m,n,count;
+	uint8_t paConfig = 0;
+  uint8_t paDac = 0;
 	
   HAL_Init();
 
@@ -147,31 +150,47 @@ int main(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 	
-	
-//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
-	
-//	SX1276SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3000);
-	
-	SX1276Write( REG_PACKETCONFIG2, ( SX1276Read( REG_PACKETCONFIG2 ) & RF_PACKETCONFIG2_DATAMODE_CONTINUOUS ) );
-	
-	SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_00 );
-  SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_01 | RF_DIOMAPPING2_DIO5_01 );
-	
-	SX1276Write( REG_OPMODE, ( SX1276Read( REG_OPMODE ) & RF_OPMODE_MODULATIONTYPE_MASK ) | RF_OPMODE_MODULATIONTYPE_OOK );	
-	
-	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
-	
-	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_75 );
+//	SX1276Reset();
+////	HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//	
+////	SX1276SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3000);
+//	
+//	SX1276SetChannel( RF_FREQUENCY );
+//	
+//	SX1276Write( REG_PACKETCONFIG2, ( SX1276Read( REG_PACKETCONFIG2 ) & RF_PACKETCONFIG2_DATAMODE_CONTINUOUS ) );
+//	
+//	SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_00 );
+//  SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_01 | RF_DIOMAPPING2_DIO5_01 );
+//	
+//	SX1276Write( REG_OPMODE, ( SX1276Read( REG_OPMODE ) & RF_OPMODE_MODULATIONTYPE_MASK ) | RF_OPMODE_MODULATIONTYPE_OOK );	
+//	
+//	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+//	
+////	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MODULATIONSHAPING_MASK ) | RF_PARAMP_MODULATIONSHAPING_10 );
+//	
+////	SX1276Write( REG_PACONFIG, ( SX1276Read( REG_PACONFIG ) & RF_PACONFIG_MAX_POWER_MASK ) | 0x0f );
+//	SX1276SetRfTxPower( 15);
+//	
+//	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_75 );
 
-	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );	
+//	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );	
 
-	fdev = ( uint16_t )( ( double )fdev / ( double )FREQ_STEP );
-  SX1276Write( REG_FDEVMSB, ( uint8_t )( fdev >> 8 ) );
-  SX1276Write( REG_FDEVLSB, ( uint8_t )( fdev & 0xFF ) );
+//	fdev = ( uint16_t )( ( double )fdev / ( double )FREQ_STEP );
+//  SX1276Write( REG_FDEVMSB, ( uint8_t )( fdev >> 8 ) );
+//  SX1276Write( REG_FDEVLSB, ( uint8_t )( fdev & 0xFF ) );
+//	
+//	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )datarate );
+//	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
+//	SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
 	
-	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )datarate );
-	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
-	SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
+	Radio.Init(&RadioEvents);
+
+  Radio.SetChannel(RF_FREQUENCY);
+
+	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
+
+	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
+	
 	
 //	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
@@ -179,10 +198,10 @@ int main(void)
   while (1)
   {
 		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-//		for(m=0;m<8;m++)
-//		{
-//			LoRa_upChirp();
-//		}
+		for(m=0;m<8;m++)
+		{
+			LoRa_upChirp();
+		}
 //		SX1276SetOpMode (RF_OPMODE_SYNTHESIZER_TX);
 //		for(n=0;n<2;n++)
 //		{
@@ -195,7 +214,7 @@ int main(void)
 // 		for(i = 0; i < 2 ; i++)
 //		{
 //			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET);
-//			DelayMs(200);
+//			DelayMs(LED_PERIOD_MS);
 ////			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
 ////			DelayMs(200);
 //		}
@@ -203,9 +222,9 @@ int main(void)
 //		for(i = 0; i < 2 ; i++)
 //		{
 //			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET);
-//			DelayMs(200);
-//			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
-//			DelayMs(200);
+//			DelayMs(LED_PERIOD_MS);
+////			HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
+////			DelayMs(200);
 //		}
   }
 }
