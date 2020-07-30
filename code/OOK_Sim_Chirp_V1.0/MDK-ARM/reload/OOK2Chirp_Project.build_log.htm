@@ -28,17 +28,25 @@ Project File Date:  07/17/2020
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5_ARM\ARM\ARMCC\Bin'
 Build target 'reload'
 compiling main.c...
-../Src/main.c(117): warning:  #177-D: variable "i"  was declared but never referenced
+../Src/main.c(68): warning:  #1295-D: Deprecated declaration Generate_Quarter_downChirp - give arg types
+  void Generate_Quarter_downChirp();
+../Src/main.c(78): warning:  #177-D: variable "i"  was declared but never referenced
     uint8_t i;
-../Src/main.c(118): warning:  #177-D: variable "fdev"  was declared but never referenced
+../Src/main.c(79): warning:  #177-D: variable "fdev"  was declared but never referenced
   	uint32_t fdev = 0;
-../Src/main.c(210): warning:  #177-D: variable "Count"  was declared but never referenced
+../Src/main.c(164): warning:  #177-D: variable "Count"  was declared but never referenced
   	uint16_t Count = 0;
-../Src/main.c: 3 warnings, 0 errors
+../Src/main.c(201): warning:  #177-D: variable "Count"  was declared but never referenced
+  	uint16_t Count = 0;
+../Src/main.c(235): warning:  #177-D: variable "Count"  was declared but never referenced
+  	uint16_t Count = 0;
+../Src/main.c(272): warning:  #177-D: variable "Count"  was declared but never referenced
+  	uint16_t Count = 0;
+../Src/main.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=32492 RO-data=860 RW-data=108 ZI-data=2452  
+Program Size: Code=33460 RO-data=860 RW-data=65720 ZI-data=2392  
 FromELF: creating hex file...
-"reload\OOK2Chirp_Project.axf" - 0 Error(s), 3 Warning(s).
+"reload\OOK2Chirp_Project.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,7 +69,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:10
 </pre>
 </body>
 </html>
