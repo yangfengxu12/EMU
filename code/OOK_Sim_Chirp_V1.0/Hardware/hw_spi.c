@@ -80,7 +80,8 @@ void HW_SPI_Init(void)
 
 
   SPI_CLK_ENABLE();
-
+	/* Enable SPI peripheral */
+	SET_BIT(hspi.Instance->CR1, SPI_CR1_SPE);
 
   if (HAL_SPI_Init(&hspi) != HAL_OK)
   {
@@ -90,6 +91,8 @@ void HW_SPI_Init(void)
 
   /*##-2- Configure the SPI GPIOs */
   HW_SPI_IoInit();
+	
+	
 }
 
 /*!

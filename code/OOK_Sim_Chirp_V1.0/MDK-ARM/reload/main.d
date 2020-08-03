@@ -68,3 +68,5 @@ reload\main.o: ..\BSP\SX1276\sx1276Regs-LoRa.h
 reload\main.o: ..\Hardware\timer.h
 reload\main.o: ..\Hardware\Freq_Set.h
 reload\main.o: ..\BSP\SX1276\sx1276mb1mas.h
+reload\main.o: ..\Hardware\fast_spi.h
+reload\main.o: ..\Hardware\sys.h

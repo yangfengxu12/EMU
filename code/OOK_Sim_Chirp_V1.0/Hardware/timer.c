@@ -49,13 +49,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim==(&TIM3_Handler))
     {
-//      HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
-//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
 			time_count += 5;
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_5);
-//			if(time_count > 1000000)
-//			{
-//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-//			}
+//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
     }
 }

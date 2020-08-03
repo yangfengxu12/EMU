@@ -39,6 +39,8 @@
 "reload\hw_spi.o"
 "reload\timer.o"
 "reload\vcom.o"
+"reload\sys.o"
+"reload\fast_spi.o"
 "reload\utilities.o"
 "reload\trace.o"
 "reload\timeserver.o"
