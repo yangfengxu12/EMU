@@ -27,6 +27,8 @@
 #define LoRa_SFD_Length															2
 #define LoRa_Payload_Length													16
 
+#define LoRa_Symbol_Time														8 * (1 << LoRa_SF)
+
 #define LED_PERIOD_MS               50				
 
 
@@ -94,17 +96,16 @@ int main(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	
-  GPIO_InitStruct.Pin   = GPIO_PIN_5;					//PB5 DIO2 DATA
+  GPIO_InitStruct.Pin   = GPIO_PIN_5 | GPIO_PIN_2 | GPIO_PIN_12;					//PB5 DIO2 DATA
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 	
-	GPIO_InitStruct.Pin   = GPIO_PIN_2;					//PB2 testing io
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 	
 	HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET); //PB5 DIO2 DATA HIGH
 	HW_GPIO_Write(GPIOB,GPIO_PIN_2,GPIO_PIN_RESET);
+	HW_GPIO_Write(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 	
 	GPIO_InitStruct.Pin   = GPIO_PIN_9;				//PA9 DIO4_a PLL LOCK
   GPIO_InitStruct.Mode  = GPIO_MODE_INPUT;
@@ -125,21 +126,23 @@ int main(void)
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
 //	HAL_TIM_Base_Start_IT(&TIM3_Handler);
-	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-	DelayMs(100);
+//	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+//	DelayMs(100);
   while (1)
   {
+
 		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+		DelayMs(100);
 		for(m=0;m<LoRa_Preamble_Length;m++)
 		{
 			LoRa_upChirp();
 			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 		}
-		for(m=0;m<LoRa_ID;m++)
-		{
-			LoRa_Payload( LoRa_ID_Start_Freq[m] + RF_FREQUENCY);
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		}
+//		for(m=0;m<LoRa_ID;m++)
+//		{
+//			LoRa_Payload( LoRa_ID_Start_Freq[m] + RF_FREQUENCY);
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+//		}
 		for(m=0;m<LoRa_SFD_Length;m++)
 		{
 			LoRa_downChirp();
@@ -147,17 +150,55 @@ int main(void)
 		}
 		Generate_Quarter_downChirp();
 		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		for(m=0;m<LoRa_Payload_Length;m++)
-		{
-			LoRa_Payload( LoRa_Payload_Start_Freq[m] + RF_FREQUENCY);
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		}
-		SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
+//		for(m=0;m<LoRa_Payload_Length;m++)
+//		{
+//			LoRa_Payload( LoRa_Payload_Start_Freq[m] + RF_FREQUENCY);
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+//		}
+		SX1276SetOpMode( RF_OPMODE_STANDBY );
 		DelayMs(1000);
 		
   }
 }
 
+
+uint32_t increased_temp[2<<11]={0};
+
+//void LoRa_upChirp()
+//{
+//	uint16_t Count = 0;
+//	uint32_t time_temp = 0;
+//	uint32_t increaed = 0;
+//	
+//	time_count = 0;
+//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//	Generate_chip(LoRa_Base_Freq);
+//	while(1)
+//	{
+//		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
+//			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
+//		{
+//			HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+//			time_temp = time_count;
+//			time_count = 0;
+//			HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//#ifdef  FINE_PRECISION
+//			increaed += ((uint32_t)(ceil(time_temp  + Fixed_time)) >> 3) * LoRa_Freq_Step;
+//#else
+//			increaed += ceil(time_temp >> 3)  * LoRa_Freq_Step;
+//#endif
+//			if(increaed + hop_value >= LoRa_BW)
+//			{
+//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+//				time_count = 0;
+//				break;
+//			}
+//			Generate_chip(LoRa_Base_Freq + increaed);
+//			increased_temp[Count] = increaed;
+//			Count++;
+//		}
+//	}
+//}
 
 void LoRa_upChirp()
 {
@@ -167,32 +208,56 @@ void LoRa_upChirp()
 	
 	time_count = 0;
 	HAL_TIM_Base_Start_IT(&TIM3_Handler);
-	Generate_chip(LoRa_Base_Freq);
+//	Generate_chip(LoRa_Base_Freq);
 	while(1)
 	{
-		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
+		if(time_count >= LoRa_Symbol_Time)
+		{
+			break;
+		}
+		else if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
 			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
 		{
-			HAL_TIM_Base_Stop_IT(&TIM3_Handler);
 			time_temp = time_count;
-			time_count = 0;
-			HAL_TIM_Base_Start_IT(&TIM3_Handler);
-#ifdef  FINE_PRECISION
-			increaed += ((uint32_t)(ceil(time_temp  + Fixed_time)) >> 3) * LoRa_Freq_Step;
-#else
-			increaed += ceil(time_temp >> 3)  * LoRa_Freq_Step;
-#endif
-			if(increaed + hop_value >= LoRa_BW)
-			{
-				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-				time_count = 0;
-				break;
-			}
-			Generate_chip(LoRa_Base_Freq + increaed);
+			Generate_chip( LoRa_Base_Freq + (time_temp >> 3) * LoRa_Freq_Step);
+			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 		}
 	}
 }
 
+//void LoRa_downChirp()
+//{
+//	uint16_t Count = 0;
+//	uint32_t time_temp = 0;
+//	uint32_t increaed = 0;
+//	
+//	time_count = 0;
+//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//	Generate_chip(LoRa_Max_Freq);
+//	while(1)
+//	{
+//		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
+//			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
+//		{
+//			HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+//			time_temp = time_count;
+//			time_count = 0;
+//			HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//#ifdef  FINE_PRECISION
+//			increaed += ((uint32_t)(ceil(time_temp  + Fixed_time)) >> 3) * LoRa_Freq_Step;
+//#else
+//			increaed += ceil(time_temp >> 3)  * LoRa_Freq_Step;
+//#endif
+//			if(increaed + hop_value >= LoRa_BW)
+//			{
+//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+//				time_count = 0;
+//				break;
+//			}
+//			Generate_chip(LoRa_Max_Freq - increaed);
+//		}
+//	}
+//}
 
 
 
@@ -204,31 +269,62 @@ void LoRa_downChirp()
 	
 	time_count = 0;
 	HAL_TIM_Base_Start_IT(&TIM3_Handler);
-	Generate_chip(LoRa_Max_Freq);
+//	Generate_chip(LoRa_Max_Freq);
 	while(1)
 	{
-		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
+		if(time_count >= LoRa_Symbol_Time)
+		{
+			break;
+		}
+		else if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
 			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
 		{
-			HAL_TIM_Base_Stop_IT(&TIM3_Handler);
 			time_temp = time_count;
-			time_count = 0;
-			HAL_TIM_Base_Start_IT(&TIM3_Handler);
-#ifdef  FINE_PRECISION
-			increaed += ((uint32_t)(ceil(time_temp  + Fixed_time)) >> 3) * LoRa_Freq_Step;
-#else
-			increaed += ceil(time_temp >> 3)  * LoRa_Freq_Step;
-#endif
-			if(increaed + hop_value >= LoRa_BW)
-			{
-				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-				time_count = 0;
-				break;
-			}
-			Generate_chip(LoRa_Max_Freq - increaed);
+			Generate_chip(LoRa_Max_Freq - (time_temp >> 3) * LoRa_Freq_Step);
+
 		}
 	}
 }
+
+
+
+
+
+//void Generate_Quarter_downChirp()
+//{
+//	uint16_t Count = 0;
+//	uint32_t time_temp = 0;
+//	uint32_t increaed = 0;
+//	
+//	time_count = 0;
+//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//	Generate_chip(LoRa_Max_Freq);
+//	while(1)
+//	{
+//		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
+//			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
+//		{
+//			HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+//			time_temp = time_count;
+//			time_count = 0;
+//			HAL_TIM_Base_Start_IT(&TIM3_Handler);
+//#ifdef  FINE_PRECISION
+//			increaed += ((uint32_t)(ceil(time_temp  + Fixed_time)) >> 3) * LoRa_Freq_Step;
+//#else
+//			increaed += ceil(time_temp >> 3)  * LoRa_Freq_Step;
+//#endif
+//			if(increaed + hop_value >= LoRa_BW >> 2)
+//			{
+//				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+//				time_count = 0;
+//				break;
+//			}
+//			Generate_chip(LoRa_Max_Freq - increaed);
+
+//		}
+//	}
+//	
+//}
 
 void Generate_Quarter_downChirp()
 {
@@ -238,33 +334,26 @@ void Generate_Quarter_downChirp()
 	
 	time_count = 0;
 	HAL_TIM_Base_Start_IT(&TIM3_Handler);
-	Generate_chip(LoRa_Max_Freq);
+//	Generate_chip(LoRa_Max_Freq);
 	while(1)
 	{
-		if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
+		if(time_count >= LoRa_Symbol_Time >> 2)
+		{
+			break;
+		}
+		else if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
 			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
 		{
-			HAL_TIM_Base_Stop_IT(&TIM3_Handler);
 			time_temp = time_count;
-			time_count = 0;
-			HAL_TIM_Base_Start_IT(&TIM3_Handler);
-#ifdef  FINE_PRECISION
-			increaed += ((uint32_t)(ceil(time_temp  + Fixed_time)) >> 3) * LoRa_Freq_Step;
-#else
-			increaed += ceil(time_temp >> 3)  * LoRa_Freq_Step;
-#endif
-			if(increaed + hop_value >= LoRa_BW >> 2)
-			{
-				HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-				time_count = 0;
-				break;
-			}
-			Generate_chip(LoRa_Max_Freq - increaed);
-
+			Generate_chip(LoRa_Base_Freq + LoRa_BW - (time_temp >> 3) * LoRa_Freq_Step);
 		}
 	}
 	
 }
+
+
+
+
 
 
 void LoRa_Payload( int Start_freq)
@@ -335,4 +424,8 @@ void Fast_SetChannel( uint32_t freq )
 		Channel_Freq_LSB_temp = ( uint8_t )( channel & 0xFF );
 }
 
-
+void GPIO_Pin_Set(GPIO_TypeDef* GPIOx,u16 pinx,u8 status)
+{
+	if(status&0X01)GPIOx->BSRR=pinx;	//设置GPIOx的pinx为1
+	else GPIOx->BSRR=pinx<<16;			//设置GPIOx的pinx为0
+}
