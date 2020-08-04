@@ -18,12 +18,12 @@ typedef uint16_t u16;
 typedef uint8_t  u8;
 
 /* TIM handle declaration */
-extern TIM_HandleTypeDef TIM3_Handler;
+extern TIM_HandleTypeDef TIM1_Handler;
 
 extern uint32_t time_count;
 /* Prescaler declaration */
 //uint32_t uwPrescalerValue = 0;
 
-void TIM3_Init(u16 arr,u16 psc);
+void TIM1_Init(u32 arr,u16 psc);
 #endif
 
