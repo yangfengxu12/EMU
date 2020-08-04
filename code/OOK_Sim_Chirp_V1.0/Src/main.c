@@ -88,7 +88,7 @@ int main(void)
 	SPI1_Init();
 	/*Disbale Stand-by mode*/
   LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
-	TIM3_Init(5-1,80-1);       //Timer interrupt time 5us;
+	TIM1_Init(0xffff-1,80-1);       //Timer interrupt time 5us;
 	
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
@@ -125,64 +125,91 @@ int main(void)
 	
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
+	
 //	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 //	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 //	DelayMs(100);
   while (1)
   {
-		HAL_TIM_Base_Start_IT(&TIM3_Handler);
+		
 		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 		DelayMs(100);
+		TIM1->CR1|=0x01;   // start timer
 		for(m=0;m<LoRa_Preamble_Length;m++)
 		{
 			LoRa_upChirp();
 			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 		}
-		for(m=0;m<LoRa_ID;m++)
-		{
-			LoRa_Payload( LoRa_ID_Start_Freq[m]);
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		}
-		for(m=0;m<LoRa_SFD_Length;m++)
-		{
-			LoRa_downChirp();
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		}
-		Generate_Quarter_downChirp();
-		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		for(m=0;m<LoRa_Payload_Length;m++)
-		{
-			LoRa_Payload( LoRa_Payload_Start_Freq[m]);
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		}
+////		for(m=0;m<LoRa_ID;m++)
+////		{
+////			LoRa_Payload( LoRa_ID_Start_Freq[m]);
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		}
+////		for(m=0;m<LoRa_SFD_Length;m++)
+////		{
+////			LoRa_downChirp();
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		}
+////		Generate_Quarter_downChirp();
+////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		for(m=0;m<LoRa_Payload_Length;m++)
+////		{
+////			LoRa_Payload( LoRa_Payload_Start_Freq[m]);
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		}
 		SX1276SetOpMode( RF_OPMODE_STANDBY );
-		HAL_TIM_Base_Stop_IT(&TIM3_Handler);
-		DelayMs(3000);
+		TIM1->CR1|=0x00;
+		DelayMs(2000);
 		
   }
 }
 
+uint32_t Freq_temp[1<<LoRa_SF]={0};
+
+uint8_t Channel_Freq_MSB_temp = 0;
+uint8_t Channel_Freq_MID_temp = 0;
+uint8_t Channel_Freq_LSB_temp = 0;
+
+uint16_t Time_temp;
+uint32_t Input_Freq;
+uint32_t Channel;
+uint8_t n; // the number of changed registers.
 
 
 
 void LoRa_upChirp()
 {
-	uint32_t time_temp = 0;
+	uint32_t Count = 0;
+	uint16_t Previous_Chip_Time = 0;
 	
-	time_count = 0;
-	
-	Fast_SetChannel(LoRa_Base_Freq);
+	TIM1->CNT = 0;
+//	Fast_SetChannel(LoRa_Base_Freq);
 	while(1)
 	{
-		if(time_count >= LoRa_Symbol_Time)
+		Time_temp = TIM1->CNT;
+		if(Time_temp >= LoRa_Symbol_Time)
 		{
 			break;
 		}
-		else if((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET) && \
-			(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9)  == GPIO_PIN_SET))
+		else if( ( ( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && ( ( GPIOA->IDR & GPIO_PIN_9) != 0x00u ) )
 		{
-			time_temp = time_count;
-			Fast_SetChannel( LoRa_Base_Freq + (ceil(time_temp / 8) + 1) * LoRa_Freq_Step);
+			Input_Freq = LoRa_Base_Freq + 2 * Count * LoRa_Freq_Step;
+			
+			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
+			if(Channel_Freq_MSB_temp != ( uint8_t )( ( Channel >> 16 ) & 0xFF ))
+				n+=1;
+			if(Channel_Freq_MID_temp != ( uint8_t )( ( Channel >> 8 ) & 0xFF ))
+				n+=1;
+			do
+			{
+				Time_temp = TIM1->CNT;
+			}
+			while( Time_temp - Previous_Chip_Time < 16 - n * 3.85);
+			Fast_SetChannel( Input_Freq );
+			Previous_Chip_Time = TIM1->CNT;
+			Freq_temp[Count] = Input_Freq;
+			Count++;
+			n=1;
 			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 		}
 	}
@@ -267,9 +294,6 @@ void Generate_chip( uint32_t freq )
 	Fast_SetChannel( freq );
 }
 
-uint8_t Channel_Freq_MSB_temp = 0;
-uint8_t Channel_Freq_MID_temp = 0;
-uint8_t Channel_Freq_LSB_temp = 0;
 
 void Fast_SetChannel( uint32_t freq )
 {
