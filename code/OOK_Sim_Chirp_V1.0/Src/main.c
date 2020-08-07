@@ -125,12 +125,6 @@ int main(void)
 	
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
-	SX1276_Burst_Write(0x06, buf, 1);
-	
-	SX1276_Burst_Write(0x06, buf, 2);
-	
-	SX1276_Burst_Write(0x06, buf, 3);
-	
 //	while(1);
 //	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 //	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
@@ -341,20 +335,33 @@ void Generate_chip( uint32_t freq )
 
 void Fast_SetChannel( uint32_t freq )
 {
-//    uint32_t channel;
-//			
-////		channel = freq / FREQ_STEP;
-//		SX_FREQ_TO_CHANNEL( channel, freq );
-//		if(Channel_Freq_MSB_temp != ( uint8_t )( ( channel >> 16 ) & 0xFF ))
-//			SPI1_WriteByte( REG_FRFMSB, ( uint8_t )( ( channel >> 16 ) & 0xFF ) );
-//		
-//		if(Channel_Freq_MID_temp != ( uint8_t )( ( channel >> 8 ) & 0xFF ))
-//			SPI1_WriteByte( REG_FRFMID, ( uint8_t )( ( channel >> 8 ) & 0xFF ) );
-//		
-//    SPI1_WriteByte( REG_FRFLSB, ( uint8_t )( channel & 0xFF ) );
-//		
-//		Channel_Freq_MSB_temp = ( uint8_t )( ( channel >> 16 ) & 0xFF );
-//		Channel_Freq_MID_temp = ( uint8_t )( ( channel >> 8 ) & 0xFF );
-//		Channel_Freq_LSB_temp = ( uint8_t )( channel & 0xFF );
+  uint8_t n = 1;
+	uint32_t Channel;
+	uint8_t Channel_Freq[3] = {0};
+	
+//		channel = freq / FREQ_STEP;
+	SX_FREQ_TO_CHANNEL( Channel, freq );
+	
+	Channel_Freq[0] = ( uint8_t )( ( Channel >> 16 ) & 0xFF );
+	Channel_Freq[1] = ( uint8_t )( ( Channel >> 8 ) & 0xFF );
+	Channel_Freq[2] = ( uint8_t )( ( Channel ) & 0xFF );
+	
+	
+	if(Channel_Freq_MSB_temp != Channel_Freq[2])
+	{
+		SX1276_Burst_Write( REG_FRFMSB, Channel_Freq,3);
+	}
+	else if(Channel_Freq_MID_temp != Channel_Freq[1])
+	{
+		SX1276_Burst_Write( REG_FRFMID, &Channel_Freq[1],2);
+	}
+	else if(Channel_Freq_MID_temp != Channel_Freq[0])
+	{
+		SX1276_Burst_Write( REG_FRFMID, &Channel_Freq[0],1);
+	}
+	
+	Channel_Freq_MSB_temp = Channel_Freq[0];
+	Channel_Freq_MID_temp = Channel_Freq[1];
+	Channel_Freq_LSB_temp = Channel_Freq[2];
 }
 
