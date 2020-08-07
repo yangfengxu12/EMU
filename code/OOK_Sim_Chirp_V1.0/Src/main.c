@@ -24,7 +24,7 @@
 #define LoRa_SF																			11				// spread factor
 #define LoRa_Base_Freq															(RF_FREQUENCY - (LoRa_BW >> 1)) // Hz
 #define LoRa_Max_Freq																(RF_FREQUENCY + (LoRa_BW >> 1)) // Hz
-#define LoRa_Freq_Step															(LoRa_BW >> LoRa_SF)
+#define LoRa_Freq_Step															(LoRa_BW / (1 << LoRa_SF))
 
 #define LoRa_Preamble_Length												8
 #define LoRa_ID																			2
@@ -78,7 +78,7 @@ int main(void)
 //  bool isMaster = true;
   uint8_t i;
 	uint32_t fdev = 0 ,reg_value;
-	uint8_t m;
+
 	
   HAL_Init();
 	
@@ -135,11 +135,8 @@ int main(void)
 		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 		DelayMs(100);
 		TIM1->CR1|=0x01;   // start timer
-		for(m=0;m<LoRa_Preamble_Length;m++)
-		{
-			LoRa_upChirp();
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		}
+		LoRa_upChirp();
+
 ////		for(m=0;m<LoRa_ID;m++)
 ////		{
 ////			LoRa_Payload( LoRa_ID_Start_Freq[m]);
@@ -164,7 +161,8 @@ int main(void)
   }
 }
 
-uint32_t Freq_temp[1<<LoRa_SF]={0};
+
+
 
 uint8_t Channel_Freq_MSB_temp = 0;
 uint8_t Channel_Freq_MID_temp = 0;
@@ -173,46 +171,88 @@ uint8_t Channel_Freq_LSB_temp = 0;
 uint16_t Time_temp;
 uint32_t Input_Freq;
 uint32_t Channel;
-uint8_t n; // the number of changed registers.
 
 
+uint32_t Input_Freq_temp[1<<LoRa_SF]={0};
+
+uint32_t Time_temp_temp[1<<LoRa_SF]={0};
+
+uint32_t n_temp[1<<LoRa_SF]={0};
+
+//uint32_t Previous_Chip_Time_temp[1<<LoRa_SF]={0};
 
 void LoRa_upChirp()
 {
-	uint32_t Count = 0;
+	uint8_t Upchirp_Count;
 	uint16_t Previous_Chip_Time = 0;
+	uint32_t Count = 0;
+	uint8_t n=1; // the number of changed registers.
 	
-	TIM1->CNT = 0;
+
+	
 //	Fast_SetChannel(LoRa_Base_Freq);
-	while(1)
+	for(Upchirp_Count=0;Upchirp_Count<LoRa_Preamble_Length;Upchirp_Count++)
 	{
-		Time_temp = TIM1->CNT;
-		if(Time_temp >= LoRa_Symbol_Time)
+		Previous_Chip_Time = 0;
+		Count = 0;
+		Input_Freq = LoRa_Base_Freq;
+		TIM1->CNT = 0;
+		n = 1;
+		while(1)
 		{
-			break;
-		}
-		else if( ( ( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && ( ( GPIOA->IDR & GPIO_PIN_9) != 0x00u ) )
-		{
-			Input_Freq = LoRa_Base_Freq + 2 * Count * LoRa_Freq_Step;
-			
-			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
-			if(Channel_Freq_MSB_temp != ( uint8_t )( ( Channel >> 16 ) & 0xFF ))
-				n+=1;
-			if(Channel_Freq_MID_temp != ( uint8_t )( ( Channel >> 8 ) & 0xFF ))
-				n+=1;
-			do
+			Time_temp = TIM1->CNT;
+			if(Time_temp > LoRa_Symbol_Time || (Input_Freq > LoRa_Base_Freq + LoRa_BW))
 			{
-				Time_temp = TIM1->CNT;
+				break;
 			}
-			while( Time_temp - Previous_Chip_Time < 16 - n * 3.85);
-			Fast_SetChannel( Input_Freq );
-			Previous_Chip_Time = TIM1->CNT;
-			Freq_temp[Count] = Input_Freq;
-			Count++;
-			n=1;
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
+			else if( ( ( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && ( ( GPIOA->IDR & GPIO_PIN_9) != 0x00u ) )
+			{
+				Input_Freq = LoRa_Base_Freq + 2 * Count * LoRa_Freq_Step;
+				
+				SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
+				if(Channel_Freq_MSB_temp != ( uint8_t )( ( Channel >> 16 ) & 0xFF ))
+					n+=1;
+				if(Channel_Freq_MID_temp != ( uint8_t )( ( Channel >> 8 ) & 0xFF ))
+					n+=1;
+				if( n == 1)
+				{
+					do
+					{
+						Time_temp = TIM1->CNT;
+					}
+					while( Time_temp - Previous_Chip_Time <= 16 - 4 );
+				}
+				else if( n == 2)
+				{
+					do
+					{
+						Time_temp = TIM1->CNT;
+					}
+					while( Time_temp - Previous_Chip_Time <= 16 - 8 );
+				}
+				else if( n == 3)
+				{
+					do
+					{
+						Time_temp = TIM1->CNT;
+					}
+					while( Time_temp - Previous_Chip_Time <= 16 - 12 );
+				}
+				Fast_SetChannel( Input_Freq );
+//				Previous_Chip_Time_temp[Count] = Previous_Chip_Time;
+				Previous_Chip_Time = Time_temp;
+				Input_Freq_temp[Count] = Input_Freq;
+				Time_temp_temp[Count] = Time_temp;
+				
+				n_temp[Count] = n;
+				Count++;
+				n=1;
+				HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
+			}
 		}
+		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 	}
+	TIM1->CR1|=0x00;   // stop timer
 }
 
 void LoRa_downChirp()
