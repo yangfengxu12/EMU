@@ -78,7 +78,7 @@ int main(void)
 //  bool isMaster = true;
   uint8_t i;
 	uint32_t fdev = 0 ,reg_value;
-
+	u8 buf[5]={0X12,0X34,0X56,0X78,0X90};
 	
   HAL_Init();
 	
@@ -125,7 +125,13 @@ int main(void)
 	
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
+	SX1276_Burst_Write(0x06, buf, 1);
 	
+	SX1276_Burst_Write(0x06, buf, 2);
+	
+	SX1276_Burst_Write(0x06, buf, 3);
+	
+//	while(1);
 //	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 //	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 //	DelayMs(100);
@@ -187,8 +193,6 @@ void LoRa_upChirp()
 	uint16_t Previous_Chip_Time = 0;
 	uint32_t Count = 0;
 	uint8_t n=1; // the number of changed registers.
-	
-
 	
 //	Fast_SetChannel(LoRa_Base_Freq);
 	for(Upchirp_Count=0;Upchirp_Count<LoRa_Preamble_Length;Upchirp_Count++)
@@ -337,20 +341,20 @@ void Generate_chip( uint32_t freq )
 
 void Fast_SetChannel( uint32_t freq )
 {
-    uint32_t channel;
-			
-//		channel = freq / FREQ_STEP;
-		SX_FREQ_TO_CHANNEL( channel, freq );
-		if(Channel_Freq_MSB_temp != ( uint8_t )( ( channel >> 16 ) & 0xFF ))
-			SPI1_WriteByte( REG_FRFMSB, ( uint8_t )( ( channel >> 16 ) & 0xFF ) );
-		
-		if(Channel_Freq_MID_temp != ( uint8_t )( ( channel >> 8 ) & 0xFF ))
-			SPI1_WriteByte( REG_FRFMID, ( uint8_t )( ( channel >> 8 ) & 0xFF ) );
-		
-    SPI1_WriteByte( REG_FRFLSB, ( uint8_t )( channel & 0xFF ) );
-		
-		Channel_Freq_MSB_temp = ( uint8_t )( ( channel >> 16 ) & 0xFF );
-		Channel_Freq_MID_temp = ( uint8_t )( ( channel >> 8 ) & 0xFF );
-		Channel_Freq_LSB_temp = ( uint8_t )( channel & 0xFF );
+//    uint32_t channel;
+//			
+////		channel = freq / FREQ_STEP;
+//		SX_FREQ_TO_CHANNEL( channel, freq );
+//		if(Channel_Freq_MSB_temp != ( uint8_t )( ( channel >> 16 ) & 0xFF ))
+//			SPI1_WriteByte( REG_FRFMSB, ( uint8_t )( ( channel >> 16 ) & 0xFF ) );
+//		
+//		if(Channel_Freq_MID_temp != ( uint8_t )( ( channel >> 8 ) & 0xFF ))
+//			SPI1_WriteByte( REG_FRFMID, ( uint8_t )( ( channel >> 8 ) & 0xFF ) );
+//		
+//    SPI1_WriteByte( REG_FRFLSB, ( uint8_t )( channel & 0xFF ) );
+//		
+//		Channel_Freq_MSB_temp = ( uint8_t )( ( channel >> 16 ) & 0xFF );
+//		Channel_Freq_MID_temp = ( uint8_t )( ( channel >> 8 ) & 0xFF );
+//		Channel_Freq_LSB_temp = ( uint8_t )( channel & 0xFF );
 }
 

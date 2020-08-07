@@ -1279,7 +1279,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
   else
   {
     /* Set fiforxthreshold according the reception data length: 8bit */
-    SET_BIT(hspi->Instance->CR2, SPI_RXFIFO_THRESHOLD);
+    SET_BIT(hspi->Instance->CR2, SPI_RXFIFO_THRESHOLD);//
   }
 
   /* Check if the SPI is already enabled */
