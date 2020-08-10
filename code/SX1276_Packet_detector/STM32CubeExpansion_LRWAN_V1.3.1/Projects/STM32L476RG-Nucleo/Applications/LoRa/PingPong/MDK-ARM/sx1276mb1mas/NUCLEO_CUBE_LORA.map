@@ -3501,41 +3501,41 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       108         22          0          0          0       1627   debug.o
-       270         18          0          0         64       4517   hw_gpio.o
-       956         98         24          4        104      33183   hw_rtc.o
-       268         30          0          0        100       2993   hw_spi.o
-       108         12          0          8          0       3217   low_power_manager.o
-       848        372          0          6        116       8234   main.o
-       452          0          0          0          0       7399   queue.o
+       108         22          0          0          0       1735   debug.o
+       270         18          0          0         64       4765   hw_gpio.o
+       956         98         24          4        104      33851   hw_rtc.o
+       268         30          0          0        100       3173   hw_spi.o
+       108         12          0          8          0       3353   low_power_manager.o
+       848        372          0          6        116       8582   main.o
+       452          0          0          0          0       7719   queue.o
         36          8        392          0       1024        892   startup_stm32l476xx.o
-       106         22          0         12          0       5562   stm32l4xx_hal.o
-       474         40          0          0          0      61969   stm32l4xx_hal_adc.o
-       158         14          0          0          0      33806   stm32l4xx_hal_cortex.o
-       614         14          0          0          0       5206   stm32l4xx_hal_dma.o
-         0          0          0          0          0       5244   stm32l4xx_hal_flash.o
-       492         44          0          0          0       3567   stm32l4xx_hal_gpio.o
-       252         12          0          0          0       5060   stm32l4xx_hal_msp.o
-        16          6          0          0          0        696   stm32l4xx_hal_pwr_ex.o
-      1896         98          0          0          0       7732   stm32l4xx_hal_rcc.o
-      1506         44          0          0          0       4544   stm32l4xx_hal_rcc_ex.o
-      1518         38          0          0          0      12107   stm32l4xx_hal_rtc.o
-        66          0          0          0          0       1851   stm32l4xx_hal_rtc_ex.o
-      1160          0          0          0          0       7395   stm32l4xx_hal_spi.o
-      1826         88          0          0          0      14114   stm32l4xx_hal_uart.o
-         2          0          0          0          0       1260   stm32l4xx_hal_uart_ex.o
-       580         60          0          2        100       4453   stm32l4xx_hw.o
-       158          0          0          0          0      10683   stm32l4xx_it.o
-      5698        370        224         32        432     889743   sx1276.o
-       488         38        116         28          0      13097   sx1276mb1mas.o
-        68         12         72          4          0       1805   system_stm32l4xx.o
-       508         20          0          4          0       9163   timeserver.o
-       224         26          0          1        272       4571   trace.o
-        20          0          0          0          0       1458   utilities.o
-       392         56          0          4        200       5327   vcom.o
+       106         22          0         12          0       5842   stm32l4xx_hal.o
+       474         40          0          0          0      62177   stm32l4xx_hal_adc.o
+       158         14          0          0          0      33982   stm32l4xx_hal_cortex.o
+       614         14          0          0          0       5418   stm32l4xx_hal_dma.o
+         0          0          0          0          0       5276   stm32l4xx_hal_flash.o
+       492         44          0          0          0       3711   stm32l4xx_hal_gpio.o
+       252         12          0          0          0       5344   stm32l4xx_hal_msp.o
+        16          6          0          0          0        732   stm32l4xx_hal_pwr_ex.o
+      1896         98          0          0          0       7984   stm32l4xx_hal_rcc.o
+      1506         44          0          0          0       4688   stm32l4xx_hal_rcc_ex.o
+      1518         38          0          0          0      12559   stm32l4xx_hal_rtc.o
+        66          0          0          0          0       1923   stm32l4xx_hal_rtc_ex.o
+      1160          0          0          0          0       7631   stm32l4xx_hal_spi.o
+      1826         88          0          0          0      14682   stm32l4xx_hal_uart.o
+         2          0          0          0          0       1328   stm32l4xx_hal_uart_ex.o
+       580         60          0          2        100       4657   stm32l4xx_hw.o
+       158          0          0          0          0      11355   stm32l4xx_it.o
+      5698        370        224         32        432     891763   sx1276.o
+       488         38        116         28          0      13553   sx1276mb1mas.o
+        68         12         72          4          0       1909   system_stm32l4xx.o
+       508         20          0          4          0       9543   timeserver.o
+       224         26          0          1        272       4747   trace.o
+        20          0          0          0          0       1526   utilities.o
+       392         56          0          4        200       5643   vcom.o
 
     ----------------------------------------------------------------------
-     21318       1562        860        112       2412    1172475   Object Totals
+     21318       1562        860        112       2412    1182043   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         50          0          0          7          0          0   (incl. Padding)
 
@@ -3600,8 +3600,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     26228       1762        860        116       2412    1153879   Grand Totals
-     26228       1762        860        116       2412    1153879   ELF Image Totals
+     26228       1762        860        116       2412    1163447   Grand Totals
+     26228       1762        860        116       2412    1163447   ELF Image Totals
      26228       1762        860        116          0          0   ROM Totals
 
 ==============================================================================
