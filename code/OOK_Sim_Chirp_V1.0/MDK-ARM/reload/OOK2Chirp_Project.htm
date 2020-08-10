@@ -3,9 +3,9 @@
 <title>Static Call Graph - [reload\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image reload\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Aug 07 16:55:29 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Aug 10 14:24:38 2020
 <BR><P>
-<H3>Maximum Stack Usage =        676 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        668 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; HW_Init &rArr; HW_RTC_Init &rArr; HW_RTC_SetConfig &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 <P>
@@ -465,12 +465,12 @@ Global Symbols
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
-<BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276GetTimeOnAir
+<BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276GetTimeOnAir
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_round
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_floor
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_ceil
 </UL>
 
@@ -585,8 +585,8 @@ Global Symbols
 <P><STRONG><a name="[95]"></a>_double_round</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, depilogue.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = _double_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_drnd
 </UL>
@@ -711,12 +711,12 @@ Global Symbols
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_SPI_Init
 </UL>
 
-<P><STRONG><a name="[a4]"></a>Fast_SetChannel</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, main.o(i.Fast_SetChannel))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = Fast_SetChannel &rArr; SX1276_Burst_Write
+<P><STRONG><a name="[a4]"></a>Fast_SetChannel</STRONG> (Thumb, 60 bytes, Stack size 16 bytes, main.o(i.Fast_SetChannel))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = Fast_SetChannel &rArr; SX1276_Burst_Write
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276_Burst_Write
 </UL>
-<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_upChirp
+<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_UpChirp
 </UL>
 
 <P><STRONG><a name="[10d]"></a>GPIO_Set</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, sys.o(i.GPIO_Set))
@@ -811,7 +811,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[109]"></a>HAL_GPIO_TogglePin</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32l4xx_hal_gpio.o(i.HAL_GPIO_TogglePin))
-<BR><BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_upChirp
+<BR><BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_UpChirp
 </UL>
 
 <P><STRONG><a name="[f2]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32l4xx_hal_gpio.o(i.HAL_GPIO_WritePin))
@@ -1383,8 +1384,8 @@ Global Symbols
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TraceSend
 </UL>
 
-<P><STRONG><a name="[108]"></a>LoRa_upChirp</STRONG> (Thumb, 366 bytes, Stack size 24 bytes, main.o(i.LoRa_upChirp))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = LoRa_upChirp &rArr; Fast_SetChannel &rArr; SX1276_Burst_Write
+<P><STRONG><a name="[108]"></a>LoRa_UpChirp</STRONG> (Thumb, 352 bytes, Stack size 8 bytes, main.o(i.LoRa_UpChirp))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = LoRa_UpChirp &rArr; Fast_SetChannel &rArr; SX1276_Burst_Write
 </UL>
 <BR>[Calls]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_TogglePin
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fast_SetChannel
@@ -1492,13 +1493,13 @@ Global Symbols
 <P><STRONG><a name="[7b]"></a>SX1276GetTimeOnAir</STRONG> (Thumb, 818 bytes, Stack size 128 bytes, sx1276.o(i.SX1276GetTimeOnAir))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = SX1276GetTimeOnAir &rArr; SX1276Read &rArr; SX1276ReadBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_round
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_floor
@@ -1825,12 +1826,12 @@ Global Symbols
 <P><STRONG><a name="[78]"></a>SX1276SetRxConfig</STRONG> (Thumb, 792 bytes, Stack size 104 bytes, sx1276.o(i.SX1276SetRxConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = SX1276SetRxConfig &rArr; SX1276SetModem &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
+<BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetModem
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetFskBandwidthRegValue
 </UL>
@@ -1873,11 +1874,11 @@ Global Symbols
 <P><STRONG><a name="[79]"></a>SX1276SetTxConfig</STRONG> (Thumb, 622 bytes, Stack size 72 bytes, sx1276.o(i.SX1276SetTxConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = SX1276SetTxConfig &rArr; SX1276SetModem &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
+<BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetModem
 </UL>
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetTxContinuousWave
@@ -2161,21 +2162,21 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[113]"></a>__hardfp_ceil</STRONG> (Thumb, 252 bytes, Stack size 40 bytes, ceil.o(i.__hardfp_ceil))
-<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = __hardfp_ceil &rArr; __aeabi_drsub &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = __hardfp_ceil &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276GetTimeOnAir
 </UL>
 
 <P><STRONG><a name="[115]"></a>__hardfp_floor</STRONG> (Thumb, 252 bytes, Stack size 40 bytes, floor.o(i.__hardfp_floor))
-<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = __hardfp_floor &rArr; __aeabi_drsub &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = __hardfp_floor &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276GetTimeOnAir
 </UL>
@@ -2229,8 +2230,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trace_TxCpltCallback
 </UL>
 
-<P><STRONG><a name="[66]"></a>main</STRONG> (Thumb, 336 bytes, Stack size 32 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 676<LI>Call Chain = main &rArr; HW_Init &rArr; HW_RTC_Init &rArr; HW_RTC_SetConfig &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
+<P><STRONG><a name="[66]"></a>main</STRONG> (Thumb, 346 bytes, Stack size 24 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 668<LI>Call Chain = main &rArr; HW_Init &rArr; HW_RTC_Init &rArr; HW_RTC_SetConfig &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM1_Init
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
@@ -2242,9 +2243,10 @@ Global Symbols
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_Init
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_GPIO_Write
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_TogglePin
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_upChirp
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_UpChirp
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
@@ -2568,8 +2570,8 @@ Local Symbols
 
 <P><STRONG><a name="[144]"></a>_fp_digits</STRONG> (Thumb, 366 bytes, Stack size 64 bytes, printfa.o(i._fp_digits), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
