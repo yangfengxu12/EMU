@@ -65,8 +65,10 @@ reload\main.o: ..\Utilities\low_power_manager.h
 reload\main.o: ..\BSP\SX1276\sx1276.h
 reload\main.o: ..\BSP\SX1276\sx1276Regs-Fsk.h
 reload\main.o: ..\BSP\SX1276\sx1276Regs-LoRa.h
-reload\main.o: ..\Hardware\timer.h
-reload\main.o: ..\Hardware\Freq_Set.h
 reload\main.o: ..\BSP\SX1276\sx1276mb1mas.h
+reload\main.o: ..\Hardware\timer.h
 reload\main.o: ..\Hardware\fast_spi.h
 reload\main.o: ..\Hardware\sys.h
+reload\main.o: ..\Hardware\rtc.h
+reload\main.o: ..\Hardware\delay.h
+reload\main.o: ..\Hardware\usart.h

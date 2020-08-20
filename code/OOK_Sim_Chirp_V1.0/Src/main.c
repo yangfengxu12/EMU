@@ -6,11 +6,13 @@
 #include "low_power_manager.h"
 #include "vcom.h"
 #include "sx1276.h"
-#include "timer.h"
-#include "Freq_Set.h"
 #include "sx1276mb1mas.h"
 
+#include "timer.h"
 #include "fast_spi.h"
+#include "rtc.h"
+#include "delay.h"
+#include "usart.h"
 
 #define RF_FREQUENCY                                470000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
@@ -55,6 +57,9 @@ int LoRa_Payload_Start_Freq[LORA_PAYLOAD_LENGTH] = {-7083,
 uint8_t Channel_Freq[3] = {0};  //MSB,MID,LSB
 uint8_t Changed_Register_Count = 1;  // the number of changed registers.
 
+//1.00014136 = 1      +2us
+
+uint32_t RTC_Subsecond_Value[3] = {0};
 
 static RadioEvents_t RadioEvents;
 																											
@@ -65,6 +70,7 @@ extern uint32_t time_count;
  * Radio events function pointer
  */
 //static RadioEvents_t RadioEvents;
+void RTC_Timer_Calibration(void);
 void LoRa_UpChirp(void);
 void LoRa_DownChirp(void);
 void Generate_Quarter_DownChirp(void);
@@ -83,22 +89,33 @@ int main(void)
   SystemClock_Config();
 
   HW_Init();
+	
 	SPI1_Init();
+	delay_init(80);
+	uart_init(115200);
+	printf("123");
+	RTC_Init();
+	
 	/*Disbale Stand-by mode*/
   LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
-	TIM1_Init(0xffff-1,80-1);       //Timer interrupt time 1us;
+	TIM1_Init(0xffff-1,80-1);       //Timer resolution = 1us;
 	
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOB_CLK_ENABLE();
 	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOC_CLK_ENABLE();
 	
-  GPIO_InitStruct.Pin   = GPIO_PIN_5 | GPIO_PIN_2 | GPIO_PIN_12;					//PB5 DIO2 DATA
+  GPIO_InitStruct.Pin   = GPIO_PIN_2 | GPIO_PIN_5 | GPIO_PIN_12;					//PB5
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	
+	GPIO_InitStruct.Pin   = GPIO_PIN_1;
+	GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 	
 	
 	HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET); //PB5 DIO2 DATA HIGH
@@ -111,6 +128,20 @@ int main(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 	
+	RTC_Timer_Calibration();
+	
+	while(1)
+	{
+//		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
+//		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
+		RTC_Subsecond_Value[0] = (uint32_t) RTC_Handler.Instance->SSR;
+		delay_ms(100);
+//		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
+		RTC_Subsecond_Value[1] = (uint32_t) RTC_Handler.Instance->SSR;
+		delay_ms(100);
+	}
+	
+/*
 	Radio.Init(&RadioEvents);
 
   Radio.SetChannel(RF_FREQUENCY);
@@ -163,6 +194,7 @@ int main(void)
 		DelayMs(2000);
 		
   }
+	*/
 }
 
 uint8_t Channel_Freq_MSB_temp = 0;
@@ -175,12 +207,30 @@ uint32_t Channel;
 
 
 uint32_t Input_Freq_temp[1<<LORA_SF]={0};
-
 uint32_t Time_temp_temp[1<<LORA_SF]={0};
-
 uint32_t n_temp[1<<LORA_SF]={0};
 
-//uint32_t Previous_Chip_Time_temp[1<<LORA_SF]={0};
+
+
+void RTC_Timer_Calibration()
+{
+	float RTC_Time_temp = 0;
+	TIM1->CR1|=0x00;
+	TIM1->CNT = 0;
+	RTC_Subsecond_Value[0] = (uint32_t) RTC_Handler.Instance->SSR;
+	while(RTC_Handler.Instance->SSR - RTC_Subsecond_Value[0] == 0);
+	TIM1->CR1|=0x01;
+	RTC_Subsecond_Value[2] = (uint32_t) RTC_Handler.Instance->SSR;
+	while( TIM1->CNT <= LORA_SYMBOL_TIME);  
+	RTC_Subsecond_Value[1] = (uint32_t) RTC_Handler.Instance->SSR;
+	TIM1->CR1|=0x00;
+	TIM1->CNT = 0;
+	if( RTC_Subsecond_Value[0] < RTC_Subsecond_Value[1] )
+	{
+		RTC_Subsecond_Value[0] += 32768;
+	}
+	RTC_Time_temp = ( RTC_Subsecond_Value[0] - RTC_Subsecond_Value[1] ) / 32768;
+}
 
 void LoRa_UpChirp()
 {

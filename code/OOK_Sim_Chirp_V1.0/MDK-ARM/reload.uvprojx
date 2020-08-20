@@ -584,6 +584,11 @@
               <FilePath>..\Hardware\debug.c</FilePath>
             </File>
             <File>
+              <FileName>vcom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\vcom.c</FilePath>
+            </File>
+            <File>
               <FileName>hw_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\hw_gpio.c</FilePath>
@@ -604,11 +609,6 @@
               <FilePath>..\Hardware\timer.c</FilePath>
             </File>
             <File>
-              <FileName>vcom.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\vcom.c</FilePath>
-            </File>
-            <File>
               <FileName>sys.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\sys.c</FilePath>
@@ -617,6 +617,21 @@
               <FileName>fast_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\fast_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\usart.c</FilePath>
             </File>
           </Files>
         </Group>
