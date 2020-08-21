@@ -48,7 +48,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>reload\</OutputDirectory>
+          <OutputDirectory>.\CC1101_2LoRa\</OutputDirectory>
           <OutputName>OOK2Chirp_Project</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>

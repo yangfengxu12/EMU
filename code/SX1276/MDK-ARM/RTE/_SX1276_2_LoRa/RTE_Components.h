@@ -4,7 +4,7 @@
  *      *** Do not modify ! ***
  *
  * Project: 'SX1276_2_LoRa' 
- * Target:  'reload' 
+ * Target:  'SX1276_2_LoRa' 
  */
 
 #ifndef RTE_COMPONENTS_H
