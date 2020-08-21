@@ -222,6 +222,7 @@ void RTC_Timer_Calibration()
 	TIM1->CR1|=0x01;
 	RTC_Subsecond_Value[2] = (uint32_t) RTC_Handler.Instance->SSR;
 	while( TIM1->CNT <= LORA_SYMBOL_TIME);  
+	Time_temp = TIM1->CNT;
 	RTC_Subsecond_Value[1] = (uint32_t) RTC_Handler.Instance->SSR;
 	TIM1->CR1|=0x00;
 	TIM1->CNT = 0;
