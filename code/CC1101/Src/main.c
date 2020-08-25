@@ -1,12 +1,9 @@
 #include "stm32l4xx.h"
+#include "stm32l4xx_hal.h"
 #include <string.h>
 #include "hw.h"
-#include "radio.h"
-#include "timeServer.h"
-#include "low_power_manager.h"
-#include "vcom.h"
-#include "sx1276.h"
-#include "sx1276mb1mas.h"
+
+#include "CC1101.h"
 
 #include "timer.h"
 #include "fast_spi.h"
@@ -61,10 +58,16 @@ uint8_t Changed_Register_Count = 1;  // the number of changed registers.
 
 uint32_t RTC_Subsecond_Value[3] = {0};
 
-static RadioEvents_t RadioEvents;
 																											
 extern TIM_HandleTypeDef TIM3_Handler;
 extern uint32_t time_count;
+
+
+
+uint8_t temp_u8=0;
+uint16_t temp_u16=0;
+uint32_t temp_u32=0;
+uint8_t buffer[64]={0};
 /* Private function prototypes -----------------------------------------------*/
 /*!
  * Radio events function pointer
@@ -83,21 +86,20 @@ void Fast_SetChannel( uint8_t *freq );
 int main(void)
 {
 //  bool isMaster = true;
-	uint8_t m;
+	uint16_t m;
+	
+	
   HAL_Init();
-	
   SystemClock_Config();
-
-  HW_Init();
 	
+	HW_SPI_Init();
 	SPI1_Init();
+	
 	delay_init(80);
 	uart_init(115200);
 	printf("123");
-	RTC_Init();
+//	RTC_Init();
 	
-	/*Disbale Stand-by mode*/
-  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 	TIM1_Init(0xffff-1,80-1);       //Timer resolution = 1us;
 	
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -118,9 +120,9 @@ int main(void)
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 	
 	
-	HW_GPIO_Write(GPIOB,GPIO_PIN_5,GPIO_PIN_SET); //PB5 DIO2 DATA HIGH
-	HW_GPIO_Write(GPIOB,GPIO_PIN_2,GPIO_PIN_RESET);
-	HW_GPIO_Write(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET); //PB5 GDIO0 Serial input TX data
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_2,GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 	
 	GPIO_InitStruct.Pin   = GPIO_PIN_9;				//PA9 DIO4_a PLL LOCK
   GPIO_InitStruct.Mode  = GPIO_MODE_INPUT;
@@ -128,73 +130,74 @@ int main(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 	
-	RTC_Timer_Calibration();
+//	buffer[0]=0x05;
+//	buffer[1]=0x06;
+//	buffer[2]=0x07;
+//	CC1101_Burst_Write(REG_FREQ2, buffer, 3);
+//	CC1101_Burst_Read(REG_FREQ2, buffer, 3);
 	
-	while(1)
-	{
-//		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
-//		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
-		RTC_Subsecond_Value[0] = (uint32_t) RTC_Handler.Instance->SSR;
-		delay_ms(100);
-//		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
-		RTC_Subsecond_Value[1] = (uint32_t) RTC_Handler.Instance->SSR;
-		delay_ms(100);
-	}
-	
-/*
-	Radio.Init(&RadioEvents);
 
-  Radio.SetChannel(RF_FREQUENCY);
-
-	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
-
-	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
+//	CC1101_Single_Write(REG_FREQ2,0x09);
+	CC1101_Init();
 	
-	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+	CC1101_Burst_Read(0x00,buffer,47);
+	CC1101_Set_OpMode( STX );
+	CC1101_Burst_Read(0x00,buffer,47);
+	CC1101_Reset();
+//	RTC_Timer_Calibration();
 	
-	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
+	while(1);
+//	{
+////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
+////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
+//		RTC_Subsecond_Value[0] = (uint32_t) RTC_Handler.Instance->SSR;
+//		delay_ms(100);
+////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
+//		RTC_Subsecond_Value[1] = (uint32_t) RTC_Handler.Instance->SSR;
+//		delay_ms(100);
+//	}
+	
 	
 //	while(1);
 //	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 //	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 //	DelayMs(100);
-  while (1)
-  {
-		
-		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-		DelayMs(100);
-		TIM1->CR1|=0x01;   // start timer
-		
-		for(m=0;m<LORA_PREAMBLE_LENGTH;m++)
-		{
-			LoRa_UpChirp();
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-		}
-		
-//		for(m=0;m<LORA_ID_LENGTH;m++)
+//  while (1)
+//  {
+//		
+//		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+//		DelayMs(100);
+//		TIM1->CR1|=0x01;   // start timer
+//		
+//		for(m=0;m<LORA_PREAMBLE_LENGTH;m++)
 //		{
-//			LoRa_Payload( LoRa_ID_Start_Freq[m]);
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-//		}
-//		for(m=0;m<LORA_SFD_LENGTH;m++)
-//		{
-//			LoRa_DownChirp();
+//			LoRa_UpChirp();
 //			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 //		}
 //		
-//		Generate_Quarter_DownChirp();
-//		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-//		for(m=0;m<LORA_PAYLOAD_LENGTH;m++)
-//		{
-//			LoRa_Payload( LoRa_Payload_Start_Freq[m]);
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-//		}
-		SX1276SetOpMode( RF_OPMODE_STANDBY );
-		TIM1->CR1|=0x00;
-		DelayMs(2000);
+////		for(m=0;m<LORA_ID_LENGTH;m++)
+////		{
+////			LoRa_Payload( LoRa_ID_Start_Freq[m]);
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		}
+////		for(m=0;m<LORA_SFD_LENGTH;m++)
+////		{
+////			LoRa_DownChirp();
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		}
+////		
+////		Generate_Quarter_DownChirp();
+////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		for(m=0;m<LORA_PAYLOAD_LENGTH;m++)
+////		{
+////			LoRa_Payload( LoRa_Payload_Start_Freq[m]);
+////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+////		}
+//		SX1276SetOpMode( RF_OPMODE_STANDBY );
+//		TIM1->CR1|=0x00;
+//		DelayMs(2000);
 		
-  }
-	*/
+//  }
 }
 
 uint8_t Channel_Freq_MSB_temp = 0;
@@ -488,12 +491,12 @@ void Fast_SetChannel( uint8_t *freq )
 	
 	switch(Changed_Register_Count)
 	{
-		case 1:Reg_Address = REG_FRFLSB;break;
-		case 2:Reg_Address = REG_FRFMID;break;
-		case 3:Reg_Address = REG_FRFMSB;break;
-		default:Reg_Address = REG_FRFMSB;break;
+		case 1:Reg_Address = REG_FREQ0;break;
+		case 2:Reg_Address = REG_FREQ1;break;
+		case 3:Reg_Address = REG_FREQ2;break;
+		default:Reg_Address = REG_FREQ0;break;
 	}
 	
-	SX1276_Burst_Write( Reg_Address, freq + 3 - Changed_Register_Count, Changed_Register_Count);
+	CC1101_Burst_Write( Reg_Address, freq + 3 - Changed_Register_Count, Changed_Register_Count);
 	
 }

@@ -114,7 +114,7 @@
 #define PIN15				1<<15 
 ////////////////////////////////////////////////////////////////////////////////// 
 uint8_t Sys_Clock_Set(uint32_t plln,uint32_t pllm,uint32_t pllp,uint32_t pllq);		//系统时钟设置
-void Stm32_Clock_Init(uint32_t plln,uint32_t pllm,uint32_t pllp,uint32_t pllq); //时钟初始化  
+void SystemClock_Config(void); 
 void Sys_Soft_Reset(void);      							//系统软复位
 
 void GPIO_AF_Set(GPIO_TypeDef* GPIOx,uint8_t BITx,uint8_t AFx);		//GPIO复用功能设置

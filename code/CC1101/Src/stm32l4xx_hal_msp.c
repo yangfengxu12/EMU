@@ -18,8 +18,8 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "hw.h"
-#include "timeServer.h"
+#include "stm32l4xx_hal.h"
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -70,48 +70,6 @@ void HAL_MspInit(void)
 
 
 
-///**
-//  * @brief RTC MSP Initialization
-//  *        This function configures the hardware resources used in this example:
-//  *           - Peripheral's clock enable
-//  * @param hrtc: RTC handle pointer
-//  * @note  Care must be taken when HAL_RCCEx_PeriphCLKConfig() is used to select
-//  *        the RTC clock source; in this case the Backup domain will be reset in
-//  *        order to modify the RTC Clock source, as consequence RTC registers (including
-//  *        the backup registers) and RCC_CSR register are set to their reset values.
-//  * @retval None
-//  */
-//void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
-//{
-//  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-//  RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct = {0};
-
-//  /*##-1- Configue the RTC clock soucre ######################################*/
-//  /* -a- Enable LSE Oscillator */
-//  RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSE;
-//  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-//  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-//  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-//  {
-//    Error_Handler();
-//  }
-
-//  /* -b- Select LSI as RTC clock source */
-//  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-//  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
-//  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-//  {
-//    Error_Handler();
-//  }
-
-//  /*##-2- Enable the RTC peripheral Clock ####################################*/
-//  /* Enable RTC Clock */
-//  __HAL_RCC_RTC_ENABLE();
-
-//  /*##-3- Configure the NVIC for RTC Alarm ###################################*/
-//  HAL_NVIC_SetPriority(RTC_Alarm_IRQn, 0x0, 0);
-//  HAL_NVIC_EnableIRQ(RTC_Alarm_IRQn);
-//}
 
 /**
   * @brief RTC MSP De-Initialization
@@ -144,7 +102,7 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef *hrtc)
   */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  HW_GPIO_IrqHandler(GPIO_Pin);
+  
 }
 
 /**
@@ -154,33 +112,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   */
 IRQn_Type MSP_GetIRQn(uint16_t GPIO_Pin)
 {
-  switch (GPIO_Pin)
-  {
-    case GPIO_PIN_0:
-      return EXTI0_IRQn;
-    case GPIO_PIN_1:
-      return EXTI1_IRQn;
-    case GPIO_PIN_2:
-      return EXTI2_IRQn;
-    case GPIO_PIN_3:
-      return EXTI3_IRQn;
-    case GPIO_PIN_4:
-      return EXTI4_IRQn;
-    case GPIO_PIN_5:
-    case GPIO_PIN_6:
-    case GPIO_PIN_7:
-    case GPIO_PIN_8:
-    case GPIO_PIN_9:
-      return EXTI9_5_IRQn;
-    case GPIO_PIN_10:
-    case GPIO_PIN_11:
-    case GPIO_PIN_12:
-    case GPIO_PIN_13:
-    case GPIO_PIN_14:
-    case GPIO_PIN_15:
-    default:
-      return EXTI15_10_IRQn;
-  }
+
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

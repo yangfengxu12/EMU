@@ -339,7 +339,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>STM32L476xx, USE_STM32L4XX_NUCLEO,USE_HAL_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\CC1101;..\Hardware;..\Utilities</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -554,24 +554,14 @@
           <GroupName>BSP</GroupName>
           <Files>
             <File>
+              <FileName>CC1101.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\CC1101\CC1101.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32l4xx_nucleo.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\stm32l4xx_nucleo.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx1276.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\SX1276\sx1276.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx1276mb1mas.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\SX1276\sx1276mb1mas.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l4xx_hw.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\stm32l4xx_hw.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -582,11 +572,6 @@
               <FileName>debug.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\debug.c</FilePath>
-            </File>
-            <File>
-              <FileName>vcom.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\vcom.c</FilePath>
             </File>
             <File>
               <FileName>hw_gpio.c</FileName>
@@ -602,6 +587,11 @@
               <FileName>hw_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\hw_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>vcom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\vcom.c</FilePath>
             </File>
             <File>
               <FileName>timer.c</FileName>
@@ -639,19 +629,9 @@
           <GroupName>Utilities</GroupName>
           <Files>
             <File>
-              <FileName>utilities.c</FileName>
+              <FileName>low_power_manager.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Utilities\utilities.c</FilePath>
-            </File>
-            <File>
-              <FileName>trace.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Utilities\trace.c</FilePath>
-            </File>
-            <File>
-              <FileName>timeServer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Utilities\timeServer.c</FilePath>
+              <FilePath>..\Utilities\low_power_manager.c</FilePath>
             </File>
             <File>
               <FileName>queue.c</FileName>
@@ -659,9 +639,24 @@
               <FilePath>..\Utilities\queue.c</FilePath>
             </File>
             <File>
-              <FileName>low_power_manager.c</FileName>
+              <FileName>systime.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Utilities\low_power_manager.c</FilePath>
+              <FilePath>..\Utilities\systime.c</FilePath>
+            </File>
+            <File>
+              <FileName>timeServer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Utilities\timeServer.c</FilePath>
+            </File>
+            <File>
+              <FileName>trace.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Utilities\trace.c</FilePath>
+            </File>
+            <File>
+              <FileName>utilities.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Utilities\utilities.c</FilePath>
             </File>
           </Files>
         </Group>

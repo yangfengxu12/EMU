@@ -32,7 +32,7 @@ Maintainer: Miguel Luis and Gregory Cristian
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "hw.h"
+#include "stm32l4xx_hal.h"
 #include "stm32l4xx_it.h"
 
 
