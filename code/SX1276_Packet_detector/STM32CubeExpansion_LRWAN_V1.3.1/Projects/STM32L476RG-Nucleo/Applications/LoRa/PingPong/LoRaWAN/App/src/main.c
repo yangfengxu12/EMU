@@ -48,7 +48,7 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                470000000-5000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 
 
 
@@ -93,7 +93,7 @@ typedef enum
   TX_TIMEOUT,
 } States_t;
 
-#define RX_TIMEOUT_VALUE                            1000
+#define RX_TIMEOUT_VALUE                            30000
 #define BUFFER_SIZE                                 64 // Define the payload size here
 #define LED_PERIOD_MS               200
 
@@ -216,11 +216,12 @@ int main(void)
 
 			if((reg & 0x01) == 0x01)
 			{
-				printf("1.Signal detected\r\n");
+				printf("-----------------\r\n");
+				printf("1.Detected\r\n");
 
 				if( (reg & 0x02) == 0x02 )
 				{
-					printf("2.Signal synchronized\r\n");
+					printf("2.Synchronized\r\n");
 
 					if( (reg & 0x08) == 0x08 )
 					{
@@ -244,7 +245,7 @@ int main(void)
 		}
 		else
 		{
-//			printf("Rx isn't going\r\n");
+			printf("Rx isn't going\r\n");
 			Radio.Rx(RX_TIMEOUT_VALUE);
 		}
 		DelayMs(50);

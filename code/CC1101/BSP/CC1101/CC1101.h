@@ -10,7 +10,8 @@
 #include "CC1101Regs.h"
 #include "CC1101_Init_Regs.h"
 
-#define FREQ_STEP_8                                 15625 /* FREQ_STEP<<8 */
+#define FREQ_STEP                                   396.728515625
+#define FREQ_STEP_8																	101562 /* FREQ_STEP<<8 */
 #define SPI1_CS_LOW																	GPIOB->BRR = GPIO_PIN_6
 #define SPI1_CS_HIGH																GPIOB->BSRR = GPIO_PIN_6
 

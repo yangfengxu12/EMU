@@ -12,7 +12,7 @@ uint32_t time_count = 0;
 //这里使用的是定时器3!(定时器3挂在APB1上，时钟为HCLK/2)
 void TIM1_Init(u32 arr,u16 psc)
 {  
-    TIM1_Handler.Instance=TIM1;                          //通用定时器3
+    TIM1_Handler.Instance=TIM1;                          //通用定时器1
     TIM1_Handler.Init.Prescaler=psc;                     //分频系数
     TIM1_Handler.Init.CounterMode=TIM_COUNTERMODE_UP;    //向上计数器
     TIM1_Handler.Init.Period=arr;                        //自动装载值

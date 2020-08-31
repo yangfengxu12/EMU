@@ -11,7 +11,7 @@
 #include "delay.h"
 #include "usart.h"
 
-#define RF_FREQUENCY                                470000000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
 
 #define LORA_BW																			125000		// Hz
@@ -26,6 +26,7 @@
 #define LORA_PAYLOAD_LENGTH													16
 
 #define LORA_SYMBOL_TIME														8 * (1 << LORA_SF)
+#define LORA_SYMBOL_TIME_OFFSET											(8 * (1 << LORA_SF) - 17)
 
 #define LED_PERIOD_MS               50				
 
@@ -59,7 +60,7 @@ uint8_t Changed_Register_Count = 1;  // the number of changed registers.
 uint32_t RTC_Subsecond_Value[3] = {0};
 
 																											
-extern TIM_HandleTypeDef TIM3_Handler;
+extern TIM_HandleTypeDef TIM1_Handler;
 extern uint32_t time_count;
 
 
@@ -87,7 +88,10 @@ int main(void)
 {
 //  bool isMaster = true;
 	uint16_t m;
-	
+	uint8_t freq1[3]={0x10,0xA7,0x62};
+	uint8_t freq2[3]={0x10,0xA9,0x9d};
+	uint8_t freq3[3]={0x10,0xab,0x13};
+	uint8_t freq4[3]={0x10,0xb0,0x00};
 	
   HAL_Init();
   SystemClock_Config();
@@ -140,64 +144,58 @@ int main(void)
 //	CC1101_Single_Write(REG_FREQ2,0x09);
 	CC1101_Init();
 	
-	CC1101_Burst_Read(0x00,buffer,47);
-	CC1101_Set_OpMode( STX );
-	CC1101_Burst_Read(0x00,buffer,47);
-	CC1101_Reset();
+//	CC1101_Burst_Read(0x00,buffer,47);
+//	CC1101_Set_OpMode( STX );
+//	CC1101_Burst_Write( REG_FREQ2,freq1,3);
+//	CC1101_Burst_Write( REG_FREQ2,freq2,3);
+//	CC1101_Burst_Write( REG_FREQ2,freq3,3);
+//	CC1101_Burst_Write( REG_FREQ2,freq4,3);
+//	CC1101_Burst_Read(0x00,buffer,47);
+//	CC1101_Reset();
 //	RTC_Timer_Calibration();
 	
-	while(1);
-//	{
-////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
-////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
-//		RTC_Subsecond_Value[0] = (uint32_t) RTC_Handler.Instance->SSR;
-//		delay_ms(100);
-////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
-//		RTC_Subsecond_Value[1] = (uint32_t) RTC_Handler.Instance->SSR;
-//		delay_ms(100);
-//	}
+
 	
-	
-//	while(1);
-//	HAL_TIM_Base_Start_IT(&TIM3_Handler);
-//	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+//	HAL_TIM_Base_Start_IT(&TIM1_Handler);
+//	CC1101_Set_OpMode( STX );
 //	DelayMs(100);
-//  while (1)
-//  {
-//		
-//		SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-//		DelayMs(100);
-//		TIM1->CR1|=0x01;   // start timer
-//		
-//		for(m=0;m<LORA_PREAMBLE_LENGTH;m++)
-//		{
-//			LoRa_UpChirp();
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-//		}
-//		
-////		for(m=0;m<LORA_ID_LENGTH;m++)
-////		{
-////			LoRa_Payload( LoRa_ID_Start_Freq[m]);
-////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-////		}
-////		for(m=0;m<LORA_SFD_LENGTH;m++)
-////		{
-////			LoRa_DownChirp();
-////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-////		}
-////		
-////		Generate_Quarter_DownChirp();
-////		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-////		for(m=0;m<LORA_PAYLOAD_LENGTH;m++)
-////		{
-////			LoRa_Payload( LoRa_Payload_Start_Freq[m]);
-////			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-////		}
-//		SX1276SetOpMode( RF_OPMODE_STANDBY );
-//		TIM1->CR1|=0x00;
-//		DelayMs(2000);
+  while (1)
+  {
 		
-//  }
+		CC1101_Set_OpMode( STX );
+		DelayMs(100);
+		TIM1->CR1|=0x01;   // start timer
+		
+		for(m=0;m<LORA_PREAMBLE_LENGTH;m++)
+		{
+			LoRa_UpChirp();
+			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+		}
+		
+		for(m=0;m<LORA_ID_LENGTH;m++)
+		{
+			LoRa_Payload( LoRa_ID_Start_Freq[m]);
+			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+		}
+		for(m=0;m<LORA_SFD_LENGTH;m++)
+		{
+			LoRa_DownChirp();
+			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+		}
+		
+		Generate_Quarter_DownChirp();
+		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+		for(m=0;m<LORA_PAYLOAD_LENGTH;m++)
+		{
+			LoRa_Payload( LoRa_Payload_Start_Freq[m]);
+			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+		}
+		CC1101_Set_OpMode( SIDLE );
+		TIM1->CR1|=0x00;
+		DelayMs(2000);
+		
+  }
+//		while(1);
 }
 
 uint8_t Channel_Freq_MSB_temp = 0;
@@ -210,6 +208,7 @@ uint32_t Channel;
 
 
 uint32_t Input_Freq_temp[1<<LORA_SF]={0};
+uint32_t Channel_temp[1<<LORA_SF]={0};
 uint32_t Time_temp_temp[1<<LORA_SF]={0};
 uint32_t n_temp[1<<LORA_SF]={0};
 
@@ -241,17 +240,19 @@ void LoRa_UpChirp()
 	uint32_t Count = 0;
 
 	Input_Freq = LORA_BASE_FREQ;
+	temp_u32 = TIM1->CNT;
 	TIM1->CNT = 0;
+	
 	while(1)
 	{
 		Time_temp = TIM1->CNT;
-		if( Time_temp > LORA_SYMBOL_TIME || ( Input_Freq > LORA_BASE_FREQ + LORA_BW ))
+		if( Time_temp > LORA_SYMBOL_TIME || ( Input_Freq > LORA_MAX_FREQ ))
 		{
 			break;
 		}
 		else if((( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && (( GPIOA->IDR & GPIO_PIN_9) != 0x00u ))
 		{
-			Input_Freq = LORA_BASE_FREQ + Count * LORA_FREQ_STEP;
+			Input_Freq = LORA_BASE_FREQ + Count * LORA_FREQ_STEP * 2;
 			
 			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
 
@@ -268,25 +269,26 @@ void LoRa_UpChirp()
 			}
 			else if(Channel_Freq_MID_temp != Channel_Freq[1])
 			{
-				Changed_Register_Count = 2;
+				Changed_Register_Count = 3;
 				Channel_Freq_MID_temp = Channel_Freq[1];
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			else if(Channel_Freq_MID_temp != Channel_Freq[2])
 			{
-				Changed_Register_Count = 1;
+				Changed_Register_Count = 3;
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			
 			do
 			{
 				Time_temp = TIM1->CNT;
-			}while( Time_temp & (8-1));  // 10Mhz spi
-
+			}while( Time_temp & (8-1));  // 5Mhz spi; 2 chips = 16us
+			
 			Fast_SetChannel( Channel_Freq );
+			
 			Time_temp_temp[Count] = Time_temp;
 			Input_Freq_temp[Count] = Input_Freq;
-			
+			Channel_temp[Count] = Channel;
 			n_temp[Count] = Changed_Register_Count;
 			Changed_Register_Count = 1;
 			Count++;
@@ -310,7 +312,7 @@ void LoRa_DownChirp()
 		}
 		else if((( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && ( ( GPIOA->IDR & GPIO_PIN_9 ) != 0x00u ))
 		{
-			Input_Freq = LORA_MAX_FREQ - Count * LORA_FREQ_STEP;
+			Input_Freq = LORA_MAX_FREQ - Count * LORA_FREQ_STEP * 2;
 			
 			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
 
@@ -327,13 +329,13 @@ void LoRa_DownChirp()
 			}
 			else if(Channel_Freq_MID_temp != Channel_Freq[1])
 			{
-				Changed_Register_Count = 2;
+				Changed_Register_Count = 3;
 				Channel_Freq_MID_temp = Channel_Freq[1];
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			else if(Channel_Freq_MID_temp != Channel_Freq[2])
 			{
-				Changed_Register_Count = 1;
+				Changed_Register_Count = 3;
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			
@@ -370,7 +372,7 @@ void Generate_Quarter_DownChirp()
 		}
 		else if((( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && ( ( GPIOA->IDR & GPIO_PIN_9 ) != 0x00u ))
 		{
-			Input_Freq = LORA_MAX_FREQ - Count * LORA_FREQ_STEP;
+			Input_Freq = LORA_MAX_FREQ - Count * LORA_FREQ_STEP * 2;
 			
 			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
 
@@ -387,13 +389,13 @@ void Generate_Quarter_DownChirp()
 			}
 			else if(Channel_Freq_MID_temp != Channel_Freq[1])
 			{
-				Changed_Register_Count = 2;
+				Changed_Register_Count = 3;
 				Channel_Freq_MID_temp = Channel_Freq[1];
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			else if(Channel_Freq_MID_temp != Channel_Freq[2])
 			{
-				Changed_Register_Count = 1;
+				Changed_Register_Count = 3;
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			
@@ -429,7 +431,7 @@ void LoRa_Payload( int Start_freq)
 		}
 		else if((( GPIOB->IDR & GPIO_PIN_6 ) != 0x00u ) && (( GPIOA->IDR & GPIO_PIN_9 ) != 0x00u ) )
 		{
-			Input_Freq = LORA_BASE_FREQ + Start_freq + Count * LORA_FREQ_STEP;
+			Input_Freq = LORA_BASE_FREQ + Start_freq + Count * LORA_FREQ_STEP * 2;
 			
 			if( Input_Freq > LORA_MAX_FREQ )
 			{
@@ -451,13 +453,13 @@ void LoRa_Payload( int Start_freq)
 			}
 			else if( Channel_Freq_MID_temp != Channel_Freq[1] )
 			{
-				Changed_Register_Count = 2;
+				Changed_Register_Count = 3;
 				Channel_Freq_MID_temp = Channel_Freq[1];
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			else if( Channel_Freq_MID_temp != Channel_Freq[2] )
 			{
-				Changed_Register_Count = 1;
+				Changed_Register_Count = 3;
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			
@@ -494,9 +496,9 @@ void Fast_SetChannel( uint8_t *freq )
 		case 1:Reg_Address = REG_FREQ0;break;
 		case 2:Reg_Address = REG_FREQ1;break;
 		case 3:Reg_Address = REG_FREQ2;break;
-		default:Reg_Address = REG_FREQ0;break;
+		default:Reg_Address = REG_FREQ2;break;
 	}
 	
-	CC1101_Burst_Write( Reg_Address, freq + 3 - Changed_Register_Count, Changed_Register_Count);
+	CC1101_Burst_Write( Reg_Address, freq + 3 - Changed_Register_Count, Changed_Register_Count );
 	
 }
