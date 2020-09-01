@@ -169,14 +169,14 @@ void RTC_TimeStampConfig(void)
 
 void TAMP_STAMP_IRQHandler(void)
 {
-//  HAL_RTCEx_TamperTimeStampIRQHandler(&RTC_Handler);
+  HAL_RTCEx_TamperTimeStampIRQHandler(&RTC_Handler);
 }
 
 void HAL_RTCEx_TimeStampEventCallback(RTC_HandleTypeDef *hrtc)
 {
-  RTC_DateTypeDef sTimeStampDateget;
+//  RTC_DateTypeDef sTimeStampDateget;
 
-  HAL_RTCEx_GetTimeStamp(&RTC_Handler, &sTimeStampget, &sTimeStampDateget, RTC_FORMAT_BIN);
+//  HAL_RTCEx_GetTimeStamp(&RTC_Handler, &sTimeStampget, &sTimeStampDateget, RTC_FORMAT_BIN);
 }
 
 

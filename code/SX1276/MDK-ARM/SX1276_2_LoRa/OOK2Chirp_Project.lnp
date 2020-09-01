@@ -49,6 +49,8 @@
 ".\sx1276_2_lora\timeserver.o"
 ".\sx1276_2_lora\queue.o"
 ".\sx1276_2_lora\low_power_manager.o"
+".\sx1276_2_lora\simulated_lora.o"
+".\sx1276_2_lora\timer_calibration.o"
 --library_type=microlib --strict --scatter ".\SX1276_2_LoRa\OOK2Chirp_Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

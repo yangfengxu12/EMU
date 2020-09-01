@@ -339,7 +339,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>STM32L476xx, USE_STM32L4XX_NUCLEO,USE_HAL_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -662,6 +662,21 @@
               <FileName>low_power_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Utilities\low_power_manager.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Sim_LoRa</GroupName>
+          <Files>
+            <File>
+              <FileName>Simulated_LoRa.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Simulated_LoRa\Simulated_LoRa.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_Calibration.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Simulated_LoRa\Timer_Calibration.c</FilePath>
             </File>
           </Files>
         </Group>

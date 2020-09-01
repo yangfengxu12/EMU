@@ -1,50 +1,9 @@
-/*!
- * \file      sx1276.h
- *
- * \brief     SX1276 driver implementation
- *
- * \copyright Revised BSD License, see section \ref LICENSE.
- *
- * \code
- *                ______                              _
- *               / _____)             _              | |
- *              ( (____  _____ ____ _| |_ _____  ____| |__
- *               \____ \| ___ |    (_   _) ___ |/ ___)  _ \
- *               _____) ) ____| | | || |_| ____( (___| | | |
- *              (______/|_____)_|_|_| \__)_____)\____)_| |_|
- *              (C)2013-2017 Semtech
- *
- * \endcode
- *
- * \author    Miguel Luis ( Semtech )
- *
- * \author    Gregory Cristian ( Semtech )
- */
-/**
-  ******************************************************************************
-  * @file    sx1276.h
-  * @author  MCD Application Team
-  * @brief   Header for driver sx1276.c
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
-
 #ifndef __SX1276_H__
 #define __SX1276_H__
 
 #include "sx1276Regs-Fsk.h"
 #include "sx1276Regs-LoRa.h"
-
+#include "stdbool.h"
 /*!
  * Radio wake-up time from sleep
  */
