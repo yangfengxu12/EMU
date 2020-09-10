@@ -44,6 +44,7 @@
 ".\sx1276_2_lora\rtc.o"
 ".\sx1276_2_lora\delay.o"
 ".\sx1276_2_lora\usart.o"
+".\sx1276_2_lora\control_gpio.o"
 ".\sx1276_2_lora\utilities.o"
 ".\sx1276_2_lora\trace.o"
 ".\sx1276_2_lora\timeserver.o"

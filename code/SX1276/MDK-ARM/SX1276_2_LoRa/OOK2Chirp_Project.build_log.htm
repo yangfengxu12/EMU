@@ -22,21 +22,21 @@ Dialog DLL:      TCM.DLL V1.42.0.0
  
 <h2>Project:</h2>
 C:\Users\Fengxu\Documents\GitHub\CC1100_2_LoRa\code\SX1276\MDK-ARM\SX1276_2_LoRa.uvprojx
-Project File Date:  09/01/2020
+Project File Date:  09/10/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5_ARM\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
-compiling Timer_Calibration.c...
 compiling Simulated_LoRa.c...
-compiling main.c...
-../Src/main.c(43): warning:  #177-D: variable "m"  was declared but never referenced
-  	uint8_t m;
-../Src/main.c: 1 warning, 0 errors
+..\Simulated_LoRa\Simulated_LoRa.c(69): warning:  #550-D: variable "Chirp_Time_Record"  was set but never used
+  	uint32_t Chirp_Time_Record[LORA_TOTAL_LENGTH] = {0};
+..\Simulated_LoRa\Simulated_LoRa.c(72): warning:  #550-D: variable "Init_Frequency_End_Point"  was set but never used
+  	uint32_t Init_Frequency_End_Point = LORA_MAX_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=32124 RO-data=860 RW-data=124 ZI-data=2700  
+Program Size: Code=33452 RO-data=860 RW-data=212 ZI-data=27276  
 FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 1 Warning(s).
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -59,7 +59,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:21
+Build Time Elapsed:  00:00:08
 </pre>
 </body>
 </html>

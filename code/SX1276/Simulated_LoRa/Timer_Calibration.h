@@ -4,8 +4,8 @@
 #include "timer.h"
 #include "rtc.h"
 
-extern int Time_Componsation_Index;
+extern uint32_t Time;
 
-void RTC_Timer_Calibration( void );
+int RTC_Timer_Calibration( void );
 
 #endif

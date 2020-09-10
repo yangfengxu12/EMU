@@ -2,7 +2,7 @@
 
 TIM_HandleTypeDef TIM2_Handler;      //定时器句柄 
 
-uint32_t Time_temp;
+uint32_t Time;
 uint32_t time_count = 0;
 
 //通用定时器3中断初始化

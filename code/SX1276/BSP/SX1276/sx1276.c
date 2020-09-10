@@ -256,7 +256,7 @@ uint32_t SX1276Init( RadioEvents_t *events )
 
     SX1276SetOpMode( RF_OPMODE_SLEEP );
 
-    LoRaBoardCallbacks->SX1276BoardIoIrqInit( DioIrq );
+//    LoRaBoardCallbacks->SX1276BoardIoIrqInit( DioIrq );
 
     for( i = 0; i < sizeof( RadioRegsInit ) / sizeof( RadioRegisters_t ); i++ )
     {

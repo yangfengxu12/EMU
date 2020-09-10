@@ -314,7 +314,7 @@
           <Cads>
             <interw>1</interw>
             <Optim>1</Optim>
-            <oTime>0</oTime>
+            <oTime>1</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
             <Strict>0</Strict>
@@ -632,6 +632,11 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>control_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\control_GPIO.c</FilePath>
             </File>
           </Files>
         </Group>

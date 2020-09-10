@@ -9,7 +9,7 @@ typedef uint8_t  u8;
 
 extern TIM_HandleTypeDef TIM2_Handler;
 extern uint32_t time_count;
-extern uint32_t Time_temp;
+extern uint32_t Time;
 
 void TIM2_Init(u32 arr,u16 psc);
 #endif

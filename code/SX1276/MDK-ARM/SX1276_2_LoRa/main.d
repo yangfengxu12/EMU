@@ -74,3 +74,4 @@
 .\sx1276_2_lora\main.o: ..\Hardware\usart.h
 .\sx1276_2_lora\main.o: ..\Simulated_LoRa\Simulated_LoRa.h
 .\sx1276_2_lora\main.o: ..\Simulated_LoRa\Timer_Calibration.h
+.\sx1276_2_lora\main.o: ..\Hardware\control_GPIO.h

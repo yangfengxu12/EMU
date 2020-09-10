@@ -3,7 +3,7 @@
 
 #include "sx1276Regs-Fsk.h"
 #include "sx1276Regs-LoRa.h"
-#include "stdbool.h"
+
 /*!
  * Radio wake-up time from sleep
  */
