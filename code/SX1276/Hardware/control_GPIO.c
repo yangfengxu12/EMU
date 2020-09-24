@@ -12,7 +12,7 @@ void Control_GPIO_Init( void )
 	GPIO_InitStruct.Pin   = GPIO_PIN_2 | GPIO_PIN_5 | GPIO_PIN_12;					//PB5
 	GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull  = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin   = GPIO_PIN_1;
@@ -32,3 +32,8 @@ void Control_GPIO_Init( void )
 	
 }
 
+
+void LL_GPIO_TogglePin(GPIO_TypeDef *GPIOx, uint32_t PinMask)
+{
+  WRITE_REG(GPIOx->ODR, READ_REG(GPIOx->ODR) ^ PinMask);
+}

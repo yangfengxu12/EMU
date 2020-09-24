@@ -67,6 +67,7 @@
 .\sx1276_2_lora\main.o: ..\BSP\SX1276\sx1276Regs-LoRa.h
 .\sx1276_2_lora\main.o: ..\BSP\SX1276\sx1276mb1mas.h
 .\sx1276_2_lora\main.o: ..\Hardware\timer.h
+.\sx1276_2_lora\main.o: ..\Hardware\control_GPIO.h
 .\sx1276_2_lora\main.o: ..\Hardware\fast_spi.h
 .\sx1276_2_lora\main.o: ..\Hardware\sys.h
 .\sx1276_2_lora\main.o: ..\Hardware\rtc.h
@@ -74,4 +75,3 @@
 .\sx1276_2_lora\main.o: ..\Hardware\usart.h
 .\sx1276_2_lora\main.o: ..\Simulated_LoRa\Simulated_LoRa.h
 .\sx1276_2_lora\main.o: ..\Simulated_LoRa\Timer_Calibration.h
-.\sx1276_2_lora\main.o: ..\Hardware\control_GPIO.h

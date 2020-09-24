@@ -68,6 +68,7 @@
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\sys.h
 .\sx1276_2_lora\simulated_lora.o: ..\Simulated_LoRa\Timer_Calibration.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\timer.h
+.\sx1276_2_lora\simulated_lora.o: ..\Hardware\control_GPIO.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\rtc.h
 .\sx1276_2_lora\simulated_lora.o: ..\Simulated_LoRa\Simulated_LoRa.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\fast_spi.h

@@ -4,8 +4,11 @@
 #include "sx1276mb1mas.h"
 #include "delay.h"
 #include "Timer_Calibration.h"
+#include "control_GPIO.h"
 
 #include "Simulated_LoRa.h"
+
+extern uint32_t time_count;
 
 int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-62011,-61523};
 int LoRa_Payload_Start_Freq[] = {-7083,
@@ -78,16 +81,17 @@ void LoRa_Generate_Signal()
 	int Timer_Calibration_Index = 0;
 	int Timer_Calibration_Flag = 0;
 	int Timer_Calibration_Flag_Last = 0;
-	Timer_Calibration_Index = RTC_Timer_Calibration();
+//	Timer_Calibration_Index = RTC_Timer_Calibration();
 	
 	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 	delay_ms(100);
+
+	time_count = 0;
 	TIM2->CNT = 0;
-	TIM2->CR1|=0x01;
-	TIM2->CNT = 0;
+	HAL_TIM_Base_Start_IT(&TIM2_Handler);
 	
 	/*******************/
-	HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 	while( Chirp_Count < LORA_TOTAL_LENGTH )
 	{
 		/******  Packet states machine ********/
@@ -169,80 +173,75 @@ void LoRa_Generate_Signal()
 				Changed_Register_Count = 1;
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
-			if( Changed_Register_Count == 1)
-			{
-				do
-				{
-					Time = TIM2->CNT;
-				}while( Time & ( 8 - 1 ));  // chip time = 8us
-			}
-			else if( Changed_Register_Count == 2 )
-			{
-				do
-				{
-					Time = TIM2->CNT;
-				}while( (Time+2) & ( 8 - 1 ));  // chip time = 8us
-			}
-			else if( Changed_Register_Count == 3 )
-			{
-				do
-				{
-					Time = TIM2->CNT;
-				}while( (Time+4) & ( 8 - 1 ));  // chip time = 8us
-			}
+			
+			while( TIM2->CNT & ( 8 - 1 ));// chip time = 8us
+
+//			while( time_count & ( 8 - 1 ));  // chip time = 8us
+//			while( time_count % 8 != 0);  // chip time = 8us
 			
 			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
-			Time_temp[ Chip_Count[ Chirp_Count ] ] = Time;
+			Time_temp[ Chip_Count[ Chirp_Count ] ] = TIM2->CNT;
 			Input_Freq_temp[ Chip_Count[ Chirp_Count ] ] = Input_Freq;
 			
-			n_temp[ Chip_Count[ Chirp_Count ] ] = Changed_Register_Count;
+//			n_temp[ Chip_Count[ Chirp_Count ] ] = Changed_Register_Count;
 			Changed_Register_Count = 1;
 			Chip_Count[ Chirp_Count ]++;
 			
-			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
+			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 			
 			//symbol @ preamble, ID, SFD, payload
-			if( Chirp_Status == Preamble || Chirp_Status == ID || Chirp_Status == SFD)
+			if(( Chirp_Status == Preamble || Chirp_Status == ID || Chirp_Status == SFD ) && (Chip_Count[ Chirp_Count ] >= (1 << LORA_SF) - 2))
 			{
 				if( TIM2->CNT - LORA_SYMBOL_TIME * Chirp_Count >= LORA_SYMBOL_TIME - 8 )
+				{
+					Chirp_Time_Record[ Chirp_Count ] = TIM2->CNT;
+					
 					break;
+				}
 			}
 			//symbol @ quarter_SFD (0.25*SFD)
 			else if( Chirp_Status == Quarter_SFD ) 
 			{
 				if( TIM2->CNT - LORA_SYMBOL_TIME * Chirp_Count >= ( LORA_SYMBOL_TIME >> 2 ) - 8 )
+				{
+					Chirp_Time_Record[ Chirp_Count ] = TIM2->CNT;
+					
 					break;
+				}
 			}
 			else if( Chirp_Status == Payload )
 			{
 				if( TIM2->CNT - ( LORA_SYMBOL_TIME * ( Chirp_Count - 1 ) + ( LORA_SYMBOL_TIME >> 2 )) >= ( LORA_SYMBOL_TIME - 8 ))
+				{
+					Chirp_Time_Record[ Chirp_Count ] = TIM2->CNT;
+					
 					break;
+				}
 			}
 		
-			Timer_Calibration_Flag = TIM2->CNT / Timer_Calibration_Index;
-			// +: RTC < TIM ---> TIM - 
-			// -: RTC > TIM ---> TIM + 
-			if( Timer_Calibration_Flag != Timer_Calibration_Flag_Last )
-			{
-				if( Timer_Calibration_Index > 0 )
-					TIM2->CNT = TIM2->CNT - 1;
-				else if( Timer_Calibration_Index < 0 )
-					TIM2->CNT = TIM2->CNT + 1;
-				
-				Timer_Calibration_Flag_Last = Timer_Calibration_Flag;
-			}
+//			Timer_Calibration_Flag = TIM2->CNT / Timer_Calibration_Index;
+//			// +: RTC < TIM ---> TIM - 
+//			// -: RTC > TIM ---> TIM + 
+//			if( Timer_Calibration_Flag != Timer_Calibration_Flag_Last )
+//			{
+//				if( Timer_Calibration_Index > 0 )
+//					TIM2->CNT = TIM2->CNT - 1;
+//				else if( Timer_Calibration_Index < 0 )
+//					TIM2->CNT = TIM2->CNT + 1;
+//				
+//				Timer_Calibration_Flag_Last = Timer_Calibration_Flag;
+//			}
 				
 		}	// end loop of symbol
-		Chirp_Time_Record[ Chirp_Count ] = TIM2->CNT;
+		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 		Chirp_Count++;
-		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 	}
 	
 	
 	/*******************/
 	
 	SX1276SetOpMode( RF_OPMODE_STANDBY );
-	TIM1->CR1|=0x00;
+	HAL_TIM_Base_Stop_IT(&TIM2_Handler);
 	delay_ms(2000);
 	
 }

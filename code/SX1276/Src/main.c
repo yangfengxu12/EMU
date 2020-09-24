@@ -39,24 +39,30 @@ int main(void)
 	uart_init(115200);
 	printf("123");
 	
-	RTC_Init();
-	Control_GPIO_Init();
-	/*Disbale Stand-by mode*/
-  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
-	TIM2_Init(0xfffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
 	
-	Radio.Init(&RadioEvents);
-  Radio.SetChannel(RF_FREQUENCY);
-	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
-	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
-	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
-	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
+//	RTC_Set_WakeUp(RTC_WAKEUPCLOCK_CK_SPRE_16BITS,0);
+	
+	Control_GPIO_Init();
+	
+	
+	/*Disbale Stand-by mode*/
+//  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
+	
+	TIM2_Init(0xffffffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
+	delay_ms(100);
+	TIM15_Init();
+//	Radio.Init(&RadioEvents);
+//  Radio.SetChannel(RF_FREQUENCY);
+//	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
+//	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
+//	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+//	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
 
   while (1)
   {
 
-		LoRa_Generate_Signal();
+//		LoRa_Generate_Signal();
 
 /*
 		RTC_Timer_Calibration();

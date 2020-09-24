@@ -42,3 +42,4 @@
 .\sx1276_2_lora\rtc.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 .\sx1276_2_lora\rtc.o: ..\Hardware\usart.h
 .\sx1276_2_lora\rtc.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdio.h
+.\sx1276_2_lora\rtc.o: ..\Hardware\control_GPIO.h

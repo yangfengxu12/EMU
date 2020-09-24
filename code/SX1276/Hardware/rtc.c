@@ -1,6 +1,6 @@
 #include "rtc.h"
 #include "usart.h"
-
+#include "control_GPIO.h"
 
 RTC_HandleTypeDef RTC_Handler;  //RTC句柄
 RTC_TimeTypeDef sTimeStampget;
@@ -47,9 +47,9 @@ uint8_t RTC_Init(void)
 	
 	__HAL_RTC_RESET_HANDLE_STATE(&RTC_Handler);
   RTC_Handler.Instance = RTC;
-  RTC_Handler.Init.HourFormat     = RTC_HOURFORMAT_12;
-  RTC_Handler.Init.AsynchPrediv   = 0x00;
-  RTC_Handler.Init.SynchPrediv    = 0x7FFF;
+  RTC_Handler.Init.HourFormat     = RTC_HOURFORMAT_24;
+  RTC_Handler.Init.AsynchPrediv   = 0x7F;
+  RTC_Handler.Init.SynchPrediv    = 0x00FF;
   RTC_Handler.Init.OutPut         = RTC_OUTPUT_DISABLE;
   RTC_Handler.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
   RTC_Handler.Init.OutPutType     = RTC_OUTPUT_TYPE_PUSHPULL;
@@ -60,17 +60,6 @@ uint8_t RTC_Init(void)
     while(1);
   }
 	HAL_RTCEx_EnableBypassShadow(&RTC_Handler);
-	RTC_TimeStampConfig();
-      
-//	if(HAL_RTCEx_BKUPRead(&RTC_Handler,RTC_BKP_DR0)!=0X5050)//是否第一次配置
-//	{ 
-//			RTC_Set_Time(17,41,0,RTC_HOURFORMAT12_PM);	        //设置时间 ,根据实际时间修改
-//	RTC_Set_Date(17,4,11,2);		                    //设置日期
-//			HAL_RTCEx_BKUPWrite(&RTC_Handler,RTC_BKP_DR0,0X5050);//标记已经初始化过了
-//	}
-//	
-//	HAL_RTCEx_SetTimeStamp_IT(&RTC_Handler,RTC_TIMESTAMPEDGE_RISING,RTC_TIMESTAMPPIN_DEFAULT);
-//	return 0;
 }
 
 void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
@@ -179,7 +168,40 @@ void HAL_RTCEx_TimeStampEventCallback(RTC_HandleTypeDef *hrtc)
 //  HAL_RTCEx_GetTimeStamp(&RTC_Handler, &sTimeStampget, &sTimeStampDateget, RTC_FORMAT_BIN);
 }
 
+void RTC_Set_WakeUp(uint32_t wksel,uint16_t cnt)
+{ 
+  __HAL_RTC_WAKEUPTIMER_CLEAR_FLAG(&RTC_Handler, RTC_FLAG_WUTF);//清除RTC WAKE UP的标志
+	
+	HAL_RTCEx_SetWakeUpTimer_IT(&RTC_Handler,cnt,wksel);            //设置重装载值和时钟 
+	
+  HAL_NVIC_SetPriority(RTC_WKUP_IRQn,0x02,0x02); //抢占优先级1,子优先级2
+  HAL_NVIC_EnableIRQ(RTC_WKUP_IRQn);
+}
+
+void RTC_WKUP_IRQHandler(void)
+{    
+	if(LL_RTC_IsActiveFlag_WUT(RTC) != 0)//WK_UP中断?
+	{ 
+		LL_RTC_ClearFlag_WUT(RTC);	//清除中断标志
+		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+	}   
+	LL_EXTI_ClearFlag_0_31(EXTI_IMR1_IM18);							
+}
 
 
 
 
+uint32_t LL_RTC_IsActiveFlag_WUT(RTC_TypeDef *RTCx)
+{
+  return (READ_BIT(RTCx->ISR, RTC_ISR_WUTF) == (RTC_ISR_WUTF));
+}
+
+void LL_RTC_ClearFlag_WUT(RTC_TypeDef *RTCx)
+{
+  WRITE_REG(RTCx->ISR, (~((RTC_ISR_WUTF | RTC_ISR_INIT) & 0x0000FFFFU) | (RTCx->ISR & RTC_ISR_INIT)));
+}
+
+void LL_EXTI_ClearFlag_0_31(uint32_t ExtiLine)
+{
+  WRITE_REG(EXTI->PR1, ExtiLine);
+}

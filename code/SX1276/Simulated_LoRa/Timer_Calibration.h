@@ -3,6 +3,7 @@
 
 #include "timer.h"
 #include "rtc.h"
+#include "delay.h"
 
 extern uint32_t Time;
 

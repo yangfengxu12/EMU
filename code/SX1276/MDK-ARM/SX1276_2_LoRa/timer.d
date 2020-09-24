@@ -39,3 +39,4 @@
 .\sx1276_2_lora\timer.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
 .\sx1276_2_lora\timer.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 .\sx1276_2_lora\timer.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
+.\sx1276_2_lora\timer.o: ..\Hardware\control_GPIO.h

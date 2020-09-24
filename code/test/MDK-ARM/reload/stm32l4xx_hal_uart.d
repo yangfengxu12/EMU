@@ -31,5 +31,7 @@ reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_p
 reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h
 reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h
 reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h
+reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h
+reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
 reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 reload\stm32l4xx_hal_uart.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
