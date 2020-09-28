@@ -17,11 +17,11 @@
 #define LORA_ID_LENGTH															2
 #define LORA_SFD_LENGTH															2
 #define LORA_QUARTER_SFD_LENGTH											1
-#define LORA_PAYLOAD_LENGTH													sizeof(LoRa_Payload_Start_Freq)/sizeof(LoRa_Payload_Start_Freq[0])
-#define LORA_TOTAL_LENGTH														LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH + LORA_SFD_LENGTH + LORA_QUARTER_SFD_LENGTH + LORA_PAYLOAD_LENGTH
+#define LORA_PAYLOAD_LENGTH													( sizeof(LoRa_Payload_Start_Freq)/sizeof(LoRa_Payload_Start_Freq[0] ))
+#define LORA_TOTAL_LENGTH														( LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH + LORA_SFD_LENGTH + LORA_QUARTER_SFD_LENGTH + LORA_PAYLOAD_LENGTH )
 
 #define LORA_FREQ_STEP															( LORA_BW / ( 1 << LORA_SF ))
-#define LORA_SYMBOL_TIME														8 * (1 << LORA_SF)
+#define LORA_SYMBOL_TIME														( 8 * ( 1 << LORA_SF ))
 
 #define FREQ_STEP                                   61.03515625
 #define FREQ_STEP_8                                 15625 /* FREQ_STEP<<8 */

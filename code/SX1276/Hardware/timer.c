@@ -1,9 +1,9 @@
 #include "timer.h"
 
 TIM_HandleTypeDef TIM2_Handler;      //定时器句柄 
+TIM_HandleTypeDef TIM3_Handler;      //定时器句柄 
 
 uint32_t Time;
-uint32_t time_count = 0;
 
 _Bool Chip_flag = 0;
 
@@ -24,7 +24,6 @@ void TIM2_Init(u32 arr,u16 psc)
     
 //    HAL_TIM_Base_Start_IT(&TIM2_Handler); //使能定时器3和定时器3更新中断：TIM_IT_UPDATE   
 		HAL_TIM_Base_Stop_IT(&TIM2_Handler);
-//		time_count = 0;
 }
 
 
@@ -32,38 +31,56 @@ void TIM2_Init(u32 arr,u16 psc)
 //此函数会被HAL_TIM_Base_Init()函数调用
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
 {
-    if(htim->Instance==TIM2)
+  if(htim->Instance==TIM2)
 	{
 		__HAL_RCC_TIM2_CLK_ENABLE();            //使能TIM2时钟
 		HAL_NVIC_SetPriority(TIM2_IRQn,0,0);    //设置中断优先级，抢占优先级0，子优先级0
 		HAL_NVIC_EnableIRQ(TIM2_IRQn);          //开启ITM2中断   
 	}
+	if(htim->Instance==TIM3)
+	{
+		__HAL_RCC_TIM3_CLK_ENABLE();            //使能TIM3时钟
+		HAL_NVIC_SetPriority(TIM3_IRQn,0,1);    //设置中断优先级，抢占优先级0，子优先级0
+		HAL_NVIC_EnableIRQ(TIM3_IRQn);          //开启ITM3中断   
+	}
 }
 
 
-//定时器3中断服务函数
+
 void TIM2_IRQHandler(void)
 {
-//    HAL_TIM_IRQHandler(&TIM2_Handler);
 	if(LL_TIM_IsActiveFlag_UPDATE(TIM2) == 1)
   {
-    /* Clear the update interrupt flag*/
-//		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-//		time_count++;
-		Chip_flag = 1;
-    LL_TIM_ClearFlag_UPDATE(TIM2);
+		LL_TIM_ClearFlag_UPDATE(TIM2);
   }
 }
 
-////回调函数，定时器中断服务函数调用
-//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-//{
-//    if(htim==(&TIM2_Handler))
-//    {
-////			time_count += 5;
-//			
-//    }
-//}
+int Timer_Compensation_Count = 0;
+
+void TIM3_Init(u32 arr)
+{  
+    TIM3_Handler.Instance=TIM3;                          //通用定时器3
+    TIM3_Handler.Init.Prescaler=80-1;                     //分频系数
+    TIM3_Handler.Init.CounterMode=TIM_COUNTERMODE_UP;    //向下计数器
+    TIM3_Handler.Init.Period=arr;                        //自动装载值
+    TIM3_Handler.Init.ClockDivision=TIM_CLOCKDIVISION_DIV1;//时钟分频因子
+    HAL_TIM_Base_Init(&TIM3_Handler);
+     
+		HAL_TIM_Base_Stop_IT(&TIM3_Handler);
+		Timer_Compensation_Count = 0;
+}
+
+void TIM3_IRQHandler(void)
+{
+	if(LL_TIM_IsActiveFlag_UPDATE(TIM3) == 1)
+  {
+		Timer_Compensation_Count++;
+		LL_TIM_ClearFlag_UPDATE(TIM3);
+  }
+}
+
+
+
 
 uint32_t LL_TIM_IsActiveFlag_UPDATE(TIM_TypeDef *TIMx)
 {
@@ -75,6 +92,9 @@ void LL_TIM_ClearFlag_UPDATE(TIM_TypeDef *TIMx)
   WRITE_REG(TIMx->SR, ~(TIM_SR_UIF));
 }
 
+
+
+
 TIM_HandleTypeDef htim15;
 /**
   * @brief TIM15 Initialization Function
@@ -83,10 +103,9 @@ TIM_HandleTypeDef htim15;
   */
 void TIM15_Init(void)
 {
-
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_IC_InitTypeDef sConfigIC = {0};
-
+	
   htim15.Instance = TIM15;
   htim15.Init.Prescaler = 79;
   htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -94,6 +113,7 @@ void TIM15_Init(void)
   htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim15.Init.RepetitionCounter = 0;
   htim15.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+	
   if (HAL_TIM_IC_Init(&htim15) != HAL_OK)
   {
 //    Error_Handler();
@@ -141,45 +161,46 @@ void TIM1_BRK_TIM15_IRQHandler(void)
 
 u8  TIM15CH1_CAPTURE_STA = 0;	//输入捕获状态		    				
 u32 Rising_Edge_Count = 0;
-int Input_Captured_Record[5][4] = {0};
+int Input_Captured_Record[ Calibration_Times ][ 4 ] = {0};
 u16 Input_Captured_Count = 0;
+u8 Timer_Calibration_Done_Flag = 0; //0:doing 1:done
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void HAL_TIM_PeriodElapsedCallback( TIM_HandleTypeDef *htim )
 {
-	if(TIM15CH1_CAPTURE_STA)//
+	if( TIM15CH1_CAPTURE_STA )//
 	{
 		TIM15CH1_CAPTURE_STA++; 
 	}	
 }
 
-u8 i;
 
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)//捕获中断发生时执行
+
+void HAL_TIM_IC_CaptureCallback( TIM_HandleTypeDef *htim )//捕获中断发生时执行
 {
-	if((TIM15CH1_CAPTURE_STA&0x80)==0)//第一个上升沿
+	if(( TIM15CH1_CAPTURE_STA & 0x80 ) == 0 )//第一个上升沿
 	{
-		Input_Captured_Record[Input_Captured_Count][0] = HAL_TIM_ReadCapturedValue(&htim15,TIM_CHANNEL_1);
+		Input_Captured_Record[ Input_Captured_Count ][ 0 ] = HAL_TIM_ReadCapturedValue( &htim15, TIM_CHANNEL_1 );
 		TIM15CH1_CAPTURE_STA = 0x80;
 		Rising_Edge_Count = 1;
 	}
 	else //接下来的上升沿
 	{
 		Rising_Edge_Count++;
-		if(Rising_Edge_Count == 32768)
+		if( Rising_Edge_Count == 32768 )
 		{
-			Input_Captured_Record[Input_Captured_Count][1] = HAL_TIM_ReadCapturedValue(&htim15,TIM_CHANNEL_1);
-			Input_Captured_Record[Input_Captured_Count][2] = TIM15CH1_CAPTURE_STA&0x7F;
+			Input_Captured_Record[ Input_Captured_Count ][ 1 ] = HAL_TIM_ReadCapturedValue( &htim15, TIM_CHANNEL_1 );
+			Input_Captured_Record[ Input_Captured_Count ][ 2 ] = TIM15CH1_CAPTURE_STA&0x7F;
 			
 			Input_Captured_Count++;
 			TIM15CH1_CAPTURE_STA = 0;
 			Rising_Edge_Count = 0;
-			if(Input_Captured_Count >= 5)
+			if( Input_Captured_Count >= Calibration_Times )
 			{
-				HAL_TIM_IC_Stop_IT(&htim15,TIM_CHANNEL_1);
- 				HAL_NVIC_DisableIRQ(TIM1_BRK_TIM15_IRQn);
-				for(i=0;i<5;i++)
-				Input_Captured_Record[i][3] = 65536 * Input_Captured_Record[i][2] + Input_Captured_Record[i][1] - Input_Captured_Record[i][0];
+				HAL_TIM_IC_Stop_IT( &htim15, TIM_CHANNEL_1 );
+ 				
+				
 				Input_Captured_Count = 0;
+				Timer_Calibration_Done_Flag = 1;
 			}
 		}
 	}

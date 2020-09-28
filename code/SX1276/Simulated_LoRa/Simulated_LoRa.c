@@ -8,10 +8,14 @@
 
 #include "Simulated_LoRa.h"
 
-extern uint32_t time_count;
+
+#define Comped_Time ( TIM2->CNT + Timer_Compensation_Count ) 
+
+uint8_t test_symbol_point=2;
 
 int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-62011,-61523};
-int LoRa_Payload_Start_Freq[] = {-7083,
+int LoRa_Payload_Start_Freq[] = {
+-7083,
 -27345,
 -58594,
 60295,
@@ -35,18 +39,23 @@ uint8_t Channel_Freq_LSB_temp = 0;
 uint32_t Input_Freq;
 uint32_t Channel;
 
-
-uint32_t Input_Freq_temp[ 1<<LORA_SF ]={0};
 uint32_t Time_temp[ 1<<LORA_SF ]={0};
 uint32_t n_temp[ 1<<LORA_SF ]={0};
 
 uint8_t Channel_Freq[3] = {0};  //MSB,MID,LSB
 uint8_t Changed_Register_Count = 1;  // the number of changed registers.
+uint32_t Input_Freq_temp[ (1<<LORA_SF) ]={0};
+uint32_t Input_Freq_temp1[ (1<<LORA_SF) ]={0};
+
+int Timer_Compensation_Index = 0;
+int Timer_Compensation_Flag = 0;
+int Timer_Compensation_Flag_Last = 0;
 
 
-uint8_t Count1 = 0;
-uint8_t Count2 = 0;
-uint8_t Count3 = 0;
+
+uint8_t temp_u8 = 0;
+uint16_t temp_u16 = 0;
+uint32_t temp_u32 = 0;
 
 
 void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count )
@@ -68,86 +77,147 @@ void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count )
 void LoRa_Generate_Signal()
 {
 	uint32_t Chip_Count[LORA_TOTAL_LENGTH] = {0};
+	uint32_t Chip_Position = 0;
 	uint32_t Chirp_Count = 0;
 	uint32_t Chirp_Time_Record[LORA_TOTAL_LENGTH] = {0};
 	
-	uint32_t Init_Frequency_Point = LORA_BASE_FREQ;
+	uint32_t Init_Frequency_Begin_Point = LORA_BASE_FREQ;
 	uint32_t Init_Frequency_End_Point = LORA_MAX_FREQ;
 	
 	enum Chirp_Status Chirp_Status = Preamble;
 	
-	// +: RTC < TIM ---> TIM - 
-	// -: RTC > TIM ---> TIM + 
-	int Timer_Calibration_Index = 0;
-	int Timer_Calibration_Flag = 0;
-	int Timer_Calibration_Flag_Last = 0;
-//	Timer_Calibration_Index = RTC_Timer_Calibration();
 	
-	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+	// +: RTC > TIM ---> TIM +
+	// -: RTC < TIM ---> TIM - 
+	
+	Timer_Compensation_Index = RTC_Timer_Calibration();
+	
+	TIM3_Init( Timer_Compensation_Index - 1 );
+	
+ 	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 	delay_ms(100);
 
-	time_count = 0;
 	TIM2->CNT = 0;
+	TIM3->CNT = 0;
 	HAL_TIM_Base_Start_IT(&TIM2_Handler);
-	
+	HAL_TIM_Base_Start_IT(&TIM3_Handler);
 	/*******************/
 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 	while( Chirp_Count < LORA_TOTAL_LENGTH )
 	{
 		/******  Packet states machine ********/
+		Symbol_Start:
 		//symbol @ preamble
 		if( Chirp_Count < LORA_PREAMBLE_LENGTH )
 		{
 			Chirp_Status = Preamble;
-			Init_Frequency_Point = LORA_BASE_FREQ;
-			Init_Frequency_End_Point = LORA_MAX_FREQ;
+			Init_Frequency_Begin_Point = LORA_BASE_FREQ;
+//			Init_Frequency_End_Point = LORA_MAX_FREQ;
 		}
 		//symbol @ LoRa ID 0x12 0x34
 		else if( Chirp_Count >= LORA_PREAMBLE_LENGTH && \
 						 Chirp_Count < LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH )
 		{
 			Chirp_Status = ID;
-			Init_Frequency_Point = LoRa_ID_Start_Freq[ Chirp_Count - LORA_PREAMBLE_LENGTH ];
-			Init_Frequency_End_Point = LORA_MAX_FREQ;
+			Init_Frequency_Begin_Point = RF_FREQUENCY + LoRa_ID_Start_Freq[ Chirp_Count - LORA_PREAMBLE_LENGTH ];
+//			Init_Frequency_End_Point = LORA_MAX_FREQ;
 		}
-		//symbol @ LoRa SFD 0x12 0x34
+		//symbol @ LoRa SFD 
 		else if( Chirp_Count >= LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH && \
 						 Chirp_Count < LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH + LORA_SFD_LENGTH )
 		{
 			Chirp_Status = SFD;
-			Init_Frequency_Point = LORA_MAX_FREQ;
-			Init_Frequency_End_Point = LORA_BASE_FREQ;
+			Init_Frequency_Begin_Point = LORA_MAX_FREQ;
+//			Init_Frequency_End_Point = LORA_BASE_FREQ;
 		}
 		//symbol @ LoRa 0.25 SFD
 		else if( Chirp_Count >= LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH + LORA_SFD_LENGTH && \
 						 Chirp_Count < LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH + LORA_SFD_LENGTH + LORA_QUARTER_SFD_LENGTH )
 		{
 			Chirp_Status = Quarter_SFD;
-			Init_Frequency_Point = LORA_MAX_FREQ;
-			Init_Frequency_End_Point = LORA_BASE_FREQ;
+			Init_Frequency_Begin_Point = LORA_MAX_FREQ;
+//			Init_Frequency_End_Point = LORA_BASE_FREQ;
 		}
 		//symbol @ LoRa payload
 		else if( Chirp_Count >= LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH + LORA_SFD_LENGTH + LORA_QUARTER_SFD_LENGTH && \
 						 Chirp_Count < LORA_PREAMBLE_LENGTH + LORA_ID_LENGTH + LORA_SFD_LENGTH + LORA_QUARTER_SFD_LENGTH + LORA_PAYLOAD_LENGTH )
 		{
 			Chirp_Status = Payload;
-			Init_Frequency_Point = LoRa_Payload_Start_Freq[ Chirp_Count - LORA_PREAMBLE_LENGTH - LORA_ID_LENGTH - LORA_SFD_LENGTH ];
-			Init_Frequency_End_Point = LORA_MAX_FREQ;
+			Init_Frequency_Begin_Point = RF_FREQUENCY + LoRa_Payload_Start_Freq[ Chirp_Count - LORA_PREAMBLE_LENGTH - LORA_ID_LENGTH - LORA_SFD_LENGTH - 1 ];
+//			Init_Frequency_End_Point = LORA_MAX_FREQ;
 		}
+		
 		/******  end of Packet states machine ********/
 		while(1)  // generate symbol
 		{
-			//symbol @ downchirp (SFD, quarter_SFD)
-			if( Chirp_Status == SFD || Chirp_Status == Quarter_SFD )
-				Input_Freq = Init_Frequency_Point - Chip_Count[ Chirp_Count ] * LORA_FREQ_STEP;
-			
-			//symbol @ upchirp (preamble,ID, payload)
-			else
+			switch (Chirp_Status)
 			{
-				Input_Freq = Init_Frequency_Point + Chip_Count[ Chirp_Count ] * LORA_FREQ_STEP;
-				if( Input_Freq > LORA_MAX_FREQ )
-					Input_Freq = Input_Freq - LORA_BW;
+				case Preamble:
+				{
+					Chip_Position = (int)((Comped_Time +  - Chirp_Count * LORA_SYMBOL_TIME ) >> 3);
+					Input_Freq = Init_Frequency_Begin_Point + Chip_Position * LORA_FREQ_STEP;
+					break;
+				}
+				case ID:
+				{
+					Chip_Position = (int)((Comped_Time +  - Chirp_Count * LORA_SYMBOL_TIME ) >> 3);
+					Input_Freq = Init_Frequency_Begin_Point + Chip_Position * LORA_FREQ_STEP;
+					if( Input_Freq > LORA_MAX_FREQ )
+						Input_Freq = Input_Freq - LORA_BW;
+					break;
+				}
+				case SFD:
+				{
+					Chip_Position = (int)((Comped_Time +  - Chirp_Count * LORA_SYMBOL_TIME ) >> 3);
+					Input_Freq = (int)(Init_Frequency_Begin_Point - Chip_Position * LORA_FREQ_STEP);
+					break;
+				}
+				case Quarter_SFD:
+				{
+					Chip_Position = (int)((Comped_Time +  - Chirp_Count * LORA_SYMBOL_TIME ) >> 3);
+					Input_Freq = (int)(Init_Frequency_Begin_Point - Chip_Position * LORA_FREQ_STEP);
+					break;
+				}
+				case Payload:
+				{
+					Chip_Position = (int)(( Comped_Time - ( LORA_SYMBOL_TIME >> 2 ) - (Chirp_Count - 1) * LORA_SYMBOL_TIME ) >> 3 );
+					Input_Freq = Init_Frequency_Begin_Point + Chip_Position * LORA_FREQ_STEP;
+					if( Input_Freq > LORA_MAX_FREQ )
+						Input_Freq = Input_Freq - LORA_BW;
+					break;
+				}
+				default:break;
 			}
+//			//symbol @ upchirp (Payload)
+//			if( Chirp_Status == Payload )
+//			{
+//				Chip_Position = (int)(( Comped_Time - ( LORA_SYMBOL_TIME >> 2 ) - (Chirp_Count - 1) * LORA_SYMBOL_TIME ) >> 3 );
+//				Input_Freq = Init_Frequency_Begin_Point + Chip_Position * LORA_FREQ_STEP;
+//				if( Input_Freq > LORA_MAX_FREQ )
+//					Input_Freq = Input_Freq - LORA_BW;
+//			}
+//			//symbol @ upchirp (ID,)
+//			else if( Chirp_Status == ID )
+//			{
+//				Chip_Position = (int)((Comped_Time +  - Chirp_Count * LORA_SYMBOL_TIME ) >> 3) ;
+//				Input_Freq = Init_Frequency_Begin_Point + Chip_Position * LORA_FREQ_STEP;
+//				if( Input_Freq > LORA_MAX_FREQ )
+//					Input_Freq = Input_Freq - LORA_BW;
+//			}
+//			//symbol @ downchirp (SFD, Quarter_SFD)
+//			else if( Chirp_Status == SFD || Chirp_Status == Quarter_SFD )
+//			{
+//				Chip_Position = (int)((Comped_Time +  - Chirp_Count * LORA_SYMBOL_TIME ) >> 3) ;
+//				Input_Freq = (int)(Init_Frequency_Begin_Point - Chip_Position * LORA_FREQ_STEP);
+//			}
+//			//symbol @ upchirp (preamble)
+//			else if( Chirp_Status == Preamble )
+//			{
+//				Chip_Position = (int)((Comped_Time +  - Chirp_Count * LORA_SYMBOL_TIME ) >> 3) ;
+//				Input_Freq = Init_Frequency_Begin_Point + Chip_Position * LORA_FREQ_STEP;
+//				if( Input_Freq > LORA_MAX_FREQ )
+//					Input_Freq = Input_Freq - LORA_BW;
+//			}
 			
 			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
 			
@@ -174,67 +244,70 @@ void LoRa_Generate_Signal()
 				Channel_Freq_LSB_temp = Channel_Freq[2];
 			}
 			
-			while( TIM2->CNT & ( 8 - 1 ));// chip time = 8us
-
-//			while( time_count & ( 8 - 1 ));  // chip time = 8us
-//			while( time_count % 8 != 0);  // chip time = 8us
+			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
 			
 			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
-			Time_temp[ Chip_Count[ Chirp_Count ] ] = TIM2->CNT;
-			Input_Freq_temp[ Chip_Count[ Chirp_Count ] ] = Input_Freq;
+			Time_temp[ Chip_Count[ Chirp_Count ] ] = Comped_Time;
 			
+			
+			if( Chirp_Count == test_symbol_point - 1)
+			{
+//			Input_Freq_temp[ Chip_Count[ Chirp_Count ] ] = Input_Freq;
+				Input_Freq_temp[ Chip_Position ] = Input_Freq;
+				Input_Freq_temp1[ Chip_Position ] = Chip_Position;
+			}
 //			n_temp[ Chip_Count[ Chirp_Count ] ] = Changed_Register_Count;
 			Changed_Register_Count = 1;
 			Chip_Count[ Chirp_Count ]++;
 			
 			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 			
-			//symbol @ preamble, ID, SFD, payload
-			if(( Chirp_Status == Preamble || Chirp_Status == ID || Chirp_Status == SFD ) && (Chip_Count[ Chirp_Count ] >= (1 << LORA_SF) - 2))
+			switch (Chirp_Status)
 			{
-				if( TIM2->CNT - LORA_SYMBOL_TIME * Chirp_Count >= LORA_SYMBOL_TIME - 8 )
-				{
-					Chirp_Time_Record[ Chirp_Count ] = TIM2->CNT;
-					
-					break;
-				}
+				case Preamble:	if( Comped_Time - LORA_SYMBOL_TIME * Chirp_Count >= LORA_SYMBOL_TIME )
+												{
+													Chirp_Time_Record[ Chirp_Count ] = Comped_Time;
+													goto Symbol_End;
+												}
+												break;
+				case ID:				if( Comped_Time - LORA_SYMBOL_TIME * Chirp_Count >= LORA_SYMBOL_TIME )
+												{
+													Chirp_Time_Record[ Chirp_Count ] = Comped_Time;
+													goto Symbol_End;
+												}
+												break;
+				case SFD:				if( Comped_Time - LORA_SYMBOL_TIME * Chirp_Count >= LORA_SYMBOL_TIME )
+												{
+													Chirp_Time_Record[ Chirp_Count ] = Comped_Time;
+													goto Symbol_End;
+												}
+												break;
+				case Quarter_SFD:if( Comped_Time - LORA_SYMBOL_TIME * Chirp_Count >= ( LORA_SYMBOL_TIME >> 2 ) )
+												{
+													Chirp_Time_Record[ Chirp_Count ] = Comped_Time;
+													goto Symbol_End;
+												}
+												break;
+				case Payload:		if( Comped_Time - ( LORA_SYMBOL_TIME * ( Chirp_Count - 1 ) + ( LORA_SYMBOL_TIME >> 2 )) >= ( LORA_SYMBOL_TIME ) )
+												{
+													Chirp_Time_Record[ Chirp_Count ] = Comped_Time;
+													goto Symbol_End;
+												}
+												break;
+				default:break;
 			}
-			//symbol @ quarter_SFD (0.25*SFD)
-			else if( Chirp_Status == Quarter_SFD ) 
-			{
-				if( TIM2->CNT - LORA_SYMBOL_TIME * Chirp_Count >= ( LORA_SYMBOL_TIME >> 2 ) - 8 )
-				{
-					Chirp_Time_Record[ Chirp_Count ] = TIM2->CNT;
-					
-					break;
-				}
-			}
-			else if( Chirp_Status == Payload )
-			{
-				if( TIM2->CNT - ( LORA_SYMBOL_TIME * ( Chirp_Count - 1 ) + ( LORA_SYMBOL_TIME >> 2 )) >= ( LORA_SYMBOL_TIME - 8 ))
-				{
-					Chirp_Time_Record[ Chirp_Count ] = TIM2->CNT;
-					
-					break;
-				}
-			}
-		
-//			Timer_Calibration_Flag = TIM2->CNT / Timer_Calibration_Index;
-//			// +: RTC < TIM ---> TIM - 
-//			// -: RTC > TIM ---> TIM + 
-//			if( Timer_Calibration_Flag != Timer_Calibration_Flag_Last )
-//			{
-//				if( Timer_Calibration_Index > 0 )
-//					TIM2->CNT = TIM2->CNT - 1;
-//				else if( Timer_Calibration_Index < 0 )
-//					TIM2->CNT = TIM2->CNT + 1;
-//				
-//				Timer_Calibration_Flag_Last = Timer_Calibration_Flag;
-//			}
+
 				
 		}	// end loop of symbol
+		Symbol_End:
 		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+		if( Chirp_Count == test_symbol_point - 1 )
+		{
+			Chirp_Count = Chirp_Count;
+		}
 		Chirp_Count++;
+		
+//		memset(Input_Freq_temp,0, (1<<LORA_SF) * sizeof(uint32_t) );
 	}
 	
 	
@@ -242,258 +315,9 @@ void LoRa_Generate_Signal()
 	
 	SX1276SetOpMode( RF_OPMODE_STANDBY );
 	HAL_TIM_Base_Stop_IT(&TIM2_Handler);
-	delay_ms(2000);
+	Chirp_Count = 0;
 	
+	delay_ms(1000);
+
 }
 
-
-
-
-
-
-
-
-
-
-//void LoRa_UpChirp()
-//{
-//	uint32_t Count = 0;
-
-//	Input_Freq = LORA_BASE_FREQ;
-//	TIM1->CNT = 0;
-//	while(1)
-//	{
-//		Time = TIM1->CNT;
-//		if( Time > LORA_SYMBOL_TIME || ( Input_Freq > LORA_BASE_FREQ + LORA_BW ))
-//		{
-//			break;
-//		}
-//		else if((( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && (( GPIOA->IDR & GPIO_PIN_9) != 0x00u ))
-//		{
-//			Input_Freq = LORA_BASE_FREQ + Count * LORA_FREQ_STEP;
-//			
-//			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
-
-//			Channel_Freq[0] = ( uint8_t )( ( Channel >> 16 ) & 0xFF );
-//			Channel_Freq[1] = ( uint8_t )( ( Channel >> 8 ) & 0xFF );
-//			Channel_Freq[2] = ( uint8_t )( ( Channel ) & 0xFF );
-//			
-//			if(Channel_Freq_MSB_temp != Channel_Freq[0])
-//			{
-//				Changed_Register_Count = 3;
-//				Channel_Freq_MSB_temp = Channel_Freq[0];
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if(Channel_Freq_MID_temp != Channel_Freq[1])
-//			{
-//				Changed_Register_Count = 2;
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if(Channel_Freq_MID_temp != Channel_Freq[2])
-//			{
-//				Changed_Register_Count = 1;
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			
-//			do
-//			{
-//				Time = TIM1->CNT;
-//			}while( Time & (8-1));  // 10Mhz spi
-
-//			Fast_SetChannel( Channel_Freq, Changed_Register_Count);
-//			Time_temp[Count] = Time;
-//			Input_Freq_temp[Count] = Input_Freq;
-//			
-//			n_temp[Count] = Changed_Register_Count;
-//			Changed_Register_Count = 1;
-//			Count++;
-//			
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
-//		}
-//	}
-//}
-
-//void LoRa_DownChirp()
-//{
-//	uint32_t Count = 0;
-
-//	TIM1->CNT = 0;
-//	while(1)
-//	{
-//		Time = TIM1->CNT;
-//		if(Time > LORA_SYMBOL_TIME || ( Input_Freq < LORA_BASE_FREQ ))
-//		{
-//			break;
-//		}
-//		else if((( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && ( ( GPIOA->IDR & GPIO_PIN_9 ) != 0x00u ))
-//		{
-//			Input_Freq = LORA_MAX_FREQ - Count * LORA_FREQ_STEP;
-//			
-//			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
-
-//			Channel_Freq[0] = ( uint8_t )( ( Channel >> 16 ) & 0xFF );
-//			Channel_Freq[1] = ( uint8_t )( ( Channel >> 8 ) & 0xFF );
-//			Channel_Freq[2] = ( uint8_t )( ( Channel ) & 0xFF );
-//			
-//			if(Channel_Freq_MSB_temp != Channel_Freq[0])
-//			{
-//				Changed_Register_Count = 3;
-//				Channel_Freq_MSB_temp = Channel_Freq[0];
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if(Channel_Freq_MID_temp != Channel_Freq[1])
-//			{
-//				Changed_Register_Count = 2;
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if(Channel_Freq_MID_temp != Channel_Freq[2])
-//			{
-//				Changed_Register_Count = 1;
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			
-//			do
-//			{
-//				Time = TIM1->CNT;
-//			}while( Time & (8-1));  // 10Mhz spi
-
-//			Fast_SetChannel( Channel_Freq );
-//			Time_temp[Count] = Time;
-//			Input_Freq_temp[Count] = Input_Freq;
-//			
-//			n_temp[Count] = Changed_Register_Count;
-//			Changed_Register_Count = 1;
-//			Count++;
-//			
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
-//		}
-//	}
-//}
-
-//void Generate_Quarter_DownChirp()
-//{
-//	uint32_t Count = 0;
-//	
-//	Input_Freq = LORA_MAX_FREQ;
-//	TIM1->CNT = 0;
-//	while(1)
-//	{
-//		Time = TIM1->CNT;
-//		if(Time > LORA_SYMBOL_TIME / 4 )
-//		{
-//			break;
-//		}
-//		else if((( GPIOB->IDR & GPIO_PIN_6) != 0x00u) && ( ( GPIOA->IDR & GPIO_PIN_9 ) != 0x00u ))
-//		{
-//			Input_Freq = LORA_MAX_FREQ - Count * LORA_FREQ_STEP;
-//			
-//			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
-
-//			Channel_Freq[0] = ( uint8_t )( ( Channel >> 16 ) & 0xFF );
-//			Channel_Freq[1] = ( uint8_t )( ( Channel >> 8 ) & 0xFF );
-//			Channel_Freq[2] = ( uint8_t )( ( Channel ) & 0xFF );
-//			
-//			if(Channel_Freq_MSB_temp != Channel_Freq[0])
-//			{
-//				Changed_Register_Count = 3;
-//				Channel_Freq_MSB_temp = Channel_Freq[0];
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if(Channel_Freq_MID_temp != Channel_Freq[1])
-//			{
-//				Changed_Register_Count = 2;
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if(Channel_Freq_MID_temp != Channel_Freq[2])
-//			{
-//				Changed_Register_Count = 1;
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			
-//			do
-//			{
-//				Time = TIM1->CNT;
-//			}while( Time & (8-1));  // 10Mhz spi
-
-//			Fast_SetChannel( Channel_Freq );
-//			Time_temp[Count] = Time;
-//			Input_Freq_temp[Count] = Input_Freq;
-//			
-//			n_temp[Count] = Changed_Register_Count;
-//			Changed_Register_Count = 1;
-//			Count++;
-//			
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
-//		}
-//	}
-//}
-
-//void LoRa_Payload( int Start_freq)
-//{
-//	uint32_t Count = 0;
-//	
-//	TIM1->CNT = 0;
-//	while(1)
-//	{
-//		Time = TIM1->CNT;
-//		if( Time > LORA_SYMBOL_TIME )
-//		{
-//			break;
-//		}
-//		else if((( GPIOB->IDR & GPIO_PIN_6 ) != 0x00u ) && (( GPIOA->IDR & GPIO_PIN_9 ) != 0x00u ) )
-//		{
-//			Input_Freq = LORA_BASE_FREQ + Start_freq + Count * LORA_FREQ_STEP;
-//			
-//			if( Input_Freq > LORA_MAX_FREQ )
-//			{
-//				Input_Freq = Input_Freq - LORA_BW;
-//			}
-//			
-//			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
-//				
-//			Channel_Freq[0] = ( uint8_t )( ( Channel >> 16 ) & 0xFF );
-//			Channel_Freq[1] = ( uint8_t )( ( Channel >> 8 ) & 0xFF );
-//			Channel_Freq[2] = ( uint8_t )( ( Channel ) & 0xFF );
-//			
-//			if( Channel_Freq_MSB_temp != Channel_Freq[0] )
-//			{
-//				Changed_Register_Count = 3;
-//				Channel_Freq_MSB_temp = Channel_Freq[0];
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if( Channel_Freq_MID_temp != Channel_Freq[1] )
-//			{
-//				Changed_Register_Count = 2;
-//				Channel_Freq_MID_temp = Channel_Freq[1];
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			else if( Channel_Freq_MID_temp != Channel_Freq[2] )
-//			{
-//				Changed_Register_Count = 1;
-//				Channel_Freq_LSB_temp = Channel_Freq[2];
-//			}
-//			
-//			do
-//			{
-//				Time = TIM1->CNT;
-//			}while( Time & (8-1));  // 10Mhz spi
-
-//			Fast_SetChannel( Channel_Freq );
-//			Time_temp[Count] = Time;
-//			Input_Freq_temp[Count] = Channel;
-//			
-//			n_temp[Count] = Changed_Register_Count;
-//			Changed_Register_Count = 1;
-//			Count++;
-//			
-//			HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
-//		}
-//	}
-//}

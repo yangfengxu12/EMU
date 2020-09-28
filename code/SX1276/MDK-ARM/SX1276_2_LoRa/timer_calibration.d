@@ -43,3 +43,4 @@
 .\sx1276_2_lora\timer_calibration.o: ..\Hardware\control_GPIO.h
 .\sx1276_2_lora\timer_calibration.o: ..\Hardware\rtc.h
 .\sx1276_2_lora\timer_calibration.o: ..\Hardware\sys.h
+.\sx1276_2_lora\timer_calibration.o: ..\Hardware\delay.h
