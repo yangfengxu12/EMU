@@ -8,7 +8,7 @@
 #define TX_OUTPUT_POWER                             14        // dBm
 
 #define LORA_BW																			125000		// Hz
-#define LORA_SF																			11				// spread factor
+#define LORA_SF																			7				// spread factor
 #define LORA_BASE_FREQ															(RF_FREQUENCY - (LORA_BW >> 1)) // Hz
 #define LORA_MAX_FREQ																(RF_FREQUENCY + (LORA_BW >> 1)) // Hz
 

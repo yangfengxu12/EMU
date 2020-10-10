@@ -1,9 +1,5 @@
 #include "CC1101.h"
 
-
-
-
-
 void CC1101_Init( void )
 {
 	CC1101_Reset();

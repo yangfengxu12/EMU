@@ -42,12 +42,15 @@
 ".\cc1101_2lora\rtc.o"
 ".\cc1101_2lora\delay.o"
 ".\cc1101_2lora\usart.o"
+".\cc1101_2lora\control_gpio.o"
 ".\cc1101_2lora\low_power_manager.o"
 ".\cc1101_2lora\queue.o"
 ".\cc1101_2lora\systime.o"
 ".\cc1101_2lora\timeserver.o"
 ".\cc1101_2lora\trace.o"
 ".\cc1101_2lora\utilities.o"
+".\cc1101_2lora\simulated_lora.o"
+".\cc1101_2lora\timer_calibration.o"
 --library_type=microlib --strict --scatter ".\CC1101_2LoRa\OOK2Chirp_Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

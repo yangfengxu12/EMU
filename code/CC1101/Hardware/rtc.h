@@ -14,4 +14,7 @@ void RTC_Set_WakeUp(uint32_t wksel,uint16_t cnt);             //周期性唤醒定时器
 
 void RTC_TimeStampConfig(void);
 
+uint32_t LL_RTC_IsActiveFlag_WUT(RTC_TypeDef *RTCx);
+void LL_RTC_ClearFlag_WUT(RTC_TypeDef *RTCx);
+void LL_EXTI_ClearFlag_0_31(uint32_t ExtiLine);
 #endif

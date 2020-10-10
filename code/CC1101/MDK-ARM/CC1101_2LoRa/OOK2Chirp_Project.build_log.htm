@@ -22,27 +22,24 @@ Dialog DLL:      TCM.DLL V1.42.0.0
  
 <h2>Project:</h2>
 C:\Users\Fengxu\Documents\GitHub\CC1100_2_LoRa\code\CC1101\MDK-ARM\CC1101_2_LoRa.uvprojx
-Project File Date:  08/24/2020
+Project File Date:  10/09/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5_ARM\ARM\ARMCC\Bin'
 Build target 'CC1101_2_LoRa'
 compiling main.c...
-../Src/main.c(91): warning:  #177-D: variable "freq1"  was declared but never referenced
-  	uint8_t freq1[3]={0x10,0xA7,0x62};
-../Src/main.c(92): warning:  #177-D: variable "freq2"  was declared but never referenced
-  	uint8_t freq2[3]={0x10,0xA9,0x9d};
-../Src/main.c(93): warning:  #177-D: variable "freq3"  was declared but never referenced
-  	uint8_t freq3[3]={0x10,0xab,0x13};
-../Src/main.c(94): warning:  #177-D: variable "freq4"  was declared but never referenced
-  	uint8_t freq4[3]={0x10,0xb0,0x00};
-../Src/main.c(219): warning:  #550-D: variable "RTC_Time_temp"  was set but never used
-  	float RTC_Time_temp = 0;
-../Src/main.c: 5 warnings, 0 errors
+compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(103): warning:  #550-D: variable "Chirp_Time_Record"  was set but never used
+  	uint32_t Chirp_Time_Record[LORA_TOTAL_LENGTH] = {0};
+..\Simulated_LoRa\Simulated_LoRa.c(106): warning:  #177-D: variable "Init_Frequency_End_Point"  was declared but never referenced
+  	uint32_t Init_Frequency_End_Point = LORA_MAX_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c(131): warning:  #177-D: label "Symbol_Start"  was declared but never referenced
+  		Symbol_Start:
+..\Simulated_LoRa\Simulated_LoRa.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=16392 RO-data=496 RW-data=244 ZI-data=34764  
+Program Size: Code=21452 RO-data=496 RW-data=272 ZI-data=4200  
 FromELF: creating hex file...
-".\CC1101_2LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 5 Warning(s).
+".\CC1101_2LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -65,7 +62,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:18
 </pre>
 </body>
 </html>

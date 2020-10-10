@@ -1,29 +1,28 @@
 #ifndef _TIMER_H
 #define _TIMER_H
 #include "stm32l4xx.h"
-//////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
-//ALIENTEK STM32F429开发板
-//定时器驱动代码	   
-//正点原子@ALIENTEK
-//技术论坛:www.openedv.com
-//创建日期:2016/1/6
-//版本：V1.0
-//版权所有，盗版必究。
-//Copyright(C) 广州市星翼电子科技有限公司 2014-2024
-//All rights reserved									  
-////////////////////////////////////////////////////////////////////////////////// 	
+#include "control_GPIO.h"
 typedef uint32_t  u32;
 typedef uint16_t u16;
 typedef uint8_t  u8;
 
-/* TIM handle declaration */
-extern TIM_HandleTypeDef TIM1_Handler;
+#define Calibration_Times 3
 
-extern uint32_t time_count;
-/* Prescaler declaration */
-//uint32_t uwPrescalerValue = 0;
+extern TIM_HandleTypeDef TIM2_Handler;
+extern TIM_HandleTypeDef TIM3_Handler;
 
-void TIM1_Init(u32 arr,u16 psc);
+extern uint32_t Time;
+extern _Bool Chip_flag;
+extern u8 Timer_Calibration_Done_Flag;
+extern int Input_Captured_Record[Calibration_Times][4];
+extern int Timer_Compensation_Count;
+
+void TIM2_Init(u32 arr,u16 psc);
+void TIM3_Init(u32 arr);
+
+uint32_t LL_TIM_IsActiveFlag_UPDATE(TIM_TypeDef *TIMx);
+void LL_TIM_ClearFlag_UPDATE(TIM_TypeDef *TIMx);
+
+void TIM15_Init(void);
 #endif
 

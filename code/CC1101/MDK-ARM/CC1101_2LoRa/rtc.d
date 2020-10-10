@@ -42,3 +42,4 @@
 .\cc1101_2lora\rtc.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 .\cc1101_2lora\rtc.o: ..\Hardware\usart.h
 .\cc1101_2lora\rtc.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdio.h
+.\cc1101_2lora\rtc.o: ..\Hardware\control_GPIO.h

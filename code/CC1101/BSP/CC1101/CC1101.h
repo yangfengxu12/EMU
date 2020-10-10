@@ -10,19 +10,8 @@
 #include "CC1101Regs.h"
 #include "CC1101_Init_Regs.h"
 
-#define FREQ_STEP                                   396.728515625
-#define FREQ_STEP_8																	101562 /* FREQ_STEP<<8 */
 #define SPI1_CS_LOW																	GPIOB->BRR = GPIO_PIN_6
 #define SPI1_CS_HIGH																GPIOB->BSRR = GPIO_PIN_6
-
-#define SX_FREQ_TO_CHANNEL( channel, freq )                                                                       \
-    do                                                                                                            \
-    {                                                                                                             \
-        uint32_t initialFreqInt, initialFreqFrac;                                                                 \
-        initialFreqInt = freq / FREQ_STEP_8;                                                                      \
-        initialFreqFrac = freq - ( initialFreqInt * FREQ_STEP_8 );                                                \
-        channel = ( initialFreqInt << 8 ) + ( ( ( initialFreqFrac << 8 ) + ( FREQ_STEP_8 / 2 ) ) / FREQ_STEP_8 ); \
-    }while( 0 )
 
 
 #define	SRES																				0x30

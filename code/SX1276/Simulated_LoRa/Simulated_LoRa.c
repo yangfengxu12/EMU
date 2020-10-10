@@ -12,25 +12,46 @@
 #define Comped_Time ( TIM2->CNT + Timer_Compensation_Count ) 
 
 uint8_t test_symbol_point=2;
+// sf =11 payload =1 
+//int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-62011,-61523};
+//int LoRa_Payload_Start_Freq[] = {
+//-7083,
+//-27345,
+//-58594,
+//60295,
+//-37355,
+//33441,
+//-53223,
+//-35646,
+//3597,
+//46746,
+//8662,
+//61088,
+//-60364,
+//-61706,
+//-16543,
+//-52307};
 
-int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-62011,-61523};
+//sf = 7 payload =1 
+int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-54695,-46890};
 int LoRa_Payload_Start_Freq[] = {
--7083,
--27345,
--58594,
-60295,
--37355,
-33441,
--53223,
--35646,
-3597,
-46746,
-8662,
-61088,
--60364,
--61706,
--16543,
--52307};
+-46890,
+-62500,
+-62500,
+46768,
+-31280,
+31158,
+-7865,
+31158,
+53597,
+54573,
+30182,
+-31280,
+-31280,
+-4939,
+-53719,
+-54695,
+};
 
 uint8_t Channel_Freq_MSB_temp = 0;
 uint8_t Channel_Freq_MID_temp = 0;

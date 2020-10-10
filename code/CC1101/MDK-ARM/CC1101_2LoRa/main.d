@@ -66,5 +66,8 @@
 .\cc1101_2lora\main.o: ..\BSP\CC1101\CC1101Regs.h
 .\cc1101_2lora\main.o: ..\BSP\CC1101\CC1101_Init_Regs.h
 .\cc1101_2lora\main.o: ..\Hardware\timer.h
+.\cc1101_2lora\main.o: ..\Hardware\control_GPIO.h
 .\cc1101_2lora\main.o: ..\Hardware\rtc.h
 .\cc1101_2lora\main.o: ..\Hardware\usart.h
+.\cc1101_2lora\main.o: ..\Simulated_LoRa\Simulated_LoRa.h
+.\cc1101_2lora\main.o: ..\Simulated_LoRa\Timer_Calibration.h
