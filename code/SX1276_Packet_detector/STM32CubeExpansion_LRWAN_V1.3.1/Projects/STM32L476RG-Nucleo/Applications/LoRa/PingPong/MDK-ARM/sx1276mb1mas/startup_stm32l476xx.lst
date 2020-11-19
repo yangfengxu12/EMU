@@ -709,18 +709,17 @@ ARM Macro Assembler    Page 11
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
 interwork --depend=.\sx1276mb1mas\startup_stm32l476xx.d -o.\sx1276mb1mas\startu
-p_stm32l476xx.o -I.\RTE\_sx1276mb1mas -ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\
-2.4.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include -ID:\Keil_v5_ARM\ARM\CMSIS\Incl
-ude -ID:\Keil_v5_ARM_Pack\Keil\STM32L4xx_DFP\2.4.0\Device\Include --predefine="
-__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 530" --predefine="STM32L
+p_stm32l476xx.o -IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST
+\STM32L4xx\Include -IF:\Keil_v5\ARM\CMSIS\Include -IF:\Arm\Packs\Keil\STM32L4xx
+_DFP\2.5.0\Device\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISIO
+N_VERSION SETA 532" --predefine="STM32L476xx SETA 1" --list=.\sx1276mb1mas\star
 
 
 
 ARM Macro Assembler    Page 12 
 
 
-476xx SETA 1" --predefine="_RTE_ SETA 1" --list=.\sx1276mb1mas\startup_stm32l47
-6xx.lst startup_stm32l476xx.s
+tup_stm32l476xx.lst startup_stm32l476xx.s
 
 
 
@@ -1805,4 +1804,4 @@ Symbol: __main
       At line 191 in file startup_stm32l476xx.s
 Comment: __main used once
 2 symbols
-445 symbols in table
+444 symbols in table

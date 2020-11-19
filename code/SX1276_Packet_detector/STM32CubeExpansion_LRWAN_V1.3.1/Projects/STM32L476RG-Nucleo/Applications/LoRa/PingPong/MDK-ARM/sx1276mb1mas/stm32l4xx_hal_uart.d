@@ -6,7 +6,7 @@
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l476xx.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\CMSIS\Include\core_cm4.h
-.\sx1276mb1mas\stm32l4xx_hal_uart.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdint.h
+.\sx1276mb1mas\stm32l4xx_hal_uart.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\CMSIS\Include\cmsis_version.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\CMSIS\Include\cmsis_compiler.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\CMSIS\Include\cmsis_armcc.h
@@ -14,7 +14,7 @@
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\STM32L4xx_HAL_Driver\Inc\Legacy/stm32_hal_legacy.h
-.\sx1276mb1mas\stm32l4xx_hal_uart.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stddef.h
+.\sx1276mb1mas\stm32l4xx_hal_uart.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc_ex.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_gpio.h
 .\sx1276mb1mas\stm32l4xx_hal_uart.o: ..\..\..\..\..\..\Drivers\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_gpio_ex.h

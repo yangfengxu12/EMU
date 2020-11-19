@@ -165,7 +165,7 @@ int main(void)
 
   SystemClock_Config();
 
-  DBG_Init();
+  //DBG_Init();
 
   HW_Init();
 
