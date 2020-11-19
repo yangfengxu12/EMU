@@ -2,7 +2,7 @@
 .\sx1276_2_lora\main.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h
 .\sx1276_2_lora\main.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h
 .\sx1276_2_lora\main.o: ../Drivers/CMSIS/Include/core_cm4.h
-.\sx1276_2_lora\main.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdint.h
+.\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\sx1276_2_lora\main.o: ../Drivers/CMSIS/Include/cmsis_version.h
 .\sx1276_2_lora\main.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 .\sx1276_2_lora\main.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -14,7 +14,7 @@
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h
 .\sx1276_2_lora\main.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-.\sx1276_2_lora\main.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stddef.h
+.\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h
@@ -38,10 +38,10 @@
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
-.\sx1276_2_lora\main.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\string.h
+.\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\sx1276_2_lora\main.o: ..\Hardware\hw.h
-.\sx1276_2_lora\main.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\math.h
-.\sx1276_2_lora\main.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdbool.h
+.\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\sx1276_2_lora\main.o: ..\Hardware\hw_conf.h
 .\sx1276_2_lora\main.o: ..\BSP\stm32l4xx_nucleo.h
 .\sx1276_2_lora\main.o: ..\Hardware\stm32l4xx_hw_conf.h
@@ -56,9 +56,9 @@
 .\sx1276_2_lora\main.o: ..\Hardware\hw_msp.h
 .\sx1276_2_lora\main.o: ..\Utilities\util_console.h
 .\sx1276_2_lora\main.o: ..\Utilities\systime.h
-.\sx1276_2_lora\main.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\time.h
+.\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
 .\sx1276_2_lora\main.o: ..\Hardware\debug.h
-.\sx1276_2_lora\main.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdio.h
+.\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\sx1276_2_lora\main.o: ..\BSP\SX1276\radio.h
 .\sx1276_2_lora\main.o: ..\Utilities\timeServer.h
 .\sx1276_2_lora\main.o: ..\Utilities\low_power_manager.h

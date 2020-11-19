@@ -1,7 +1,7 @@
 .\sx1276_2_lora\utilities.o: ..\Utilities\utilities.c
-.\sx1276_2_lora\utilities.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdlib.h
-.\sx1276_2_lora\utilities.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdio.h
-.\sx1276_2_lora\utilities.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdint.h
+.\sx1276_2_lora\utilities.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\sx1276_2_lora\utilities.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\sx1276_2_lora\utilities.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\sx1276_2_lora\utilities.o: ..\Utilities\utilities.h
 .\sx1276_2_lora\utilities.o: ..\Hardware\hw_conf.h
 .\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h
@@ -18,7 +18,7 @@
 .\sx1276_2_lora\utilities.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h
 .\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h
 .\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-.\sx1276_2_lora\utilities.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stddef.h
+.\sx1276_2_lora\utilities.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h
 .\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h
 .\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h

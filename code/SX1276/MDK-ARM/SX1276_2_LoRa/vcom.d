@@ -1,8 +1,8 @@
 .\sx1276_2_lora\vcom.o: ..\Hardware\vcom.c
 .\sx1276_2_lora\vcom.o: ..\Hardware\hw.h
-.\sx1276_2_lora\vcom.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\math.h
-.\sx1276_2_lora\vcom.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdbool.h
-.\sx1276_2_lora\vcom.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdint.h
+.\sx1276_2_lora\vcom.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\sx1276_2_lora\vcom.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\sx1276_2_lora\vcom.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\sx1276_2_lora\vcom.o: ..\Hardware\hw_conf.h
 .\sx1276_2_lora\vcom.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h
 .\sx1276_2_lora\vcom.o: ../Inc/stm32l4xx_hal_conf.h
@@ -18,7 +18,7 @@
 .\sx1276_2_lora\vcom.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h
 .\sx1276_2_lora\vcom.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h
 .\sx1276_2_lora\vcom.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-.\sx1276_2_lora\vcom.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stddef.h
+.\sx1276_2_lora\vcom.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\sx1276_2_lora\vcom.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h
 .\sx1276_2_lora\vcom.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h
 .\sx1276_2_lora\vcom.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h
@@ -55,7 +55,7 @@
 .\sx1276_2_lora\vcom.o: ..\Hardware\hw_msp.h
 .\sx1276_2_lora\vcom.o: ..\Utilities\util_console.h
 .\sx1276_2_lora\vcom.o: ..\Utilities\systime.h
-.\sx1276_2_lora\vcom.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\time.h
+.\sx1276_2_lora\vcom.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
 .\sx1276_2_lora\vcom.o: ..\Hardware\debug.h
-.\sx1276_2_lora\vcom.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\string.h
-.\sx1276_2_lora\vcom.o: D:\Keil_v5_ARM\ARM\ARMCC\Bin\..\include\stdio.h
+.\sx1276_2_lora\vcom.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\sx1276_2_lora\vcom.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
