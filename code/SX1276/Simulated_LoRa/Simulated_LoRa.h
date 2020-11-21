@@ -14,8 +14,8 @@
 
 /**********  Packet 1 parameters    **************************/
 #define LORA_SF_NO1																	7				// spread factor
-#define LORA_FREQ_STEP_NO1												( LORA_BW / ( 1 << LORA_SF_NO1 ))
-#define LORA_SYMBOL_TIME_NO1											( 8 * ( 1 << LORA_SF_NO1 ))
+#define LORA_FREQ_STEP_NO1													( LORA_BW / ( 1 << LORA_SF_NO1 ))
+#define LORA_SYMBOL_TIME_NO1												(( 1 << LORA_SF_NO1 ) << 3)
 
 #define LORA_PREAMBLE_LENGTH_NO1										8
 #define LORA_ID_LENGTH_NO1													2
@@ -28,9 +28,9 @@
 																											LORA_PAYLOAD_LENGTH_NO1 )
 
 /**********  Packet 2 parameters    **************************/
-#define LORA_SF_NO2																	11				// spread factor
-#define LORA_FREQ_STEP_NO2												( LORA_BW / ( 1 << LORA_SF_NO2 ))
-#define LORA_SYMBOL_TIME_NO2											( 8 * ( 1 << LORA_SF_NO2 ))
+#define LORA_SF_NO2																	8				// spread factor
+#define LORA_FREQ_STEP_NO2													( LORA_BW / ( 1 << LORA_SF_NO2 ))
+#define LORA_SYMBOL_TIME_NO2												(( 1 << LORA_SF_NO2 ) << 3)
 
 #define LORA_PREAMBLE_LENGTH_NO2										8
 #define LORA_ID_LENGTH_NO2													2

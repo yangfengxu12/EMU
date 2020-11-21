@@ -53,12 +53,11 @@ int main(void)
 	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
-
   while (1)
   {
-
+		printf("Start\r\n");
 		LoRa_Generate_Signal();
-
+		printf("Done\r\n");
   }
 }
 
