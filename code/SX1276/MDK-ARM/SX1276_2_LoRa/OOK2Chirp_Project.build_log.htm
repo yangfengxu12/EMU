@@ -28,23 +28,36 @@ Project File Date:  11/19/2020
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
 compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(409): error:  #20: identifier "Chirp_Time_Record_No1" is undefined
+  														Chirp_Time_Record_No1[ Chirp_Count_No1 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(417): error:  #20: identifier "Chirp_Time_Record_No1" is undefined
+  														Chirp_Time_Record_No1[ Chirp_Count_No1 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(425): error:  #20: identifier "Chirp_Time_Record_No1" is undefined
+  														Chirp_Time_Record_No1[ Chirp_Count_No1 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(433): error:  #20: identifier "Chirp_Time_Record_No1" is undefined
+  														Chirp_Time_Record_No1[ Chirp_Count_No1 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(441): error:  #20: identifier "Chirp_Time_Record_No1" is undefined
+  														Chirp_Time_Record_No1[ Chirp_Count_No1 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(455): error:  #20: identifier "Chirp_Time_Record_No2" is undefined
+  														Chirp_Time_Record_No2[ Chirp_Count_No2 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(463): error:  #20: identifier "Chirp_Time_Record_No2" is undefined
+  														Chirp_Time_Record_No2[ Chirp_Count_No2 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(471): error:  #20: identifier "Chirp_Time_Record_No2" is undefined
+  														Chirp_Time_Record_No2[ Chirp_Count_No2 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(479): error:  #20: identifier "Chirp_Time_Record_No2" is undefined
+  														Chirp_Time_Record_No2[ Chirp_Count_No2 ] = Comped_Time;
+..\Simulated_LoRa\Simulated_LoRa.c(487): error:  #20: identifier "Chirp_Time_Record_No2" is undefined
+  														Chirp_Time_Record_No2[ Chirp_Count_No2 ] = Comped_Time;
 ..\Simulated_LoRa\Simulated_LoRa.c(500): warning:  #127-D: expected a statement
   	}
-..\Simulated_LoRa\Simulated_LoRa.c(133): warning:  #550-D: variable "Chirp_Time_Record_No1"  was set but never used
-  	uint32_t Chirp_Time_Record_No1[LORA_TOTAL_LENGTH_NO1] = {0};
-..\Simulated_LoRa\Simulated_LoRa.c(134): warning:  #550-D: variable "Chirp_Time_Record_No2"  was set but never used
-  	uint32_t Chirp_Time_Record_No2[LORA_TOTAL_LENGTH_NO2] = {0};
 ..\Simulated_LoRa\Simulated_LoRa.c(143): warning:  #177-D: variable "Init_Frequency_End_Point_No1"  was declared but never referenced
   	uint32_t Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
 ..\Simulated_LoRa\Simulated_LoRa.c(146): warning:  #177-D: variable "Init_Frequency_End_Point_No2"  was declared but never referenced
   	uint32_t Init_Frequency_End_Point_No2 = LORA_MAX_FREQ;
 ..\Simulated_LoRa\Simulated_LoRa.c(173): warning:  #177-D: label "Symbol_Start"  was declared but never referenced
   		Symbol_Start:
-..\Simulated_LoRa\Simulated_LoRa.c: 6 warnings, 0 errors
-linking...
-Program Size: Code=36224 RO-data=860 RW-data=320 ZI-data=63296  
-FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 6 Warning(s).
+..\Simulated_LoRa\Simulated_LoRa.c: 4 warnings, 10 errors
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 10 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -67,6 +80,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
+Target not created.
 Build Time Elapsed:  00:00:03
 </pre>
 </body>
