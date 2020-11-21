@@ -33,46 +33,46 @@ uint8_t test_symbol_point=2;
 //-52307};
 
 //sf = 7 payload =1 
-//int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-54695,-46890};
-//int LoRa_Payload_Start_Freq[] = {
-//-46890,
-//-62500,
-//-62500,
-//46768,
-//-31280,
-//31158,
-//-7865,
-//31158,
-//53597,
-//54573,
-//30182,
-//-31280,
-//-31280,
-//-4939,
-//-53719,
-//-54695,
-//};
+int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-54695,-46890};
+int LoRa_Payload_Start_Freq[] = {
+-46890,
+-62500,
+-62500,
+46768,
+-31280,
+31158,
+-7865,
+31158,
+53597,
+54573,
+30182,
+-31280,
+-31280,
+-4939,
+-53719,
+-54695,
+};
 
 //sf = 8 payload =1
-int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-58597,-54695};
-int LoRa_Payload_Start_Freq[] = {
--54695,
--2012,
--33231,
-52621,
--31280,
-33109,
--7865,
--35183,
--32743,
--61,
--23963,
--46890,
--46890,
--58109,
-57987,
--60548
-};
+//int LoRa_ID_Start_Freq[LORA_ID_LENGTH] = {-58597,-54695};
+//int LoRa_Payload_Start_Freq[] = {
+//-54695,
+//-2012,
+//-33231,
+//52621,
+//-31280,
+//33109,
+//-7865,
+//-35183,
+//-32743,
+//-61,
+//-23963,
+//-46890,
+//-46890,
+//-58109,
+//57987,
+//-60548
+//};
 
 
 uint8_t Channel_Freq_MSB_temp = 0;
@@ -289,7 +289,12 @@ void LoRa_Generate_Signal()
 			
 			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
 			
-			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
+			if( Chip_Count[ Chirp_Count ] % 2 == 0)
+				Fast_SetChannel( Channel_Freq, Changed_Register_Count );
+			else
+				
+			
+			
 			Time_temp[ Chip_Count[ Chirp_Count ] ] = Comped_Time;
 			
 			
