@@ -29,7 +29,9 @@ extern uint32_t Time_temp;
 
 int main(void)
 {
-  HAL_Init();
+  uint16_t datarate;
+	
+	HAL_Init();
   SystemClock_Config();
 
   HW_Init();
@@ -53,11 +55,15 @@ int main(void)
 	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
+	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
+	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
+  SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
+	
   while (1)
   {
-		printf("Start\r\n");
+//		printf("Start\r\n");
 		LoRa_Generate_Signal();
-		printf("Done\r\n");
+//		printf("Done\r\n");
   }
 }
 

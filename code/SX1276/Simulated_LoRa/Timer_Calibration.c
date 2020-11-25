@@ -13,7 +13,10 @@ int RTC_Timer_Calibration( void )
 	RTC_Init();
 	delay_ms( 100 );
 	TIM15_Init();
-	while( ! Timer_Calibration_Done_Flag );
+	while( Timer_Calibration_Done_Flag == 0 )
+	{
+		delay_ms( 1000 );
+	}
 	
 	Timer_Calibration_Done_Flag = 0;
 	
