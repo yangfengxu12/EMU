@@ -4,8 +4,10 @@
 #include "stm32l4xx.h"
 #include "fast_spi.h"
 
-#define RF_FREQUENCY                                433000000 // Hz
+#define RF_FREQUENCY                                434000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
+#define DATA_RATE																		25000
+
 
 #define LORA_BW																			125000		// Hz
 
@@ -14,23 +16,23 @@
 
 /**********  Packet 1 parameters    **************************/
 #define LORA_SF_NO1																	7				// spread factor
-#define LORA_FREQ_STEP_NO1													( LORA_BW / ( 1 << LORA_SF_NO1 ))
-#define LORA_SYMBOL_TIME_NO1												(( 1 << LORA_SF_NO1 ) << 3)
+
 
 #define LORA_PREAMBLE_LENGTH_NO1										8
 #define LORA_ID_LENGTH_NO1													2
 #define LORA_SFD_LENGTH_NO1													2
 #define LORA_QUARTER_SFD_LENGTH_NO1									1
+
 #define LORA_PAYLOAD_LENGTH_NO1											( sizeof(LoRa_Payload_Start_Freq_No1) /		\
-																											sizeof(LoRa_Payload_Start_Freq_No1[0] ))
+																										  sizeof(LoRa_Payload_Start_Freq_No1[0] ))
 #define LORA_TOTAL_LENGTH_NO1												( LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
 																											LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
 																											LORA_PAYLOAD_LENGTH_NO1 )
 
+
 /**********  Packet 2 parameters    **************************/
 #define LORA_SF_NO2																	8				// spread factor
-#define LORA_FREQ_STEP_NO2													( LORA_BW / ( 1 << LORA_SF_NO2 ))
-#define LORA_SYMBOL_TIME_NO2												(( 1 << LORA_SF_NO2 ) << 3)
+
 
 #define LORA_PREAMBLE_LENGTH_NO2										8
 #define LORA_ID_LENGTH_NO2													2
