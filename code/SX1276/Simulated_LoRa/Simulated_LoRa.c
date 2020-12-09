@@ -21,46 +21,46 @@ uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
 
 
 //sf = 7 payload =1 
-int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54695,-46890};
-int LoRa_Payload_Start_Freq_No1[] = {
--46890,
--62500,
--62500,
-46768,
--31280,
-31158,
--7865,
-31158,
-53597,
-54573,
-30182,
--31280,
--31280,
--4939,
--53719,
--54695,
-};
+//int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54695,-46890};
+//int LoRa_Payload_Start_Freq_No1[] = {
+//-46890,
+//-62500,
+//-62500,
+//46768,
+//-31280,
+//31158,
+//-7865,
+//31158,
+//53597,
+//54573,
+//30182,
+//-31280,
+//-31280,
+//-4939,
+//-53719,
+//-54695,
+//};
 
 //sf = 8 payload = 1 
-int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-58597,-54695};
-int LoRa_Payload_Start_Freq_No2[] = {
--54695,
--2012,
--33231,
-52621,
--31280,
-33109,
--7865,
--35183,
--32743,
--61,
--23963,
--46890,
--46890,
--58109,
-57987,
--60548
-};
+//int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-58597,-54695};
+//int LoRa_Payload_Start_Freq_No2[] = {
+//-54695,
+//-2012,
+//-33231,
+//52621,
+//-31280,
+//33109,
+//-7865,
+//-35183,
+//-32743,
+//-61,
+//-23963,
+//-46890,
+//-46890,
+//-58109,
+//57987,
+//-60548
+//};
 
 // sf =11 payload =1 
 //int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-62011,-61523};
@@ -82,6 +82,72 @@ int LoRa_Payload_Start_Freq_No2[] = {
 //-16543,
 //-52307};
 
+//sf = 8 payload = lorawan
+int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-50787,-46882};
+int LoRa_Payload_Start_Freq_No1[] = {
+13634,
+17539,
+31204,
+-15647,
+-56643,
+42917,
+60486,
+-25408,
+-24432,
+56582,
+-51275,
+27787,
+44869,
+37548,
+59998,
+-4910,
+-41026.,
+-35169,
+27299,
+-41026,
+-39562,
+58534,
+-3446,
+57070,
+-7351,
+-34193,
+34132,
+5826
+};
+
+// sf =9 payload =lorawan
+int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-59570,-58594,};
+int LoRa_Payload_Start_Freq_No2[] = {
+19033,
+-22465,
+54673,
+-4401,
+-61035,
+43444,
+61508,
+-24418,
+44664,
+37951,
+27821,
+29285,
+2067,
+-32840,
+-11847,
+21474,
+49546,
+-11236,
+44664,
+-37600,
+25624,
+41857,
+-21611,
+50157,
+-45900,
+12319,
+-15752,
+-53467
+};
+
 uint8_t Channel_Freq_MSB_temp = 0;
 uint8_t Channel_Freq_MID_temp = 0;
 uint8_t Channel_Freq_LSB_temp = 0;
@@ -99,7 +165,7 @@ uint32_t Channel;
 uint8_t Channel_Freq[3] = {0};  //MSB,MID,LSB
 uint8_t Changed_Register_Count = 1;  // the number of changed registers.
 
-uint32_t Input_Freq_temp[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 )]={0};
+//uint32_t Input_Freq_temp[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 )]={0};
 //uint32_t Input_Freq_temp1[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 )]={0};
 //uint32_t Input_Freq_temp_No2[ LORA_TOTAL_LENGTH_NO2 ][( 1 << LORA_SF_NO2 )]={0};
 
@@ -147,7 +213,8 @@ void LoRa_Generate_Signal()
 	/*********************************/
 	
 	bool Mix_Packets_flag = 1;
-	bool Chip_No1_or_No2 = 0; // 0:No1,1:No2
+	bool Chip_No1_or_No2 = 1; // 1:No1,0:No2
+	bool Last_Chip_No1_or_No2 = Chip_No1_or_No2;
 	
 	
 	uint32_t Init_Frequency_Begin_Point_No1 = LORA_BASE_FREQ;
@@ -166,7 +233,7 @@ void LoRa_Generate_Signal()
 	
 	Timer_Compensation_Index = RTC_Timer_Calibration();
 	
-	Send_packets:
+	
 
 	TIM3_Init( Timer_Compensation_Index - 1 );
 	
@@ -194,9 +261,9 @@ void LoRa_Generate_Signal()
 		Changed_Register_Count = 1;
 		Channel_Freq_LSB_temp = Channel_Freq[2];
 	}
-	
+	Send_packets:
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-	delay_ms(100);
+	delay_ms(500);
 
 	TIM2->CNT = 0;
 	TIM3->CNT = 0;
@@ -333,7 +400,7 @@ void LoRa_Generate_Signal()
 					}
 					default:break;
 				}
-				Input_Freq += 600000;
+				
 				Chip_Count_No1[Chirp_Count_No1]++;
 	//			Input_Freq_temp_No1[ Chirp_Count_No1 ] [ Chip_Count_No1[Chirp_Count_No1]] = Input_Freq;
 			}
@@ -378,10 +445,12 @@ void LoRa_Generate_Signal()
 					}
 					default:break;
 				}
-				
+				Input_Freq += FREQ_OFFSET_1_2;
 				Chip_Count_No2[Chirp_Count_No2]++;
 	//			Input_Freq_temp_No2[ Chirp_Count_No2 ] [ Chip_Count_No2[Chirp_Count_No2]] = Input_Freq;
 			}
+			
+//			LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
 			
 			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
 				
@@ -415,16 +484,26 @@ void LoRa_Generate_Signal()
 //			Time_temp2[ Total_Chip_Count ] = Comped_Time;
 
 			Total_Chip_Count++; 
-			Input_Freq_temp[ Total_Chip_Count ] = Input_Freq;
+//			Input_Freq_temp[ Total_Chip_Count ] = Input_Freq;
 			
 			Changed_Register_Count = 1;
-			if( (Total_Chip_Count % 64) < 32 )
+			if(Mix_Packets_flag)
 			{
-				Chip_No1_or_No2 = 1;
-			}
-			else
-			{
-				Chip_No1_or_No2 = 0;
+				if( (Total_Chip_Count % 128) < 64 )
+				{
+					Last_Chip_No1_or_No2 = Chip_No1_or_No2;
+					Chip_No1_or_No2 = 0;
+				}
+				else
+				{
+					Last_Chip_No1_or_No2 = Chip_No1_or_No2;
+					Chip_No1_or_No2 = 1;
+				}
+				
+//				if( Chip_No1_or_No2 != Last_Chip_No1_or_No2)
+//				{
+//					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+//				}
 			}
 			
 			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12); 
@@ -545,6 +624,6 @@ void LoRa_Generate_Signal()
 	
 	delay_ms(1000);
 	
-	 goto Send_packets;
+//	 goto Send_packets;
 }
 

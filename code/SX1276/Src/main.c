@@ -39,7 +39,6 @@ int main(void)
 	SPI1_Init();
 	delay_init(80);
 	uart_init(115200);
-	printf("123");
 
 	Control_GPIO_Init();
 	
@@ -58,6 +57,8 @@ int main(void)
 	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
 	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
   SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
+	
+	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
 	
   while (1)
   {

@@ -48,10 +48,10 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                (434000000 + 600000)// Hz
-#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
-//#define RF_FREQUENCY                                434000000 // Hz
-//#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+//#define RF_FREQUENCY                                (486500000 + 1600000)// Hz
+//#define LORA_SPREADING_FACTOR                       9         // [SF7..SF12]
+#define RF_FREQUENCY                                486500000 // Hz
+#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 
 
 
