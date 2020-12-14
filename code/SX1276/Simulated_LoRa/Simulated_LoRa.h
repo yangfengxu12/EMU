@@ -16,7 +16,7 @@
 #define LORA_MAX_FREQ																(RF_FREQUENCY + (LORA_BW >> 1)) // Hz
 
 /**********  Packet 1 parameters    **************************/
-#define LORA_SF_NO1													 				8				// spread factor
+#define LORA_SF_NO1													 				7				// spread factor
 
 
 #define LORA_PREAMBLE_LENGTH_NO1										8
@@ -32,7 +32,7 @@
 
 
 /**********  Packet 2 parameters    **************************/
-#define LORA_SF_NO2																	9				// spread factor
+#define LORA_SF_NO2																	8				// spread factor
 
 
 #define LORA_PREAMBLE_LENGTH_NO2										8

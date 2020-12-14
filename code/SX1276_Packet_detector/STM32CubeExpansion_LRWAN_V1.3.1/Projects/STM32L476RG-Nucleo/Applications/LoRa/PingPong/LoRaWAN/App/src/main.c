@@ -48,10 +48,10 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-//#define RF_FREQUENCY                                (486500000 + 1600000)// Hz
-//#define LORA_SPREADING_FACTOR                       9         // [SF7..SF12]
+//#define RF_FREQUENCY                                (433000000 + 400000)// Hz
+//#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 
 
 
@@ -205,8 +205,8 @@ int main(void)
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                     0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
 										
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-	printf("Public 0x34\r\n");
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+//	printf("Public 0x34\r\n");
 
   Radio.Rx(RX_TIMEOUT_VALUE);
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
@@ -223,7 +223,7 @@ int main(void)
 			{
 				Rssi_current[0]=SX1276Read(0x1B)-164;
 				printf("-----------------\r\n");
-				printf("1.Detected\tRssi:%d\r\n",Rssi_current[0]);
+				printf("1.Detected123\tRssi:%d\r\n",Rssi_current[0]);
 				
 				if( (reg & 0x02) == 0x02 )
 				{
@@ -245,7 +245,7 @@ int main(void)
 				else				
 				{
 					Rssi_current[1]=SX1276Read(0x1B)-164;
-					printf("0.Signal not synchronized\tRssi:%d\r\n",Rssi_current[1]);
+					printf("0.Not Synchronized\tRssi:%d\r\n",Rssi_current[1]);
 				}
 			}
 //			else
@@ -299,7 +299,7 @@ void OnRxTimeout(void)
 {
   Radio.Sleep();
   State = RX_TIMEOUT;
-//  PRINTF("OnRxTimeout\n\r");
+  PRINTF("OnRxTimeout\n\r");
 }
 
 void OnRxError(void)
