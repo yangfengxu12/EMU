@@ -48,10 +48,10 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                (434000000 + 600000)// Hz
-#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
-//#define RF_FREQUENCY                                434000000 // Hz
-//#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+//#define RF_FREQUENCY                                (486500000 + 1600000)// Hz
+//#define LORA_SPREADING_FACTOR                       9         // [SF7..SF12]
+#define RF_FREQUENCY                                433000000 // Hz
+#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 
 
 
@@ -71,7 +71,7 @@
 //  3: 4/7,
 //  4: 4/8]
 #define LORA_PREAMBLE_LENGTH                        8         // Same for Tx and Rx
-#define LORA_SYMBOL_TIMEOUT                         5         // Symbols
+#define LORA_SYMBOL_TIMEOUT                         3         // Symbols
 #define LORA_FIX_LENGTH_PAYLOAD_ON                  false
 #define LORA_IQ_INVERSION_ON                        false
 
@@ -165,7 +165,7 @@ int main(void)
 {
   bool isMaster = true;
   uint8_t i,reg;
-
+	int Rssi_current[3];
   HAL_Init();
 
   SystemClock_Config();
@@ -204,9 +204,9 @@ int main(void)
                     LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                     0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
-
-
-	printf("123\r\n");
+										
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+	printf("Public 0x34\r\n");
 
   Radio.Rx(RX_TIMEOUT_VALUE);
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
@@ -221,39 +221,44 @@ int main(void)
 
 			if((reg & 0x01) == 0x01)
 			{
+				Rssi_current[0]=SX1276Read(0x1B)-164;
 				printf("-----------------\r\n");
-				printf("1.Detected\r\n");
-
+				printf("1.Detected\tRssi:%d\r\n",Rssi_current[0]);
+				
 				if( (reg & 0x02) == 0x02 )
 				{
-					printf("2.Synchronized\r\n");
-
+					Rssi_current[1]=SX1276Read(0x1B)-164;
+					printf("2.Synchronized\tRssi:%d\r\n",Rssi_current[1]);
+					
 					if( (reg & 0x08) == 0x08 )
 					{
-						printf("3.Header info validhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\r\n");
-
+						Rssi_current[2]=SX1276Read(0x1B)-164;
+						printf("3.Header info valid\tRssi:%d\r\n",Rssi_current[2]);
+						printf("avg:%d\r\n",(Rssi_current[0]+Rssi_current[1]+Rssi_current[2])/3);
 					}
 					else
 					{
-						printf("0.Header info not valid\r\n");
+						Rssi_current[2]=SX1276Read(0x1B)-164;
+						printf("0.Header info not valid\tRssi:%d\r\n",Rssi_current[2]);
 					}
 				}
 				else				
 				{
-					printf("0.Signal not synchronized\r\n");
+					Rssi_current[1]=SX1276Read(0x1B)-164;
+					printf("0.Signal not synchronized\tRssi:%d\r\n",Rssi_current[1]);
 				}
 			}
-			else
-			{
-//				printf("Signal Not detected\r\n");
-			}
+//			else
+//			{
+////				printf("Signal Not detected\r\n");
+//			}
 		}
 		else
 		{
 			printf("Rx isn't going\r\n");
 			Radio.Rx(RX_TIMEOUT_VALUE);
 		}
-		DelayMs(50);
+		DelayMs(100);
   }
 }
 

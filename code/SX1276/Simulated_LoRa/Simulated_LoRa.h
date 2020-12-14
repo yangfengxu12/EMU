@@ -4,18 +4,19 @@
 #include "stm32l4xx.h"
 #include "fast_spi.h"
 
-#define RF_FREQUENCY                                434000000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
 #define DATA_RATE																		25000
 
-
+#define FREQ_OFFSET_1_2															400000
+	
 #define LORA_BW																			125000		// Hz
 
 #define LORA_BASE_FREQ															(RF_FREQUENCY - (LORA_BW >> 1)) // Hz
 #define LORA_MAX_FREQ																(RF_FREQUENCY + (LORA_BW >> 1)) // Hz
 
 /**********  Packet 1 parameters    **************************/
-#define LORA_SF_NO1																	7				// spread factor
+#define LORA_SF_NO1													 				8				// spread factor
 
 
 #define LORA_PREAMBLE_LENGTH_NO1										8
@@ -31,7 +32,7 @@
 
 
 /**********  Packet 2 parameters    **************************/
-#define LORA_SF_NO2																	8				// spread factor
+#define LORA_SF_NO2																	9				// spread factor
 
 
 #define LORA_PREAMBLE_LENGTH_NO2										8
