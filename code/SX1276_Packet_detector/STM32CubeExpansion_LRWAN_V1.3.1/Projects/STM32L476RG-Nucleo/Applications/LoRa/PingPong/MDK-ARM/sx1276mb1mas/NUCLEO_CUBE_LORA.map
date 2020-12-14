@@ -1149,6 +1149,7 @@ Section Cross References
     main.o(i.main) refers to timeserver.o(i.TimerInit) for TimerInit
     main.o(i.main) refers to timeserver.o(i.TimerSetValue) for TimerSetValue
     main.o(i.main) refers to timeserver.o(i.TimerStart) for TimerStart
+    main.o(i.main) refers to sx1276.o(i.SX1276Write) for SX1276Write
     main.o(i.main) refers to printfa.o(i.__0printf) for __2printf
     main.o(i.main) refers to sx1276.o(i.SX1276Read) for SX1276Read
     main.o(i.main) refers to stm32l4xx_hal_msp.o(i.HAL_Delay) for HAL_Delay
@@ -2710,21 +2711,21 @@ Image Symbol Table
     i.circular_queue_sense                   0x08006460   Section        0  queue.o(i.circular_queue_sense)
     i.fputc                                  0x08006470   Section        0  main.o(i.fputc)
     i.main                                   0x08006488   Section        0  main.o(i.main)
-    i.memcpy1                                0x08006690   Section        0  utilities.o(i.memcpy1)
-    i.queue_copy                             0x080066a4   Section        0  queue.o(i.queue_copy)
-    queue_copy                               0x080066a5   Thumb Code    20  queue.o(i.queue_copy)
-    i.vcom_DMA_TX_IRQHandler                 0x080066b8   Section        0  vcom.o(i.vcom_DMA_TX_IRQHandler)
-    i.vcom_IRQHandler                        0x080066c4   Section        0  vcom.o(i.vcom_IRQHandler)
-    i.vcom_Init                              0x080066d0   Section        0  vcom.o(i.vcom_Init)
-    i.vcom_IoInit                            0x08006710   Section        0  vcom.o(i.vcom_IoInit)
-    i.vcom_Trace                             0x08006774   Section        0  vcom.o(i.vcom_Trace)
-    .constdata                               0x08006784   Section      224  sx1276.o(.constdata)
-    .constdata                               0x08006864   Section      116  sx1276mb1mas.o(.constdata)
-    .constdata                               0x080068d8   Section       64  system_stm32l4xx.o(.constdata)
-    .constdata                               0x08006918   Section        8  system_stm32l4xx.o(.constdata)
-    .constdata                               0x08006920   Section       24  hw_rtc.o(.constdata)
-    DaysInMonth                              0x08006920   Data          12  hw_rtc.o(.constdata)
-    DaysInMonthLeapYear                      0x0800692c   Data          12  hw_rtc.o(.constdata)
+    i.memcpy1                                0x080066a0   Section        0  utilities.o(i.memcpy1)
+    i.queue_copy                             0x080066b4   Section        0  queue.o(i.queue_copy)
+    queue_copy                               0x080066b5   Thumb Code    20  queue.o(i.queue_copy)
+    i.vcom_DMA_TX_IRQHandler                 0x080066c8   Section        0  vcom.o(i.vcom_DMA_TX_IRQHandler)
+    i.vcom_IRQHandler                        0x080066d4   Section        0  vcom.o(i.vcom_IRQHandler)
+    i.vcom_Init                              0x080066e0   Section        0  vcom.o(i.vcom_Init)
+    i.vcom_IoInit                            0x08006720   Section        0  vcom.o(i.vcom_IoInit)
+    i.vcom_Trace                             0x08006784   Section        0  vcom.o(i.vcom_Trace)
+    .constdata                               0x08006794   Section      224  sx1276.o(.constdata)
+    .constdata                               0x08006874   Section      116  sx1276mb1mas.o(.constdata)
+    .constdata                               0x080068e8   Section       64  system_stm32l4xx.o(.constdata)
+    .constdata                               0x08006928   Section        8  system_stm32l4xx.o(.constdata)
+    .constdata                               0x08006930   Section       24  hw_rtc.o(.constdata)
+    DaysInMonth                              0x08006930   Data          12  hw_rtc.o(.constdata)
+    DaysInMonthLeapYear                      0x0800693c   Data          12  hw_rtc.o(.constdata)
     .data                                    0x20000000   Section       32  sx1276.o(.data)
     RadioEvents                              0x20000000   Data           4  sx1276.o(.data)
     LoRaBoardCallbacks                       0x20000004   Data           4  sx1276.o(.data)
@@ -3133,21 +3134,21 @@ Image Symbol Table
     circular_queue_remove                    0x08006413   Thumb Code    78  queue.o(i.circular_queue_remove)
     circular_queue_sense                     0x08006461   Thumb Code    14  queue.o(i.circular_queue_sense)
     fputc                                    0x08006471   Thumb Code    18  main.o(i.fputc)
-    main                                     0x08006489   Thumb Code   266  main.o(i.main)
-    memcpy1                                  0x08006691   Thumb Code    20  utilities.o(i.memcpy1)
-    vcom_DMA_TX_IRQHandler                   0x080066b9   Thumb Code     8  vcom.o(i.vcom_DMA_TX_IRQHandler)
-    vcom_IRQHandler                          0x080066c5   Thumb Code     6  vcom.o(i.vcom_IRQHandler)
-    vcom_Init                                0x080066d1   Thumb Code    50  vcom.o(i.vcom_Init)
-    vcom_IoInit                              0x08006711   Thumb Code    96  vcom.o(i.vcom_IoInit)
-    vcom_Trace                               0x08006775   Thumb Code    10  vcom.o(i.vcom_Trace)
-    RadioRegsInit                            0x08006784   Data          48  sx1276.o(.constdata)
-    FskBandwidths                            0x080067b4   Data         176  sx1276.o(.constdata)
-    Radio                                    0x08006864   Data         116  sx1276mb1mas.o(.constdata)
-    AHBPrescTable                            0x080068d8   Data          16  system_stm32l4xx.o(.constdata)
-    MSIRangeTable                            0x080068e8   Data          48  system_stm32l4xx.o(.constdata)
-    APBPrescTable                            0x08006918   Data           8  system_stm32l4xx.o(.constdata)
-    Region$$Table$$Base                      0x08006938   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08006958   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x08006489   Thumb Code   274  main.o(i.main)
+    memcpy1                                  0x080066a1   Thumb Code    20  utilities.o(i.memcpy1)
+    vcom_DMA_TX_IRQHandler                   0x080066c9   Thumb Code     8  vcom.o(i.vcom_DMA_TX_IRQHandler)
+    vcom_IRQHandler                          0x080066d5   Thumb Code     6  vcom.o(i.vcom_IRQHandler)
+    vcom_Init                                0x080066e1   Thumb Code    50  vcom.o(i.vcom_Init)
+    vcom_IoInit                              0x08006721   Thumb Code    96  vcom.o(i.vcom_IoInit)
+    vcom_Trace                               0x08006785   Thumb Code    10  vcom.o(i.vcom_Trace)
+    RadioRegsInit                            0x08006794   Data          48  sx1276.o(.constdata)
+    FskBandwidths                            0x080067c4   Data         176  sx1276.o(.constdata)
+    Radio                                    0x08006874   Data         116  sx1276mb1mas.o(.constdata)
+    AHBPrescTable                            0x080068e8   Data          16  system_stm32l4xx.o(.constdata)
+    MSIRangeTable                            0x080068f8   Data          48  system_stm32l4xx.o(.constdata)
+    APBPrescTable                            0x08006928   Data           8  system_stm32l4xx.o(.constdata)
+    Region$$Table$$Base                      0x08006948   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08006968   Number         0  anon$$obj.o(Region$$Table)
     DioIrq                                   0x20000008   Data          24  sx1276.o(.data)
     SystemCoreClock                          0x2000003c   Data           4  system_stm32l4xx.o(.data)
     uwTickPrio                               0x20000040   Data           4  stm32l4xx_hal.o(.data)
@@ -3174,9 +3175,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000069cc, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000069dc, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00006958, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00006968, Max: 0x00100000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -3446,41 +3447,41 @@ Memory Map of the image
     0x08006460   0x08006460   0x0000000e   Code   RO         5258    i.circular_queue_sense  queue.o
     0x0800646e   0x0800646e   0x00000002   PAD
     0x08006470   0x08006470   0x00000018   Code   RO         4539    i.fputc             main.o
-    0x08006488   0x08006488   0x00000208   Code   RO         4540    i.main              main.o
-    0x08006690   0x08006690   0x00000014   Code   RO         5185    i.memcpy1           utilities.o
-    0x080066a4   0x080066a4   0x00000014   Code   RO         5259    i.queue_copy        queue.o
-    0x080066b8   0x080066b8   0x0000000c   Code   RO         4624    i.vcom_DMA_TX_IRQHandler  vcom.o
-    0x080066c4   0x080066c4   0x0000000c   Code   RO         4626    i.vcom_IRQHandler   vcom.o
-    0x080066d0   0x080066d0   0x00000040   Code   RO         4627    i.vcom_Init         vcom.o
-    0x08006710   0x08006710   0x00000064   Code   RO         4629    i.vcom_IoInit       vcom.o
-    0x08006774   0x08006774   0x00000010   Code   RO         4630    i.vcom_Trace        vcom.o
-    0x08006784   0x08006784   0x000000e0   Data   RO           43    .constdata          sx1276.o
-    0x08006864   0x08006864   0x00000074   Data   RO          627    .constdata          sx1276mb1mas.o
-    0x080068d8   0x080068d8   0x00000040   Data   RO          717    .constdata          system_stm32l4xx.o
-    0x08006918   0x08006918   0x00000008   Data   RO          718    .constdata          system_stm32l4xx.o
-    0x08006920   0x08006920   0x00000018   Data   RO         4345    .constdata          hw_rtc.o
-    0x08006938   0x08006938   0x00000020   Data   RO         5700    Region$$Table       anon$$obj.o
+    0x08006488   0x08006488   0x00000218   Code   RO         4540    i.main              main.o
+    0x080066a0   0x080066a0   0x00000014   Code   RO         5185    i.memcpy1           utilities.o
+    0x080066b4   0x080066b4   0x00000014   Code   RO         5259    i.queue_copy        queue.o
+    0x080066c8   0x080066c8   0x0000000c   Code   RO         4624    i.vcom_DMA_TX_IRQHandler  vcom.o
+    0x080066d4   0x080066d4   0x0000000c   Code   RO         4626    i.vcom_IRQHandler   vcom.o
+    0x080066e0   0x080066e0   0x00000040   Code   RO         4627    i.vcom_Init         vcom.o
+    0x08006720   0x08006720   0x00000064   Code   RO         4629    i.vcom_IoInit       vcom.o
+    0x08006784   0x08006784   0x00000010   Code   RO         4630    i.vcom_Trace        vcom.o
+    0x08006794   0x08006794   0x000000e0   Data   RO           43    .constdata          sx1276.o
+    0x08006874   0x08006874   0x00000074   Data   RO          627    .constdata          sx1276mb1mas.o
+    0x080068e8   0x080068e8   0x00000040   Data   RO          717    .constdata          system_stm32l4xx.o
+    0x08006928   0x08006928   0x00000008   Data   RO          718    .constdata          system_stm32l4xx.o
+    0x08006930   0x08006930   0x00000018   Data   RO         4345    .constdata          hw_rtc.o
+    0x08006948   0x08006948   0x00000020   Data   RO         5700    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08006958, Size: 0x000009e0, Max: 0x00018000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08006968, Size: 0x000009e0, Max: 0x00018000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08006958   0x00000020   Data   RW           44    .data               sx1276.o
-    0x20000020   0x08006978   0x0000001c   Data   RW          628    .data               sx1276mb1mas.o
-    0x2000003c   0x08006994   0x00000004   Data   RW          719    .data               system_stm32l4xx.o
-    0x20000040   0x08006998   0x0000000c   Data   RW          788    .data               stm32l4xx_hal.o
-    0x2000004c   0x080069a4   0x00000004   Data   RW         4346    .data               hw_rtc.o
-    0x20000050   0x080069a8   0x00000006   Data   RW         4544    .data               main.o
-    0x20000056   0x080069ae   0x00000002   PAD
-    0x20000058   0x080069b0   0x00000004   Data   RW         4632    .data               vcom.o
-    0x2000005c   0x080069b4   0x00000002   Data   RW         4783    .data               stm32l4xx_hw.o
-    0x2000005e   0x080069b6   0x00000002   PAD
-    0x20000060   0x080069b8   0x00000008   Data   RW         5018    .data               low_power_manager.o
-    0x20000068   0x080069c0   0x00000004   Data   RW         5101    .data               timeserver.o
-    0x2000006c   0x080069c4   0x00000001   Data   RW         5310    .data               trace.o
-    0x2000006d   0x080069c5   0x00000003   PAD
-    0x20000070   0x080069c8   0x00000004   Data   RW         5678    .data               mc_w.l(stdout.o)
+    0x20000000   0x08006968   0x00000020   Data   RW           44    .data               sx1276.o
+    0x20000020   0x08006988   0x0000001c   Data   RW          628    .data               sx1276mb1mas.o
+    0x2000003c   0x080069a4   0x00000004   Data   RW          719    .data               system_stm32l4xx.o
+    0x20000040   0x080069a8   0x0000000c   Data   RW          788    .data               stm32l4xx_hal.o
+    0x2000004c   0x080069b4   0x00000004   Data   RW         4346    .data               hw_rtc.o
+    0x20000050   0x080069b8   0x00000006   Data   RW         4544    .data               main.o
+    0x20000056   0x080069be   0x00000002   PAD
+    0x20000058   0x080069c0   0x00000004   Data   RW         4632    .data               vcom.o
+    0x2000005c   0x080069c4   0x00000002   Data   RW         4783    .data               stm32l4xx_hw.o
+    0x2000005e   0x080069c6   0x00000002   PAD
+    0x20000060   0x080069c8   0x00000008   Data   RW         5018    .data               low_power_manager.o
+    0x20000068   0x080069d0   0x00000004   Data   RW         5101    .data               timeserver.o
+    0x2000006c   0x080069d4   0x00000001   Data   RW         5310    .data               trace.o
+    0x2000006d   0x080069d5   0x00000003   PAD
+    0x20000070   0x080069d8   0x00000004   Data   RW         5678    .data               mc_w.l(stdout.o)
     0x20000074        -       0x000001b0   Zero   RW           42    .bss                sx1276.o
     0x20000224        -       0x00000040   Zero   RW         4274    .bss                hw_gpio.o
     0x20000264        -       0x00000068   Zero   RW         4344    .bss                hw_rtc.o
@@ -3504,7 +3505,7 @@ Image component sizes
        956         98         24          4        104      33787   hw_rtc.o
        268         30          0          0        100       3153   hw_spi.o
        108         12          0          8          0       3345   low_power_manager.o
-       888        406          0          6        116       8542   main.o
+       904        414          0          6        116       8546   main.o
        452          0          0          0          0       7683   queue.o
         36          8        392          0       1024        924   startup_stm32l476xx.o
         58         10          0         12          0       3718   stm32l4xx_hal.o
@@ -3533,7 +3534,7 @@ Image component sizes
        392         56          0          4        200       5615   vcom.o
 
     ----------------------------------------------------------------------
-     21226       1578        860        112       2412    1177936   Object Totals
+     21242       1586        860        112       2412    1177940   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         50          0          0          7          0          0   (incl. Padding)
 
@@ -3599,15 +3600,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     26108       1780        860        116       2412    1159752   Grand Totals
-     26108       1780        860        116       2412    1159752   ELF Image Totals
-     26108       1780        860        116          0          0   ROM Totals
+     26124       1788        860        116       2412    1159756   Grand Totals
+     26124       1788        860        116       2412    1159756   ELF Image Totals
+     26124       1788        860        116          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                26968 (  26.34kB)
+    Total RO  Size (Code + RO Data)                26984 (  26.35kB)
     Total RW  Size (RW Data + ZI Data)              2528 (   2.47kB)
-    Total ROM Size (Code + RO Data + RW Data)      27084 (  26.45kB)
+    Total ROM Size (Code + RO Data + RW Data)      27100 (  26.46kB)
 
 ==============================================================================
 

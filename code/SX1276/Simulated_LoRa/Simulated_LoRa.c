@@ -42,25 +42,25 @@ uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
 //};
 
 //sf = 8 payload = 1 
-int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-58597,-54695};
-int LoRa_Payload_Start_Freq_No1[] = {
--54695,
--2012,
--33231,
-52621,
--31280,
-33109,
--7865,
--35183,
--32743,
--61,
--23963,
--46890,
--46890,
--58109,
-57987,
--60548
-};
+//int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-58597,-54695};
+//int LoRa_Payload_Start_Freq_No1[] = {
+//-54695,
+//-2012,
+//-33231,
+//52621,
+//-31280,
+//33109,
+//-7865,
+//-35183,
+//-32743,
+//-61,
+//-23963,
+//-46890,
+//-46890,
+//-58109,
+//57987,
+//-60548
+//};
 
 // sf =11 payload =1 
 //int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-62011,-61523};
@@ -83,37 +83,37 @@ int LoRa_Payload_Start_Freq_No1[] = {
 //-52307};
 
 //sf = 8 payload = lorawan
-//int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-50787,-46882};
-//int LoRa_Payload_Start_Freq_No1[] = {
-//13634,
-//17539,
-//31204,
-//-15647,
-//-56643,
-//42917,
-//60486,
-//-25408,
-//-24432,
-//56582,
-//-51275,
-//27787,
-//44869,
-//37548,
-//59998,
-//-4910,
-//-41026.,
-//-35169,
-//27299,
-//-41026,
-//-39562,
-//58534,
-//-3446,
-//57070,
-//-7351,
-//-34193,
-//34132,
-//5826
-//};
+int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-50787,-46882};
+int LoRa_Payload_Start_Freq_No1[] = {
+13634,
+17539,
+31204,
+-15647,
+-56643,
+42917,
+60486,
+-25408,
+-24432,
+56582,
+-51275,
+27787,
+44869,
+37548,
+59998,
+-4910,
+-41026.,
+-35169,
+27299,
+-41026,
+-39562,
+58534,
+-3446,
+57070,
+-7351,
+-34193,
+34132,
+5826
+};
 
 // sf =9 payload =lorawan
 int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-59570,-58594,};
@@ -498,7 +498,7 @@ void LoRa_Generate_Signal()
 			Changed_Register_Count = 1;
 //			if(Mix_Packets_flag)
 //			{
-				if( (Total_Chip_Count % 64) < 32 )
+				if( (Total_Chip_Count % 128) < 64 )
 				{
 					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
 					Packet_No1_or_No2 = 0;
