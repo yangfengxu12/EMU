@@ -275,6 +275,7 @@ void LoRa_Generate_Signal()
 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 	while( Chirp_Count_No2 < LORA_TOTAL_LENGTH_NO2 )
 	{
+		Total_Chip_Count = 0;
 		if( Chirp_Count_No1 < LORA_TOTAL_LENGTH_NO1 )
 			Mix_Packets_flag = 1;
 		else
@@ -498,7 +499,7 @@ void LoRa_Generate_Signal()
 			Changed_Register_Count = 1;
 //			if(Mix_Packets_flag)
 //			{
-				if( (Total_Chip_Count % 128) < 64 )
+				if( (Total_Chip_Count % 128) <  64)
 				{
 					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
 					Packet_No1_or_No2 = 0;
