@@ -50,7 +50,7 @@
 
 //#define RF_FREQUENCY                                (486500000 + 1600000)// Hz
 //#define LORA_SPREADING_FACTOR                       9         // [SF7..SF12]
-#define RF_FREQUENCY                                486500000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 #define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 
 
@@ -71,7 +71,7 @@
 //  3: 4/7,
 //  4: 4/8]
 #define LORA_PREAMBLE_LENGTH                        8         // Same for Tx and Rx
-#define LORA_SYMBOL_TIMEOUT                         5         // Symbols
+#define LORA_SYMBOL_TIMEOUT                         16         // Symbols
 #define LORA_FIX_LENGTH_PAYLOAD_ON                  false
 #define LORA_IQ_INVERSION_ON                        false
 

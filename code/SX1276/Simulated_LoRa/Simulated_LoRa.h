@@ -4,7 +4,7 @@
 #include "stm32l4xx.h"
 #include "fast_spi.h"
 
-#define RF_FREQUENCY                                486500000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
 #define DATA_RATE																		25000
 
