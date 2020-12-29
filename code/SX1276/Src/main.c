@@ -29,7 +29,7 @@ extern uint32_t Time_temp;
 
 int main(void)
 {
-  uint16_t datarate;
+  uint16_t datarate,i;
 	
 	HAL_Init();
   SystemClock_Config();
@@ -60,12 +60,17 @@ int main(void)
 	
 	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
 	
-  while (1)
-  {
+//  while (1)
+//  {
 //		printf("Start\r\n");
-		LoRa_Generate_Signal();
+		for(i=0;i<100;i++)
+		{
+			LoRa_Generate_Signal();
+			printf("send count:%d\r\n",i);
+		}
 //		printf("Done\r\n");
-  }
+//  }
+		printf("finish!!\r\n");
 }
 
 

@@ -48,10 +48,10 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-//#define RF_FREQUENCY                                (486500000 + 1600000)// Hz
-//#define LORA_SPREADING_FACTOR                       9         // [SF7..SF12]
+//#define RF_FREQUENCY                                (433000000 + 400000)// Hz
+//#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 
 
 
@@ -59,7 +59,6 @@
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
-#if defined( USE_MODEM_LORA )
 
 #define LORA_BANDWIDTH                              0         // [0: 125 kHz,
 //  1: 250 kHz,
@@ -75,18 +74,7 @@
 #define LORA_FIX_LENGTH_PAYLOAD_ON                  false
 #define LORA_IQ_INVERSION_ON                        false
 
-#elif defined( USE_MODEM_FSK )
 
-#define FSK_FDEV                                    25000     // Hz
-#define FSK_DATARATE                                50000     // bps
-#define FSK_BANDWIDTH                               50000     // Hz
-#define FSK_AFC_BANDWIDTH                           83333     // Hz
-#define FSK_PREAMBLE_LENGTH                         5         // Same for Tx and Rx
-#define FSK_FIX_LENGTH_PAYLOAD_ON                   false
-
-#else
-#error "Please define a modem in the compiler options."
-#endif
 
 typedef enum
 {
@@ -119,6 +107,9 @@ States_t State = LOWPOWER;
 
 int8_t RssiValue = 0;
 int8_t SnrValue = 0;
+									 
+									 
+long int received_count=0;
 
 /* Led Timers objects*/
 static  TimerEvent_t timerLed;
@@ -205,8 +196,11 @@ int main(void)
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                     0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
 										
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-	printf("Public 0x34\r\n");
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+	printf("Private 0x12\r\n");
+
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+//	printf("Public 0x34\r\n");
 
   Radio.Rx(RX_TIMEOUT_VALUE);
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
@@ -214,51 +208,51 @@ int main(void)
   {
     ENABLE_IRQ();
 		
-		reg=SX1276Read(0x18);
-		if((reg & 0x04) == 0x04)
-		{
-//			printf("Rx is going\r\n");
+//		reg=SX1276Read(0x18);
+//		if((reg & 0x04) == 0x04)
+//		{
+////			printf("Rx is going\r\n");
 
-			if((reg & 0x01) == 0x01)
-			{
-				Rssi_current[0]=SX1276Read(0x1B)-164;
-				printf("-----------------\r\n");
-				printf("1.Detected\tRssi:%d\r\n",Rssi_current[0]);
-				
-				if( (reg & 0x02) == 0x02 )
-				{
-					Rssi_current[1]=SX1276Read(0x1B)-164;
-					printf("2.Synchronized\tRssi:%d\r\n",Rssi_current[1]);
-					
-					if( (reg & 0x08) == 0x08 )
-					{
-						Rssi_current[2]=SX1276Read(0x1B)-164;
-						printf("3.Header info valid\tRssi:%d\r\n",Rssi_current[2]);
-						printf("avg:%d\r\n",(Rssi_current[0]+Rssi_current[1]+Rssi_current[2])/3);
-					}
-					else
-					{
-						Rssi_current[2]=SX1276Read(0x1B)-164;
-						printf("0.Header info not valid\tRssi:%d\r\n",Rssi_current[2]);
-					}
-				}
-				else				
-				{
-					Rssi_current[1]=SX1276Read(0x1B)-164;
-					printf("0.Signal not synchronized\tRssi:%d\r\n",Rssi_current[1]);
-				}
-			}
-//			else
+//			if((reg & 0x01) == 0x01)
 //			{
-////				printf("Signal Not detected\r\n");
+//				Rssi_current[0]=SX1276Read(0x1B)-164;
+//				printf("-----------------\r\n");
+//				printf("1.Detected123\tRssi:%d\r\n",Rssi_current[0]);
+//				
+//				if( (reg & 0x02) == 0x02 )
+//				{
+//					Rssi_current[1]=SX1276Read(0x1B)-164;
+//					printf("2.Synchronized\tRssi:%d\r\n",Rssi_current[1]);
+//					
+//					if( (reg & 0x08) == 0x08 )
+//					{
+//						Rssi_current[2]=SX1276Read(0x1B)-164;
+//						printf("3.Header info valid\tRssi:%d\r\n",Rssi_current[2]);
+//						printf("avg:%d\r\n",(Rssi_current[0]+Rssi_current[1]+Rssi_current[2])/3);
+//					}
+//					else
+//					{
+//						Rssi_current[2]=SX1276Read(0x1B)-164;
+//						printf("0.Header info not valid\tRssi:%d\r\n",Rssi_current[2]);
+//					}
+//				}
+//				else				
+//				{
+//					Rssi_current[1]=SX1276Read(0x1B)-164;
+//					printf("0.Not Synchronized\tRssi:%d\r\n",Rssi_current[1]);
+//				}
 //			}
-		}
-		else
-		{
-			printf("Rx isn't going\r\n");
-			Radio.Rx(RX_TIMEOUT_VALUE);
-		}
-		DelayMs(100);
+////			else
+////			{
+//////				printf("Signal Not detected\r\n");
+////			}
+//		}
+//		else
+//		{
+//			printf("Rx isn't going\r\n");
+//			Radio.Rx(RX_TIMEOUT_VALUE);
+//		}
+//		DelayMs(100);
   }
 }
 
@@ -272,7 +266,7 @@ void OnTxDone(void)
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 {
   uint8_t i;
-	Radio.Sleep();
+//	Radio.Sleep();
   BufferSize = size;
   memcpy(Buffer, payload, BufferSize);
   RssiValue = rssi;
@@ -284,7 +278,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	printf("\r\n");
   printf("OnRxDone\n\r");
   printf("RssiValue=%d dBm, SnrValue=%d\n\r", rssi, snr);
-	printf("\r\n");
+	received_count++;
+	printf("receive count=%ld\r\n",received_count);
 }
 
 void OnTxTimeout(void)
@@ -299,7 +294,7 @@ void OnRxTimeout(void)
 {
   Radio.Sleep();
   State = RX_TIMEOUT;
-//  PRINTF("OnRxTimeout\n\r");
+  PRINTF("OnRxTimeout\n\r");
 }
 
 void OnRxError(void)
