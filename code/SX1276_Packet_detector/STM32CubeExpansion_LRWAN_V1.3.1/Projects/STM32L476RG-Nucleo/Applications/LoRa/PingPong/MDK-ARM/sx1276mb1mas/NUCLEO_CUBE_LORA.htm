@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\sx1276mb1mas\NUCLEO_CUBE_LORA.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sx1276mb1mas\NUCLEO_CUBE_LORA.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Dec 14 21:44:21 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Dec 25 15:25:27 2020
 <BR><P>
 <H3>Maximum Stack Usage =        652 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -774,7 +774,6 @@ Global Symbols
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Reset
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Random
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276IsChannelFree
-<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[b3]"></a>HAL_GPIO_EXTI_Callback</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32l4xx_hal_msp.o(i.HAL_GPIO_EXTI_Callback))
@@ -836,8 +835,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HAL_Init &rArr; HAL_MspInit &rArr; HW_GpioInit &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriorityGrouping
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MspInit
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_MspInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1229,8 +1228,8 @@ Global Symbols
 <P><STRONG><a name="[f8]"></a>HW_RTC_IrqHandler</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, hw_rtc.o(i.HW_RTC_IrqHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = HW_RTC_IrqHandler &rArr; HAL_RTC_AlarmAEventCallback &rArr; TimerIrqHandler &rArr; TimerSetTimeout &rArr; HW_RTC_SetAlarm &rArr; HW_RTC_StartWakeUpAlarm &rArr; HAL_RTC_SetAlarm_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_AlarmAEventCallback
-<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetStopMode
+<BR>[Calls]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetStopMode
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_AlarmAEventCallback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Alarm_IRQHandler
 </UL>
@@ -1348,7 +1347,7 @@ Global Symbols
 <P><STRONG><a name="[1]"></a>NMI_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l4xx_it.o(i.NMI_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 104 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
+<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 100 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = OnRxDone &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
@@ -1617,7 +1616,6 @@ Global Symbols
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276OnDio0Irq
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276GetTimeOnAir
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxChainCalibration
-<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sx1276mb1mas.o(.constdata)
 </UL>
@@ -1891,6 +1889,7 @@ Global Symbols
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276OnDio0Irq
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Init
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxChainCalibration
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sx1276mb1mas.o(.constdata)
 </UL>
@@ -2188,16 +2187,15 @@ Global Symbols
 <P><STRONG><a name="[64]"></a>fputc</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, main.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 334 bytes, Stack size 40 bytes, main.o(i.main))
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 198 bytes, Stack size 40 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 652<LI>Call Chain = main &rArr; HW_Init &rArr; HW_RTC_Init &rArr; HW_RTC_SetConfig &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerStart
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerSetValue
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerInit
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetOffMode
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_Init

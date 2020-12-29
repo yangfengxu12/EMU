@@ -17,7 +17,7 @@
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       11         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 #define LORA_CODINGRATE                             4         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
@@ -40,15 +40,14 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 1 // Define the payload size here
+#define BUFFER_SIZE                                 20 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
-const uint8_t PingMsg[] = "PING";
-const uint8_t PongMsg[] = "PONG";
+uint32_t Tx_count = 0;
 
 uint16_t BufferSize = BUFFER_SIZE;
-uint8_t Buffer[BUFFER_SIZE];
+uint8_t Buffer[BUFFER_SIZE] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 
 States_t State = LOWPOWER;
 
@@ -142,13 +141,13 @@ int main(void)
 
 
 
-  Radio.Rx(RX_TIMEOUT_VALUE);
+//  Radio.Rx(RX_TIMEOUT_VALUE);
 	PRINTF("sender\n\r");
   while (1)
   {
 
 		// Send the next PING frame
-		Buffer[0] = '1';
+		
 //		Buffer[1] = 'I';
 //		Buffer[2] = 'N';
 //		Buffer[3] = 'G';
@@ -160,7 +159,7 @@ int main(void)
 //		Count++; 
 //		PRINTF("...PING %d\n\r", Count);
 
-		DelayMs(3000);
+		DelayMs(2000);
 		Radio.Send(Buffer, BufferSize);
           
     ENABLE_IRQ();
@@ -169,14 +168,15 @@ int main(void)
 
 void OnTxDone(void)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   State = TX;
-  PRINTF("OnTxDone\n\r");
+	Tx_count++;
+  PRINTF("OnTxDone,Count:%d\n\r",Tx_count);
 }
 
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   BufferSize = size;
   memcpy(Buffer, payload, BufferSize);
   RssiValue = rssi;
@@ -189,7 +189,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 
 void OnTxTimeout(void)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   State = TX_TIMEOUT;
 
   PRINTF("OnTxTimeout\n\r");
@@ -197,14 +197,14 @@ void OnTxTimeout(void)
 
 void OnRxTimeout(void)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   State = RX_TIMEOUT;
   PRINTF("OnRxTimeout\n\r");
 }
 
 void OnRxError(void)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   State = RX_ERROR;
   PRINTF("OnRxError\n\r");
 }

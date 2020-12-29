@@ -1,1 +1,0 @@
-show SE_APP_GetActiveFwInfo

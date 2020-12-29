@@ -263,7 +263,7 @@ void LoRa_Generate_Signal()
 	}
 	Send_packets:
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-	delay_ms(500);
+	delay_ms(200);
 
 	TIM2->CNT = 0;
 	TIM3->CNT = 0;
@@ -628,9 +628,9 @@ void LoRa_Generate_Signal()
 //		if( Input_Freq_temp[temp_u32] != 0)
 //			printf("%d\n",Input_Freq_temp[temp_u32]);
 //	}
-	printf("done\n");
+	printf("done");
 	
-	delay_ms(1000);
+	delay_ms(500);
 	
 //	 goto Send_packets;
 }
