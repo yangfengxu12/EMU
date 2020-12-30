@@ -1186,7 +1186,7 @@ void SX1276SetTxContinuousWave( uint32_t freq, int8_t power, uint16_t time )
 
 //    SX1276.Settings.State = RF_TX_RUNNING;
 //    TimerStart( &TxTimeoutTimer );
-    SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+//    SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 }
 
 int16_t SX1276ReadRssi( RadioModems_t modem )

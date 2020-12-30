@@ -43,7 +43,7 @@ int main(void)
 	Control_GPIO_Init();
 	
 	/*Disbale Stand-by mode*/
-  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
+//  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 	
 	TIM2_Init(0xffffffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
 	
@@ -57,7 +57,7 @@ int main(void)
 	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
 	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
   SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
-	
+	printf("Tx\r\n");
 	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
 	
 //  while (1)
@@ -66,7 +66,8 @@ int main(void)
 		for(i=0;i<100;i++)
 		{
 			LoRa_Generate_Signal();
-			printf("send count:%d\r\n",i);
+			delay_ms(500);
+			printf("Tx done, Count:%d\r\n",i+1);
 		}
 //		printf("Done\r\n");
 //  }

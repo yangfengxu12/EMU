@@ -48,10 +48,10 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-//#define RF_FREQUENCY                                (433000000 + 400000)// Hz
-//#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
-#define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define RF_FREQUENCY                                (433000000 + 400000)// Hz
+#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+//#define RF_FREQUENCY                                433000000 // Hz
+//#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 
 
 
@@ -86,7 +86,7 @@ typedef enum
   TX_TIMEOUT,
 } States_t;
 
-#define RX_TIMEOUT_VALUE                            30000
+#define RX_TIMEOUT_VALUE                            1000
 #define BUFFER_SIZE                                 64 // Define the payload size here
 #define LED_PERIOD_MS               200
 
@@ -110,6 +110,9 @@ int8_t SnrValue = 0;
 									 
 									 
 long int received_count=0;
+long int Rx_Error_Count=0;
+uint32_t reg=0xff;
+									 
 
 /* Led Timers objects*/
 static  TimerEvent_t timerLed;
@@ -155,7 +158,7 @@ static void OnledEvent(void *context);
 int main(void)
 {
   bool isMaster = true;
-  uint8_t i,reg;
+  uint8_t i;
 	int Rssi_current[3];
   HAL_Init();
 
@@ -190,23 +193,63 @@ int main(void)
                     LORA_SPREADING_FACTOR, LORA_CODINGRATE,
                     LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
                     true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
-
+	
   Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
                     LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                     0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
-										
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
-	printf("Private 0x12\r\n");
+								
+	SX1276SetRx(0);
+	
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+//	printf("Private 0x12\r\n");
 
-//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-//	printf("Public 0x34\r\n");
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+	printf("Public 0x34\r\n");
 
-  Radio.Rx(RX_TIMEOUT_VALUE);
+
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
+	
+	reg=SX1276Read(REG_DIOMAPPING1);
+	reg=SX1276Read(REG_DIOMAPPING2);
+	reg=SX1276Read(REG_LR_IRQFLAGSMASK);
+	reg=SX1276Read(REG_LR_MODEMCONFIG2);
+	
+	reg=(SX1276Read(REG_LR_FEIMSB)<<16)|(SX1276Read(REG_LR_FEIMID)<<8)|SX1276Read(REG_LR_FEILSB);
+	
+	
+	while(1);
+	
   while (1)
   {
-    ENABLE_IRQ();
+//    ENABLE_IRQ();
+//		reg=SX1276Read(0x18);
+//		if(((reg & 0x01) == 0x01))
+//		{
+//			printf("1.Detected\r\n");
+//			if( (reg & 0x02) == 0x02 )
+//			{
+//				printf("2.Synchronized\r\n");
+//			}
+//			else
+//			{
+//				printf("0.Not Synchronized\r\n");
+//			}
+//			
+//			if( (reg & 0x08) == 0x08 )
+//			{
+//				printf("3.Header info valid");
+//			}
+//			else
+//			{
+//				printf("0.Header info not valid\r\n");
+//			}
+//		}
+//		DelayMs(100);
+
+		
+		
+		
 		
 //		reg=SX1276Read(0x18);
 //		if((reg & 0x04) == 0x04)
@@ -258,10 +301,12 @@ int main(void)
 
 void OnTxDone(void)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   State = TX;
   PRINTF("OnTxDone\n\r");
 }
+
+uint8_t reg_v[10];
 
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 {
@@ -272,6 +317,17 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   RssiValue = rssi;
   SnrValue = snr;
   State = RX;
+	
+	reg_v[0]=SX1276Read(REG_LR_HOPCHANNEL);
+	reg_v[1]=SX1276Read(REG_LR_MODEMCONFIG1);
+	reg_v[2]=SX1276Read(REG_LR_MODEMCONFIG2);
+	reg_v[3]=SX1276Read(REG_LR_PREAMBLEMSB);
+	reg_v[4]=SX1276Read(REG_LR_PREAMBLELSB);
+	reg_v[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
+	reg_v[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
+	
+
+	
 	printf("\r\n");
 	for(i=0;i<BufferSize;i++)
 		printf("%x   ",Buffer[i]);
@@ -284,7 +340,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 
 void OnTxTimeout(void)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   State = TX_TIMEOUT;
 
   PRINTF("OnTxTimeout\n\r");
@@ -292,16 +348,17 @@ void OnTxTimeout(void)
 
 void OnRxTimeout(void)
 {
-  Radio.Sleep();
+//  Radio.Sleep();
   State = RX_TIMEOUT;
   PRINTF("OnRxTimeout\n\r");
 }
 
 void OnRxError(void)
 {
-  Radio.Sleep();
-  State = RX_ERROR;
-  PRINTF("OnRxError\n\r");
+//  Radio.Sleep();
+	State = RX_ERROR;
+	Rx_Error_Count++;
+  PRINTF("\r\nOnRxError,Count:%d\n\r",Rx_Error_Count);
 }
 
 static void OnledEvent(void *context)
