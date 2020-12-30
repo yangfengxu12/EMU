@@ -263,7 +263,7 @@ void LoRa_Generate_Signal()
 	}
 	Send_packets:
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-	delay_ms(200);
+	delay_ms(10);
 
 	TIM2->CNT = 0;
 	TIM3->CNT = 0;
@@ -616,11 +616,9 @@ void LoRa_Generate_Signal()
 	}
 	/*******************/
 	
-	SX1276SetOpMode( RF_OPMODE_STANDBY );
+	SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
 	HAL_TIM_Base_Stop_IT(&TIM2_Handler);
 	Total_Chip_Count = 0;
-	Chirp_Count_No1 = 0;
-	Chirp_Count_No2 = 0;
 	Chirp_Count_No1 = 0;
 	Chirp_Count_No2 = 0;
 //	for(temp_u32 = 0 ; temp_u32 < sizeof(Input_Freq_temp)/sizeof(Input_Freq_temp[0]); temp_u32++)
@@ -628,9 +626,6 @@ void LoRa_Generate_Signal()
 //		if( Input_Freq_temp[temp_u32] != 0)
 //			printf("%d\n",Input_Freq_temp[temp_u32]);
 //	}
-	printf("done");
-	
-	delay_ms(500);
 	
 //	 goto Send_packets;
 }
