@@ -48,10 +48,10 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                (433000000 + 400000)// Hz
-#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
-//#define RF_FREQUENCY                                433000000 // Hz
-//#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+//#define RF_FREQUENCY                                (433000000 + 400000)// Hz
+//#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+#define RF_FREQUENCY                                433000000 // Hz
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 
 
 
@@ -201,11 +201,11 @@ int main(void)
 								
 	SX1276SetRx(0);
 	
-//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
-//	printf("Private 0x12\r\n");
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+	printf("Private 0x12\r\n");
 
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-	printf("Public 0x34\r\n");
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+//	printf("Public 0x34\r\n");
 
 
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);

@@ -497,14 +497,15 @@ void LoRa_Generate_Signal()
 			Changed_Register_Count = 1;
 			if(Mix_Packets_flag)
 			{
-				if( (Total_Chip_Count % 64) <  32)
+//				if( (Total_Chip_Count % 64) <  32)
+				if( (( Total_Chip_Count % ( 1 << LORA_SF_NO1 )) <  40 ) || (( Total_Chip_Count % ( 1 << LORA_SF_NO1 )) >  (( 1 << LORA_SF_NO1 ) - 40) ))
 				{
-					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
+//					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
 					Packet_No1_or_No2 = 0;
 				}
 				else
 				{
-					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
+//					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
 					Packet_No1_or_No2 = 1;
 				}
 				
