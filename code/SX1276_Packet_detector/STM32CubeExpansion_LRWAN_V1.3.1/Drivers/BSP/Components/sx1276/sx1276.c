@@ -1566,13 +1566,13 @@ void SX1276OnDio0Irq( void* context )
                     SX1276Write( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_RXDONE );
 										
 										reg_rx[0]=SX1276Read(REG_LR_HOPCHANNEL);
-										reg_rx[1]=SX1276Read(REG_LR_MODEMCONFIG1);
-										reg_rx[2]=SX1276Read(REG_LR_MODEMCONFIG2);
-										reg_rx[3]=SX1276Read(REG_LR_PREAMBLEMSB);
-										reg_rx[4]=SX1276Read(REG_LR_PREAMBLELSB);
-										reg_rx[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
-										reg_rx[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
-										reg_rx[7]=SX1276Read(REG_LR_IRQFLAGSMASK);
+//										reg_rx[1]=SX1276Read(REG_LR_MODEMCONFIG1);
+//										reg_rx[2]=SX1276Read(REG_LR_MODEMCONFIG2);
+//										reg_rx[3]=SX1276Read(REG_LR_PREAMBLEMSB);
+//										reg_rx[4]=SX1276Read(REG_LR_PREAMBLELSB);
+//										reg_rx[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
+//										reg_rx[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
+//										reg_rx[7]=SX1276Read(REG_LR_IRQFLAGSMASK);
 									
 									
                     irqFlags = SX1276Read( REG_LR_IRQFLAGS );
@@ -1581,7 +1581,7 @@ void SX1276OnDio0Irq( void* context )
                         // Clear Irq
                         SX1276Write( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_PAYLOADCRCERROR );
 												SX1276Write( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_VALIDHEADER );
-												reg_rx[8]=SX1276Read( REG_LR_IRQFLAGS );
+//												reg_rx[8]=SX1276Read( REG_LR_IRQFLAGS );
                         if( SX1276.Settings.LoRa.RxContinuous == false )
                         {
                             SX1276.Settings.State = RF_IDLE;
