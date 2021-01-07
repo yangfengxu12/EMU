@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\SX1276_2_LoRa\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SX1276_2_LoRa\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Jan 04 22:09:36 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Dec 30 15:10:17 2020
 <BR><P>
-<H3>Maximum Stack Usage =        800 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        688 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI2_Config
 <P>
@@ -1415,13 +1415,13 @@ Global Symbols
 <LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_RTC_SetAlarm
 </UL>
 
-<P><STRONG><a name="[108]"></a>LoRa_Generate_Signal</STRONG> (Thumb, 1594 bytes, Stack size 456 bytes, simulated_lora.o(i.LoRa_Generate_Signal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 784<LI>Call Chain = LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI2_Config
+<P><STRONG><a name="[108]"></a>LoRa_Generate_Signal</STRONG> (Thumb, 1616 bytes, Stack size 344 bytes, simulated_lora.o(i.LoRa_Generate_Signal))
+<BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI2_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Stop_IT
+<BR>[Calls]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Stop_IT
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start_IT
 <LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetOpMode
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_TogglePin
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_Init
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
@@ -2290,6 +2290,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Timer_Calibration
 </UL>
 
@@ -2302,10 +2303,11 @@ Global Symbols
 <P><STRONG><a name="[6b]"></a>fputc</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, usart.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[61]"></a>main</STRONG> (Thumb, 198 bytes, Stack size 16 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 800<LI>Call Chain = main &rArr; LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI2_Config
+<P><STRONG><a name="[61]"></a>main</STRONG> (Thumb, 206 bytes, Stack size 16 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = main &rArr; LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI2_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_init
 <LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_Init
 <LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config

@@ -197,17 +197,15 @@ int main(void)
   Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
                     LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    0, false, 0, 0, LORA_IQ_INVERSION_ON, true);
+                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
 								
 	SX1276SetRx(0);
-	printf("Rx\r\n");
 	
-	
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
-	printf("Private 0x12\r\n");
-	
-//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-//	printf("Public 0x34\r\n");
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+//	printf("Private 0x12\r\n");
+
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+	printf("Public 0x34\r\n");
 
 
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
