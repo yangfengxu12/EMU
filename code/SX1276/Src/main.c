@@ -66,9 +66,8 @@ int main(void)
 		for(i=0;i<100;i++)
 		{
 			LoRa_Generate_Signal();
+			delay_ms(500);
 			printf("Tx done, Count:%d\r\n",i+1);
-//			delay_ms(1000);
-			
 		}
 //		printf("Done\r\n");
 //  }
