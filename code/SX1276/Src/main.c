@@ -1,5 +1,6 @@
 #include "stm32l4xx.h"
 #include <string.h>
+#include <stdlib.h>
 #include "hw.h"
 #include "radio.h"
 #include "timeServer.h"
@@ -15,6 +16,7 @@
 #include "usart.h"
 
 #include "Simulated_LoRa.h"
+#include "LoRa_Channel_Coding.h"
 #include "Timer_Calibration.h"
 #include "control_GPIO.h"
 
@@ -31,6 +33,13 @@ int main(void)
 {
   uint16_t datarate,i;
 	
+	char *str = "123"; 
+	uint8_t *whitened_data;
+	uint8_t *add_header_data;
+//	uint8_t *whitened_data;
+//	uint8_t *whitened_data;
+//	uint8_t *whitened_data;
+	
 	HAL_Init();
   SystemClock_Config();
 
@@ -42,36 +51,58 @@ int main(void)
 
 	Control_GPIO_Init();
 	
+	
+	printf("\n------------------Whitening-----------------------\n");
+	
+	whitened_data = Whitening(str);
+	printf("Len of Output:%d\n",2*strlen(str));
+	for(i=0;i<2*strlen(str);i++)
+	{
+		printf("Out[%d]:%x\n",i,whitened_data[i]);
+	}
+	printf("\n------------------Add header-----------------------\n");
+	
+	add_header_data = Add_Header(false, false, 4, str, whitened_data);
+	
+	printf("Len of Output:%d\n",2*strlen(str)+5);
+	for(i=0;i<2*strlen(str)+5;i++)
+	{
+		printf("Out[%d]:%x\n",i,add_header_data[i]);
+	}
+	
+	free(whitened_data);
+	free(add_header_data);
+	
 	/*Disbale Stand-by mode*/
 //  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 	
-	TIM2_Init(0xffffffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
-	
-	Radio.Init(&RadioEvents);
-  Radio.SetChannel(RF_FREQUENCY);
-	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
-	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
-	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
-	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
-	
-	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
-	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
-  SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
-	printf("Tx\r\n");
-	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
-	
-//  while (1)
-//  {
-//		printf("Start\r\n");
-		for(i=0;i<100;i++)
-		{
-			LoRa_Generate_Signal();
-			delay_ms(500);
-			printf("Tx done, Count:%d\r\n",i+1);
-		}
-//		printf("Done\r\n");
-//  }
-		printf("finish!!\r\n");
+//	TIM2_Init(0xffffffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
+//	
+//	Radio.Init(&RadioEvents);
+//  Radio.SetChannel(RF_FREQUENCY);
+//	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
+//	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
+//	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+//	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
+//	
+//	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
+//	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
+//  SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
+//	printf("Tx\r\n");
+//	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
+//	
+////  while (1)
+////  {
+////		printf("Start\r\n");
+//		for(i=0;i<100;i++)
+//		{
+//			LoRa_Generate_Signal();
+//			delay_ms(500);
+//			printf("Tx done, Count:%d\r\n",i+1);
+//		}
+////		printf("Done\r\n");
+////  }
+//		printf("finish!!\r\n");
 }
 
 

@@ -339,7 +339,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>STM32L476xx, USE_STM32L4XX_NUCLEO,USE_HAL_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa;..\LoRa_Channel_Coding</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -686,6 +686,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>LoRa_Channel_Coding</GroupName>
+          <Files>
+            <File>
+              <FileName>Whitening.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Whitening.c</FilePath>
+            </File>
+            <File>
+              <FileName>LoRa_Channel_Coding.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\LoRa_Channel_Coding\LoRa_Channel_Coding.h</FilePath>
+            </File>
+            <File>
+              <FileName>Header.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Header.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
@@ -708,7 +728,7 @@
   <LayerInfo>
     <Layers>
       <Layer>
-        <LayName>&lt;Project Info&gt;</LayName>
+        <LayName>SX1276_2_LoRa</LayName>
         <LayTarg>0</LayTarg>
         <LayPrjMark>1</LayPrjMark>
       </Layer>
