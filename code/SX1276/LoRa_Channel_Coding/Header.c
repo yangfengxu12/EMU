@@ -17,7 +17,6 @@ uint8_t* Add_Header(bool impl_head, bool has_crc, uint8_t cr, char *input_str, u
 	
 	uint8_t *output= malloc(2*strlen(input_str)+5);
 	
-	
 	if(impl_head)
 	{//no header to add
 		memcpy(output,in,2*len_input_str*sizeof(uint8_t));

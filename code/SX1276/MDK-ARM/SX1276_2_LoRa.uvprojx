@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>2</Optim>
+            <Optim>1</Optim>
             <oTime>1</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -328,8 +328,8 @@
             <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
-            <v6LangP>1</v6LangP>
+            <v6Lang>3</v6Lang>
+            <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -689,19 +689,34 @@
           <GroupName>LoRa_Channel_Coding</GroupName>
           <Files>
             <File>
-              <FileName>Whitening.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRa_Channel_Coding\Whitening.c</FilePath>
-            </File>
-            <File>
               <FileName>LoRa_Channel_Coding.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\LoRa_Channel_Coding\LoRa_Channel_Coding.h</FilePath>
             </File>
             <File>
+              <FileName>Whitening.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Whitening.c</FilePath>
+            </File>
+            <File>
               <FileName>Header.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\LoRa_Channel_Coding\Header.c</FilePath>
+            </File>
+            <File>
+              <FileName>Add_CRC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Add_CRC.c</FilePath>
+            </File>
+            <File>
+              <FileName>Hanmming_Enc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Hanmming_Enc.c</FilePath>
+            </File>
+            <File>
+              <FileName>Interleaver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Interleaver.c</FilePath>
             </File>
           </Files>
         </Group>

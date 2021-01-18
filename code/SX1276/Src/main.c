@@ -22,6 +22,13 @@
 
 //1.00014136 = 1      +2us
 
+
+#define has_crc   true
+
+uint8_t cr = 4;
+uint8_t sf = 7;
+
+
 static RadioEvents_t RadioEvents;
 																											
 extern TIM_HandleTypeDef TIM2_Handler;
@@ -36,9 +43,14 @@ int main(void)
 	char *str = "123"; 
 	uint8_t *whitened_data;
 	uint8_t *add_header_data;
+	uint8_t *add_CRC;
+	uint8_t *hanmingcode_data;
 //	uint8_t *whitened_data;
-//	uint8_t *whitened_data;
-//	uint8_t *whitened_data;
+	
+	uint8_t noutput_add_CRC=0;
+	uint8_t noutput_hanmming_coding = 0;
+	uint8_t noutput_interleaver = 0;
+	
 	
 	HAL_Init();
   SystemClock_Config();
@@ -58,18 +70,43 @@ int main(void)
 	printf("Len of Output:%d\n",2*strlen(str));
 	for(i=0;i<2*strlen(str);i++)
 	{
-		printf("Out[%d]:%x\n",i,whitened_data[i]);
+		printf("Out[%d]:%x (hex)\n",i,whitened_data[i]);
 	}
 	printf("\n------------------Add header-----------------------\n");
 	
-	add_header_data = Add_Header(false, false, 4, str, whitened_data);
+	add_header_data = Add_Header(false, has_crc, cr, str, whitened_data);
 	
 	printf("Len of Output:%d\n",2*strlen(str)+5);
 	for(i=0;i<2*strlen(str)+5;i++)
 	{
-		printf("Out[%d]:%x\n",i,add_header_data[i]);
+		printf("Out[%d]:%x (hex)\n",i,add_header_data[i]);
 	}
 	
+	printf("\n------------------Add CRC-----------------------\n");
+	
+	add_CRC = Add_CRC(has_crc, str, add_header_data, 2*strlen(str)+5, &noutput_add_CRC);
+	
+	printf("Len of Output:%d\n",noutput_add_CRC);
+	for(i=0;i<noutput_add_CRC;i++)
+	{
+		printf("Out[%d]:%x (hex)\n",i,add_CRC[i]);
+	}
+	printf("\n------------------Hanmming coding-----------------------\n");
+	
+	hanmingcode_data = Hanmming_Enc(cr, sf, str, add_CRC, noutput_add_CRC, &noutput_hanmming_coding);
+	
+	printf("Len of Output:%d\n",noutput_hanmming_coding);
+	for(i=0;i<noutput_hanmming_coding;i++)
+	{
+		printf("Out[%d]:%x (hex)\n",i,hanmingcode_data[i]);
+	}
+	
+	printf("\n------------------Interleaver-----------------------\n");
+	
+	Interleaver(cr, sf, str, hanmingcode_data, noutput_hanmming_coding, &noutput_interleaver);
+	
+	
+	free(add_CRC);
 	free(whitened_data);
 	free(add_header_data);
 	

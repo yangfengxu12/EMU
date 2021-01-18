@@ -78,4 +78,7 @@
 .\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\LoRa_Channel_Coding.h
 .\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Whitening.h
 .\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Header.h
+.\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Add_CRC.h
+.\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Hanmming_Enc.h
+.\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Interleaver.h
 .\sx1276_2_lora\main.o: ..\Simulated_LoRa\Timer_Calibration.h
