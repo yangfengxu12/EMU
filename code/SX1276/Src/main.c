@@ -40,7 +40,7 @@ int main(void)
 {
   uint16_t datarate,i;
 	
-	char *str = "3214"; 
+	char *str = "Hello world!!"; 
 	uint8_t *whitened_data;
 	uint8_t *add_header_data;
 	uint8_t *add_CRC;
@@ -123,11 +123,13 @@ int main(void)
 		printf("Out[%d]:%x (hex)\n",i,gray_data[i]);
 	}
 	
-	
-	
-	free(add_CRC);
 	free(whitened_data);
 	free(add_header_data);
+	free(add_CRC);
+	free(hanmingcode_data);
+	free(interleaver_data);
+	free(gray_data);
+	
 	
 	/*Disbale Stand-by mode*/
 //  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);

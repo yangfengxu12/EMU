@@ -42,3 +42,6 @@
 .\sx1276_2_lora\gray_decode.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\sx1276_2_lora\gray_decode.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\sx1276_2_lora\gray_decode.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\sx1276_2_lora\gray_decode.o: ..\Hardware\usart.h
+.\sx1276_2_lora\gray_decode.o: ..\Hardware\sys.h
+.\sx1276_2_lora\gray_decode.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
