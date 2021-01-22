@@ -2,9 +2,7 @@
 #include "string.h"
 #include <stdlib.h>
 
-
-
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #include "usart.h"
@@ -12,8 +10,13 @@
 
 inline long mod(long a, long b)
 { 
-	return (a%b+b)%b; 
+	long result_mod;
+	
+	result_mod = (a%b+b)%b;
+	
+	return result_mod;
 }
+
 
 
 uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, uint8_t ninput_items, uint8_t *noutput_items)
@@ -21,39 +24,74 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 	uint16_t cw_cnt = 0;
 	uint8_t ppm = 0;
 	uint8_t sf_app = 0;
-	uint16_t remaind_cnt = ninput_items - sf_app;
-	uint16_t i = 0, j=0,k=0,sum=0;
+	int remaind_cnt = ninput_items;
+	int i = 0, j=0,k=0;
+	uint16_t sum_interleaved;
 	
-	uint8_t *input_1st;
-	uint8_t *output_1st;
+	uint8_t *codewords;
+	uint8_t *interleaved;
+	uint8_t *output;
+	
+	uint32_t cnt_interleaved=0;
+	// temp
+	
+	uint8_t temp;
 	
 	while(remaind_cnt!=0)
 	{
 		ppm = 4+((cw_cnt<sf-2)?4:cr);
 		sf_app = (cw_cnt<sf-2)?sf-2:sf;
 		
-		input_1st = malloc(sf_app*sizeof(uint8_t));
-		output_1st = malloc(sf_app*sizeof(uint8_t));
+		codewords = calloc(sf_app,sizeof(uint8_t));
+		interleaved = calloc(ppm,sizeof(uint8_t));
 		
-		memcpy(input_1st,input,sf_app*sizeof(uint8_t));
+		memcpy(codewords,input+cw_cnt,sf_app*sizeof(uint8_t));
 		
-		for (int32_t i = 0; i < ppm ; i++) 
+		for(int i=0;i<sf_app;i++)
+		{
+			cw_cnt++;
+		}
+		
+		
+		for (i = 0; i < ppm ; i++) 
     {
-			for (int32_t j = 0; j < sf_app; j++) 
+			for (j = 0; j < sf_app; j++) 
 			{
-				output_1st[i] |= (input_1st[mod((i-j-1),sf_app)]&(1<<i));
+				temp = ((codewords[mod((i-j-1),sf_app)]&(1<<(8-i-1))) >> (8-i-1)) << (sf-j-1);
+				interleaved[i] |= temp;
 			}
+			
 			if(cw_cnt == sf-2)
 			{
-				
-			}
+				sum_interleaved = 0;
+				for(k=0;k<sf;k++)
+				{
+					sum_interleaved += (interleaved[i] >> k) & 1;
+				}
 
-		remaind_cnt = ninput_items - sf_app;
+				interleaved[i] |= (sum_interleaved%2)<<(sf - sf_app - 1);
+			}
+		}
+		
+		cnt_interleaved += ppm;
+		
+		output = realloc(output,cnt_interleaved);
+		
+		memcpy(output + cnt_interleaved - ppm, interleaved, ppm * sizeof(uint8_t));
+		
+		remaind_cnt -= remaind_cnt > sf_app ? sf_app : remaind_cnt;
 	}
 	
+	*noutput_items = cnt_interleaved;
+	#ifdef DEBUG
 	
+	printf("------interleaved------\n");
+	for(i=0;i<cnt_interleaved;i++)
+			printf("%d (dec)----%x (hex)\n",output[i],output[i]);
 	
-	return 0;
+	#endif
+	
+	return output;
 }
 
 

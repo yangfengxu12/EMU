@@ -718,6 +718,11 @@
               <FileType>1</FileType>
               <FilePath>..\LoRa_Channel_Coding\Interleaver.c</FilePath>
             </File>
+            <File>
+              <FileName>Gray_decode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Gray_decode.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

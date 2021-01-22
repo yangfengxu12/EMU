@@ -40,16 +40,18 @@ int main(void)
 {
   uint16_t datarate,i;
 	
-	char *str = "123"; 
+	char *str = "3214"; 
 	uint8_t *whitened_data;
 	uint8_t *add_header_data;
 	uint8_t *add_CRC;
 	uint8_t *hanmingcode_data;
-//	uint8_t *whitened_data;
+	uint8_t *interleaver_data;
+	uint8_t *gray_data;
 	
 	uint8_t noutput_add_CRC=0;
 	uint8_t noutput_hanmming_coding = 0;
 	uint8_t noutput_interleaver = 0;
+	uint8_t noutput_gray = 0;
 	
 	
 	HAL_Init();
@@ -103,7 +105,24 @@ int main(void)
 	
 	printf("\n------------------Interleaver-----------------------\n");
 	
-	Interleaver(cr, sf, str, hanmingcode_data, noutput_hanmming_coding, &noutput_interleaver);
+	interleaver_data = Interleaver(cr, sf, str, hanmingcode_data, noutput_hanmming_coding, &noutput_interleaver);
+	
+	printf("Len of Output:%d\n",noutput_interleaver);
+	for(i=0;i<noutput_interleaver;i++)
+	{
+		printf("Out[%d]:%x (hex)\n",i,interleaver_data[i]);
+	}
+	
+	printf("\n------------------Gray coder-----------------------\n");
+	
+	gray_data = Gray_Decoder(cr, sf, str, interleaver_data, noutput_interleaver, &noutput_gray);
+	
+	printf("Len of Output:%d\n",noutput_gray);
+	for(i=0;i<noutput_interleaver;i++)
+	{
+		printf("Out[%d]:%x (hex)\n",i,gray_data[i]);
+	}
+	
 	
 	
 	free(add_CRC);
