@@ -2,7 +2,7 @@
 #include "string.h"
 #include <stdlib.h>
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #include "usart.h"
@@ -23,11 +23,12 @@ uint8_t *Gray_Decoder(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, u
 	
 	output = calloc(ninput_items,sizeof(uint8_t));
 	
-	
+	#ifdef DEBUG
 	for(int i=0;i<ninput_items;i++)
 	{
 		printf("Input[%d]:%x (hex)\n",i,input[i]);
 	}
+	#endif
 	for(int i=0;i < ninput_items;i++)
 	{
 		output[i]=input[i];

@@ -20,6 +20,29 @@ uint32_t LORA_FREQ_STEP_NO2		=											( LORA_BW / ( 1 << LORA_SF_NO2 ));
 uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
 
 
+// temp sf=7
+
+//int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54687,-46875};
+//int LoRa_Payload_Start_Freq_No1[] = {
+//-45898 ,
+//-61523 ,
+//-61523 ,
+//47851 ,
+//-30273 ,
+//32226 ,
+//-6835 ,
+//32226 ,
+//-53710 ,
+//55664 ,
+//976 ,
+//-30273,
+//-30273,
+//-6835 ,
+//-53710,
+//-53710,
+//};
+
+
 //sf = 7 payload =1 
 int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54695,-46890};
 int LoRa_Payload_Start_Freq_No1[] = {
@@ -101,7 +124,7 @@ int LoRa_Payload_Start_Freq_No2[] = {
 37548,
 59998,
 -4910,
--41026.,
+-41026,
 -35169,
 27299,
 -41026,
@@ -495,24 +518,24 @@ void LoRa_Generate_Signal()
 //			Input_Freq_temp[ Total_Chip_Count ] = Input_Freq;
 			
 			Changed_Register_Count = 1;
-			if(Mix_Packets_flag)
-			{
-				if( (Total_Chip_Count % 64) <  32)
-				{
-					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
-					Packet_No1_or_No2 = 0;
-				}
-				else
-				{
-					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
-					Packet_No1_or_No2 = 1;
-				}
-				
-//				if( Packet_No1_or_No2 != Last_Packet_No1_or_No2)
+//			if(Mix_Packets_flag)
+//			{
+//				if( (Total_Chip_Count % 64) <  32)
 //				{
-//					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+//					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
+//					Packet_No1_or_No2 = 0;
 //				}
-			}
+//				else
+//				{
+//					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
+//					Packet_No1_or_No2 = 1;
+//				}
+//				
+////				if( Packet_No1_or_No2 != Last_Packet_No1_or_No2)
+////				{
+////					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+////				}
+//			}
 			
 			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12); 
 			
@@ -629,4 +652,14 @@ void LoRa_Generate_Signal()
 	
 //	 goto Send_packets;
 }
+
+
+
+//void coding_phy_midware(int *LoRa_ID_Start_Freq,int *LoRa_Payload_Start_Freq)
+//{
+//	
+//}
+
+
+
 

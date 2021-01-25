@@ -689,6 +689,11 @@
           <GroupName>LoRa_Channel_Coding</GroupName>
           <Files>
             <File>
+              <FileName>LoRa_Channel_Coding.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\LoRa_Channel_Coding.c</FilePath>
+            </File>
+            <File>
               <FileName>LoRa_Channel_Coding.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\LoRa_Channel_Coding\LoRa_Channel_Coding.h</FilePath>
@@ -722,6 +727,11 @@
               <FileName>Gray_decode.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\LoRa_Channel_Coding\Gray_decode.c</FilePath>
+            </File>
+            <File>
+              <FileName>Modulation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LoRa_Channel_Coding\Modulation.c</FilePath>
             </File>
           </Files>
         </Group>

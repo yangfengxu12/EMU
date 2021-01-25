@@ -52,12 +52,14 @@
 ".\sx1276_2_lora\low_power_manager.o"
 ".\sx1276_2_lora\simulated_lora.o"
 ".\sx1276_2_lora\timer_calibration.o"
+".\sx1276_2_lora\lora_channel_coding.o"
 ".\sx1276_2_lora\whitening.o"
 ".\sx1276_2_lora\header.o"
 ".\sx1276_2_lora\add_crc.o"
 ".\sx1276_2_lora\hanmming_enc.o"
 ".\sx1276_2_lora\interleaver.o"
 ".\sx1276_2_lora\gray_decode.o"
+".\sx1276_2_lora\modulation.o"
 --library_type=microlib --strict --scatter ".\SX1276_2_LoRa\OOK2Chirp_Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

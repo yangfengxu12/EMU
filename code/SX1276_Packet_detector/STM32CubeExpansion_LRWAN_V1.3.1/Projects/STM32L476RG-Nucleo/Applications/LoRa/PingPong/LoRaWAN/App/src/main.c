@@ -48,10 +48,10 @@
 #include "vcom.h"
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                (433000000 + 400000)// Hz
-#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
-//#define RF_FREQUENCY                                433000000 // Hz
-//#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+//#define RF_FREQUENCY                                (433000000 + 400000)// Hz
+//#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+#define RF_FREQUENCY                                433000000 // Hz
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 
 
 
@@ -65,10 +65,10 @@
 //  2: 500 kHz,
 //  3: Reserved]
 
-#define LORA_CODINGRATE                             1         // [1: 4/5,
+#define LORA_CODINGRATE                             4         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
-//  4: 4/8]
+//  4: 4/8]	
 #define LORA_PREAMBLE_LENGTH                        8         // Same for Tx and Rx
 #define LORA_SYMBOL_TIMEOUT                         3         // Symbols
 #define LORA_FIX_LENGTH_PAYLOAD_ON                  false
@@ -201,11 +201,11 @@ int main(void)
 								
 	SX1276SetRx(0);
 	
-//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
-//	printf("Private 0x12\r\n");
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+	printf("Private 0x12\r\n");
 
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-	printf("Public 0x34\r\n");
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+//	printf("Public 0x34\r\n");
 
 
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
@@ -217,8 +217,7 @@ int main(void)
 	
 	reg=(SX1276Read(REG_LR_FEIMSB)<<16)|(SX1276Read(REG_LR_FEIMID)<<8)|SX1276Read(REG_LR_FEILSB);
 	
-	
-	while(1);
+
 	
   while (1)
   {
@@ -318,13 +317,13 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   SnrValue = snr;
   State = RX;
 	
-	reg_v[0]=SX1276Read(REG_LR_HOPCHANNEL);
-	reg_v[1]=SX1276Read(REG_LR_MODEMCONFIG1);
-	reg_v[2]=SX1276Read(REG_LR_MODEMCONFIG2);
-	reg_v[3]=SX1276Read(REG_LR_PREAMBLEMSB);
-	reg_v[4]=SX1276Read(REG_LR_PREAMBLELSB);
-	reg_v[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
-	reg_v[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
+//	reg_v[0]=SX1276Read(REG_LR_HOPCHANNEL);
+//	reg_v[1]=SX1276Read(REG_LR_MODEMCONFIG1);
+//	reg_v[2]=SX1276Read(REG_LR_MODEMCONFIG2);
+//	reg_v[3]=SX1276Read(REG_LR_PREAMBLEMSB);
+//	reg_v[4]=SX1276Read(REG_LR_PREAMBLELSB);
+//	reg_v[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
+//	reg_v[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
 	
 
 	
