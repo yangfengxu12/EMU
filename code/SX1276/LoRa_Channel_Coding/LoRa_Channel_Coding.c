@@ -1,6 +1,7 @@
 #include "LoRa_Channel_Coding.h"
 #include <string.h>
 #include <stdlib.h>
+//#include "malloc.h" 
 
 #define DEBUG
 
@@ -25,6 +26,7 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	uint8_t noutput_gray = 0;
 	uint8_t noutput_modulation = 0;
 	
+//	my_mem_init(SRAMIN);
 	
 	#ifdef DEBUG
 	printf("\n------------------Whitening-----------------------\n");
@@ -43,6 +45,8 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	
 	add_header_data = Add_Header(impl_head, has_crc, cr, str_tx, whitened_data);
 	
+	
+	
 	#ifdef DEBUG
 	printf("Len of Output:%d\n",2*strlen(str_tx)+5);
 	for(i=0;i<2*strlen(str_tx)+5;i++)
@@ -54,6 +58,8 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	#endif
 	
 	add_CRC = Add_CRC(has_crc, str_tx, add_header_data, 2*strlen(str_tx)+5, &noutput_add_CRC);
+	
+	
 	
 	#ifdef DEBUG
 	printf("Len of Output:%d\n",noutput_add_CRC);
@@ -67,6 +73,8 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	
 	hanmingcode_data = Hanmming_Enc(cr, sf, str_tx, add_CRC, noutput_add_CRC, &noutput_hanmming_coding);
 	
+	
+	
 	#ifdef DEBUG
 	printf("Len of Output:%d\n",noutput_hanmming_coding);
 	for(i=0;i<noutput_hanmming_coding;i++)
@@ -78,6 +86,8 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	#endif
 	
 	interleaver_data = Interleaver(cr, sf, str_tx, hanmingcode_data, noutput_hanmming_coding, &noutput_interleaver);
+	
+	
 	
 	#ifdef DEBUG
 	printf("Len of Output:%d\n",noutput_interleaver);
@@ -91,6 +101,8 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	
 	gray_data = Gray_Decoder(cr, sf, str_tx, interleaver_data, noutput_interleaver, &noutput_gray);
 	
+//	free(interleaver_data);
+	
 	#ifdef DEBUG
 	printf("Len of Output:%d\n",noutput_gray);
 	for(i=0;i<noutput_interleaver;i++)
@@ -103,11 +115,12 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	
 	modulation_data = Modulation(cr, sf, bw, gray_data, noutput_gray, &noutput_modulation);
 	
+	
 	#ifdef DEBUG
 	printf("Len of Output:%d\n",noutput_modulation);
 	for(i=0;i<noutput_modulation;i++)
 	{
-		printf("Out[%d]:%d (float)\n",i,modulation_data[i]);
+		printf("Out[%d]:\t%d\t (int)\n",i,modulation_data[i]);
 	}
 	
 	#endif

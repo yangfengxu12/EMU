@@ -276,7 +276,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x100000</Size>
+                <Size>0x200000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -301,7 +301,7 @@
               <OCR_RVCT9>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x18000</Size>
+                <Size>0x20000</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -339,7 +339,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>STM32L476xx, USE_STM32L4XX_NUCLEO,USE_HAL_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa;..\LoRa_Channel_Coding</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa;..\LoRa_Channel_Coding;..\MALLOC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -734,6 +734,9 @@
               <FilePath>..\LoRa_Channel_Coding\Modulation.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>MALLOC</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

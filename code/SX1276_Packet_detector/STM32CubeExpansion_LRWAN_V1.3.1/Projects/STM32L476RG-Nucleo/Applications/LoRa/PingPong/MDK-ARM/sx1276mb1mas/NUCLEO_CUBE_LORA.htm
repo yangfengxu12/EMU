@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\sx1276mb1mas\NUCLEO_CUBE_LORA.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sx1276mb1mas\NUCLEO_CUBE_LORA.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Jan 25 23:21:02 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 26 11:02:09 2021
 <BR><P>
 <H3>Maximum Stack Usage =        652 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1347,10 +1347,11 @@ Global Symbols
 <P><STRONG><a name="[1]"></a>NMI_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l4xx_it.o(i.NMI_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 100 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = OnRxDone &rArr; __2printf
+<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = OnRxDone &rArr; SX1276Read &rArr; SX1276ReadBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFifoStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
@@ -1617,6 +1618,7 @@ Global Symbols
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276GetTimeOnAir
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxChainCalibration
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnRxDone
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sx1276mb1mas.o(.constdata)
 </UL>
@@ -2190,7 +2192,7 @@ Global Symbols
 <P><STRONG><a name="[64]"></a>fputc</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, main.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 258 bytes, Stack size 40 bytes, main.o(i.main))
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 256 bytes, Stack size 40 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 652<LI>Call Chain = main &rArr; HW_Init &rArr; HW_RTC_Init &rArr; HW_RTC_SetConfig &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf

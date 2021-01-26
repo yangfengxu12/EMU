@@ -56,5 +56,7 @@ uint8_t *Add_CRC(bool has_crc, char *input_str, uint8_t *input, uint8_t ninput_i
 		memcpy(output,input,ninput_items*sizeof(uint8_t));
 		*noutput_items = ninput_items;
 	}
+	
+	free(output);
 	return output;
 }

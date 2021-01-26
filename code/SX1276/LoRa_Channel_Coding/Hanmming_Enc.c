@@ -29,6 +29,8 @@ uint8_t *Hanmming_Enc(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, u
 					output[i]=((data_bin&0x08)|(data_bin&0x04)|(data_bin&0x02)|(data_bin&0x01)|p4);
 			}
 	}
+	
+	free(output);
 	return output;
 }
 

@@ -148,17 +148,98 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32L4xx_1024 -FS08000000 -FL0100000 -FP0($$Device:STM32L476RGTx$CMSIS\Flash\STM32L4xx_1024.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>79</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134232084</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\LoRa_Channel_Coding\Interleaver.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../LoRa_Channel_Coding/Interleaver.c\79</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>74</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134232642</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\LoRa_Channel_Coding\LoRa_Channel_Coding.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../LoRa_Channel_Coding/LoRa_Channel_Coding.c\74</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>88</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134232708</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\LoRa_Channel_Coding\LoRa_Channel_Coding.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../LoRa_Channel_Coding/LoRa_Channel_Coding.c\88</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>102</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134232774</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\LoRa_Channel_Coding\LoRa_Channel_Coding.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../LoRa_Channel_Coding/LoRa_Channel_Coding.c\102</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>116</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134232840</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\LoRa_Channel_Coding\LoRa_Channel_Coding.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../LoRa_Channel_Coding/LoRa_Channel_Coding.c\116</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>noutput_modulation</ItemText>
+          <ItemText>output</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>modulation_data</ItemText>
+          <ItemText>input</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
@@ -173,7 +254,7 @@
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>input[i]</ItemText>
+          <ItemText>input[i],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
@@ -184,6 +265,31 @@
           <count>6</count>
           <WinNumber>1</WinNumber>
           <ItemText>input</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ninput_items,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>packet_freq_points_No1</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>output[i+2],0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>(double)bw/((double)(1&lt;&lt;sf))*(double)input[i]</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>in</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -217,17 +323,12 @@
           <WinNumber>2</WinNumber>
           <ItemText>Time_temp1,0x0A</ItemText>
         </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>2</WinNumber>
-          <ItemText>Timer_Calibration_Done_Flag</ItemText>
-        </Ww>
       </WatchWindow2>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>2</SubType>
-          <ItemText>0x20000850</ItemText>
+          <ItemText>0x20000074</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -285,7 +386,7 @@
 
   <Group>
     <GroupName>Application/MDK-ARM</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -657,7 +758,7 @@
 
   <Group>
     <GroupName>Drivers/CMSIS</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1097,6 +1198,14 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+  </Group>
+
+  <Group>
+    <GroupName>MALLOC</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
   </Group>
 
   <Group>

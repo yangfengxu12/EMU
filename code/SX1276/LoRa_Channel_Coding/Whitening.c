@@ -47,6 +47,7 @@ uint8_t *Whitening( char *input_str)
 		printf("out[%d]:%d\n",2*i+1,output[2*i+1]);
 		#endif
 	}
+	free(output);
 	return output;
 }
 

@@ -54,7 +54,7 @@
 /*!
  * Sync word for Private LoRa networks
  */
-#define LORA_MAC_PRIVATE_SYNCWORD                   0x8f
+#define LORA_MAC_PRIVATE_SYNCWORD                   0x12
 
 /*!
  * Sync word for Public LoRa networks

@@ -17,7 +17,7 @@
 
 /**********  Packet 1 parameters    **************************/
 #define LORA_SF_NO1													 				7				// spread factor
-#define LORA_CR_NO1																	4				// compress rate [1,2,3,4] ( [4/5,4/6,4/7,4/8] )
+#define LORA_CR_NO1																	1				// coding rate [1,2,3,4] ( [4/5,4/6,4/7,4/8] )
 #define LORA_HAS_CRC_NO1														true		// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
 
@@ -36,7 +36,7 @@
 
 /**********  Packet 2 parameters    **************************/
 #define LORA_SF_NO2																	8				// spread factor
-#define LORA_CR_NO2																	4				// compress rate [1,2,3,4] ([4/5,4/6,4/7,4/8])
+#define LORA_CR_NO2																	1				// coding rate [1,2,3,4] ([4/5,4/6,4/7,4/8])
 #define LORA_HAS_CRC_NO2														true		// true or false
 #define LORA_IMPL_HEAD_NO2													false		// true or false
 																											

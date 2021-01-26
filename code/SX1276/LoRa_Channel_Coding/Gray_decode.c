@@ -21,7 +21,7 @@ uint8_t *Gray_Decoder(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, u
 {
 	uint8_t *output;
 	
-	output = calloc(ninput_items,sizeof(uint8_t));
+	output = malloc(ninput_items*sizeof(uint8_t));
 	
 	#ifdef DEBUG
 	for(int i=0;i<ninput_items;i++)
@@ -41,6 +41,8 @@ uint8_t *Gray_Decoder(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, u
 	}
 	
 	*noutput_items = ninput_items;
+	
+	free(output);
 	return output;
 }
 

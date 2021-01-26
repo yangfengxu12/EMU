@@ -41,6 +41,8 @@ uint8_t* Add_Header(bool impl_head, bool has_crc, uint8_t cr, char *input_str, u
 		output[4]=c3<<3|c2<<2|c1<<1|c0;
 		memcpy(&output[5],in,2*len_input_str*sizeof(uint8_t));
 	}
+	
+	free(output);
 	return output;
 }
 

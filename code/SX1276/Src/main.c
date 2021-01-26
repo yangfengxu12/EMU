@@ -5,7 +5,7 @@
 #include "radio.h"
 #include "timeServer.h"
 #include "low_power_manager.h"
-
+//#include "malloc.h" 
 #include "sx1276.h"
 #include "sx1276mb1mas.h"
 
@@ -22,8 +22,7 @@
 
 //1.00014136 = 1      +2us
 
-
-#define has_crc   true
+#define CODING
 
 static RadioEvents_t RadioEvents;
 																											
@@ -33,7 +32,7 @@ extern uint32_t Time_temp;
 
 
 
-
+#define BUFFER_SIZE                                 10 // Define the payload size here
 
 int main(void)
 {
@@ -58,31 +57,29 @@ int main(void)
   SystemClock_Config();
 
   HW_Init();
+//	my_mem_init(SRAMIN);
 	
 	SPI1_Init();
 	delay_init(80);
 	uart_init(115200);
 
 	Control_GPIO_Init();
-	
-//	packet_freq_points_No1 = LoRa_Channel_Coding(str_tx, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1 );
+	#ifdef CODING
+	packet_freq_points_No1 = LoRa_Channel_Coding(str_tx, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1 );
 
-////	packet_freq_points_No2 = LoRa_Channel_Coding(str_tx, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2);
-//	
-//	LoRa_ID_Start_Freq_No1= calloc(2,sizeof(int));
-//	LoRa_Payload_Start_Freq_No1 = calloc((symbol_len_No1-2),sizeof(int));
-//	
-//	memcpy(LoRa_ID_Start_Freq_No1,packet_freq_points_No1,2*sizeof(int));
-//	memcpy(LoRa_Payload_Start_Freq_No1,packet_freq_points_No1+2,(symbol_len_No1-2)*sizeof(int));
-//	
-//	printf("Len of Output:%d\n",symbol_len_No1);
-//	for(i=0;i<symbol_len_No1;i++)
-//	{
-//		printf("Out[%d]:%d (float)\n",i,packet_freq_points_No1[i]);
-//	}
-//	
-//	
-//	
+	
+	LoRa_ID_Start_Freq_No1= packet_freq_points_No1;
+	LoRa_Payload_Start_Freq_No1 = packet_freq_points_No1+2;
+
+	
+	printf("Len of Output:%d\n",symbol_len_No1);
+	for(i=0;i<symbol_len_No1;i++)
+	{
+		printf("Out[%d]:%d (int)\n",i,packet_freq_points_No1[i]);
+	}
+	
+	
+	
 //	printf("Len of Output:%d\n",2);
 //	for(i=0;i<2;i++)
 //	{
@@ -94,9 +91,9 @@ int main(void)
 //	{
 //		printf("Out[%d]:%d (float)\n",i,LoRa_Payload_Start_Freq_No1[i]);
 //	}
-//	
-//	coding_phy_midware(LoRa_ID_Start_Freq_No1,LoRa_Payload_Start_Freq_No1);
 	
+	
+	#else 
 	
 	
 	/*Disbale Stand-by mode*/
@@ -129,6 +126,8 @@ int main(void)
 //		printf("Done\r\n");
 //  }
 		printf("finish!!\r\n");
+		
+		#endif
 }
 
 

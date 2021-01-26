@@ -42,8 +42,11 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 		ppm = 4+((cw_cnt<sf-2)?4:cr);
 		sf_app = (cw_cnt<sf-2)?sf-2:sf;
 		
-		codewords = calloc(sf_app,sizeof(uint8_t));
-		interleaved = calloc(ppm,sizeof(uint8_t));
+		free(codewords);
+		codewords = malloc(sf_app*sizeof(uint8_t));
+		
+		free(interleaved);
+		interleaved = malloc(ppm*sizeof(uint8_t));
 		
 		memcpy(codewords,input+cw_cnt,sf_app*sizeof(uint8_t));
 		
@@ -75,6 +78,8 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 		
 		cnt_interleaved += ppm;
 		
+		
+		
 		output = realloc(output,cnt_interleaved);
 		
 		memcpy(output + cnt_interleaved - ppm, interleaved, ppm * sizeof(uint8_t));
@@ -90,6 +95,11 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 			printf("%d (dec)----%x (hex)\n",output[i],output[i]);
 	
 	#endif
+	
+	free(codewords);
+	free(interleaved);
+	
+	free(output);
 	
 	return output;
 }
