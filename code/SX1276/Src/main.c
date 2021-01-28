@@ -22,7 +22,7 @@
 
 //1.00014136 = 1      +2us
 
-#define CODING
+//#define CODING
 
 static RadioEvents_t RadioEvents;
 																											
@@ -38,19 +38,19 @@ int main(void)
 {
   uint16_t datarate,i;
 	
-	char *str_tx = "1";
+	char *str_tx = "123";
 
-	int *packet_freq_points_No1;
-	int *packet_freq_points_No2;
+	int *packet_freq_points_No1 = NULL;
+	int *packet_freq_points_No2 = NULL;
 	
-	int symbol_len_No1;
-	int symbol_len_No2;
+	int symbol_len_No1 = NULL;
+	int symbol_len_No2 = NULL;
 	
-	int *LoRa_ID_Start_Freq_No1;
-	int *LoRa_Payload_Start_Freq_No1;
+	int *LoRa_ID_Start_Freq_No1 = NULL;
+	int *LoRa_Payload_Start_Freq_No1 = NULL;
 
-	int *LoRa_ID_Start_Freq_No2;
-	int *LoRa_Payload_Start_Freq_No2;
+	int *LoRa_ID_Start_Freq_No2 = NULL;
+	int *LoRa_Payload_Start_Freq_No2 = NULL;
 	
 	
 	HAL_Init();
@@ -72,11 +72,11 @@ int main(void)
 	LoRa_Payload_Start_Freq_No1 = packet_freq_points_No1+2;
 
 	
-	printf("Len of Output:%d\n",symbol_len_No1);
-	for(i=0;i<symbol_len_No1;i++)
-	{
-		printf("Out[%d]:%d (int)\n",i,packet_freq_points_No1[i]);
-	}
+//	printf("Len of Output:%d\n",symbol_len_No1);
+//	for(i=0;i<symbol_len_No1;i++)
+//	{
+//		printf("Out[%d]:%d (int)\n",i,packet_freq_points_No1[i]);
+//	}
 	
 	
 	
@@ -120,8 +120,9 @@ int main(void)
 		for(i=0;i<100;i++)
 		{
 			LoRa_Generate_Signal();
-			delay_ms(500);
+			
 			printf("Tx done, Count:%d\r\n",i+1);
+			delay_ms(500);
 		}
 //		printf("Done\r\n");
 //  }

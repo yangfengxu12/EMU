@@ -30,7 +30,7 @@ uint8_t *Add_CRC(bool has_crc, char *input_str, uint8_t *input, uint8_t ninput_i
 	uint8_t *output;
 	if(has_crc)
 	{//append the CRC to the payload
-		output = malloc(ninput_items+4);
+		output = malloc((ninput_items+4)*sizeof(uint8_t));
 		uint16_t crc=0x0000;
 		
 		memcpy(output,input,ninput_items*sizeof(uint8_t));
@@ -52,11 +52,10 @@ uint8_t *Add_CRC(bool has_crc, char *input_str, uint8_t *input, uint8_t ninput_i
 	}
 	else
 	{
-		output= malloc(ninput_items);
+		output= malloc(ninput_items*sizeof(uint8_t));
 		memcpy(output,input,ninput_items*sizeof(uint8_t));
 		*noutput_items = ninput_items;
 	}
 	
-	free(output);
 	return output;
 }

@@ -40,14 +40,14 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 10 // Define the payload size here
+#define BUFFER_SIZE                                 3 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
 uint32_t Tx_count = 0;
 
 uint16_t BufferSize = BUFFER_SIZE;
-uint8_t Buffer[BUFFER_SIZE] = {'1','2','3','4','5','6','7','8','9','0'};
+uint8_t Buffer[BUFFER_SIZE] = {'1','2','3'};
 
 States_t State = LOWPOWER;
 

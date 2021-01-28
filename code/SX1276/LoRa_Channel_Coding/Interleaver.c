@@ -24,33 +24,40 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 	uint16_t cw_cnt = 0;
 	uint8_t ppm = 0;
 	uint8_t sf_app = 0;
-	int remaind_cnt = ninput_items;
-	int i = 0, j=0,k=0;
+	uint16_t remaind_cnt = ninput_items;
+	static uint16_t i = 0, j=0,k=0;
 	uint16_t sum_interleaved;
 	
-	uint8_t *codewords;
-	uint8_t *interleaved;
-	uint8_t *output;
+	uint8_t *codewords = NULL;
+	uint8_t *interleaved = NULL;
+	uint8_t *output = NULL;
 	
 	uint32_t cnt_interleaved=0;
 	// temp
 	
-	uint8_t temp;
 	
 	while(remaind_cnt!=0)
 	{
 		ppm = 4+((cw_cnt<sf-2)?4:cr);
 		sf_app = (cw_cnt<sf-2)?sf-2:sf;
 		
-		free(codewords);
-		codewords = malloc(sf_app*sizeof(uint8_t));
 		
-		free(interleaved);
-		interleaved = malloc(ppm*sizeof(uint8_t));
+		codewords = realloc(codewords,sf_app*sizeof(uint8_t));
+		memset(codewords, 0, sf_app*sizeof(uint8_t)); 
 		
-		memcpy(codewords,input+cw_cnt,sf_app*sizeof(uint8_t));
+		if(cw_cnt + sf_app < ninput_items)
+		{
+			memcpy(codewords,input+cw_cnt,sf_app*sizeof(uint8_t));
+		}
+		else
+		{
+			memcpy(codewords,input+cw_cnt,(ninput_items-cw_cnt)*sizeof(uint8_t));
+		}
 		
-		for(int i=0;i<sf_app;i++)
+		interleaved = realloc(interleaved,ppm*sizeof(uint8_t));
+		memset(interleaved, 0, ppm*sizeof(uint8_t));
+		
+		for(i=0;i<sf_app;i++)
 		{
 			cw_cnt++;
 		}
@@ -60,8 +67,7 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
     {
 			for (j = 0; j < sf_app; j++) 
 			{
-				temp = ((codewords[mod((i-j-1),sf_app)]&(1<<(8-i-1))) >> (8-i-1)) << (sf-j-1);
-				interleaved[i] |= temp;
+				interleaved[i] |= (((codewords[mod((i-j-1),sf_app)]&(1<<(ppm-i-1))) >> (ppm-i-1)) << (sf-j-1));
 			}
 			
 			if(cw_cnt == sf-2)
@@ -80,7 +86,9 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 		
 		
 		
-		output = realloc(output,cnt_interleaved);
+		output = realloc(output,cnt_interleaved*sizeof(uint8_t));
+		
+//		memset(output, 0, cnt_interleaved*sizeof(uint8_t));
 		
 		memcpy(output + cnt_interleaved - ppm, interleaved, ppm * sizeof(uint8_t));
 		
@@ -98,8 +106,6 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 	
 	free(codewords);
 	free(interleaved);
-	
-	free(output);
 	
 	return output;
 }

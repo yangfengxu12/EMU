@@ -28,12 +28,8 @@ const static uint8_t whitening_seq[] = {
 
 uint8_t *Whitening( char *input_str)
 {
-	static uint8_t i;
-	uint8_t *output= malloc(2*strlen(input_str));
-	char input_temp[strlen(input_str)];
-	uint8_t output_temp[2*strlen(input_str)];
-	
-	strcpy(input_temp,input_str);
+	uint8_t i;
+	uint8_t *output= malloc(2*strlen(input_str)*sizeof(char));
 	
 	for(i=0;i<strlen(input_str);i++)
 	{
@@ -47,7 +43,7 @@ uint8_t *Whitening( char *input_str)
 		printf("out[%d]:%d\n",2*i+1,output[2*i+1]);
 		#endif
 	}
-	free(output);
+
 	return output;
 }
 

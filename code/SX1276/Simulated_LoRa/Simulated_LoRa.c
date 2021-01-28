@@ -22,13 +22,28 @@ uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
 
 // temp sf=7
 
-int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54687,-46875};
+int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54687,	
+-46875};
 int LoRa_Payload_Start_Freq_No1[] = {
-
--30273,	
-12695	 ,
--61523	,
--2929	 ,
+	
+43945,	 
+-10742,	
+-61523,	
+-61523,	
+-61523,	
+43945, 
+-61523,	
+36132,	 
+	32226,	
+	47851,	
+	10742,	
+	26367	,
+	-53710,
+	-54687,
+	-61523,
+	976	 ,
+	-61523,
+	-15625,
 
 };
 

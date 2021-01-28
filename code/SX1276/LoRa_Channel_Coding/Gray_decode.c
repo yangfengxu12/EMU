@@ -42,7 +42,6 @@ uint8_t *Gray_Decoder(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, u
 	
 	*noutput_items = ninput_items;
 	
-	free(output);
 	return output;
 }
 
