@@ -522,24 +522,24 @@ void LoRa_Generate_Signal()
 //			Input_Freq_temp[ Total_Chip_Count ] = Input_Freq;
 			
 			Changed_Register_Count = 1;
-//			if(Mix_Packets_flag)
-//			{
-//				if( (Total_Chip_Count % 64) <  32)
+			if(Mix_Packets_flag)
+			{
+				if( (Total_Chip_Count % 64) <  32)
+				{
+					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
+					Packet_No1_or_No2 = 0;
+				}
+				else
+				{
+					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
+					Packet_No1_or_No2 = 1;
+				}
+				
+//				if( Packet_No1_or_No2 != Last_Packet_No1_or_No2)
 //				{
-//					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
-//					Packet_No1_or_No2 = 0;
+//					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 //				}
-//				else
-//				{
-//					Last_Packet_No1_or_No2 = Packet_No1_or_No2;
-//					Packet_No1_or_No2 = 1;
-//				}
-//				
-////				if( Packet_No1_or_No2 != Last_Packet_No1_or_No2)
-////				{
-////					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
-////				}
-//			}
+			}
 			
 			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12); 
 			

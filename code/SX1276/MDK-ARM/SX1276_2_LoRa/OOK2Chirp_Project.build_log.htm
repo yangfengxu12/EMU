@@ -27,30 +27,22 @@ Project File Date:  01/28/2021
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
-compiling main.c...
-../Src/main.c(41): warning:  #177-D: variable "str_tx"  was declared but never referenced
-  	char *str_tx = "123";
-../Src/main.c(43): warning:  #177-D: variable "packet_freq_points_No1"  was declared but never referenced
-  	int *packet_freq_points_No1 = NULL;
-../Src/main.c(44): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
-  	int *packet_freq_points_No2 = NULL;
-../Src/main.c(46): warning:  #177-D: variable "symbol_len_No1"  was declared but never referenced
-  	int symbol_len_No1 = NULL;
-../Src/main.c(47): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
-  	int symbol_len_No2 = NULL;
-../Src/main.c(49): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
-  	int *LoRa_ID_Start_Freq_No1 = NULL;
-../Src/main.c(50): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
-  	int *LoRa_Payload_Start_Freq_No1 = NULL;
-../Src/main.c(52): warning:  #177-D: variable "LoRa_ID_Start_Freq_No2"  was declared but never referenced
-  	int *LoRa_ID_Start_Freq_No2 = NULL;
-../Src/main.c(53): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
-  	int *LoRa_Payload_Start_Freq_No2 = NULL;
-../Src/main.c: 9 warnings, 0 errors
+compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(643): warning:  #127-D: expected a statement
+  	}
+..\Simulated_LoRa\Simulated_LoRa.c(244): warning:  #550-D: variable "Last_Packet_No1_or_No2"  was set but never used
+  	bool Last_Packet_No1_or_No2 = Packet_No1_or_No2;
+..\Simulated_LoRa\Simulated_LoRa.c(248): warning:  #177-D: variable "Init_Frequency_End_Point_No1"  was declared but never referenced
+  	uint32_t Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c(251): warning:  #177-D: variable "Init_Frequency_End_Point_No2"  was declared but never referenced
+  	uint32_t Init_Frequency_End_Point_No2 = LORA_MAX_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c(291): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=36372 RO-data=860 RW-data=392 ZI-data=2368  
+Program Size: Code=36404 RO-data=860 RW-data=392 ZI-data=2368  
 FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 9 Warning(s).
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 

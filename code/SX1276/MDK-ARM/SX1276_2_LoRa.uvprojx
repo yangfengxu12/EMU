@@ -736,9 +736,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>MALLOC</GroupName>
-        </Group>
-        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>

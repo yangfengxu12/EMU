@@ -40,14 +40,14 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 3 // Define the payload size here
+#define BUFFER_SIZE                                 21 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
 uint32_t Tx_count = 0;
 
 uint16_t BufferSize = BUFFER_SIZE;
-uint8_t Buffer[BUFFER_SIZE] = {'1','2','3'};
+uint8_t Buffer[BUFFER_SIZE] = {'1','2','3','2','3','2','3','2','3','2','3','2','3','2','3','2','3','2','3','2','3'};
 
 States_t State = LOWPOWER;
 
@@ -152,10 +152,10 @@ int main(void)
 //		Buffer[2] = 'N';
 //		Buffer[3] = 'G';
 //		// We fill the buffer with numbers for the payload
-//		for (i = 4; i < BufferSize; i++)
-//		{
-//			Buffer[i] = i - 4;
-//		}
+		for (i = 0; i < BufferSize; i++)
+		{
+			Buffer[i] = '1' + i;
+		}
 //		Count++; 
 //		PRINTF("...PING %d\n\r", Count);
 
