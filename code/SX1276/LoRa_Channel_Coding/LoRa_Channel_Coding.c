@@ -123,7 +123,7 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	printf("Len of Output:%d\n",noutput_modulation);
 	for(i=0;i<noutput_modulation;i++)
 	{
-		printf("Out[%d]:\t%d\t (int)\n",i,modulation_data[i]);
+		printf("Out[%d]:\t%d,\t (int)\n",i,modulation_data[i]);
 	}
 	
 	#endif

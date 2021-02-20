@@ -8,8 +8,10 @@
 
 #include "Simulated_LoRa.h"
 
-
 #define Comped_Time ( TIM2->CNT + Timer_Compensation_Count ) 
+
+
+//#define ENABLE_PACKET_NO2
 
 uint8_t test_symbol_point=1;
 
@@ -19,95 +21,15 @@ uint32_t LORA_SYMBOL_TIME_NO1	=											(( 1 << LORA_SF_NO1 ) << 3);
 uint32_t LORA_FREQ_STEP_NO2		=											( LORA_BW / ( 1 << LORA_SF_NO2 ));
 uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
 
+int      LORA_PAYLOAD_LENGTH_NO1 = 									0;
+int  		 LORA_TOTAL_LENGTH_NO1	 =									0;
 
-// temp sf=7
 
-int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54687,	
--46875};
-int LoRa_Payload_Start_Freq_No1[] = {
-	
-43945,	 
--10742,	
--61523,	
--61523,	
--61523,	
-43945, 
--61523,	
-36132,	 
-	32226,	
-	47851,	
-	10742,	
-	26367	,
-	-53710,
-	-54687,
-	-61523,
-	976	 ,
-	-61523,
-	-15625,
 
-};
+int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {0,0};
+int *LoRa_Payload_Start_Freq_No1;
 
-//sf = 7 payload ="1"
-//int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-54695,-46890};
-//int LoRa_Payload_Start_Freq_No1[] = {
-//-46890,
-//-62500,
-//-62500,
-//46768,
-//-31280,
-//31158,
-//-7865,
-//31158,
-//53597,
-//54573,
-//30182,
-//-31280,
-//-31280,
-//-4939,
-//-53719,
-//-54695,
-//};
 
-//sf = 8 payload = 1 
-//int LoRa_ID_Start_Freq_No1[LORA_ID_LENGTH_NO1] = {-58597,-54695};
-//int LoRa_Payload_Start_Freq_No1[] = {
-//-54695,
-//-2012,
-//-33231,
-//52621,
-//-31280,
-//33109,
-//-7865,
-//-35183,
-//-32743,
-//-61,
-//-23963,
-//-46890,
-//-46890,
-//-58109,
-//57987,
-//-60548
-//};
-
-// sf =11 payload =1 
-//int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-62011,-61523};
-//int LoRa_Payload_Start_Freq_No2[] = {
-//-7083,
-//-27345,
-//-58594,
-//60295,
-//-37355,
-//33441,
-//-53223,
-//-35646,
-//3597,
-//46746,
-//8662,
-//61088,
-//-60364,
-//-61706,
-//-16543,
-//-52307};
 
 //sf = 8 payload = lorawan
 int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-50787,-46882};
@@ -142,39 +64,6 @@ int LoRa_Payload_Start_Freq_No2[] = {
 5826
 };
 
-// sf =9 payload =lorawan
-//int LoRa_ID_Start_Freq_No2[LORA_ID_LENGTH_NO2] = {-59570,-58594,};
-//int LoRa_Payload_Start_Freq_No2[] = {
-//19033,
-//-22465,
-//54673,
-//-4401,
-//-61035,
-//43444,
-//61508,
-//-24418,
-//44664,
-//37951,
-//27821,
-//29285,
-//2067,
-//-32840,
-//-11847,
-//21474,
-//49546,
-//-11236,
-//44664,
-//-37600,
-//25624,
-//41857,
-//-21611,
-//50157,
-//-45900,
-//12319,
-//-15752,
-//-53467
-//};
-
 uint8_t Channel_Freq_MSB_temp = 0;
 uint8_t Channel_Freq_MID_temp = 0;
 uint8_t Channel_Freq_LSB_temp = 0;
@@ -182,19 +71,8 @@ uint8_t Channel_Freq_LSB_temp = 0;
 uint32_t Input_Freq;
 uint32_t Channel;
 
-
-//uint32_t Time_temp[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 ) ]={0};
-//uint32_t Time_temp1[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 ) ]={0};
-//uint32_t Time_temp2[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 ) ]={0};
-
-//uint32_t n_temp[ 1<<LORA_SF_NO2 ]={0};
-
 uint8_t Channel_Freq[3] = {0};  //MSB,MID,LSB
 uint8_t Changed_Register_Count = 1;  // the number of changed registers.
-
-//uint32_t Input_Freq_temp[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 )]={0};
-//uint32_t Input_Freq_temp1[ LORA_TOTAL_LENGTH_NO2 * ( 1 << LORA_SF_NO2 )]={0};
-//uint32_t Input_Freq_temp_No2[ LORA_TOTAL_LENGTH_NO2 ][( 1 << LORA_SF_NO2 )]={0};
 
 int Timer_Compensation_Index = 0;
 int Timer_Compensation_Flag = 0;
@@ -207,7 +85,6 @@ uint32_t temp_u32 = 0;
 void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count )
 {
 	uint8_t Reg_Address;
-	
 	switch(Changed_Register_Count)
 	{
 		case 1:Reg_Address = REG_FRFLSB;break;
@@ -215,43 +92,69 @@ void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count )
 		case 3:Reg_Address = REG_FRFMSB;break;
 		default:Reg_Address = REG_FRFMSB;break;
 	}
-	
 	SX1276_Burst_Write( Reg_Address, freq + 3 - Changed_Register_Count, Changed_Register_Count);
-	
 }
 
-void LoRa_Generate_Signal()
+void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 {
+	LoRa_ID_Start_Freq_No1[0] = freq_points[0];
+	LoRa_ID_Start_Freq_No1[1] = freq_points[1];
+	
+	LoRa_Payload_Start_Freq_No1 = freq_points+2;
+
+	
+	LORA_PAYLOAD_LENGTH_NO1		=	id_and_payload_symbol_len - 2;	
+  LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
+															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
+															LORA_PAYLOAD_LENGTH_NO1;
+}
+
+
+
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
+{
+	
+	channel_coding_convert(freq_points,id_and_payload_symbol_len);
+	
 	/******** debug temps   ***********/
-	uint32_t Chip_Count_No1[LORA_TOTAL_LENGTH_NO1] = {0};
+//	uint32_t Chip_Count_No1[LORA_TOTAL_LENGTH_NO1] = {0};
+	#ifdef ENABLE_PACKET_NO2
 	uint32_t Chip_Count_No2[LORA_TOTAL_LENGTH_NO2] = {0};
+	#endif
 	
 	uint32_t Chip_Position_No1 = 0;
+	#ifdef ENABLE_PACKET_NO2
 	uint32_t Chip_Position_No2 = 0;
+	#endif
 	
 	uint32_t Chirp_Count_No1 = 0;
+	#ifdef ENABLE_PACKET_NO2
 	uint32_t Chirp_Count_No2 = 0;
-	
+	#endif
 	
 	
 //	uint32_t Chirp_Time_Record_No1[LORA_TOTAL_LENGTH_NO1] = {0};
 //	uint32_t Chirp_Time_Record_No2[LORA_TOTAL_LENGTH_NO2] = {0};
 	
 	/*********************************/
-	
+	#ifdef ENABLE_PACKET_NO2
 	bool Mix_Packets_flag = 1;
 	bool Packet_No1_or_No2 = 0; // 0:No1,1:No2
 	bool Last_Packet_No1_or_No2 = Packet_No1_or_No2;
-	
+	#endif
 	
 	uint32_t Init_Frequency_Begin_Point_No1 = LORA_BASE_FREQ;
 	uint32_t Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
 	
+	#ifdef ENABLE_PACKET_NO2
 	uint32_t Init_Frequency_Begin_Point_No2 = LORA_BASE_FREQ;
 	uint32_t Init_Frequency_End_Point_No2 = LORA_MAX_FREQ;
+	#endif
 	
 	enum Chirp_Status Chirp_Status_No1 = Preamble;
+	#ifdef ENABLE_PACKET_NO2
 	enum Chirp_Status Chirp_Status_No2 = Preamble;
+	#endif
 	
 	uint32_t Total_Chip_Count = 0;
 	
@@ -260,8 +163,6 @@ void LoRa_Generate_Signal()
 	
 	Timer_Compensation_Index = RTC_Timer_Calibration();
 	
-	
-
 	TIM3_Init( Timer_Compensation_Index - 1 );
 	
 	SX_FREQ_TO_CHANNEL( Channel, RF_FREQUENCY );
@@ -300,13 +201,20 @@ void LoRa_Generate_Signal()
 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
+	
+	#ifdef ENABLE_PACKET_NO2
 	while( Chirp_Count_No2 < LORA_TOTAL_LENGTH_NO2 )
+	#else
+	while( Chirp_Count_No1 < LORA_TOTAL_LENGTH_NO1 )
+	#endif
 	{
 //		Total_Chip_Count = 0;
+		#ifdef ENABLE_PACKET_NO2
 		if( Chirp_Count_No1 < LORA_TOTAL_LENGTH_NO1 )
 			Mix_Packets_flag = 1;
 		else
 			Mix_Packets_flag = 0;
+		#endif
 			
 		/***********  NO1 Packet states machine  ***************/
 		//symbol @ preamble
@@ -346,6 +254,7 @@ void LoRa_Generate_Signal()
 																																								LORA_ID_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 - 1 ];
 		}
 		
+		#ifdef ENABLE_PACKET_NO2
 		/***********  NO2 Packet states machine ***************/
 		//symbol @ preamble
 		if( Chirp_Count_No2 < LORA_PREAMBLE_LENGTH_NO2 )
@@ -383,13 +292,17 @@ void LoRa_Generate_Signal()
 			Init_Frequency_Begin_Point_No2 = RF_FREQUENCY + LoRa_Payload_Start_Freq_No2[ Chirp_Count_No2 - LORA_PREAMBLE_LENGTH_NO2 \
 																																							- LORA_ID_LENGTH_NO2 - LORA_SFD_LENGTH_NO2 - 1 ];
 		}
-		
+		#endif
 		/******  end of Packet states machine ********/
+		
+		
 		while(1)  // generate symbol
 		{
 //			Time_temp[ Total_Chip_Count ] = Comped_Time;
+			#ifdef ENABLE_PACKET_NO2
 			if( (!Packet_No1_or_No2) && Mix_Packets_flag )
 			{
+			#endif
 				switch (Chirp_Status_No1)
 				{
 					case Preamble:
@@ -429,8 +342,11 @@ void LoRa_Generate_Signal()
 					default:break;
 				}
 				
-				Chip_Count_No1[Chirp_Count_No1]++;
+//				Chip_Count_No1[Chirp_Count_No1]++;
 	//			Input_Freq_temp_No1[ Chirp_Count_No1 ] [ Chip_Count_No1[Chirp_Count_No1]] = Input_Freq;
+				
+			#ifdef ENABLE_PACKET_NO2
+				
 			}
 			else
 			{
@@ -477,7 +393,7 @@ void LoRa_Generate_Signal()
 				Chip_Count_No2[Chirp_Count_No2]++;
 	//			Input_Freq_temp_No2[ Chirp_Count_No2 ] [ Chip_Count_No2[Chirp_Count_No2]] = Input_Freq;
 			}
-			
+			#endif
 			
 //			if( !Packet_No1_or_No2 )
 //			{
@@ -522,6 +438,8 @@ void LoRa_Generate_Signal()
 //			Input_Freq_temp[ Total_Chip_Count ] = Input_Freq;
 			
 			Changed_Register_Count = 1;
+			
+			#ifdef ENABLE_PACKET_NO2
 			if(Mix_Packets_flag)
 			{
 				if( (Total_Chip_Count % 64) <  32)
@@ -540,11 +458,15 @@ void LoRa_Generate_Signal()
 //					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 //				}
 			}
+			#else
 			
+			#endif
 			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12); 
 			
+			#ifdef ENABLE_PACKET_NO2
 			if( Mix_Packets_flag )
 			{
+			#endif
 				switch (Chirp_Status_No1)
 				{
 					case Preamble:	if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
@@ -589,7 +511,7 @@ void LoRa_Generate_Signal()
 													break;
 					default:break;
 				}
-				
+				#ifdef ENABLE_PACKET_NO2
 				Check_Symbol_End_No2:
 				switch (Chirp_Status_No2)
 				{
@@ -638,6 +560,7 @@ void LoRa_Generate_Signal()
 			}
 			else
 				goto Check_Symbol_End_No2;
+			#endif
 		}	// end loop of symbol
 		Symbol_End:
 	}
@@ -647,7 +570,9 @@ void LoRa_Generate_Signal()
 	HAL_TIM_Base_Stop_IT(&TIM2_Handler);
 	Total_Chip_Count = 0;
 	Chirp_Count_No1 = 0;
+	#ifdef ENABLE_PACKET_NO2
 	Chirp_Count_No2 = 0;
+	#endif 
 //	for(temp_u32 = 0 ; temp_u32 < sizeof(Input_Freq_temp)/sizeof(Input_Freq_temp[0]); temp_u32++)
 //	{
 //		if( Input_Freq_temp[temp_u32] != 0)
@@ -656,14 +581,5 @@ void LoRa_Generate_Signal()
 	
 //	 goto Send_packets;
 }
-
-
-
-//void coding_phy_midware(int *LoRa_ID_Start_Freq,int *LoRa_Payload_Start_Freq)
-//{
-//	
-//}
-
-
 
 

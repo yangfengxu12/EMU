@@ -18,7 +18,7 @@
 /**********  Packet 1 parameters    **************************/
 #define LORA_SF_NO1													 				7				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1,2,3,4] ( [4/5,4/6,4/7,4/8] )
-#define LORA_HAS_CRC_NO1														true		// true or false
+#define LORA_HAS_CRC_NO1														false		// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
 
 
@@ -27,11 +27,11 @@
 #define LORA_SFD_LENGTH_NO1													2
 #define LORA_QUARTER_SFD_LENGTH_NO1									1
 
-#define LORA_PAYLOAD_LENGTH_NO1											( sizeof(LoRa_Payload_Start_Freq_No1) /		\
-																										  sizeof(LoRa_Payload_Start_Freq_No1[0] ))
-#define LORA_TOTAL_LENGTH_NO1												( LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
-																											LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
-																											LORA_PAYLOAD_LENGTH_NO1 )
+//#define LORA_PAYLOAD_LENGTH_NO1											( sizeof(LoRa_Payload_Start_Freq_No1) /		\
+//																										  sizeof(LoRa_Payload_Start_Freq_No1[0] ))
+//#define LORA_TOTAL_LENGTH_NO1												( LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
+//																											LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
+//																											LORA_PAYLOAD_LENGTH_NO1 )
 
 
 /**********  Packet 2 parameters    **************************/
@@ -75,15 +75,12 @@ enum Chirp_Status{
 		
 extern uint32_t Time;
 
-
-
-void LoRa_Generate_Signal( void );
-
 void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count );
-void LoRa_UpChirp( void );
-void LoRa_DownChirp( void );
-void Generate_Quarter_DownChirp( void );
-void LoRa_Payload( int Start_freq );
+void channel_coding_convert(int* freq_points,int id_and_payload_symbol_len);
+
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len);
+
+
 
 
 #endif

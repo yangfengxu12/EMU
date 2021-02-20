@@ -38,7 +38,7 @@ int main(void)
 {
   uint16_t datarate,i;
 	
-	char *str_tx = "123";
+	char *str_tx = "1";
 
 	int *packet_freq_points_No1 = NULL;
 	int *packet_freq_points_No2 = NULL;
@@ -64,40 +64,8 @@ int main(void)
 	uart_init(115200);
 
 	Control_GPIO_Init();
-	#ifdef CODING
-	packet_freq_points_No1 = LoRa_Channel_Coding(str_tx, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1 );
-
-	
-	LoRa_ID_Start_Freq_No1= packet_freq_points_No1;
-	LoRa_Payload_Start_Freq_No1 = packet_freq_points_No1+2;
-
-	
-//	printf("Len of Output:%d\n",symbol_len_No1);
-//	for(i=0;i<symbol_len_No1;i++)
-//	{
-//		printf("Out[%d]:%d (int)\n",i,packet_freq_points_No1[i]);
-//	}
-	
-	
-	
-//	printf("Len of Output:%d\n",2);
-//	for(i=0;i<2;i++)
-//	{
-//		printf("Out[%d]:%d (float)\n",i,LoRa_ID_Start_Freq_No1[i]);
-//	}
-
-//	printf("Len of Output:%d\n",symbol_len_No1-2);
-//	for(i=0;i<symbol_len_No1-2;i++)
-//	{
-//		printf("Out[%d]:%d (float)\n",i,LoRa_Payload_Start_Freq_No1[i]);
-//	}
-	
-	
-	#else 
-	
-	
 	/*Disbale Stand-by mode*/
-  LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
+	LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 	
 	TIM2_Init(0xffffffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
 	
@@ -114,21 +82,19 @@ int main(void)
 	printf("Tx\r\n");
 	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
 	
-//  while (1)
-//  {
-//		printf("Start\r\n");
+
+	packet_freq_points_No1 = LoRa_Channel_Coding(str_tx, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1 );
+
+	
+
 		for(i=0;i<100;i++)
 		{
-			LoRa_Generate_Signal();
+			LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
 			
 			printf("Tx done, Count:%d\r\n",i+1);
 			delay_ms(500);
 		}
-//		printf("Done\r\n");
-//  }
 		printf("finish!!\r\n");
-		
-		#endif
 }
 
 

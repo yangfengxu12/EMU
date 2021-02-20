@@ -38,10 +38,13 @@ uint8_t *Add_CRC(bool has_crc, char *input_str, uint8_t *input, uint8_t ninput_i
 		uint8_t payload_len = strlen(input_str);
 		//calculate CRC on the N-2 firsts data bytes using Poly=1021 Init=0000
 		for(int i =0;i<(int)payload_len-2;i++)
-		crc=crc16(crc,input_str[i]);
+			crc=crc16(crc,input_str[i]);
 
 		//XOR the obtained CRC with the last 2 data bytes
-		crc=crc ^ input_str[payload_len-1] ^ (input_str[payload_len-2]<<8);
+		if(payload_len<2)
+			crc=crc ^ input_str[payload_len-1] ^ 0x00;
+		else
+			crc=crc ^ input_str[payload_len-1] ^ (input_str[payload_len-2]<<8);
 
 		output[ninput_items]  = ((crc & 0x000F));
 		output[ninput_items+1]= ((crc & 0x00F0)>>4);
