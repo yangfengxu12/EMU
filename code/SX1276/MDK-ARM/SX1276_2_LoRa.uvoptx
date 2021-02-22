@@ -245,7 +245,7 @@
         <Ww>
           <count>7</count>
           <WinNumber>2</WinNumber>
-          <ItemText>LoRa_Payload_Start_Freq_No1,0x0A</ItemText>
+          <ItemText>LORA_TOTAL_LENGTH_NO1,0x0A</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>
@@ -278,7 +278,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>

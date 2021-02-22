@@ -38,7 +38,7 @@ int main(void)
 {
   uint16_t datarate,i;
 	
-	char *str_tx = "1";
+	char *str_tx = "1111111111";
 
 	int *packet_freq_points_No1 = NULL;
 	int *packet_freq_points_No2 = NULL;
