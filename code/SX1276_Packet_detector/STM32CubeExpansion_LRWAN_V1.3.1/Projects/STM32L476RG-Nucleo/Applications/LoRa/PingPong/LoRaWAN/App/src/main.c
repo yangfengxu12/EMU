@@ -102,6 +102,7 @@ const uint8_t PongMsg[] = "PONG";
 
 uint16_t BufferSize = BUFFER_SIZE;
 uint8_t Buffer[BUFFER_SIZE];
+uint8_t tar_Buffer[BUFFER_SIZE]={'1','1','1','1','1','1','1','1','1','1',};
 
 States_t State = LOWPOWER;
 
@@ -308,6 +309,8 @@ void OnTxDone(void)
 
 uint8_t reg_v[10];
 
+uint16_t Payload_error=0;
+
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 {
   uint8_t i;
@@ -330,12 +333,25 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	
 	printf("\r\n");
 	for(i=0;i<BufferSize;i++)
+	{
 		printf("%x   ",Buffer[i]);
+	}
+
 	printf("\r\n");
   printf("OnRxDone\n\r");
   printf("RssiValue=%d dBm, SnrValue=%d\n\r", rssi, snr);
 	received_count++;
 	printf("receive count=%ld\r\n",received_count);
+	
+	for(i=0;i<BufferSize;i++)
+	{
+		if(Buffer[i] != tar_Buffer[i])
+		{
+			Payload_error++;
+			printf("Payload error! Count:%d\r\n",Payload_error);
+			break;
+		}
+	}
 }
 
 void OnTxTimeout(void)

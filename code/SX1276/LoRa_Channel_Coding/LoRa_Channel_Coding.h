@@ -1,0 +1,15 @@
+#ifndef __LORA_CHANNEL_CODING__H__
+#define	__LORA_CHANNEL_CODING__H__
+
+#include "Whitening.h"
+#include "Header.h"
+#include "Add_CRC.h"
+#include "Hanmming_Enc.h"
+#include "Interleaver.h"
+#include "Gray_decode.h"
+#include "Modulation.h"
+
+
+int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool has_crc, bool impl_head, int *symbol_len);
+
+#endif
