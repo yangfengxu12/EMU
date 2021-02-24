@@ -9,7 +9,7 @@
 #include "usart.h"
 #endif
 
-int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool has_crc, bool impl_head, int *symbol_len)
+int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, uint8_t sf, uint8_t cr, bool has_crc, bool impl_head, int *symbol_len)
 {
 	int i;
 	uint8_t *whitened_data = NULL;
@@ -20,38 +20,38 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	uint16_t *gray_data = NULL;
 	int 	*modulation_data = NULL;
 	
-	uint8_t noutput_add_CRC=0;
-	uint8_t noutput_hanmming_coding = 0;
-	uint8_t noutput_interleaver = 0;
-	uint8_t noutput_gray = 0;
-	uint8_t noutput_modulation = 0;
+	uint16_t noutput_whitening = 0;
+	uint16_t noutput_add_header = 0;
+	uint16_t noutput_add_CRC = 0;
+	uint16_t noutput_hanmming_coding = 0;
+	uint16_t noutput_interleaver = 0;
+	uint16_t noutput_gray = 0;
+	uint16_t noutput_modulation = 0;
 	
 	
-	
-//	my_mem_init(SRAMIN);
 	
 	#ifdef DEBUG
 	printf("\n------------------Whitening-----------------------\n");
 	#endif
 	
-	whitened_data = Whitening(str_tx);
+	whitened_data = Whitening(tx_buffer, buffer_size, &noutput_whitening);
 	
 	#ifdef DEBUG
-	printf("Len of Output:%d\n",2*strlen(str_tx));
-	for(i=0;i<2*strlen(str_tx);i++)
+	printf("Len of Output:%d\n",noutput_whitening);
+	for(i=0;i<noutput_whitening;i++)
 	{
 		printf("Out[%d]:%x (hex)\n",i,whitened_data[i]);
 	}
 	printf("\n------------------Add header-----------------------\n");
 	#endif
 	
-	add_header_data = Add_Header(impl_head, has_crc, cr, str_tx, whitened_data);
+	add_header_data = Add_Header(impl_head, has_crc, cr, buffer_size, whitened_data, noutput_whitening, &noutput_add_header);
 	
 	free(whitened_data);
 	
 	#ifdef DEBUG
-	printf("Len of Output:%d\n",2*strlen(str_tx)+5);
-	for(i=0;i<2*strlen(str_tx)+5;i++)
+	printf("Len of Output:%d\n",noutput_add_header);
+	for(i=0;i<noutput_add_header;i++)
 	{
 		printf("Out[%d]:%x (hex)\n",i,add_header_data[i]);
 	}
@@ -59,7 +59,7 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	printf("\n------------------Add CRC-----------------------\n");
 	#endif
 	
-	add_CRC_data = Add_CRC(has_crc, str_tx, add_header_data, 2*strlen(str_tx)+5, &noutput_add_CRC);
+	add_CRC_data = Add_CRC(has_crc, tx_buffer, buffer_size, add_header_data, noutput_add_header, &noutput_add_CRC);
 	
 	free(add_header_data);
 	
@@ -73,7 +73,7 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	printf("\n------------------Hanmming coding-----------------------\n");
 	#endif
 	
-	hanmingcode_data = Hanmming_Enc(cr, sf, str_tx, add_CRC_data, noutput_add_CRC, &noutput_hanmming_coding);
+	hanmingcode_data = Hanmming_Enc(cr, sf, add_CRC_data, noutput_add_CRC, &noutput_hanmming_coding);
 	
 	free(add_CRC_data);
 	
@@ -87,7 +87,7 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	printf("\n------------------Interleaver-----------------------\n");
 	#endif
 	
-	interleaver_data = Interleaver(cr, sf, str_tx, hanmingcode_data, noutput_hanmming_coding, &noutput_interleaver);
+	interleaver_data = Interleaver(cr, sf, hanmingcode_data, noutput_hanmming_coding, &noutput_interleaver);
 	
 	free(hanmingcode_data);
 	
@@ -101,7 +101,7 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	printf("\n------------------Gray coder-----------------------\n");
 	#endif
 	
-	gray_data = Gray_Decoder(cr, sf, str_tx, interleaver_data, noutput_interleaver, &noutput_gray);
+	gray_data = Gray_Decoder(cr, sf, interleaver_data, noutput_interleaver, &noutput_gray);
 	
 	free(interleaver_data);
 	

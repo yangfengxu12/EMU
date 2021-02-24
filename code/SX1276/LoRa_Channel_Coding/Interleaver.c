@@ -19,7 +19,7 @@ inline long mod(long a, long b)
 
 
 
-uint16_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, uint8_t ninput_items, uint8_t *noutput_items)
+uint16_t *Interleaver(uint8_t cr, uint8_t sf, uint8_t *input, uint16_t ninput_items, uint16_t *noutput_items)
 {
 	uint16_t cw_cnt = 0;
 	uint8_t ppm = 0;

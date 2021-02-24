@@ -469,27 +469,27 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 
 			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
 			
-			if( (Chirp_Count_No1 %4 == 0)\
-				&& (Chirp_Count_No1 > (LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + 8)) \
-				&& ( (Chip_Position_No1 > ((1<<LORA_SF_NO1)*0.1) && Chip_Position_No1 < (1<<LORA_SF_NO1)))
-				)
-			{
+//			if( (Chirp_Count_No1 %4 == 0)\
+//				&& (Chirp_Count_No1 > (LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + 8)) \
+//				&& ( (Chip_Position_No1 > ((1<<LORA_SF_NO1)*0.1) && Chip_Position_No1 < (1<<LORA_SF_NO1)))
+//				)
+//			{
+//				Fast_SetChannel( Channel_Freq, Changed_Register_Count );
+//				LL_GPIO_ResetOutputPin(GPIOB, GPIO_PIN_5);
+//			}
+//			else if( \
+//					 (Chirp_Count_No1 > (LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + 8)) \
+//				&& ( (Chip_Position_No1 > start_p1 && Chip_Position_No1 < end_p1) || (Chip_Position_No1 > start_p2 && Chip_Position_No1 < end_p2))
+//				)
+//			{
+//				Fast_SetChannel( Channel_Freq, Changed_Register_Count );
+//				LL_GPIO_ResetOutputPin(GPIOB, GPIO_PIN_5);
+//			}
+//			else
+//			{
 				Fast_SetChannel( Channel_Freq, Changed_Register_Count );
-				LL_GPIO_ResetOutputPin(GPIOB, GPIO_PIN_5);
-			}
-			else if( \
-					 (Chirp_Count_No1 > (LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + 8)) \
-				&& ( (Chip_Position_No1 > start_p1 && Chip_Position_No1 < end_p1) || (Chip_Position_No1 > start_p2 && Chip_Position_No1 < end_p2))
-				)
-			{
-				Fast_SetChannel( Channel_Freq, Changed_Register_Count );
-				LL_GPIO_ResetOutputPin(GPIOB, GPIO_PIN_5);
-			}
-			else
-			{
-				Fast_SetChannel( Channel_Freq, Changed_Register_Count );
-				LL_GPIO_SetOutputPin(GPIOB, GPIO_PIN_5);
-			}
+//				LL_GPIO_SetOutputPin(GPIOB, GPIO_PIN_5);
+//			}
 			
 			
 			

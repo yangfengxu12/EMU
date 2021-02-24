@@ -17,8 +17,8 @@
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
-#define LORA_CODINGRATE                             4         // [1: 4/5,
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
 //  4: 4/8]
@@ -40,7 +40,7 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 1 // Define the payload size here
+#define BUFFER_SIZE                                 100 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
@@ -105,7 +105,7 @@ int main(void)
 
   SystemClock_Config();
 
-  DBG_Init();
+  //DBG_Init();
 
   HW_Init();
 
@@ -154,7 +154,7 @@ int main(void)
 //		// We fill the buffer with numbers for the payload
 		for (i = 0; i < BufferSize; i++)
 		{
-			Buffer[i] = '1' + i;
+			Buffer[i] = '1' ;
 		}
 //		Count++; 
 //		PRINTF("...PING %d\n\r", Count);

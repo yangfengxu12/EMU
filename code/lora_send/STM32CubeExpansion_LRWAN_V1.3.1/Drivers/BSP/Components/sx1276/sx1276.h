@@ -187,7 +187,7 @@ typedef void ( DioIrqHandler )( void* context );
     { MODEM_FSK , REG_IMAGECAL           , 0x02 },\
     { MODEM_FSK , REG_DIOMAPPING1        , 0x00 },\
     { MODEM_FSK , REG_DIOMAPPING2        , 0x30 },\
-    { MODEM_LORA, REG_LR_PAYLOADMAXLENGTH, 0x40 },\
+    { MODEM_LORA, REG_LR_PAYLOADMAXLENGTH, 0xFF },\
 }                                                 \
 
 /* Freq = channel * FREQ_STEP */

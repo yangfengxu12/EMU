@@ -1632,7 +1632,7 @@ void SX1276OnDio0Irq( void* context )
                     {
                         SX1276.Settings.State = RF_IDLE;
                     }
-                    TimerStop( &RxTimeoutTimer );
+//                    TimerStop( &RxTimeoutTimer );
 
                     if( ( RadioEvents != NULL ) && ( RadioEvents->RxDone != NULL ) )
                     {
