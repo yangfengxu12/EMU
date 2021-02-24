@@ -16,8 +16,8 @@ int *LoRa_Channel_Coding(char *str_tx, uint32_t bw, uint8_t sf, uint8_t cr, bool
 	uint8_t *add_header_data = NULL;
 	uint8_t *add_CRC_data = NULL;
 	uint8_t *hanmingcode_data = NULL;
-	uint8_t *interleaver_data = NULL;
-	uint8_t *gray_data = NULL;
+	uint16_t *interleaver_data = NULL;
+	uint16_t *gray_data = NULL;
 	int 	*modulation_data = NULL;
 	
 	uint8_t noutput_add_CRC=0;

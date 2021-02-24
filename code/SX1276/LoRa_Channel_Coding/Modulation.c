@@ -11,7 +11,7 @@
 
 
 
-int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint8_t *input, uint8_t ninput_items, uint8_t *noutput_items)
+int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint8_t ninput_items, uint8_t *noutput_items)
 {
 	
 	int id1 = 8;

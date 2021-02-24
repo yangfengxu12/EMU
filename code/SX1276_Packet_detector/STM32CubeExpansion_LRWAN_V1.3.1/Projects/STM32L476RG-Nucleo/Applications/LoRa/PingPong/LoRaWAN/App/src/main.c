@@ -65,7 +65,7 @@
 //  2: 500 kHz,
 //  3: Reserved]
 
-#define LORA_CODINGRATE                             4         // [1: 4/5,
+#define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
 //  4: 4/8]
@@ -102,7 +102,7 @@ const uint8_t PongMsg[] = "PONG";
 
 uint16_t BufferSize = BUFFER_SIZE;
 uint8_t Buffer[BUFFER_SIZE];
-uint8_t tar_Buffer[BUFFER_SIZE]={'1'};
+uint8_t tar_Buffer[BUFFER_SIZE]={'1','1','1','1','1','1','1','1','1','1',};
 
 States_t State = LOWPOWER;
 

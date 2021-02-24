@@ -19,7 +19,7 @@ inline long mod(long a, long b)
 
 
 
-uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, uint8_t ninput_items, uint8_t *noutput_items)
+uint16_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, uint8_t ninput_items, uint8_t *noutput_items)
 {
 	uint16_t cw_cnt = 0;
 	uint8_t ppm = 0;
@@ -29,8 +29,8 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 	uint16_t sum_interleaved;
 	
 	uint8_t *codewords = NULL;
-	uint8_t *interleaved = NULL;
-	uint8_t *output = NULL;
+	uint16_t *interleaved = NULL;
+	uint16_t *output = NULL;
 	
 	uint32_t cnt_interleaved=0;
 	// temp
@@ -54,8 +54,8 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 			memcpy(codewords,input+cw_cnt,(ninput_items-cw_cnt)*sizeof(uint8_t));
 		}
 		
-		interleaved = realloc(interleaved,ppm*sizeof(uint8_t));
-		memset(interleaved, 0, ppm*sizeof(uint8_t));
+		interleaved = realloc(interleaved,ppm*sizeof(uint16_t));
+		memset(interleaved, 0, ppm*sizeof(uint16_t));
 		
 		for(i=0;i<sf_app;i++)
 		{
@@ -86,11 +86,11 @@ uint8_t *Interleaver(uint8_t cr, uint8_t sf, char *input_str, uint8_t *input, ui
 		
 		
 		
-		output = realloc(output,cnt_interleaved*sizeof(uint8_t));
+		output = realloc(output,cnt_interleaved*sizeof(uint16_t));
 		
 //		memset(output, 0, cnt_interleaved*sizeof(uint8_t));
 		
-		memcpy(output + cnt_interleaved - ppm, interleaved, ppm * sizeof(uint8_t));
+		memcpy(output + cnt_interleaved - ppm, interleaved, ppm * sizeof(uint16_t));
 		
 		remaind_cnt -= remaind_cnt > sf_app ? sf_app : remaind_cnt;
 	}

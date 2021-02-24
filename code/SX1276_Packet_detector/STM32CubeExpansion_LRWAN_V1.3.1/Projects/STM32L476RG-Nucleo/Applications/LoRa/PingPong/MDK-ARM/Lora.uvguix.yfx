@@ -3607,7 +3607,7 @@
       <Doc>
         <Name>..\LoRaWAN\App\src\main.c</Name>
         <ColumnNumber>53</ColumnNumber>
-        <TopLine>40</TopLine>
+        <TopLine>58</TopLine>
         <CurrentLine>68</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -3624,9 +3624,9 @@
       </Doc>
       <Doc>
         <Name>..\..\..\..\..\..\Drivers\BSP\Components\sx1276\sx1276.h</Name>
-        <ColumnNumber>5</ColumnNumber>
-        <TopLine>438</TopLine>
-        <CurrentLine>449</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>396</TopLine>
+        <CurrentLine>455</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
