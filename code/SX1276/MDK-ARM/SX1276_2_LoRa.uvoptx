@@ -152,7 +152,23 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>120</LineNumber>
+          <LineNumber>539</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134237050</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\539</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>537</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -166,89 +182,57 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>688</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134237802</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\688</Expression>
-        </Bp>
-        <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>244</LineNumber>
+          <LineNumber>758</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134236416</Address>
+          <Address>0</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
+          <BreakIfRCount>0</BreakIfRCount>
           <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\244</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>130</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134255972</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\130</Expression>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Input_Freq,0x0A</ItemText>
+          <ItemText>input_freq,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Symbol_Chip_Count</ItemText>
+          <ItemText>target_freq,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Chip_Count_Record_No1</ItemText>
+          <ItemText>Input_Freq,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>LORA_SF_NO1,0x0A</ItemText>
+          <ItemText>Next_Init_Frequency_Begin_Point_No1,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>LORA_FREQ_STEP_NO1</ItemText>
+          <ItemText>gradual_freq,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>LORA_TOTAL_LENGTH_NO1,0x0A</ItemText>
+          <ItemText>diff_freq,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Chirp_Count_No1,0x0A</ItemText>
+          <ItemText>(float)target_freq + (float)diff_freq * rate</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

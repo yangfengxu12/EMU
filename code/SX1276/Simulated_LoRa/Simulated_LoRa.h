@@ -18,7 +18,7 @@
 #define LORA_MAX_FREQ																(RF_FREQUENCY + (LORA_BW >> 1)) // Hz
 
 /**********  Packet 1 parameters    **************************/
-#define LORA_SF_NO1													 				12				// spread factor
+#define LORA_SF_NO1													 				7				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
 #define LORA_HAS_CRC_NO1														false		// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
@@ -79,7 +79,7 @@ extern uint32_t Time;
 
 void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count );
 void channel_coding_convert(int* freq_points,int id_and_payload_symbol_len);
-
+void check_symbol_position(enum Chirp_Status *Chirp_Status, uint32_t Chirp_Count, uint32_t *Init_Frequency_Begin_Point, uint32_t *Next_Init_Frequency_Begin_Point);
 void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len);
 
 void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16_t *end_p1, uint16_t *start_p2, uint16_t *end_p2);

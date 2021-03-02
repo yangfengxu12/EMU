@@ -32,7 +32,7 @@ extern uint32_t Time_temp;
 
 
 
-#define BUFFER_SIZE                                 1 // Define the payload size here
+#define BUFFER_SIZE                                 255 // Define the payload size here
 
 uint8_t Tx_Buffer[BUFFER_SIZE]={0xDE};
 
