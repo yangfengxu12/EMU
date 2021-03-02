@@ -87,7 +87,7 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 64 // Define the payload size here
+#define BUFFER_SIZE                                 255 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 #define LEDS_OFF   do{ \
@@ -201,7 +201,7 @@ int main(void)
                     0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
 								
 	SX1276SetRx(0);
-	
+	SX1276SetMaxPayloadLength( MODEM_LORA, 255 );
 	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
 	printf("Private 0x12\r\n");
 
@@ -219,7 +219,7 @@ int main(void)
 	reg=(SX1276Read(REG_LR_FEIMSB)<<16)|(SX1276Read(REG_LR_FEIMID)<<8)|SX1276Read(REG_LR_FEILSB);
 	
 	
-	while(1);
+//	while(1);
 	
   while (1)
   {
@@ -321,13 +321,13 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   SnrValue = snr;
   State = RX;
 	
-	reg_v[0]=SX1276Read(REG_LR_HOPCHANNEL);
-	reg_v[1]=SX1276Read(REG_LR_MODEMCONFIG1);
-	reg_v[2]=SX1276Read(REG_LR_MODEMCONFIG2);
-	reg_v[3]=SX1276Read(REG_LR_PREAMBLEMSB);
-	reg_v[4]=SX1276Read(REG_LR_PREAMBLELSB);
-	reg_v[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
-	reg_v[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
+//	reg_v[0]=SX1276Read(REG_LR_HOPCHANNEL);
+//	reg_v[1]=SX1276Read(REG_LR_MODEMCONFIG1);
+//	reg_v[2]=SX1276Read(REG_LR_MODEMCONFIG2);
+//	reg_v[3]=SX1276Read(REG_LR_PREAMBLEMSB);
+//	reg_v[4]=SX1276Read(REG_LR_PREAMBLELSB);
+//	reg_v[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
+//	reg_v[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
 	
 
 	
@@ -338,14 +338,14 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	}
 
 	printf("\r\n");
-  printf("OnRxDone\n\r");
+  printf("OnRxDone, Payload length = %d\n\r",BufferSize);
   printf("RssiValue=%d dBm, SnrValue=%d\n\r", rssi, snr);
 	received_count++;
-	printf("receive count=%ld\r\n",received_count);
+	printf("receive packets count=%ld\r\n",received_count);
 	
 	for(i=0;i<BufferSize;i++)
 	{
-		if(Buffer[i] != tar_Buffer[i])
+		if(Buffer[i] != '1')
 		{
 			Payload_error++;
 			printf("Payload error! Count:%d\r\n",Payload_error);

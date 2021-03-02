@@ -26,16 +26,18 @@ const static uint8_t whitening_seq[] = {
 		0xE5, 0xCA, 0x94, 0x28, 0x50, 0xA1, 0x42, 0x84, 0x09, 0x13, 0x27, 0x4F, 0x9F, 0x3F, 0x7F
 };
 
-uint8_t *Whitening( char *input_str)
+uint8_t *Whitening( uint8_t *tx_buffer, uint16_t ninput_items, uint16_t *noutput_items)
 {
 	uint8_t i;
-	uint8_t *output= malloc(2*strlen(input_str)*sizeof(char));
+	uint8_t *output= malloc(2*ninput_items*sizeof(uint8_t));
 	
-	for(i=0;i<strlen(input_str);i++)
+	memset(output, 0, 2*ninput_items*sizeof(uint8_t)); 
+	
+	for(i=0;i<ninput_items;i++)
 	{
 		
-		output[2*i]=((uint8_t)input_str[i] ^ whitening_seq[i]) & 0x0F;
-		output[2*i+1]=((uint8_t)input_str[i] ^ whitening_seq[i]) >> 4;
+		output[2*i]=((uint8_t)tx_buffer[i] ^ whitening_seq[i]) & 0x0F;
+		output[2*i+1]=((uint8_t)tx_buffer[i] ^ whitening_seq[i]) >> 4;
 
 		#ifdef DEBUG
 		printf("char:%c\n",input_str[i]);
@@ -43,7 +45,9 @@ uint8_t *Whitening( char *input_str)
 		printf("out[%d]:%d\n",2*i+1,output[2*i+1]);
 		#endif
 	}
-
+	
+	*noutput_items = 2*ninput_items;
+	
 	return output;
 }
 

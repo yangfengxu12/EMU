@@ -10,15 +10,15 @@
 #define RF_FREQUENCY                                433000000 // Hz
 
 
-#define TX_OUTPUT_POWER                             14        // dBm
+#define TX_OUTPUT_POWER                            14        // dBm
 
 
 #define LORA_BANDWIDTH                              0         // [0: 125 kHz,
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
-#define LORA_CODINGRATE                             4         // [1: 4/5,
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
 //  4: 4/8]
@@ -105,7 +105,7 @@ int main(void)
 
   SystemClock_Config();
 
-  DBG_Init();
+  //DBG_Init();
 
   HW_Init();
 
@@ -137,7 +137,7 @@ int main(void)
   Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
                     LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
+                    0, false, 0, 0, LORA_IQ_INVERSION_ON, true);
 
 
 
@@ -154,7 +154,7 @@ int main(void)
 //		// We fill the buffer with numbers for the payload
 		for (i = 0; i < BufferSize; i++)
 		{
-			Buffer[i] = '1' + i;
+			Buffer[i] = '1' ;
 		}
 //		Count++; 
 //		PRINTF("...PING %d\n\r", Count);

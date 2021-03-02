@@ -10,22 +10,23 @@
 //input_str: payload string
 //in: Whitened data
 //outputput: Header + whitened data
-uint8_t* Add_Header(bool impl_head, bool has_crc, uint8_t cr, char *input_str, uint8_t *in)
+uint8_t* Add_Header(bool impl_head, bool has_crc, uint8_t cr, uint16_t buffer_size, uint8_t *in, uint16_t ninput_items, uint16_t *noutput_items)
 {
-	uint16_t len_input_str = strlen(input_str);
 	bool c0,c1,c2,c3,c4;
 	
-	uint8_t *output= malloc(2*strlen(input_str)+5);
+	uint8_t *output= malloc((ninput_items+5)*sizeof(uint8_t));
 	
 	if(impl_head)
 	{//no header to add
-		memcpy(output,in,2*len_input_str*sizeof(uint8_t));
+		memcpy(output,in,ninput_items*sizeof(uint8_t));
+		
+		*noutput_items = ninput_items;
 	}
 	else
 	{//add header
 		//payload length
-		output[0]=(len_input_str>>4);
-		output[1]=(len_input_str&0x0F);
+		output[0]=(buffer_size>>4);
+		output[1]=(buffer_size&0x0F);
 
 		//coding rate and has_crc
 		output[2]=((cr<<1)|has_crc);
@@ -39,10 +40,12 @@ uint8_t* Add_Header(bool impl_head, bool has_crc, uint8_t cr, char *input_str, u
 
 		output[3]=c4;
 		output[4]=c3<<3|c2<<2|c1<<1|c0;
-		memcpy(&output[5],in,2*len_input_str*sizeof(uint8_t));
+		
+		memcpy(&output[5],in,ninput_items*sizeof(uint8_t));
+		
+		*noutput_items = ninput_items+5;
 	}
 	
-//	free(output);
 	return output;
 }
 

@@ -11,7 +11,7 @@
 
 
 
-int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint8_t ninput_items, uint8_t *noutput_items)
+int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint16_t ninput_items, uint16_t *noutput_items)
 {
 	
 	int id1 = 8;
@@ -27,6 +27,7 @@ int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint8_t ni
 	if(output == NULL)
 	{
 		printf("\n memery is not align!!\n");
+		while(1);
 	}
 	
 	output[0] = (int) ((double)bw/((double)(1<<sf))*(double)id1 - 62500);

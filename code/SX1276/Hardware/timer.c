@@ -17,7 +17,7 @@ void TIM2_Init(u32 arr,u16 psc)
 {  
     TIM2_Handler.Instance=TIM2;                          //通用定时器3
     TIM2_Handler.Init.Prescaler=psc;                     //分频系数
-    TIM2_Handler.Init.CounterMode=TIM_COUNTERMODE_UP;    //向下计数器
+    TIM2_Handler.Init.CounterMode=TIM_COUNTERMODE_UP;    //up conuter
     TIM2_Handler.Init.Period=arr;                        //自动装载值
     TIM2_Handler.Init.ClockDivision=TIM_CLOCKDIVISION_DIV1;//时钟分频因子
     HAL_TIM_Base_Init(&TIM2_Handler);
@@ -186,7 +186,7 @@ void HAL_TIM_IC_CaptureCallback( TIM_HandleTypeDef *htim )//捕获中断发生时执行
 	else //接下来的上升沿
 	{
 		Rising_Edge_Count++;
-		if( Rising_Edge_Count == 32768 )
+		if( Rising_Edge_Count == 32767 )
 		{
 			Input_Captured_Record[ Input_Captured_Count ][ 1 ] = HAL_TIM_ReadCapturedValue( &htim15, TIM_CHANNEL_1 );
 			Input_Captured_Record[ Input_Captured_Count ][ 2 ] = TIM15CH1_CAPTURE_STA&0x7F;

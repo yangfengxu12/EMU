@@ -15,7 +15,7 @@ int RTC_Timer_Calibration( void )
 	TIM15_Init();
 	while( Timer_Calibration_Done_Flag == 0 )
 	{
-		delay_ms( 1000 );
+		delay_ms( 800 );
 	}
 	
 	Timer_Calibration_Done_Flag = 0;
@@ -38,7 +38,7 @@ int RTC_Timer_Calibration( void )
 		sum += Input_Captured_Record[ i ][ 3 ];
 	}
 	average = sum / Calibration_Times;
-	return 1000000 / average;
+	return 1000000 / average -180;
 }
 
 

@@ -17,7 +17,7 @@ inline long mod(long a, long b)
 	return result_mod;
 }
 
-uint16_t *Gray_Decoder(uint8_t cr, uint8_t sf, char *input_str, uint16_t *input, uint8_t ninput_items, uint8_t *noutput_items)
+uint16_t *Gray_Decoder(uint8_t cr, uint8_t sf, uint16_t *input, uint16_t ninput_items, uint16_t *noutput_items)
 {
 	uint16_t *output;
 	

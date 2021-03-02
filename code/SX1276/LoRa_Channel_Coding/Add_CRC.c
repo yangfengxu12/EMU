@@ -25,7 +25,7 @@ unsigned int crc16(unsigned int crcValue, unsigned char newByte)
 }
 
 
-uint8_t *Add_CRC(bool has_crc, char *input_str, uint8_t *input, uint8_t ninput_items, uint8_t *noutput_items)
+uint8_t *Add_CRC(bool has_crc, uint8_t *tx_buffer, uint16_t buffer_size, uint8_t *input, uint16_t ninput_items, uint16_t *noutput_items)
 {
 	uint8_t *output;
 	if(has_crc)
@@ -35,16 +35,16 @@ uint8_t *Add_CRC(bool has_crc, char *input_str, uint8_t *input, uint8_t ninput_i
 		
 		memcpy(output,input,ninput_items*sizeof(uint8_t));
 		
-		uint8_t payload_len = strlen(input_str);
+		uint8_t payload_len = buffer_size;
 		//calculate CRC on the N-2 firsts data bytes using Poly=1021 Init=0000
 		for(int i =0;i<(int)payload_len-2;i++)
-			crc=crc16(crc,input_str[i]);
+			crc=crc16(crc,tx_buffer[i]);
 
 		//XOR the obtained CRC with the last 2 data bytes
 		if(payload_len<2)
-			crc=crc ^ input_str[payload_len-1] ^ 0x00;
+			crc=crc ^ tx_buffer[payload_len-1] ^ 0x00;
 		else
-			crc=crc ^ input_str[payload_len-1] ^ (input_str[payload_len-2]<<8);
+			crc=crc ^ tx_buffer[payload_len-1] ^ (tx_buffer[payload_len-2]<<8);
 
 		output[ninput_items]  = ((crc & 0x000F));
 		output[ninput_items+1]= ((crc & 0x00F0)>>4);

@@ -72,3 +72,4 @@
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\rtc.h
 .\sx1276_2_lora\simulated_lora.o: ..\Simulated_LoRa\Simulated_LoRa.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\fast_spi.h
+.\sx1276_2_lora\simulated_lora.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

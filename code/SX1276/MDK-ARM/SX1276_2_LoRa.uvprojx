@@ -683,6 +683,11 @@
               <FileType>1</FileType>
               <FilePath>..\Simulated_LoRa\Timer_Calibration.c</FilePath>
             </File>
+            <File>
+              <FileName>Simulated_LoRa.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Simulated_LoRa\Simulated_LoRa.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
