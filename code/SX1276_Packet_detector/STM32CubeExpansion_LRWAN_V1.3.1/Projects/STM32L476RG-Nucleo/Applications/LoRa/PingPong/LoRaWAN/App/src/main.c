@@ -51,7 +51,7 @@
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
 
 
 
@@ -252,51 +252,51 @@ int main(void)
 		
 		
 		
-//		reg=SX1276Read(0x18);
-//		if((reg & 0x04) == 0x04)
-//		{
-////			printf("Rx is going\r\n");
+		reg=SX1276Read(0x18);
+		if((reg & 0x04) == 0x04)
+		{
+//			printf("Rx is going\r\n");
 
-//			if((reg & 0x01) == 0x01)
+			if((reg & 0x01) == 0x01)
+			{
+				Rssi_current[0]=SX1276Read(0x1B)-164;
+				printf("-----------------\r\n");
+				printf("1.Detected123\tRssi:%d\r\n",Rssi_current[0]);
+				
+				if( (reg & 0x02) == 0x02 )
+				{
+					Rssi_current[1]=SX1276Read(0x1B)-164;
+					printf("2.Synchronized\tRssi:%d\r\n",Rssi_current[1]);
+					
+					if( (reg & 0x08) == 0x08 )
+					{
+						Rssi_current[2]=SX1276Read(0x1B)-164;
+						printf("3.Header info valid\tRssi:%d\r\n",Rssi_current[2]);
+						printf("avg:%d\r\n",(Rssi_current[0]+Rssi_current[1]+Rssi_current[2])/3);
+					}
+					else
+					{
+						Rssi_current[2]=SX1276Read(0x1B)-164;
+						printf("0.Header info not valid\tRssi:%d\r\n",Rssi_current[2]);
+					}
+				}
+				else				
+				{
+					Rssi_current[1]=SX1276Read(0x1B)-164;
+					printf("0.Not Synchronized\tRssi:%d\r\n",Rssi_current[1]);
+				}
+			}
+//			else
 //			{
-//				Rssi_current[0]=SX1276Read(0x1B)-164;
-//				printf("-----------------\r\n");
-//				printf("1.Detected123\tRssi:%d\r\n",Rssi_current[0]);
-//				
-//				if( (reg & 0x02) == 0x02 )
-//				{
-//					Rssi_current[1]=SX1276Read(0x1B)-164;
-//					printf("2.Synchronized\tRssi:%d\r\n",Rssi_current[1]);
-//					
-//					if( (reg & 0x08) == 0x08 )
-//					{
-//						Rssi_current[2]=SX1276Read(0x1B)-164;
-//						printf("3.Header info valid\tRssi:%d\r\n",Rssi_current[2]);
-//						printf("avg:%d\r\n",(Rssi_current[0]+Rssi_current[1]+Rssi_current[2])/3);
-//					}
-//					else
-//					{
-//						Rssi_current[2]=SX1276Read(0x1B)-164;
-//						printf("0.Header info not valid\tRssi:%d\r\n",Rssi_current[2]);
-//					}
-//				}
-//				else				
-//				{
-//					Rssi_current[1]=SX1276Read(0x1B)-164;
-//					printf("0.Not Synchronized\tRssi:%d\r\n",Rssi_current[1]);
-//				}
+////				printf("Signal Not detected\r\n");
 //			}
-////			else
-////			{
-//////				printf("Signal Not detected\r\n");
-////			}
-//		}
-//		else
-//		{
-//			printf("Rx isn't going\r\n");
-//			Radio.Rx(RX_TIMEOUT_VALUE);
-//		}
-//		DelayMs(100);
+		}
+		else
+		{
+			printf("Rx isn't going\r\n");
+			Radio.Rx(RX_TIMEOUT_VALUE);
+		}
+		DelayMs(100);
   }
 }
 
@@ -345,7 +345,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	
 	for(i=0;i<BufferSize;i++)
 	{
-		if(Buffer[i] != tar_Buffer[i])
+		if(Buffer[i] != '1')
 		{
 			Payload_error++;
 			printf("Payload error! Count:%d\r\n",Payload_error);

@@ -10,14 +10,14 @@
 #define RF_FREQUENCY                                433000000 // Hz
 
 
-#define TX_OUTPUT_POWER                             14        // dBm
+#define TX_OUTPUT_POWER                            14        // dBm
 
 
 #define LORA_BANDWIDTH                              0         // [0: 125 kHz,
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
@@ -40,7 +40,7 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 100 // Define the payload size here
+#define BUFFER_SIZE                                 255 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
@@ -137,7 +137,7 @@ int main(void)
   Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
                     LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
+                    0, false, 0, 0, LORA_IQ_INVERSION_ON, true);
 
 
 
