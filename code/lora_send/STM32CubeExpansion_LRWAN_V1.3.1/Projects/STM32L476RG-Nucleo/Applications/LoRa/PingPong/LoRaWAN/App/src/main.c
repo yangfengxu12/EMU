@@ -17,7 +17,7 @@
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
@@ -40,14 +40,14 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 1 // Define the payload size here
+#define BUFFER_SIZE                                 16 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
 uint32_t Tx_count = 0;
 
 uint16_t BufferSize = BUFFER_SIZE;
-uint8_t Buffer[BUFFER_SIZE] = {'1'};
+uint8_t Buffer[BUFFER_SIZE] = {0x31};
 
 States_t State = LOWPOWER;
 

@@ -34,9 +34,13 @@ extern uint32_t Time_temp;
 
 #define BUFFER_SIZE                                 255 // Define the payload size here
 
-uint8_t Tx_Buffer[BUFFER_SIZE]={0xDE};
+uint8_t Tx_Buffer[BUFFER_SIZE]={
+		0xFF
+};
 
 uint16_t BufferSize = BUFFER_SIZE;
+
+uint8_t reg;
 
 int main(void)
 {
@@ -49,8 +53,6 @@ int main(void)
 		else
 			Tx_Buffer[i] = 0x31 ;
 	}
-	
-	
 	int *packet_freq_points_No1 = NULL;
 	int *packet_freq_points_No2 = NULL;
 	
@@ -83,6 +85,9 @@ int main(void)
 	Radio.Init(&RadioEvents);
   Radio.SetChannel(RF_FREQUENCY);
 	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
+
+//	SX1276Write( REG_OSC, RF_OSC_CLKOUT_1_MHZ );
+	
 	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
 	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
@@ -92,14 +97,13 @@ int main(void)
   SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
 
 	
-
 	packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1 );
 
 	
 	printf("Tx\r\n");
 	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
 	
-		for(i=0;i<100;i++)
+		for(i=0;i<1000;i++)
 		{
 			LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
 			

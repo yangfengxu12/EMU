@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "malloc.h" 
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #include "usart.h"
@@ -31,6 +31,11 @@ int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, 
 	
 	
 	#ifdef DEBUG
+	for(i=0;i<1;i++)
+	{
+		printf("Out[%d]:%x (hex)\n",i,tx_buffer[i]);
+	}
+	
 	printf("\n------------------Whitening-----------------------\n");
 	#endif
 	

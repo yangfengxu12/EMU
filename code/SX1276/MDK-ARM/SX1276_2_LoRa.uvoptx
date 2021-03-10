@@ -152,9 +152,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>539</LineNumber>
+          <LineNumber>788</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134237050</Address>
+          <Address>134237972</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -163,28 +163,28 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\539</Expression>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\788</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>537</LineNumber>
+          <LineNumber>254</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
+          <Address>134236478</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
+          <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\254</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>758</LineNumber>
+          <LineNumber>776</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -202,37 +202,17 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>input_freq,0x0A</ItemText>
+          <ItemText>reg</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>target_freq,0x0A</ItemText>
+          <ItemText>temp</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Input_Freq,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Next_Init_Frequency_Begin_Point_No1,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>gradual_freq,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>diff_freq,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>(float)target_freq + (float)diff_freq * rate</ItemText>
+          <ItemText>output</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -250,23 +230,23 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>257</SubType>
-          <ItemText>Freq_Record_NO1</ItemText>
+          <SubType>262</SubType>
+          <ItemText>Min_Freq_In_Symbol</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
       <MemoryWindow2>
         <Mm>
           <WinNumber>2</WinNumber>
-          <SubType>257</SubType>
-          <ItemText>Chip_Count_Record_No1</ItemText>
+          <SubType>6</SubType>
+          <ItemText>Max_Freq_In_Symbol</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>
       <MemoryWindow3>
         <Mm>
           <WinNumber>3</WinNumber>
-          <SubType>4</SubType>
+          <SubType>260</SubType>
           <ItemText>output</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
@@ -717,7 +697,7 @@
 
   <Group>
     <GroupName>BSP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

@@ -30,12 +30,13 @@ int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint16_t n
 		while(1);
 	}
 	
-	output[0] = (int) ((double)bw/((double)(1<<sf))*(double)id1 - 62500);
-	output[1] = (int) ((double)bw/((double)(1<<sf))*(double)id2 - 62500);
+	output[0] = (int) ((double)bw/((double)(1<<sf)-1)*(double)id1 - 62500);
+	output[1] = (int) ((double)bw/((double)(1<<sf)-1)*(double)id2 - 62500);
 	
 	for(int i=2;i<ninput_items+2;i++)
 	{
-		output[i] = (int)(((double)bw)/((double)(1<<sf))*((double)(input[i-2])) - 62500);
+		
+		output[i] = (int)(((double)bw)/((double)(1<<sf)-1)*((double)(input[i-2])) - 62500);
 	}
 	
 	*noutput_items = ninput_items + 2;

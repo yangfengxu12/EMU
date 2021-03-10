@@ -38,7 +38,7 @@ int RTC_Timer_Calibration( void )
 		sum += Input_Captured_Record[ i ][ 3 ];
 	}
 	average = sum / Calibration_Times;
-	return 1000000 / average -180;
+	return 1000000 / average - 180;
 }
 
 
