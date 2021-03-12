@@ -44,7 +44,7 @@
 .\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 .\sx1276_2_lora\utilities.o: ..\BSP\stm32l4xx_nucleo.h
 .\sx1276_2_lora\utilities.o: ..\Hardware\stm32l4xx_hw_conf.h
-.\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_rtc.h
+.\sx1276_2_lora\utilities.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_rtc.h
 .\sx1276_2_lora\utilities.o: ..\Utilities\trace.h
 .\sx1276_2_lora\utilities.o: ..\Hardware\utilities_conf.h
 .\sx1276_2_lora\utilities.o: ..\Hardware\vcom.h

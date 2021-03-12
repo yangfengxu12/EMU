@@ -41,6 +41,9 @@
 .\sx1276_2_lora\timer_calibration.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 .\sx1276_2_lora\timer_calibration.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 .\sx1276_2_lora\timer_calibration.o: ..\Hardware\control_GPIO.h
+.\sx1276_2_lora\timer_calibration.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_tim.h
+.\sx1276_2_lora\timer_calibration.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_gpio.h
+.\sx1276_2_lora\timer_calibration.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_bus.h
 .\sx1276_2_lora\timer_calibration.o: ..\Hardware\rtc.h
 .\sx1276_2_lora\timer_calibration.o: ..\Hardware\sys.h
 .\sx1276_2_lora\timer_calibration.o: ..\Hardware\delay.h
