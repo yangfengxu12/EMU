@@ -46,7 +46,7 @@
 .\sx1276_2_lora\main.o: ..\Hardware\hw_conf.h
 .\sx1276_2_lora\main.o: ..\BSP\stm32l4xx_nucleo.h
 .\sx1276_2_lora\main.o: ..\Hardware\stm32l4xx_hw_conf.h
-.\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_rtc.h
+.\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_rtc.h
 .\sx1276_2_lora\main.o: ..\Hardware\hw_gpio.h
 .\sx1276_2_lora\main.o: ..\Hardware\hw_spi.h
 .\sx1276_2_lora\main.o: ..\Hardware\hw_rtc.h
@@ -69,6 +69,9 @@
 .\sx1276_2_lora\main.o: ..\BSP\SX1276\sx1276mb1mas.h
 .\sx1276_2_lora\main.o: ..\Hardware\timer.h
 .\sx1276_2_lora\main.o: ..\Hardware\control_GPIO.h
+.\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_tim.h
+.\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_gpio.h
+.\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_bus.h
 .\sx1276_2_lora\main.o: ..\Hardware\fast_spi.h
 .\sx1276_2_lora\main.o: ..\Hardware\sys.h
 .\sx1276_2_lora\main.o: ..\Hardware\rtc.h
@@ -84,3 +87,4 @@
 .\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Gray_decode.h
 .\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Modulation.h
 .\sx1276_2_lora\main.o: ..\Simulated_LoRa\Timer_Calibration.h
+.\sx1276_2_lora\main.o: ..\Simulated_LoRa\Timer_Calibration_From_SX1276.h

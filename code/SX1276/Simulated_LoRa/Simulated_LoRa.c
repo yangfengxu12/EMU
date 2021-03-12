@@ -4,13 +4,16 @@
 #include "sx1276mb1mas.h"
 #include "delay.h"
 #include "Timer_Calibration.h"
+#include "Timer_Calibration_From_SX1276.h"
 #include "control_GPIO.h"
 
 #include "Simulated_LoRa.h"
 
+#ifdef CALIBRATION_FROM_RTC
 #define Comped_Time ( TIM2->CNT + Timer_Compensation_Count ) 
-
-
+#else
+#define Comped_Time (( TIM4->CNT << 16 ) + TIM3->CNT ) 
+#endif
 //#define ENABLE_PACKET_NO2
 
 uint8_t test_symbol_point=1;
@@ -297,10 +300,15 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	
 	// +: RTC > TIM ---> TIM +
 	// -: RTC < TIM ---> TIM - 
+	#ifdef CALIBRATION_FROM_RTC
+	TIM2_Init(0xffffffff,80-1);
 	
 	Timer_Compensation_Index = RTC_Timer_Calibration();
 	
 	TIM3_Init( Timer_Compensation_Index - 1 );
+	#else
+	Init_Timer_Calibration_From_SX1276();
+	#endif
 	
 	SX_FREQ_TO_CHANNEL( Channel, RF_FREQUENCY );
 				
@@ -327,16 +335,26 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 		Channel_Freq_LSB_temp = Channel_Freq[2];
 	}
 	Fast_SetChannel( Channel_Freq, Changed_Register_Count );
+	
+	
 	Send_packets:
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 	delay_ms(1);
-
+	
+	#ifdef CALIBRATION_FROM_RTC
 	TIM2->CNT = 0;
 	TIM3->CNT = 0;
 	HAL_TIM_Base_Start_IT(&TIM2_Handler);
 	HAL_TIM_Base_Start_IT(&TIM3_Handler);
+	#else
+	TIM3->CNT = 0;
+	TIM4->CNT = 0;
+	LL_TIM_EnableCounter(TIM3);
+	LL_TIM_EnableCounter(TIM4);
+	#endif
+	
 	/*******************/
-	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+ 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 	
@@ -761,9 +779,17 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	/*******************/
 	
 	SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
-	HAL_TIM_Base_Stop_IT(&TIM2_Handler);
+	
 	Total_Chip_Count = 0;
 	Chirp_Count_No1 = 0;
+	#ifdef CALIBRATION_FROM_RTC
+	HAL_TIM_Base_Stop_IT(&TIM2_Handler);
+	#else
+	TIM3->CNT = 0;
+	TIM4->CNT = 0;
+	LL_TIM_DisableCounter(TIM3);
+	LL_TIM_DisableCounter(TIM4);
+	#endif
 	
 //	for(int i = 0;i< 1<<LORA_SF_NO1;i++)
 //	{
