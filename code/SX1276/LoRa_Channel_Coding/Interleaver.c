@@ -58,8 +58,8 @@ uint16_t *Interleaver(uint8_t cr, uint8_t sf, uint8_t *input, uint16_t ninput_it
 		
 		ppm = 4+((cw_cnt<sf-2)?4:cr);
 		sf_app = (cw_cnt<sf-2)?sf-2:sf;
-		printf("ppm%d\n",ppm);
-		printf("sf_app%d\n",sf_app);
+//		printf("ppm%d\n",ppm);
+//		printf("sf_app%d\n",sf_app);
 		
 		codewords = realloc(codewords,sf_app*sizeof(uint8_t));
 		memset(codewords, 0, sf_app*sizeof(uint8_t)); 

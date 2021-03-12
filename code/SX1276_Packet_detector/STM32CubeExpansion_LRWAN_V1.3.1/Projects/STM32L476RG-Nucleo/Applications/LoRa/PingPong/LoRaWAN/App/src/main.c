@@ -51,7 +51,7 @@
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       8        // [SF7..SF12]
 
 
 
@@ -102,7 +102,7 @@ const uint8_t PongMsg[] = "PONG";
 
 uint16_t BufferSize = BUFFER_SIZE;
 uint8_t Buffer[BUFFER_SIZE];
-uint8_t tar_Buffer[BUFFER_SIZE]={'1','1','1','1','1','1','1','1','1','1',};
+uint8_t tar_Buffer[BUFFER_SIZE]={'1','1','1','1','1','1','1'};
 
 States_t State = LOWPOWER;
 
@@ -297,6 +297,7 @@ int main(void)
 //			Radio.Rx(RX_TIMEOUT_VALUE);
 //		}
 //		DelayMs(100);
+//		reg=0x00;
   }
 }
 
@@ -331,27 +332,26 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	
 
 	
-	printf("\r\n");
+	printf("\n");
 	for(i=0;i<BufferSize;i++)
 	{
 		printf("%x   ",Buffer[i]);
 	}
 
-	printf("\r\n");
-  printf("OnRxDone, Payload length = %d\n\r",BufferSize);
-  printf("RssiValue=%d dBm, SnrValue=%d\n\r", rssi, snr);
+	printf("\n");
+  printf("OnRxDone, Payload length = %d\n",BufferSize);
+  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
 	received_count++;
-	printf("receive packets count=%ld\r\n",received_count);
-	
+	printf("receive packets count=%ld\n",received_count);
 	for(i=0;i<BufferSize;i++)
 	{
 		if(Buffer[i] != '1')
 		{
-			Payload_error++;
-			printf("Payload error! Count:%d\r\n",Payload_error);
+			Payload_error++;	
 			break;
 		}
 	}
+	printf("Payload error! Count:%d\r\n",Payload_error);
 }
 
 void OnTxTimeout(void)
