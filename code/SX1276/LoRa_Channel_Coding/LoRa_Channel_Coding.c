@@ -4,7 +4,6 @@
 //#include "malloc.h" 
 
 //#define DEBUG
-
 #ifdef DEBUG
 #include "usart.h"
 #endif
@@ -110,15 +109,31 @@ int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, 
 	
 	free(interleaver_data);
 	
+//	for(i=8;i<noutput_gray;i++)
+//	{
+//		gray_data[i]=i-8+1;
+//		if(gray_data[i] >= (1<<sf))
+//			gray_data[i]-=(1<<sf);
+//	}
+//	for(i=0;i<noutput_interleaver;i++)
+//	{
+//		printf("Out[%d]:0x%x\n",i,gray_data[i]);
+//	}
+	
 	#ifdef DEBUG
 	printf("Len of Output:%d\n",noutput_gray);
 	for(i=0;i<noutput_interleaver;i++)
 	{
-		printf("Out[%d]:%x (hex)\n",i,gray_data[i]);
+		printf("Out[%d]:0x%x\n",i,gray_data[i]);
 	}
 	
 	printf("\n------------------Modualtion-----------------------\n");
 	#endif
+	
+	
+
+	
+	
 	
 	modulation_data = Modulation(cr, sf, bw, gray_data, noutput_gray, &noutput_modulation);
 	
