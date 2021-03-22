@@ -51,11 +51,7 @@
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       8        // [SF7..SF12]
-
-
-
-
+#define LORA_SPREADING_FACTOR                       11        // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
@@ -73,7 +69,6 @@
 #define LORA_SYMBOL_TIMEOUT                         3         // Symbols
 #define LORA_FIX_LENGTH_PAYLOAD_ON                  false
 #define LORA_IQ_INVERSION_ON                        false
-
 
 
 typedef enum
@@ -347,7 +342,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	{
 		if(Buffer[i] != '1')
 		{
-			Payload_error++;	
+			Payload_error++;
+//			printf("%d,%x,%x\n",i,Buffer[i],(uint8_t)('1' + i));			
 			break;
 		}
 	}

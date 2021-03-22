@@ -18,7 +18,7 @@
 #define LORA_MAX_FREQ																(RF_FREQUENCY + (LORA_BW >> 1)) // Hz
 
 /**********  Packet 1 parameters    **************************/
-#define LORA_SF_NO1													 				8				// spread factor
+#define LORA_SF_NO1													 				11				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
 #define LORA_HAS_CRC_NO1														false		// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false

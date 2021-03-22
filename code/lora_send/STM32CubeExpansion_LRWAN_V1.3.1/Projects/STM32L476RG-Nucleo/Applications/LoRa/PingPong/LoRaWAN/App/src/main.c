@@ -40,7 +40,7 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 16 // Define the payload size here
+#define BUFFER_SIZE                                 255 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
