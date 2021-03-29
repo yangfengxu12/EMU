@@ -140,8 +140,8 @@ int gradual_frequency_for_hop(int input_freq, int target_freq,int chip)
 	volatile int gradual_freq;
 	
 	float rate = 0;
-	if(chip==1)rate = 0.1;
-	if(chip==2)rate = 0.1;
+	if(chip==1)rate = 1/(1<<LORA_SF_NO1);
+	if(chip==2)rate = 1/(1<<LORA_SF_NO1);
 	
 	gradual_freq = (int)((float)target_freq + (float)diff_freq * rate);
 	
@@ -232,7 +232,7 @@ void check_symbol_position(enum Chirp_Status *Chirp_Status, uint32_t Chirp_Count
 }
 
 uint32_t Chirp_Start_Time;
-
+uint16_t temp1,temp2;
 void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 {
 	uint16_t start_p1,end_p1,start_p2,end_p2;
@@ -252,13 +252,6 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 //	memset(Max_Freq_In_Symbol, 0, LORA_TOTAL_LENGTH_NO1 * sizeof(float));
 //	memset(Min_Freq_In_Symbol, 1000000000, LORA_TOTAL_LENGTH_NO1 * sizeof(float));
 	
-	
-
-	
-
-	
-	
-//	int Chip_Position_Freq_Hop_No1 = 0;
 	
 	int Chip_Position_No1 = 0;
 	int Chip_Mid_KeyPoint_No1 = 0;
@@ -443,37 +436,77 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 			Changed_Register_Count = 1;
 			
 			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12); 
-			switch (Chirp_Status_No1)
+//			switch (Chirp_Status_No1)
+//			{
+//				case Preamble:	if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
+//												{
+//													goto Symbol_End;		
+//												}
+//												break;
+//				case ID:				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
+//												{
+//													goto Symbol_End;
+//												}
+//												break;
+//				case SFD:				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
+//												{
+//													goto Symbol_End;
+//												}
+//												break; 
+//				case Quarter_SFD:if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= ( LORA_SYMBOL_TIME_NO1 / 4 ) )
+//												{
+//													goto Symbol_End;													
+//												}
+//												break;
+//				case Payload:		
+//												if( Comped_Time - ( LORA_SYMBOL_TIME_NO1 * ( Chirp_Count_No1 - 1 ) + ( LORA_SYMBOL_TIME_NO1 / 4 )) >= ( LORA_SYMBOL_TIME_NO1 ) )
+//												{		
+//													goto Symbol_End;													
+//												}
+//												break;
+//				default:break;
+//			}
+			if(Chirp_Status_No1 == SFD)
 			{
-				case Preamble:	if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
-												{
-													goto Symbol_End;		
-												}
-												break;
-				case ID:				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
-												{
-													goto Symbol_End;
-												}
-												break;
-				case SFD:				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
-												{
-													goto Symbol_End;
-												}
-												break; 
-				case Quarter_SFD:if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= ( LORA_SYMBOL_TIME_NO1 / 4 ) )
-												{
-													goto Symbol_End;													
-												}
-												break;
-				case Payload:		
-												if( Comped_Time - ( LORA_SYMBOL_TIME_NO1 * ( Chirp_Count_No1 - 1 ) + ( LORA_SYMBOL_TIME_NO1 / 4 )) >= ( LORA_SYMBOL_TIME_NO1 ) )
-												{		
-													goto Symbol_End;													
-												}
-												break;
-				default:break;
+				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
+				{
+					goto Symbol_End;
+				}
 			}
-
+			else if(Chirp_Status_No1 == Quarter_SFD)
+			{
+				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= ( LORA_SYMBOL_TIME_NO1 / 4 ) )
+				{
+					goto Symbol_End;													
+				}
+			}
+			else if(Chirp_Status_No1 == Payload)
+			{
+				if( Comped_Time - ( LORA_SYMBOL_TIME_NO1 * ( Chirp_Count_No1 - 1 ) + ( LORA_SYMBOL_TIME_NO1 / 4 )) >= ( LORA_SYMBOL_TIME_NO1 ) )
+				{		
+					goto Symbol_End;
+				}
+			}
+			else if(Chirp_Status_No1 == Preamble)
+			{
+				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
+				{
+					goto Symbol_End;		
+				}
+			}
+			else if(Chirp_Status_No1 == ID)				
+			{				
+				if( Comped_Time - LORA_SYMBOL_TIME_NO1 * Chirp_Count_No1 >= LORA_SYMBOL_TIME_NO1 )
+				{
+					goto Symbol_End;
+				}
+			}
+			else
+			{
+				printf("\nChirp Status Error!\n");
+				while(1);
+			}
+			
 		}	// end loop of symbol
 		Symbol_End:
 		Chip_Mid_KeyPoint_No1 = 0;
@@ -483,6 +516,8 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);	
 	}
 	/*******************/
+	temp1 = TIM3->CNT;
+	temp2 = TIM4->CNT;
 	delay_ms(1);
 	SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
 	
