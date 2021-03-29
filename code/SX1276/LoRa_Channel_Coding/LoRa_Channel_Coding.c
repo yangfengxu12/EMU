@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "malloc.h" 
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #include "usart.h"
 #endif
@@ -127,6 +127,12 @@ int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, 
 	uint16_t noutput_interleaver = 0;
 	uint16_t noutput_gray = 0;
 	uint16_t noutput_modulation = 0;
+	
+	
+//	if(sf == 11 || sf==12)
+//	{
+//		sf-=2;
+//	}
 	
 	
 	
