@@ -105,7 +105,7 @@ int main(void)
 			LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
 			
 			printf("Tx done, Count:%d\r\n",i+1);
-			delay_ms(1000);
+			delay_ms(8000);
 		}
 		printf("finish!!\r\n");
 

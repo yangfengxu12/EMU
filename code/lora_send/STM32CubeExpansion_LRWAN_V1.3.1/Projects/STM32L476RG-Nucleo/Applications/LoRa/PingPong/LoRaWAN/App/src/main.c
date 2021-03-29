@@ -7,7 +7,7 @@
 
 
 
-#define RF_FREQUENCY                                433000000 // Hz
+#define RF_FREQUENCY                                868000000 // Hz
 
 
 #define TX_OUTPUT_POWER                            14        // dBm
@@ -17,7 +17,7 @@
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
@@ -113,10 +113,10 @@ int main(void)
   LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 
   /* Led Timers*/
-  TimerInit(&timerLed, OnledEvent);
-  TimerSetValue(&timerLed, LED_PERIOD_MS);
+//  TimerInit(&timerLed, OnledEvent);
+//  TimerSetValue(&timerLed, LED_PERIOD_MS);
 
-  TimerStart(&timerLed);
+//  TimerStart(&timerLed);
 
   // Radio initialization
   RadioEvents.TxDone = OnTxDone;
@@ -132,7 +132,7 @@ int main(void)
   Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
                     LORA_SPREADING_FACTOR, LORA_CODINGRATE,
                     LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    false, 0, 0, LORA_IQ_INVERSION_ON, 3000);
+                    false, 0, 0, LORA_IQ_INVERSION_ON, 10000);
 
   Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
                     LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
@@ -143,26 +143,31 @@ int main(void)
 
 //  Radio.Rx(RX_TIMEOUT_VALUE);
 	PRINTF("sender\n\r");
+	for (i = 0; i < BufferSize; i++)
+	{
+		Buffer[i] = '1' ;
+	}
   while (1)
   {
-
-		// Send the next PING frame
-		
-//		Buffer[1] = 'I';
-//		Buffer[2] = 'N';
-//		Buffer[3] = 'G';
-//		// We fill the buffer with numbers for the payload
-		for (i = 0; i < BufferSize; i++)
-		{
-			Buffer[i] = '1' ;
-		}
-//		Count++; 
-//		PRINTF("...PING %d\n\r", Count);
-
+		Radio.Send(Buffer, BufferSize);  
+//		DelayMs(2000);
+//		DelayMs(2000);
+//		DelayMs(2000);
 		DelayMs(2000);
-		Radio.Send(Buffer, BufferSize);
-          
-    ENABLE_IRQ();
+		DelayMs(2000);
+		DelayMs(2000);
+		DelayMs(2000);
+		DelayMs(2000);
+ENABLE_IRQ();		
+		DelayMs(2000);
+//		DelayMs(2000);
+//		DelayMs(2000);
+//		DelayMs(2000);
+//		DelayMs(2000);
+//		DelayMs(2000);
+		
+      
+    
   }
 }
 

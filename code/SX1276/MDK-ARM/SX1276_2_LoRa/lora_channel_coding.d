@@ -49,3 +49,6 @@
 .\sx1276_2_lora\lora_channel_coding.o: ..\LoRa_Channel_Coding\Modulation.h
 .\sx1276_2_lora\lora_channel_coding.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\sx1276_2_lora\lora_channel_coding.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\sx1276_2_lora\lora_channel_coding.o: ..\Hardware\usart.h
+.\sx1276_2_lora\lora_channel_coding.o: ..\Hardware\sys.h
+.\sx1276_2_lora\lora_channel_coding.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
