@@ -1,45 +1,3 @@
-/*!
- * \file      main.c
- *
- * \brief     Ping-Pong implementation
- *
- * \copyright Revised BSD License, see section \ref LICENSE.
- *
- * \code
- *                ______                              _
- *               / _____)             _              | |
- *              ( (____  _____ ____ _| |_ _____  ____| |__
- *               \____ \| ___ |    (_   _) ___ |/ ___)  _ \
- *               _____) ) ____| | | || |_| ____( (___| | | |
- *              (______/|_____)_|_|_| \__)_____)\____)_| |_|
- *              (C)2013-2017 Semtech
- *
- * \endcode
- *
- * \author    Miguel Luis ( Semtech )
- *
- * \author    Gregory Cristian ( Semtech )
- */
-/**
-  ******************************************************************************
-  * @file    main.c
-  * @author  MCD Application Team
-  * @brief   this is the main!
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
-  *
-  ******************************************************************************
-  */
-
-/* Includes ------------------------------------------------------------------*/
 #include <string.h>
 #include "hw.h"
 #include "radio.h"
@@ -51,7 +9,7 @@
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       12        // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       11        // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
@@ -213,40 +171,11 @@ int main(void)
 	
 	reg=(SX1276Read(REG_LR_FEIMSB)<<16)|(SX1276Read(REG_LR_FEIMID)<<8)|SX1276Read(REG_LR_FEILSB);
 	
-	
+	PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
 //	while(1);
 	
   while (1)
   {
-//    ENABLE_IRQ();
-//		reg=SX1276Read(0x18);
-//		if(((reg & 0x01) == 0x01))
-//		{
-//			printf("1.Detected\r\n");
-//			if( (reg & 0x02) == 0x02 )
-//			{
-//				printf("2.Synchronized\r\n");
-//			}
-//			else
-//			{
-//				printf("0.Not Synchronized\r\n");
-//			}
-//			
-//			if( (reg & 0x08) == 0x08 )
-//			{
-//				printf("3.Header info valid");
-//			}
-//			else
-//			{
-//				printf("0.Header info not valid\r\n");
-//			}
-//		}
-//		DelayMs(100);
-
-		
-		
-		
-		
 //		reg=SX1276Read(0x18);
 //		if((reg & 0x04) == 0x04)
 //		{
@@ -317,16 +246,6 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   SnrValue = snr;
   State = RX;
 	
-//	reg_v[0]=SX1276Read(REG_LR_HOPCHANNEL);
-//	reg_v[1]=SX1276Read(REG_LR_MODEMCONFIG1);
-//	reg_v[2]=SX1276Read(REG_LR_MODEMCONFIG2);
-//	reg_v[3]=SX1276Read(REG_LR_PREAMBLEMSB);
-//	reg_v[4]=SX1276Read(REG_LR_PREAMBLELSB);
-//	reg_v[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
-//	reg_v[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
-	
-
-	
 	printf("\n");
 	for(i=0;i<BufferSize;i++)
 	{
@@ -334,8 +253,12 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	}
 
 	printf("\n");
-  printf("OnRxDone, Payload length = %d\n",BufferSize);
+  printf("OnRxDone, PL = %d, CR = 4/%d, CRC %s\n", \
+				BufferSize,((SX1276Read(REG_LR_MODEMSTAT) & 0xe0)>>5)+4, \
+				((SX1276Read( REG_LR_HOPCHANNEL )&0x40) > 0)?"ON":"OFF");
+	PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
   printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
+	
 	received_count++;
 	printf("receive packets count=%ld\n",received_count);
 	for(i=0;i<BufferSize;i++)

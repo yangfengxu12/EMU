@@ -60,3 +60,6 @@
 .\sx1276mb1mas\main.o: ..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Phy\radio.h
 .\sx1276mb1mas\main.o: ..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Utilities\timeServer.h
 .\sx1276mb1mas\main.o: ..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Utilities\low_power_manager.h
+.\sx1276mb1mas\main.o: ..\..\..\..\..\..\Drivers\BSP\\Components\sx1276\sx1276.h
+.\sx1276mb1mas\main.o: ..\..\..\..\..\..\Drivers\BSP\\Components\sx1276\sx1276Regs-Fsk.h
+.\sx1276mb1mas\main.o: ..\..\..\..\..\..\Drivers\BSP\\Components\sx1276\sx1276Regs-LoRa.h

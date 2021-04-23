@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\sx1276mb1mas\NUCLEO_CUBE_LORA.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sx1276mb1mas\NUCLEO_CUBE_LORA.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Mar 29 16:50:00 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Apr 23 17:10:08 2021
 <BR><P>
 <H3>Maximum Stack Usage =        652 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1347,10 +1347,12 @@ Global Symbols
 <P><STRONG><a name="[1]"></a>NMI_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l4xx_it.o(i.NMI_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 138 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = OnRxDone &rArr; __2printf
+<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 190 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
+<BR><BR>[Stack]<UL><LI>Max Depth = 372<LI>Call Chain = OnRxDone &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TraceSend
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
@@ -1523,7 +1525,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sx1276mb1mas.o(.constdata)
 </UL>
-<P><STRONG><a name="[86]"></a>SX1276OnDio0Irq</STRONG> (Thumb, 646 bytes, Stack size 24 bytes, sx1276.o(i.SX1276OnDio0Irq))
+<P><STRONG><a name="[86]"></a>SX1276OnDio0Irq</STRONG> (Thumb, 572 bytes, Stack size 24 bytes, sx1276.o(i.SX1276OnDio0Irq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = SX1276OnDio0Irq &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFifoStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerStop
@@ -1617,6 +1619,7 @@ Global Symbols
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276GetTimeOnAir
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxChainCalibration
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnRxDone
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sx1276mb1mas.o(.constdata)
 </UL>
@@ -1781,7 +1784,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sx1276mb1mas.o(.constdata)
 </UL>
-<P><STRONG><a name="[74]"></a>SX1276SetRxConfig</STRONG> (Thumb, 682 bytes, Stack size 48 bytes, sx1276.o(i.SX1276SetRxConfig))
+<P><STRONG><a name="[74]"></a>SX1276SetRxConfig</STRONG> (Thumb, 652 bytes, Stack size 48 bytes, sx1276.o(i.SX1276SetRxConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = SX1276SetRxConfig &rArr; SX1276SetModem &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFifoStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
@@ -2035,10 +2038,12 @@ Global Symbols
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circular_queue_get
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circular_queue_add
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnTxTimeout
+<BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnTxTimeout
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnTxDone
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnRxTimeout
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnRxError
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnRxDone
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
 </UL>
 
@@ -2192,7 +2197,7 @@ Global Symbols
 <P><STRONG><a name="[64]"></a>fputc</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, main.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 264 bytes, Stack size 40 bytes, main.o(i.main))
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 286 bytes, Stack size 40 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 652<LI>Call Chain = main &rArr; HW_Init &rArr; HW_RTC_Init &rArr; HW_RTC_SetConfig &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
@@ -2207,6 +2212,7 @@ Global Symbols
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetOffMode
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_Init
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TraceSend
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>

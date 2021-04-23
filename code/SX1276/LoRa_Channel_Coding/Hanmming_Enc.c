@@ -12,10 +12,10 @@ uint8_t *Hanmming_Enc(uint8_t cr, uint8_t sf, uint8_t *input, uint16_t ninput_it
 	*noutput_items = ninput_items;
 	for(i = 0; i < ninput_items; i++)
 	{
-			cr_app=(i<sf-2)?4:cr;
+			cr_app=(i<sf-2)?4:cr; // header part
 			data_bin = input[i];
 
-			//the data_bin is msb first
+			
 			if(cr_app != 1){ //need hamming parity bits
 					p0=(data_bin&0x01)      ^ ((data_bin&0x02)>>1) ^ ((data_bin&0x04)>>2);
 					p1=((data_bin&0x02)>>1) ^ ((data_bin&0x04)>>2) ^ ((data_bin&0x08)>>3);
