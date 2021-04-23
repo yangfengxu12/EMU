@@ -670,11 +670,11 @@ void SX1276SetTxConfig( RadioModems_t modem, int8_t power, uint32_t fdev,
             if( ( ( bandwidth == 7 ) && ( ( datarate == 11 ) || ( datarate == 12 ) ) ) ||
                 ( ( bandwidth == 8 ) && ( datarate == 12 ) ) )
             {
-                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;
+                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01; //tx
             }
             else
             {
-                SX1276.Settings.LoRa.LowDatarateOptimize = 0x00;
+                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;
             }
 
             if( SX1276.Settings.LoRa.FreqHopOn == true )
@@ -701,7 +701,11 @@ void SX1276SetTxConfig( RadioModems_t modem, int8_t power, uint32_t fdev,
                          ( SX1276Read( REG_LR_MODEMCONFIG3 ) &
                            RFLR_MODEMCONFIG3_LOWDATARATEOPTIMIZE_MASK ) |
                            ( SX1276.Settings.LoRa.LowDatarateOptimize << 3 ) );
-
+						
+						
+						
+						
+						
             SX1276Write( REG_LR_PREAMBLEMSB, ( preambleLen >> 8 ) & 0x00FF );
             SX1276Write( REG_LR_PREAMBLELSB, preambleLen & 0xFF );
 

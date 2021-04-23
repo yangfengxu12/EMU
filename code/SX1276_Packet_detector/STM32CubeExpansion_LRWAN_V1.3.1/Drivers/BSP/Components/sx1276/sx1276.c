@@ -510,11 +510,11 @@ void SX1276SetRxConfig( RadioModems_t modem, uint32_t bandwidth,
             if( ( ( bandwidth == 7 ) && ( ( datarate == 11 ) || ( datarate == 12 ) ) ) ||
                 ( ( bandwidth == 8 ) && ( datarate == 12 ) ) )
             {
-                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;
+                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;  //rx
             }
             else
             {
-                SX1276.Settings.LoRa.LowDatarateOptimize = 0x00;
+                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;
             }
 
             SX1276Write( REG_LR_MODEMCONFIG1,
@@ -670,7 +670,7 @@ void SX1276SetTxConfig( RadioModems_t modem, int8_t power, uint32_t fdev,
             if( ( ( bandwidth == 7 ) && ( ( datarate == 11 ) || ( datarate == 12 ) ) ) ||
                 ( ( bandwidth == 8 ) && ( datarate == 12 ) ) )
             {
-                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;
+                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;   
             }
             else
             {
@@ -1565,14 +1565,14 @@ void SX1276OnDio0Irq( void* context )
                     // Clear Irq
                     SX1276Write( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_RXDONE );
 										
-										reg_rx[0]=SX1276Read(REG_LR_HOPCHANNEL);
-										reg_rx[1]=SX1276Read(REG_LR_MODEMCONFIG1);
-										reg_rx[2]=SX1276Read(REG_LR_MODEMCONFIG2);
-										reg_rx[3]=SX1276Read(REG_LR_PREAMBLEMSB);
-										reg_rx[4]=SX1276Read(REG_LR_PREAMBLELSB);
-										reg_rx[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
-										reg_rx[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
-										reg_rx[7]=SX1276Read(REG_LR_IRQFLAGSMASK);
+//										reg_rx[0]=SX1276Read(REG_LR_HOPCHANNEL);
+//										reg_rx[1]=SX1276Read(REG_LR_MODEMCONFIG1);
+//										reg_rx[2]=SX1276Read(REG_LR_MODEMCONFIG2);
+//										reg_rx[3]=SX1276Read(REG_LR_PREAMBLEMSB);
+//										reg_rx[4]=SX1276Read(REG_LR_PREAMBLELSB);
+//										reg_rx[5]=SX1276Read(REG_LR_PAYLOADLENGTH);
+//										reg_rx[6]=SX1276Read(REG_LR_PAYLOADMAXLENGTH);
+//										reg_rx[7]=SX1276Read(REG_LR_IRQFLAGSMASK);
 									
 									
                     irqFlags = SX1276Read( REG_LR_IRQFLAGS );
