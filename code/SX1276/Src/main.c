@@ -53,7 +53,7 @@ const static uint8_t whitening[] = {
 		0xE5, 0xCA, 0x94, 0x28, 0x50, 0xA1, 0x42, 0x84, 0x09, 0x13, 0x27, 0x4F, 0x9F, 0x3F, 0x7F
 };
 
-#define BUFFER_SIZE                                 40 // Define the payload size here
+#define BUFFER_SIZE                                 255 // Define the payload size here
 
 uint8_t Tx_Buffer[BUFFER_SIZE]={
 		0xFF
@@ -63,7 +63,7 @@ uint16_t BufferSize = BUFFER_SIZE;
 
 int main(void)
 {
-  uint16_t datarate,i;
+  uint16_t datarate,i,len,t;
 	
 	for (i = 0; i < BufferSize; i++)
 	{
@@ -116,18 +116,84 @@ int main(void)
 	packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 
 	
-	printf("Tx\r\n");
-	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
-	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
+//	printf("Tx\r\n");
+//	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
+//	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
+//	
+//	for(i=0;i<1000;i++)
+//	{
+//		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
+//		
+//		printf("Tx done, Count:%d\r\n",i+1);
+//		delay_ms(8000);
+//	}
+	printf("finish!!\r\n");
 	
-		for(i=0;i<1000;i++)
+	while(1)
+	{
+		printf("Tx:waiting connection\n");
+		if(USART_RX_STA&0x8000)
 		{
-			LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
-			
-			printf("Tx done, Count:%d\r\n",i+1);
-			delay_ms(2000);
+			len=USART_RX_STA&0x3fff;
+			if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
+			{
+				printf("Tx:Hi!\n");
+				USART_RX_STA=0;
+				break;
+			}
+			else
+			{
+				printf("There is no Hello!\n");
+			}
+			USART_RX_STA=0;
 		}
-		printf("finish!!\r\n");
+		delay_ms(500);
+	}
+	
+	delay_ms(500);
+	
+	USART_RX_STA=0;
+	while(1)
+	{
+		printf("Tx:waiting settings...\n");
+		if(USART_RX_STA&0x8000)
+		{
+			len=USART_RX_STA&0x3fff;
+			if(strstr((char*)USART_RX_BUF,"PL") != NULL)
+			{
+				printf((char*)USART_RX_BUF);
+				USART_RX_STA=0;
+				break;
+			}
+			USART_RX_STA=0;
+		}
+		delay_ms(500);
+	}
+	
+	while(1)
+	{
+		printf("Tx:waiting payload data...\n");
+		if(USART_RX_STA&0x8000)
+		{
+			len=USART_RX_STA&0x3fff;
+			if(strstr((char*)USART_RX_BUF,"PD") != NULL)
+			{
+				printf((char*)USART_RX_BUF);
+				USART_RX_STA=0;
+//				break;
+			}
+			USART_RX_STA=0;
+		}
+		delay_ms(500);
+	}
+	
+	
+//	while(1)
+//	{
+//		printf("finish %d!!\n",i);
+//		i++;
+//		delay_ms(1000);
+//	}
 
 }
 

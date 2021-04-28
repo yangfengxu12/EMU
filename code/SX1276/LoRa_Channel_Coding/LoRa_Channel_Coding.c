@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "malloc.h" 
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #include "usart.h"
 #endif
