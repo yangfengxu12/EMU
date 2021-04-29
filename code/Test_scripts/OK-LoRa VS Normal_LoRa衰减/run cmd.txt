@@ -1,0 +1,28 @@
+Tx
+sudo python3 Tx-control.py --freq 433000000 --tx_p 14 --bw 125 --preamble_len 8 --iq 0 --sync_wd 1234 --sf 7 --cr 1 --crc 0 --ih 0 --ldo 0 --pt 10 --pl 10
+
+Rx
+sudo python3 Rx-control.py --freq 433000000 --tx_p 14 --bw 125 --preamble_len 8 --iq 0 --sync_wd 1234 --sf 7 --cr 1 --crc 0 --ih 0 --ldo 0 --pt 10 --pl 10
+
+
+usage: Tx-control.py [-h] [-v VERSION] [--pt PT] [--pl PL] [--freq FREQ] [--tx_p TX_P] [--bw BW] [--preamble_len PREAMBLE_LEN] [--iq IQ] [--sync_wd SYNC_WD]
+                     [--sf SF] [--cr CR] [--crc CRC] [--ih IH] [--ldo LDO]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v VERSION, --version VERSION
+                        Get version
+  --pt PT               Total number of packets, 10 (defalut) (0<= x <= 1000 )
+  --pl PL               Payload length, 10 (defalut) (0<= x <= 255 Bytes)
+  --freq FREQ           Center frequency(not support for modified), defalut: 433e6(Hz,default)
+  --tx_p TX_P           Tx power (In OOK, not support for modified)), -2 to 14(default) dbm
+  --bw BW               Bandwidth(not support for modified), 125 (kHz, default)
+  --preamble_len PREAMBLE_LEN
+                        Preamble length(not support for modified), 8 (default)
+  --iq IQ               Invert IQ ON/OFF (not support for modified), 0:OFF(default), 1:ON
+  --sync_wd SYNC_WD     Sync words(not support for modified), 0x12, 0x34(default)
+  --sf SF               Spreading Factor, 7(default),8,9,10,11,12
+  --cr CR               Coding Rate,1:(4/5,default), 2(4/6), 3(4/7), 4(4/8)
+  --crc CRC             CRC ON/OFF, 0:OFF(default), 1:ON
+  --ih IH               Explicit or implicit header, 0:OFF(explicit,default), 1:ON(implicit)
+  --ldo LDO             Low data rate optimize ON/OFF, 0:OFF(default), 1:ON

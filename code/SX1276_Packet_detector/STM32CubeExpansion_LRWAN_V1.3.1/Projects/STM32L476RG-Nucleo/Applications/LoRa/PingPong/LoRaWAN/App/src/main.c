@@ -6,10 +6,13 @@
 #include "vcom.h"
 #include "sx1276.h"
 
+#include "delay.h"
+#include "usart.h"
+
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       12        // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       7        // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
@@ -50,9 +53,22 @@ typedef enum
                    LED_Off( LED_GREEN2 ) ; \
                    } while(0) ;
 
-const uint8_t PingMsg[] = "PING";
-const uint8_t PongMsg[] = "PONG";
-
+int PC_center_freq = 433000000;
+int PC_tx_power = 14;
+int PC_bandwidth = 125;
+int PC_preamble_length = 8;
+int PC_invert_iq = 0;
+		
+int PC_sync_words = 1234;
+int PC_spread_factor = 7;
+int PC_coding_rate = 1;
+int PC_CRC = 0;
+int PC_implicit_header =  0;
+int PC_lowdatarateoptimize = 0;
+		
+int PC_packets_times = 0;
+int PC_payload_length = 0;
+									 
 uint16_t BufferSize = BUFFER_SIZE;
 uint8_t Buffer[BUFFER_SIZE];
 uint8_t tar_Buffer[BUFFER_SIZE]={'1','1','1','1','1','1','1'};
@@ -111,9 +127,15 @@ static void OnledEvent(void *context);
  */
 int main(void)
 {
-  bool isMaster = true;
+  uint16_t len=0;
+	int temp=0;
+	char * str_header,* substr;
+	char *delim = "_";
+	
+	
+	bool isMaster = true;
   uint8_t i;
-	int Rssi_current[3];
+
   HAL_Init();
 
   SystemClock_Config();
@@ -121,6 +143,9 @@ int main(void)
   //DBG_Init();
 
   HW_Init();
+	
+//	delay_init(80);
+	uart_init(115200);
 
   /*Disbale Stand-by mode*/
   LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
@@ -141,88 +166,129 @@ int main(void)
   Radio.Init(&RadioEvents);
 
   Radio.SetChannel(RF_FREQUENCY);
+	
+	while(1)
+	{
+		printf("Tx:waiting connection\n");
+		if(USART_RX_STA&0x8000)
+		{
+			if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
+			{
+				printf("Tx:Hi!\n");
+				USART_RX_STA=0;
+				break;
+			}
+			else
+			{
+				printf("There is no Hello!\n");
+			}
+			USART_RX_STA=0;
+		}
+		DelayMs(2000);
+	}
+		
+		DelayMs(500);
+		memset(USART_RX_BUF, 0, USART_REC_LEN);
+		USART_RX_STA=0;
+		while(1)
+		{
+			printf("Tx:waiting settings...\n");
+			if(USART_RX_STA&0x8000)
+			{
+				if(strstr((char*)USART_RX_BUF,"PL") != NULL)
+				{
+					printf((char*)USART_RX_BUF);
+					USART_RX_STA=0;
+					break;
+				}
+				USART_RX_STA=0;
+			}
+			DelayMs(2000);
+		}
+		DelayMs(1000);
+		temp = 0;
+		str_header = strstr((char*)USART_RX_BUF,"PL");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-2;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_payload_length = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"SF");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-2;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_spread_factor = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"CR");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-2;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_coding_rate = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"CRC");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-3;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_CRC = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"IH");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-3;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_implicit_header = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"LDO");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-3;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_lowdatarateoptimize = temp;
+		
+		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
 
-
-  Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
+		
+		Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
                     LORA_SPREADING_FACTOR, LORA_CODINGRATE,
                     LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
                     true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
 	
-  Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
-                    LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
-                    LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
-								
-	SX1276SetRx(0);
-	SX1276SetMaxPayloadLength( MODEM_LORA, 255 );
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
-	printf("Private 0x12\r\n");
-
-//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-//	printf("Public 0x34\r\n");
-
-
-	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
-	
-	reg=SX1276Read(REG_DIOMAPPING1);
-	reg=SX1276Read(REG_DIOMAPPING2);
-	reg=SX1276Read(REG_LR_IRQFLAGSMASK);
-	reg=SX1276Read(REG_LR_MODEMCONFIG2);
-	
-	reg=(SX1276Read(REG_LR_FEIMSB)<<16)|(SX1276Read(REG_LR_FEIMID)<<8)|SX1276Read(REG_LR_FEILSB);
-	
-	PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
-//	while(1);
-	
-  while (1)
-  {
-//		reg=SX1276Read(0x18);
-//		if((reg & 0x04) == 0x04)
-//		{
-////			printf("Rx is going\r\n");
-
-//			if((reg & 0x01) == 0x01)
-//			{
-//				Rssi_current[0]=SX1276Read(0x1B)-164;
-//				printf("-----------------\r\n");
-//				printf("1.Detected123\tRssi:%d\r\n",Rssi_current[0]);
-//				
-//				if( (reg & 0x02) == 0x02 )
-//				{
-//					Rssi_current[1]=SX1276Read(0x1B)-164;
-//					printf("2.Synchronized\tRssi:%d\r\n",Rssi_current[1]);
-//					
-//					if( (reg & 0x08) == 0x08 )
-//					{
-//						Rssi_current[2]=SX1276Read(0x1B)-164;
-//						printf("3.Header info valid\tRssi:%d\r\n",Rssi_current[2]);
-//						printf("avg:%d\r\n",(Rssi_current[0]+Rssi_current[1]+Rssi_current[2])/3);
-//					}
-//					else
-//					{
-//						Rssi_current[2]=SX1276Read(0x1B)-164;
-//						printf("0.Header info not valid\tRssi:%d\r\n",Rssi_current[2]);
-//					}
-//				}
-//				else				
-//				{
-//					Rssi_current[1]=SX1276Read(0x1B)-164;
-//					printf("0.Not Synchronized\tRssi:%d\r\n",Rssi_current[1]);
-//				}
-//			}
-////			else
-////			{
-//////				printf("Signal Not detected\r\n");
-////			}
-//		}
-//		else
-//		{
-//			printf("Rx isn't going\r\n");
-//			Radio.Rx(RX_TIMEOUT_VALUE);
-//		}
-//		DelayMs(100);
-//		reg=0x00;
-  }
+		Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
+											LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
+											LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
+											0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
+									
+		SX1276SetRx(0);
+		SX1276SetMaxPayloadLength( MODEM_LORA, 255 );
+		SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+		printf("Private 0x12\n");
+		printf("FREQ:%d,sf:%d\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
+		PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+		
+		while(1)
+		{
+		}
 }
 
 void OnTxDone(void)
@@ -249,15 +315,15 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	printf("\n");
 	for(i=0;i<BufferSize;i++)
 	{
-		printf("%x   ",Buffer[i]);
+		printf("%x,",Buffer[i]);
 	}
 
 	printf("\n");
-  printf("OnRxDone, PL = %d, CR = 4/%d, CRC %s\n", \
+  printf("OnRxDone, PL=%d-, CR=4/%d-, CRC=%s-\n", \
 				BufferSize,((SX1276Read(REG_LR_MODEMSTAT) & 0xe0)>>5)+4, \
 				((SX1276Read( REG_LR_HOPCHANNEL )&0x40) > 0)?"ON":"OFF");
-	PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
-  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
+//	PRINTF("LowDatarateOptimize=%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+  printf("RssiValue=%ddBm, SnrValue=%ddB\n", rssi, snr);
 	
 	received_count++;
 	printf("receive packets count=%ld\n",received_count);
@@ -270,7 +336,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 			break;
 		}
 	}
-	printf("Payload error! Count:%d\r\n",Payload_error);
+	printf("Payload error! Count=%d\r\n",Payload_error);
 }
 
 void OnTxTimeout(void)
@@ -307,10 +373,10 @@ static void OnledEvent(void *context)
 }
 
 
-int fputc(int ch, FILE *f)
-{ 	
-	while((USART2->ISR &0X40)==0);//Loop until the end of the transmit
-	USART2->TDR  = (uint8_t) ch;  
-	return ch;
-}
+//int fputc(int ch, FILE *f)
+//{ 	
+//	while((USART2->ISR &0X40)==0);//Loop until the end of the transmit
+//	USART2->TDR  = (uint8_t) ch;  
+//	return ch;
+//}
 

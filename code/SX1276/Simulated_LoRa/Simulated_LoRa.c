@@ -17,11 +17,7 @@
 //#define ENABLE_PACKET_NO2
 
 
-float LORA_FREQ_STEP_NO1		=											 (float)LORA_BW / (float)((1 << LORA_SF_NO1));
-int LORA_SYMBOL_TIME_NO1	=												 (( 1 << LORA_SF_NO1 ) << 3);
 
-uint32_t LORA_FREQ_STEP_NO2		=											( LORA_BW / ( 1 << LORA_SF_NO2 ));
-uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
 
 int      LORA_PAYLOAD_LENGTH_NO1 = 									0;
 int  		 LORA_TOTAL_LENGTH_NO1	 =									0;
@@ -134,19 +130,19 @@ void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16
 	*end_p2   = (uint16_t) end_blank_position_2;
 }
 
-int gradual_frequency_for_hop(int input_freq, int target_freq,int chip)
-{
-	int diff_freq = input_freq - target_freq;
-	volatile int gradual_freq;
-	
-	float rate = 0;
-	if(chip==1)rate = 1/(1<<LORA_SF_NO1);
-	if(chip==2)rate = 1/(1<<LORA_SF_NO1);
-	
-	gradual_freq = (int)((float)target_freq + (float)diff_freq * rate);
-	
-	return gradual_freq;
-}
+//int gradual_frequency_for_hop(int input_freq, int target_freq,int chip)
+//{
+//	int diff_freq = input_freq - target_freq;
+//	volatile int gradual_freq;
+//	
+//	float rate = 0;
+//	if(chip==1)rate = 1/(1<<LORA_SF_NO1);
+//	if(chip==2)rate = 1/(1<<LORA_SF_NO1);
+//	
+//	gradual_freq = (int)((float)target_freq + (float)diff_freq * rate);
+//	
+//	return gradual_freq;
+//}
 
 void check_symbol_position(enum Chirp_Status *Chirp_Status, uint32_t Chirp_Count, uint32_t *Init_Frequency_Begin_Point, uint32_t *Next_Init_Frequency_Begin_Point)
 {
@@ -233,9 +229,18 @@ void check_symbol_position(enum Chirp_Status *Chirp_Status, uint32_t Chirp_Count
 
 uint32_t Chirp_Start_Time;
 uint16_t temp1,temp2;
-void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len,int sf)
 {
-	uint16_t start_p1,end_p1,start_p2,end_p2;
+	int LORA_SF_NO1													 				= sf;				// spread factor
+
+	
+	float LORA_FREQ_STEP_NO1		=											 (float)LORA_BW / (float)((1 << LORA_SF_NO1));
+	int LORA_SYMBOL_TIME_NO1	=												 (( 1 << LORA_SF_NO1 ) << 3);
+
+	uint32_t LORA_FREQ_STEP_NO2		=											( LORA_BW / ( 1 << LORA_SF_NO2 ));
+	uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
+	
+	
 	
 	channel_coding_convert(freq_points,id_and_payload_symbol_len);
 	
@@ -261,11 +266,11 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 
 
 	int Init_Frequency_Begin_Point_No1 = LORA_BASE_FREQ;
-	int Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
+//	int Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
 
 	
 	uint32_t Next_Init_Frequency_Begin_Point_No1 = LORA_BASE_FREQ;
-	uint32_t Next_Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
+//	uint32_t Next_Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
 
 
 	uint32_t Total_Chip_Count = 0;
@@ -310,7 +315,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 	
 	
-	Send_packets:
+//	Send_packets:
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 	delay_ms(1);
 	
@@ -379,27 +384,6 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 					}
 					default:break;
 				}
-
-//				if(Input_Freq >= Max_Freq_In_Symbol[Chirp_Count_No1])
-//					Max_Freq_In_Symbol[Chirp_Count_No1] = Input_Freq;
-//				if(Input_Freq <= Min_Freq_In_Symbol[Chirp_Count_No1])
-//					Min_Freq_In_Symbol[Chirp_Count_No1] = Input_Freq;
-				
-//				Chip_Count_No1[Chirp_Count_No1]++;
-	//			Input_Freq_temp_No1[ Chirp_Count_No1 ] [ Chip_Count_No1[Chirp_Count_No1]] = Input_Freq;
-				
-//			if(Chirp_Status_No1 != SFD && Chirp_Status_No1 != Quarter_SFD)
-//			{
-//				if(Chip_Position_No1 == ((1<<(LORA_SF_NO1)) - 1))
-//				{
-//					/* Input_Freq: gradual ponit, target_freq : start symbol of next symbol*/
-//					Input_Freq = gradual_frequency_for_hop(Input_Freq, Next_Init_Frequency_Begin_Point_No1,1);
-//				}
-//				else if(Chip_Position_No1 == ((1<<(LORA_SF_NO1)) - 2))
-//				{
-//					Input_Freq = gradual_frequency_for_hop(Input_Freq, Next_Init_Frequency_Begin_Point_No1,2);
-//				}
-//			}
 			
 			SX_FREQ_TO_CHANNEL( Channel, (uint32_t)Input_Freq );
 

@@ -24,9 +24,6 @@
 #include "Timer_Calibration_From_SX1276.h"
 
 
-//1.00014136 = 1      +2us
-
-//#define CODING
 
 static RadioEvents_t RadioEvents;
 																											
@@ -55,25 +52,68 @@ const static uint8_t whitening[] = {
 
 #define BUFFER_SIZE                                 255 // Define the payload size here
 
+
+
 uint8_t Tx_Buffer[BUFFER_SIZE]={
 		0xFF
 };
 
 uint16_t BufferSize = BUFFER_SIZE;
 
+
+int PC_center_freq = 433000000;
+int PC_tx_power = 14;
+int PC_bandwidth = 125;
+int PC_preamble_length = 8;
+int PC_invert_iq = 0;
+		
+int PC_sync_words = 1234;
+int PC_spread_factor = 7;
+int PC_coding_rate = 1;
+int PC_CRC = 0;
+int PC_implicit_header =  0;
+int PC_lowdatarateoptimize = 0;
+		
+int PC_packets_times = 0;
+int PC_payload_length = 0;
+
+
+uint32_t airtime_cal(int bw, int sf, int cr, int pktLen, int crc, int ih, int ldo)
+{
+	uint32_t airTime = 0;
+	// Symbol rate : time for one symbol (secs)
+	double rs = bw / ( 1 << sf );
+	double ts = 1 / rs;
+	// time of preamble
+	double tPreamble = ( 8 + 4.25 ) * ts;
+	// Symbol length of payload and time
+	double tmp = ceil( ( 8 * pktLen - 4 * sf +
+											 28 + 16 * crc -
+											 ( ih ? 20 : 0 ) ) /
+											 ( double )( 4 * ( sf -
+											 ( ( ldo > 0 ) ? 2 : 0 ) ) ) ) *
+											 ( cr + 4 );
+	double nPayload = 8 + ( ( tmp > 0 ) ? tmp : 0 );
+	double tPayload = nPayload * ts;
+	// Time on air
+	double tOnAir = tPreamble + tPayload;
+	// return ms secs
+	airTime = (uint32_t) floor( tOnAir * 1000 + 0.999 );
+	return airTime;
+}
+
+
+
+
+
 int main(void)
 {
   uint16_t datarate,i,len,t;
-	
-	for (i = 0; i < BufferSize; i++)
-	{
-//		if(i == 0)	
-			Tx_Buffer[i] = 0x31 ;
-//		else
-//			Tx_Buffer[i] = 0xff;
-//		Tx_Buffer[i] = ~whitening[i] ;
-		printf("Tx_Buffer[%d]=%x\n",i,Tx_Buffer[i]);
-	}
+	uint8_t  USART_temp[USART_REC_LEN];
+	int temp=0;
+	char * str_header,* substr;
+	char *delim = "_";
+
 	int *packet_freq_points_No1 = NULL;
 	int *packet_freq_points_No2 = NULL;
 	
@@ -113,7 +153,7 @@ int main(void)
 	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
   SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
 
-	packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
+//	packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 
 	
 //	printf("Tx\r\n");
@@ -127,74 +167,173 @@ int main(void)
 //		printf("Tx done, Count:%d\r\n",i+1);
 //		delay_ms(8000);
 //	}
-	printf("finish!!\r\n");
-	
+	printf("init finish!!\r\n");
+	memset(USART_RX_BUF, 0, USART_REC_LEN);
 	while(1)
 	{
-		printf("Tx:waiting connection\n");
-		if(USART_RX_STA&0x8000)
+		while(1)
 		{
-			len=USART_RX_STA&0x3fff;
-			if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
+			printf("Tx:waiting connection\n");
+			if(USART_RX_STA&0x8000)
 			{
-				printf("Tx:Hi!\n");
+				len=USART_RX_STA&0x3fff;
+				if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
+				{
+					printf("Tx:Hi!\n");
+					USART_RX_STA=0;
+					break;
+				}
+				else
+				{
+					printf("There is no Hello!\n");
+				}
 				USART_RX_STA=0;
-				break;
 			}
-			else
-			{
-				printf("There is no Hello!\n");
-			}
-			USART_RX_STA=0;
+			delay_ms(2000);
 		}
+		
 		delay_ms(500);
-	}
-	
-	delay_ms(500);
-	
-	USART_RX_STA=0;
-	while(1)
-	{
-		printf("Tx:waiting settings...\n");
-		if(USART_RX_STA&0x8000)
+		memset(USART_RX_BUF, 0, USART_REC_LEN);
+		USART_RX_STA=0;
+		while(1)
 		{
-			len=USART_RX_STA&0x3fff;
-			if(strstr((char*)USART_RX_BUF,"PL") != NULL)
+			printf("Tx:waiting settings...\n");
+			if(USART_RX_STA&0x8000)
 			{
-				printf((char*)USART_RX_BUF);
+				len=USART_RX_STA&0x3fff;
+				if(strstr((char*)USART_RX_BUF,"PL") != NULL)
+				{
+					printf((char*)USART_RX_BUF);
+					USART_RX_STA=0;
+					break;
+				}
 				USART_RX_STA=0;
-				break;
 			}
-			USART_RX_STA=0;
+			delay_ms(2000);
 		}
-		delay_ms(500);
-	}
-	
-	while(1)
-	{
-		printf("Tx:waiting payload data...\n");
-		if(USART_RX_STA&0x8000)
+		delay_ms(1000);
+		temp = 0;
+		str_header = strstr((char*)USART_RX_BUF,"PL");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-2;i++)
 		{
-			len=USART_RX_STA&0x3fff;
-			if(strstr((char*)USART_RX_BUF,"PD") != NULL)
-			{
-				printf((char*)USART_RX_BUF);
-				USART_RX_STA=0;
-//				break;
-			}
-			USART_RX_STA=0;
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
 		}
-		delay_ms(500);
+		PC_payload_length = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"SF");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-2;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_spread_factor = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"CR");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-2;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_coding_rate = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"CRC");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-3;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_CRC = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"IH");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-3;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_implicit_header = temp;
+		
+		temp = 0;
+		str_header = strstr((char*)substr,"LDO");
+		substr = strtok(str_header, delim);
+		len = strlen(substr);
+		for(int i=0;i<len-3;i++)
+		{
+			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
+		}
+		PC_lowdatarateoptimize = temp;
+		
+	//	while(1){
+		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
+	//		delay_ms(2000);
+	//	}
+		int packets_count = 0;
+		memset(USART_RX_BUF, 0, USART_REC_LEN);
+		USART_RX_STA=0;
+		while(1)
+		{
+			printf("Tx:waiting payload data...\n");
+			if(USART_RX_STA&0x8000)
+			{
+				len=USART_RX_STA&0x3fff;
+				if(strstr((char*)USART_RX_BUF,"END") != NULL)
+				{
+					break;
+				}
+				else if(strstr((char*)USART_RX_BUF,"PD") != NULL)
+				{
+					printf((char*)USART_RX_BUF);
+					
+					str_header = strstr((char*)USART_RX_BUF,"PD");
+					str_header += 2;
+					printf("\n");
+					for(int j=0;j<PC_payload_length;j++)
+					{
+						str_header = strtok(str_header, delim);
+						len = strlen(str_header);
+						temp = 0;
+						for(int i=0;i<len;i++)
+						{
+							temp += (int)((str_header[len-1-i] - '0') * pow(10,i));
+						}
+						Tx_Buffer[j] = temp;
+						str_header = str_header+len+1;
+						printf("%d\t",Tx_Buffer[j]);
+					}
+					printf("\n");
+					printf("Tx:transmiting packets...\n");
+					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, 125000, PC_spread_factor, \
+																											PC_coding_rate, PC_CRC?true:false, PC_implicit_header?true:false, \
+																												&symbol_len_No1, PC_lowdatarateoptimize?true:false);
+																											
+					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
+					
+					delay_ms(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+					/////
+					//	
+					//	send packet
+					//
+					///
+					packets_count++;
+					printf("Tx done, Count:%d\n",packets_count);
+					USART_RX_STA=0;
+				}
+			}
+			delay_ms(2000);
+		}
+		
+		printf("tx packets:%d\n",packets_count);
+	
 	}
-	
-	
-//	while(1)
-//	{
-//		printf("finish %d!!\n",i);
-//		i++;
-//		delay_ms(1000);
-//	}
-
 }
 
 

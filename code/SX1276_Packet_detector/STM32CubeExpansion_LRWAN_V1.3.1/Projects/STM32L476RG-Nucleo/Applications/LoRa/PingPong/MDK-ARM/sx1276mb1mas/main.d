@@ -63,3 +63,6 @@
 .\sx1276mb1mas\main.o: ..\..\..\..\..\..\Drivers\BSP\\Components\sx1276\sx1276.h
 .\sx1276mb1mas\main.o: ..\..\..\..\..\..\Drivers\BSP\\Components\sx1276\sx1276Regs-Fsk.h
 .\sx1276mb1mas\main.o: ..\..\..\..\..\..\Drivers\BSP\\Components\sx1276\sx1276Regs-LoRa.h
+.\sx1276mb1mas\main.o: ..\LoRaWAN\App\inc\delay.h
+.\sx1276mb1mas\main.o: ..\LoRaWAN\App\inc\sys.h
+.\sx1276mb1mas\main.o: ..\LoRaWAN\App\inc\usart.h

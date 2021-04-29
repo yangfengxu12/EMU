@@ -28,29 +28,29 @@ Project File Date:  03/15/2021
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
 compiling main.c...
-../Src/main.c(66): warning:  #550-D: variable "len"  was set but never used
+../Src/main.c(111): warning:  #177-D: variable "i"  was declared but never referenced
     uint16_t datarate,i,len,t;
-../Src/main.c(66): warning:  #177-D: variable "t"  was declared but never referenced
+../Src/main.c(111): warning:  #177-D: variable "t"  was declared but never referenced
     uint16_t datarate,i,len,t;
-../Src/main.c(77): warning:  #550-D: variable "packet_freq_points_No1"  was set but never used
-  	int *packet_freq_points_No1 = NULL;
-../Src/main.c(78): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
+../Src/main.c(112): warning:  #177-D: variable "USART_temp"  was declared but never referenced
+  	uint8_t  USART_temp[USART_REC_LEN];
+../Src/main.c(118): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
   	int *packet_freq_points_No2 = NULL;
-../Src/main.c(81): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
+../Src/main.c(121): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
   	int symbol_len_No2 = NULL;
-../Src/main.c(83): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
+../Src/main.c(123): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
   	int *LoRa_ID_Start_Freq_No1 = NULL;
-../Src/main.c(84): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
+../Src/main.c(124): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
   	int *LoRa_Payload_Start_Freq_No1 = NULL;
-../Src/main.c(86): warning:  #177-D: variable "LoRa_ID_Start_Freq_No2"  was declared but never referenced
+../Src/main.c(126): warning:  #177-D: variable "LoRa_ID_Start_Freq_No2"  was declared but never referenced
   	int *LoRa_ID_Start_Freq_No2 = NULL;
-../Src/main.c(87): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
+../Src/main.c(127): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
   	int *LoRa_Payload_Start_Freq_No2 = NULL;
-../Src/main.c(37): warning:  #177-D: variable "whitening"  was declared but never referenced
+../Src/main.c(34): warning:  #177-D: variable "whitening"  was declared but never referenced
   const static uint8_t whitening[] = {
 ../Src/main.c: 10 warnings, 0 errors
 linking...
-Program Size: Code=32316 RO-data=1116 RW-data=412 ZI-data=43428  
+Program Size: Code=41380 RO-data=1308 RW-data=520 ZI-data=44152  
 FromELF: creating hex file...
 ".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 10 Warning(s).
 
