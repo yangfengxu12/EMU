@@ -177,7 +177,7 @@ extern "C" {
 
 /* Definition for USARTx's NVIC */
 #define USARTx_IRQn                      USART2_IRQn
-#define USARTx_IRQHandler                USART2_IRQHandler
+//#define USARTx_IRQHandler                USART2_IRQHandler
 
 /* Definition for USARTx's DMA */
 #define USARTx_TX_DMA_CHANNEL             DMA1_Channel7

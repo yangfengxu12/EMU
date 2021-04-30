@@ -319,7 +319,7 @@ int main(void)
 					
 					free(packet_freq_points_No1);
 																											
-					delay_ms(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+					DelayMs(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
 
 					packets_count++;
 					printf("Tx:done, count:%d\n",packets_count);

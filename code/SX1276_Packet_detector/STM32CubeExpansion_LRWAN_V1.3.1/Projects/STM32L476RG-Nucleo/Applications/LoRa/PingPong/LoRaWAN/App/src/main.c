@@ -271,10 +271,10 @@ int main(void)
 		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
 
 		
-		Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
-										LORA_SPREADING_FACTOR, LORA_CODINGRATE,
-										LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
-										true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
+//		Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
+//										PC_spread_factor, LORA_CODINGRATE,
+//										LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
+//										true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
 	
 		Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, PC_spread_factor,
 											LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
@@ -283,10 +283,6 @@ int main(void)
 									
 		SX1276SetRx(0);
 		SX1276SetMaxPayloadLength( MODEM_LORA, 255 );
-		SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
-		printf("Private 0x12\n");
-		printf("FREQ:%d,sf:%d\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
-		PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
 		
 		USART_RX_STA=0;
 		while(1)
