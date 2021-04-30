@@ -295,7 +295,7 @@ int main(void)
 					
 					str_header = strstr((char*)USART_RX_BUF,"PD");
 					str_header += 2;
-					printf("\n");
+//					printf("\n");
 					for(int j=0;j<PC_payload_length;j++)
 					{
 						str_header = strtok(str_header, delim);
@@ -307,31 +307,32 @@ int main(void)
 						}
 						Tx_Buffer[j] = temp;
 						str_header = str_header+len+1;
-						printf("%d\t",Tx_Buffer[j]);
+//						printf("%d\t",Tx_Buffer[j]);
 					}
-					printf("\n");
-					printf("Tx:transmiting packets...\n");
+//					printf("\n");
+					printf("Tx:transmiting packets");
 					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, 125000, PC_spread_factor, \
 																											PC_coding_rate, PC_CRC?true:false, PC_implicit_header?true:false, \
 																												&symbol_len_No1, PC_lowdatarateoptimize?true:false);
 																											
 					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
 					
+					free(packet_freq_points_No1);
+																											
 					delay_ms(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
-					/////
-					//	
-					//	send packet
-					//
-					///
+
 					packets_count++;
-					printf("Tx done, Count:%d\n",packets_count);
+					printf("Tx:done, count:%d\n",packets_count);
 					USART_RX_STA=0;
 				}
 			}
-			delay_ms(2000);
+			delay_ms(1000);
 		}
-		
-		printf("tx packets:%d\n",packets_count);
+//		while(1)
+//		{
+//			printf("Tx:tx packets:%d\n",packets_count);
+//			delay_ms(1000);
+//		}
 	
 	}
 }

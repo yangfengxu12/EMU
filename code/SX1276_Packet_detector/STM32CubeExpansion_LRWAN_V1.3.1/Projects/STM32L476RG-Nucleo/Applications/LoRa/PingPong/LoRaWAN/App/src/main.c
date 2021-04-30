@@ -169,24 +169,26 @@ int main(void)
 	
 	while(1)
 	{
-		printf("Tx:waiting connection\n");
-		if(USART_RX_STA&0x8000)
+		while(1)
 		{
-			if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
+			printf("Tx:waiting connection\n");
+			if(USART_RX_STA&0x8000)
 			{
-				printf("Tx:Hi!\n");
+				if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
+				{
+					printf("Tx:Hi!\n");
+					USART_RX_STA=0;
+					break;
+				}
+				else
+				{
+					printf("There is no Hello!\n");
+				}
 				USART_RX_STA=0;
-				break;
 			}
-			else
-			{
-				printf("There is no Hello!\n");
-			}
-			USART_RX_STA=0;
+			DelayMs(2000);
 		}
-		DelayMs(2000);
-	}
-		
+			
 		DelayMs(500);
 		memset(USART_RX_BUF, 0, USART_REC_LEN);
 		USART_RX_STA=0;
@@ -270,11 +272,11 @@ int main(void)
 
 		
 		Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
-                    LORA_SPREADING_FACTOR, LORA_CODINGRATE,
-                    LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
+										LORA_SPREADING_FACTOR, LORA_CODINGRATE,
+										LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
+										true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
 	
-		Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
+		Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, PC_spread_factor,
 											LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
 											LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
 											0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
@@ -286,9 +288,22 @@ int main(void)
 		printf("FREQ:%d,sf:%d\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
 		PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
 		
+		USART_RX_STA=0;
 		while(1)
 		{
+			if(USART_RX_STA&0x8000)
+			{
+				len=USART_RX_STA&0x3fff;
+				if(strstr((char*)USART_RX_BUF,"END") != NULL)
+				{
+					USART_RX_STA=0;
+					break;
+				}
+			}
+			DelayMs(1000);
 		}
+		
+	}
 }
 
 void OnTxDone(void)

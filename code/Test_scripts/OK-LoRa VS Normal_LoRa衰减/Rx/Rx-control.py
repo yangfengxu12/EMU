@@ -147,12 +147,15 @@ print('')
 print('checking devive connection....')
 
 
-baunRate = 115200
-
 Tx = uart.uart()
 Tx.port.reset_input_buffer()
+
+cmd = f'END'
+Tx.send_cmd(cmd + '\r\n')
+time.sleep(2)
 print('handshaking....')
-time.sleep(1)
+
+
 while True:
     Tx.send_cmd('PC:Hello\r\n')
     time.sleep(1)
@@ -222,6 +225,9 @@ with open(fixed_path+csv_file_name,'w',newline='') as f:
     tx_file.writerow(['implicit_header',      ("ON" if implicit_header else "OFF") ])
     tx_file.writerow(['lowdatarateoptimize',  ("ON" if lowdatarateoptimize else "OFF") ])
 
+    tx_file.writerow(['payload length',      payload_length ])
+    tx_file.writerow(['packets_times length',      packets_times ])
+
     tx_file.writerow([])
     tx_file.writerow([ 'Received data (Bytes)', 'Payload length', 'coding rate', 'CRC', 'rssi', 'snr', 'packet NO','Received data (list)' ])
 
@@ -260,10 +266,11 @@ packets_counts = 0
 Tx.port.reset_input_buffer()
 while True:
     serial_data = Tx.port.read_until(expected='Payload',size=None)
-    if serial_data != b'':
+    if serial_data != b'' and serial_data.find(b'OnRxDone') != -1:
+        
         # print(serial_data)
         serial_data = list(filter(None,serial_data.split(b'\n')))
-        print(serial_data)
+        
         rx_payload_data = serial_data[0].decode('utf-8').split(',')
 
         rx_payload_length = int(re.findall(r"PL=(.+?)-",serial_data[1].decode('utf-8').split(',')[1])[0])
@@ -271,10 +278,11 @@ while True:
         rx_crc = 1 if re.findall(r"=(.+?)-",serial_data[1].decode('utf-8').split(',')[3])[0] == 'ON' else 0
         rx_rssi = int(re.findall(r"=(.+?)dBm",serial_data[2].decode('utf-8').split(',')[0])[0])
         rx_snr = int(re.findall(r"=(.+?)dB",serial_data[2].decode('utf-8').split(',')[1])[0])
+        print('PL='+str(rx_payload_length)+', CR='+str(rx_coding_rate)+',CRC='+str(rx_crc)+',RSSI='+str(rx_rssi)+',SNR='+str(rx_snr)+'count='+str(packets_counts))
         with open(fixed_path+csv_file_name,'a+',newline='') as f:
             tx_file = csv.writer(f)
 
-            tx_file.writerow([list(filter(None,rx_payload_data)), rx_payload_length, rx_coding_rate, rx_crc, rx_rssi, rx_snr, packets_counts] + rx_payload_data)
+            tx_file.writerow( rx_payload_data + [list(filter(None,rx_payload_data)), rx_payload_length, rx_coding_rate, rx_crc, rx_rssi, rx_snr, packets_counts] )
             packets_counts = packets_counts + 1
 
 

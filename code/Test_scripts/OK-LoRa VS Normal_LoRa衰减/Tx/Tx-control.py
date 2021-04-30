@@ -55,9 +55,9 @@ args = parser.parse_args()
 
 # packets_times
 packets_times = args.pt
-if packets_times > 1000:
-    print("packets_times is " + packetspackets_times_numbers + ", more than 1000. Set it to 1000")
-    packets_times = 1000
+if packets_times > 10000:
+    print("packets_times is " + packetspackets_times_numbers + ", more than 10000. Set it to 10000")
+    packets_times = 10000
 elif tx_power < 0:
     print("packets_times is " + packets_times + ", less than 0. Set it to 0")
     packets_times = 0
@@ -150,6 +150,10 @@ baunRate = 115200
 
 Tx = uart.uart()
 Tx.port.reset_input_buffer()
+
+cmd = f'END'
+Tx.send_cmd(cmd + '\r\n')
+time.sleep(2)
 print('handshaking....')
 
 while True:
@@ -157,7 +161,7 @@ while True:
     time.sleep(1)
     str_from_device = Tx.read_cmd()
     print(str_from_device, end = "")
-    if str(str_from_device).find('Tx:Hi!') != False:
+    if str(str_from_device).find('Tx:Hi!') != -1:
         print('received Hi')
         break
 time.sleep(1)
@@ -191,7 +195,8 @@ print('')
 #
 ####################################################################
 print('')
-attenuation_level = input('please enter the attenuation level:')
+attenuation_level = 10
+# attenuation_level = input('please enter the attenuation level:')
 
 print('attenuation level:' ,attenuation_level, 'dbm')
 
@@ -269,33 +274,33 @@ print("-----------------------------------------------\n")
 
 payload_count = 0
 
-
+Tx.port.reset_input_buffer()
 while payload_count < packets_times:
 
     print('')
+    print('')
     print('Generating random payload data....')
-    time.sleep(1)
 
     payload_data = random.randbytes(payload_length)
 
     print("NO." + str(payload_count) + "\tleft:"+ str(packets_times-payload_count-1))
     print("data is ["+ str(payload_length) + "] Bytes")
-    print("dec")
-    for i in range(payload_length):
-        print(payload_data[i],end=',')
+    # print("dec")
+    # for i in range(payload_length):
+    #     print(payload_data[i],end=',')
     
-    print("\nhex:")
-    for i in range(payload_length):
-        print(hex(payload_data[i]),end=',')
-    print('')
-    print('')
+    # print("\nhex:")
+    # for i in range(payload_length):
+    #     print(hex(payload_data[i]),end=',')
+    # print('')
+    # print('')
 
     cmd = f'PD'
     for i in range(payload_length):
         cmd = cmd + str(payload_data[i]) + '_'
-    print(cmd)
+    # print(cmd)
     Tx.send_cmd(cmd + '\r\n')
-    time.sleep(3)
+    time.sleep(2)
     print('confirmed')
     str_from_device = Tx.read_cmd()
     if str_from_device.find(cmd) != -1:
@@ -304,16 +309,19 @@ while payload_count < packets_times:
             tx_file = csv.writer(f)
             ######### write payload data ########
             b = map(lambda x: hex(x).split('x')[1].zfill(2), list(payload_data))
-            tx_file.writerow([payload_count]+list(b))
+            tx_file.writerow(list(b))
             payload_count = payload_count + 1
         print('wait for transmiting')
         while True: 
-            str_from_device = Tx.read_cmd()
+            str_from_device = Tx.port.read_until(expected='\n',size=None)
             print(str_from_device)
-            if str_from_device.find('waiting') != -1:
+            if str_from_device.find(b'payload') != -1:
+                Tx.port.reset_input_buffer()
+                Tx.port.reset_output_buffer()
+                print('transmit done count='+str(payload_count))
                 break
             else:
-                time.sleep(2)
+                time.sleep(1)
             
     else:
         print('payload data NOT passed, next data group')

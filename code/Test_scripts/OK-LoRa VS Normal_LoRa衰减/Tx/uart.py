@@ -11,7 +11,7 @@ class uart:
 
     def __init__(self):
         self.port = serial.Serial(port='/dev/ttyACM0', baudrate=115200, bytesize=8, parity=serial.PARITY_NONE,
-                                  stopbits=serial.STOPBITS_ONE, timeout=1)
+                                  stopbits=serial.STOPBITS_ONE, timeout=2)
         if self.port.isOpen() :
             print("Uart /dev/ttyACM0, open success")
         else :
