@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SX1276_2_LoRa\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SX1276_2_LoRa\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Apr 29 19:39:12 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon May 17 13:42:59 2021
 <BR><P>
 <H3>Maximum Stack Usage =        660 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -837,7 +837,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Send
+<BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Send
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Reset
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Random
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276IsChannelFree
@@ -860,12 +861,12 @@ Global Symbols
 <P><STRONG><a name="[bd]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32l4xx_hal.o(i.HAL_GetTick))
 <BR><BR>[Called By]<UL><LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_WaitFlagStateUntilTimeout
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_WaitFifoStateUntilTimeout
+<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_TransmitReceive
 <LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_SetAlarm_IT
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_DeactivateAlarm
 </UL>
@@ -2551,7 +2552,7 @@ Global Symbols
 <P><STRONG><a name="[71]"></a>fputc</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, usart.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[67]"></a>main</STRONG> (Thumb, 1724 bytes, Stack size 64 bytes, main.o(i.main))
+<P><STRONG><a name="[67]"></a>main</STRONG> (Thumb, 1720 bytes, Stack size 64 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 660<LI>Call Chain = main &rArr; SystemClock_Config &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
@@ -2569,6 +2570,7 @@ Global Symbols
 <LI><a href="#[180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetOffMode
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_Init
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Control_GPIO_Init
 <LI><a href="#[178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;airtime_cal
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free

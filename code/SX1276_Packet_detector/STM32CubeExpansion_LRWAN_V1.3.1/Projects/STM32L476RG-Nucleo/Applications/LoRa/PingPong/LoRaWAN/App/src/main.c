@@ -338,16 +338,16 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	
 	received_count++;
 	printf("receive packets count=%ld\n",received_count);
-	for(i=0;i<BufferSize;i++)
-	{
-		if(Buffer[i] != '1')
-		{
-			Payload_error++;
-//			printf("%d,%x,%x\n",i,Buffer[i],(uint8_t)('1' + i));			
-			break;
-		}
-	}
-	printf("Payload error! Count=%d\r\n",Payload_error);
+//	for(i=0;i<BufferSize;i++)
+//	{
+//		if(Buffer[i] != '1')
+//		{
+//			Payload_error++;
+////			printf("%d,%x,%x\n",i,Buffer[i],(uint8_t)('1' + i));			
+//			break;
+//		}
+//	}
+//	printf("Payload error! Count=%d\r\n",Payload_error);
 }
 
 void OnTxTimeout(void)
