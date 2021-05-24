@@ -267,6 +267,7 @@ int main(void)
 				len=USART_RX_STA&0x3fff;
 				if(strstr((char*)USART_RX_BUF,"END") != NULL)
 				{
+					HAL_NVIC_SystemReset();
 					break;
 				}
 				else if(strstr((char*)USART_RX_BUF,"PD") != NULL)
@@ -290,7 +291,7 @@ int main(void)
 //						printf("%d\t",Tx_Buffer[j]);
 					}
 //					printf("\n");
-					printf("Tx:transmiting packets");
+//					printf("Tx:transmiting packets");
 					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, 125000, PC_spread_factor, \
 																											PC_coding_rate, PC_CRC?true:false, PC_implicit_header?true:false, \
 																												&symbol_len_No1, PC_lowdatarateoptimize?true:false);
@@ -303,6 +304,10 @@ int main(void)
 
 					packets_count++;
 					printf("Tx:done, count:%d\n",packets_count);
+					USART_RX_STA=0;
+				}
+				else
+				{
 					USART_RX_STA=0;
 				}
 			}

@@ -11,7 +11,7 @@
 
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
-#define RF_FREQUENCY                                433000000 // Hz
+#define RF_FREQUENCY                                434000000 // Hz
 #define LORA_SPREADING_FACTOR                       7        // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
@@ -290,13 +290,20 @@ int main(void)
 			if(USART_RX_STA&0x8000)
 			{
 				len=USART_RX_STA&0x3fff;
+				
 				if(strstr((char*)USART_RX_BUF,"END") != NULL)
 				{
+					printf("reset!\r\n");
 					USART_RX_STA=0;
+					HAL_NVIC_SystemReset();
 					break;
 				}
+				else
+				{
+					USART_RX_STA=0;
+				}
 			}
-			DelayMs(1000);
+			DelayMs(2000);
 		}
 		
 	}
@@ -306,7 +313,7 @@ void OnTxDone(void)
 {
 //  Radio.Sleep();
   State = TX;
-  PRINTF("OnTxDone\n\r");
+  printf("OnTxDone\n\r");
 }
 
 uint8_t reg_v[10];
@@ -333,7 +340,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   printf("OnRxDone, PL=%d-, CR=4/%d-, CRC=%s-\n", \
 				BufferSize,((SX1276Read(REG_LR_MODEMSTAT) & 0xe0)>>5)+4, \
 				((SX1276Read( REG_LR_HOPCHANNEL )&0x40) > 0)?"ON":"OFF");
-//	PRINTF("LowDatarateOptimize=%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+//	printf("LowDatarateOptimize=%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
   printf("RssiValue=%ddBm, SnrValue=%ddB\n", rssi, snr);
 	
 	received_count++;
@@ -355,14 +362,14 @@ void OnTxTimeout(void)
 //  Radio.Sleep();
   State = TX_TIMEOUT;
 
-  PRINTF("OnTxTimeout\n\r");
+  printf("OnTxTimeout\n\r");
 }
 
 void OnRxTimeout(void)
 {
 //  Radio.Sleep();
   State = RX_TIMEOUT;
-  PRINTF("OnRxTimeout\n\r");
+  printf("OnRxTimeout\n\r");
 }
 
 void OnRxError(void)
@@ -370,7 +377,7 @@ void OnRxError(void)
 //  Radio.Sleep();
 	State = RX_ERROR;
 	Rx_Error_Count++;
-  PRINTF("\r\nOnRxError,Count:%d\n\r",Rx_Error_Count);
+  printf("\r\nOnRxError,Count:%d\n\r",Rx_Error_Count);
 }
 
 static void OnledEvent(void *context)
