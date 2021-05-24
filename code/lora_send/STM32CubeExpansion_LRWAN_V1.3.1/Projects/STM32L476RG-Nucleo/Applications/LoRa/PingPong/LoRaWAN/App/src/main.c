@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include "hw.h"
 #include "radio.h"
 #include "timeServer.h"
@@ -7,7 +8,7 @@
 
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                433000000 // Hz
+#define RF_FREQUENCY                                434000000 // Hz
 
 
 #define TX_OUTPUT_POWER                            14        // dBm
@@ -17,7 +18,7 @@
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
@@ -40,7 +41,7 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 10 // Define the payload size here
+#define BUFFER_SIZE                                 255 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
@@ -170,36 +171,20 @@ int main(void)
 	
 	for (i = 0; i < BufferSize; i++)
 	{
-		Buffer[i] = '1' ;
+//		Buffer[i] = '1' ;
 //		Buffer[i] = whitening_seq[i] ;
+		Buffer[i] = rand() % 255;
 	}
   while (1)
   {
 		Radio.Send(Buffer, BufferSize);  
-//		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
 		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
-ENABLE_IRQ();		
-//		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
-//		DelayMs(2000);
-		
-      
-    
   }
 }
 
 void OnTxDone(void)
 {
-//  Radio.Sleep();
+  Radio.Sleep();
   State = TX;
 	Tx_count++;
   PRINTF("OnTxDone,Count:%d\n\r",Tx_count);
