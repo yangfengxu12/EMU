@@ -8,7 +8,7 @@
 
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
-#define RF_FREQUENCY                                433000000 // Hz
+#define RF_FREQUENCY                                433600000 // Hz
 #define LORA_SPREADING_FACTOR                       7 // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
@@ -235,6 +235,8 @@ void OnTxDone(void)
 uint8_t reg_v[10];
 
 uint16_t Payload_error=0;
+uint16_t packet_error=0;
+uint16_t Bytes_error[BUFFER_SIZE]={0};
 
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 {
@@ -256,7 +258,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   printf("OnRxDone, PL = %d, CR = 4/%d, CRC %s\n", \
 				BufferSize,((SX1276Read(REG_LR_MODEMSTAT) & 0xe0)>>5)+4, \
 				((SX1276Read( REG_LR_HOPCHANNEL )&0x40) > 0)?"ON":"OFF");
-	PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
   printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
 	
 	received_count++;
@@ -267,10 +269,16 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 		{
 			Payload_error++;
 //			printf("%d,%x,%x\n",i,Buffer[i],(uint8_t)('1' + i));			
-			break;
+			packet_error++;
 		}
 	}
+	Bytes_error[packet_error]++;
+	packet_error = 0;
 	printf("Payload error! Count:%d\r\n",Payload_error);
+	for(int tt=0;tt<20;tt++)
+	{
+		printf("%d=%d\n",tt,Bytes_error[tt]);
+	}
 }
 
 void OnTxTimeout(void)

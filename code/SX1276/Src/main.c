@@ -35,7 +35,7 @@ extern uint32_t time_count;
 extern uint32_t Time_temp;
 
 
-#define BUFFER_SIZE                                 255 // Define the payload size here
+#define BUFFER_SIZE                                 255// Define the payload size here
 
 uint8_t Tx_Buffer[BUFFER_SIZE]={
 		0xFF
@@ -84,6 +84,7 @@ int main(void)
 	
 	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
 	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MODULATIONSHAPING_MASK ) | RF_PARAMP_MODULATIONSHAPING_01 );
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
 	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
@@ -94,12 +95,12 @@ int main(void)
 	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
 	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
 	
-	for(i=0;i<1000;i++)
+	for(i=0;i<100;i++)
 	{
 		for (int j = 0; j < BufferSize; j++)
 		{
-			Tx_Buffer[j] = rand()%255;
-//			Tx_Buffer[j] = 0x31;
+//			Tx_Buffer[j] = rand()%255;
+			Tx_Buffer[j] = 0x31;
 		}
 		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
