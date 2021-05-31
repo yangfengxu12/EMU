@@ -3624,9 +3624,9 @@
       </Doc>
       <Doc>
         <Name>..\Simulated_LoRa\Simulated_LoRa.h</Name>
-        <ColumnNumber>53</ColumnNumber>
+        <ColumnNumber>57</ColumnNumber>
         <TopLine>1</TopLine>
-        <CurrentLine>21</CurrentLine>
+        <CurrentLine>25</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
