@@ -95,26 +95,30 @@ void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16
 	int start_blank_position_2 = 0;
 	int end_blank_position_2 = 0;
 	
-	if(distance_to_max_freq > start_reserver_distance + turn_reserver_distance)
-	{
-		start_blank_position_1 = start_reserver_distance;
-		if(distance_to_max_freq - start_reserver_distance - turn_reserver_distance > blank_width)
-		{
-			end_blank_position_1 = blank_width + start_reserver_distance;
-			
-		}
-		else
-		{
-			end_blank_position_1 = distance_to_max_freq - turn_reserver_distance;
-			start_blank_position_2 = distance_to_max_freq + turn_reserver_distance;
-			end_blank_position_2 = start_blank_position_2 + blank_width - (end_blank_position_1 - start_blank_position_1);
-		}
-	}
-	else
-	{
-		start_blank_position_1 = distance_to_max_freq + turn_reserver_distance;
-		end_blank_position_1 = start_blank_position_1 + blank_width;
-	}
+//	if(distance_to_max_freq > start_reserver_distance + turn_reserver_distance)
+//	{
+//		start_blank_position_1 = start_reserver_distance;
+//		if(distance_to_max_freq - start_reserver_distance - turn_reserver_distance > blank_width)
+//		{
+//			end_blank_position_1 = blank_width + start_reserver_distance;
+//			
+//		}
+//		else
+//		{
+//			end_blank_position_1 = distance_to_max_freq - turn_reserver_distance;
+//			start_blank_position_2 = distance_to_max_freq + turn_reserver_distance;
+//			end_blank_position_2 = start_blank_position_2 + blank_width - (end_blank_position_1 - start_blank_position_1);
+//		}
+//	}
+//	else
+//	{
+//		start_blank_position_1 = distance_to_max_freq + turn_reserver_distance;
+//		end_blank_position_1 = start_blank_position_1 + blank_width;
+//	}
+	start_blank_position_1 = (1<<sf)/2;
+	end_blank_position_1 = (1<<sf);
+	start_blank_position_2 = 0;
+	end_blank_position_2 = 0;
 	
 	*start_p1 = (uint16_t) start_blank_position_1;
 	*end_p1   = (uint16_t) end_blank_position_1;
@@ -319,7 +323,8 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 		
 		check_symbol_position(&Chirp_Status_No1, Chirp_Count_No1, &Init_Frequency_Begin_Point_No1, &Next_Init_Frequency_Begin_Point_No1);
 		
-		blank_position_cal(LORA_SF_NO1, LoRa_Payload_Start_Freq_No1[ Chirp_Count_No1 - LORA_PREAMBLE_LENGTH_NO1 - LORA_ID_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 - 1 ], \
+		if(Chirp_Status_No1 == Payload)
+			blank_position_cal(LORA_SF_NO1, LoRa_Payload_Start_Freq_No1[ Chirp_Count_No1 - LORA_PREAMBLE_LENGTH_NO1 - LORA_ID_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 - 1 ], \
 												LORA_BW, &start_p1, &end_p1, &start_p2, &end_p2);
 		
 		while(1)  // generate symbol

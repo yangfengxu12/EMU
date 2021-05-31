@@ -3615,9 +3615,9 @@
       </Doc>
       <Doc>
         <Name>..\..\..\..\..\..\Drivers\BSP\Components\sx1276\sx1276.c</Name>
-        <ColumnNumber>63</ColumnNumber>
-        <TopLine>471</TopLine>
-        <CurrentLine>517</CurrentLine>
+        <ColumnNumber>13</ColumnNumber>
+        <TopLine>483</TopLine>
+        <CurrentLine>514</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
