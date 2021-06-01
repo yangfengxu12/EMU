@@ -100,8 +100,8 @@ int main(void)
 	{
 		for (int j = 0; j < BufferSize; j++)
 		{
-//			Tx_Buffer[j] = rand()%255;
-			Tx_Buffer[j] = 0x31;
+			Tx_Buffer[j] = rand()%255;
+//			Tx_Buffer[j] = 0x31;
 		}
 		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
