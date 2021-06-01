@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include "hw.h"
 #include "radio.h"
 #include "timeServer.h"
@@ -232,7 +233,7 @@ void OnTxDone(void)
   PRINTF("OnTxDone\n\r");
 }
 
-uint8_t reg_v[10];
+uint8_t temp;
 
 uint16_t Payload_error=0;
 uint16_t packet_error=0;
@@ -265,7 +266,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	printf("receive packets count=%ld\n",received_count);
 	for(i=0;i<BufferSize;i++)
 	{
-		if(Buffer[i] != '1')
+		temp = rand()%255;
+		if(Buffer[i] != temp)
 		{
 			Payload_error++;
 //			printf("%d,%x,%x\n",i,Buffer[i],(uint8_t)('1' + i));			
