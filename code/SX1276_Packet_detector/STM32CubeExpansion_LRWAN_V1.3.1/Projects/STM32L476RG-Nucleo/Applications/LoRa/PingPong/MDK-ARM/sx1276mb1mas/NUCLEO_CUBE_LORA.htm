@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\sx1276mb1mas\NUCLEO_CUBE_LORA.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sx1276mb1mas\NUCLEO_CUBE_LORA.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon May 31 14:20:58 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Jun 07 14:20:00 2021
 <BR><P>
 <H3>Maximum Stack Usage =        652 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1347,7 +1347,7 @@ Global Symbols
 <P><STRONG><a name="[1]"></a>NMI_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l4xx_it.o(i.NMI_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
-<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 234 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
+<P><STRONG><a name="[68]"></a>OnRxDone</STRONG> (Thumb, 194 bytes, Stack size 24 bytes, main.o(i.OnRxDone))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = OnRxDone &rArr; SX1276Read &rArr; SX1276ReadBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFifoStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
@@ -1783,7 +1783,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sx1276mb1mas.o(.constdata)
 </UL>
-<P><STRONG><a name="[74]"></a>SX1276SetRxConfig</STRONG> (Thumb, 652 bytes, Stack size 48 bytes, sx1276.o(i.SX1276SetRxConfig))
+<P><STRONG><a name="[74]"></a>SX1276SetRxConfig</STRONG> (Thumb, 682 bytes, Stack size 48 bytes, sx1276.o(i.SX1276SetRxConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = SX1276SetRxConfig &rArr; SX1276SetModem &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFifoStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d

@@ -1,5 +1,6 @@
 .\sx1276mb1mas\main.o: ..\LoRaWAN\App\src\main.c
 .\sx1276mb1mas\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\sx1276mb1mas\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\sx1276mb1mas\main.o: ..\LoRaWAN\App\inc\hw.h
 .\sx1276mb1mas\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\sx1276mb1mas\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

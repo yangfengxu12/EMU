@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include "hw.h"
 #include "radio.h"
 #include "timeServer.h"
@@ -9,7 +10,7 @@
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
 #define RF_FREQUENCY                                433600000 // Hz
-#define LORA_SPREADING_FACTOR                       7 // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       12 // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
@@ -232,11 +233,11 @@ void OnTxDone(void)
   PRINTF("OnTxDone\n\r");
 }
 
-uint8_t reg_v[10];
+uint8_t temp;
 
 uint16_t Payload_error=0;
 uint16_t packet_error=0;
-uint16_t Bytes_error[BUFFER_SIZE]={0};
+uint16_t Packet_error_statistic[BUFFER_SIZE]={0};
 
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 {
@@ -248,37 +249,45 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   SnrValue = snr;
   State = RX;
 	
-	printf("\n");
-	for(i=0;i<BufferSize;i++)
-	{
-		printf("%x   ",Buffer[i]);
-	}
+//	printf("\n");
+//	for(i=0;i<BufferSize;i++)
+//	{
+//		printf("%x   ",Buffer[i]);
+//	}
 
 	printf("\n");
   printf("OnRxDone, PL = %d, CR = 4/%d, CRC %s\n", \
 				BufferSize,((SX1276Read(REG_LR_MODEMSTAT) & 0xe0)>>5)+4, \
 				((SX1276Read( REG_LR_HOPCHANNEL )&0x40) > 0)?"ON":"OFF");
-	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
-  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
+//	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+//  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
 	
 	received_count++;
 	printf("receive packets count=%ld\n",received_count);
 	for(i=0;i<BufferSize;i++)
 	{
-		if(Buffer[i] != '1')
+//		temp = rand()%255;
+		temp = 0x31;
+		if(Buffer[i] != temp)
 		{
 			Payload_error++;
-//			printf("%d,%x,%x\n",i,Buffer[i],(uint8_t)('1' + i));			
-			packet_error++;
+			printf("%x-->%x %d\n",temp,Buffer[i],i);			
 		}
 	}
-	Bytes_error[packet_error]++;
-	packet_error = 0;
-	printf("Payload error! Count:%d\r\n",Payload_error);
-	for(int tt=0;tt<20;tt++)
+	if(Payload_error != 0)
 	{
-		printf("%d=%d\n",tt,Bytes_error[tt]);
+		packet_error++;
 	}
+	Packet_error_statistic[Payload_error]++;
+	printf("Packet error:%d,Payload_error:%d\r\n",packet_error,Payload_error);
+	if(received_count == 1000)
+	{
+		for(int tt=0;tt<20;tt++)
+		{
+			printf("%d=%d\n",tt,Packet_error_statistic[tt]);
+		}
+	}
+	Payload_error = 0;
 }
 
 void OnTxTimeout(void)
