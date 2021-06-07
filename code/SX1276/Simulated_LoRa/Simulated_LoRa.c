@@ -115,7 +115,7 @@ void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16
 //		start_blank_position_1 = distance_to_max_freq + turn_reserver_distance;
 //		end_blank_position_1 = start_blank_position_1 + blank_width;
 //	}
-	start_blank_position_1 = (1<<sf)*7/10;
+	start_blank_position_1 = (1<<sf)*13/20;
 	end_blank_position_1 = (1<<sf);
 	
 //	start_blank_position_1 = 0;
@@ -228,7 +228,7 @@ void check_symbol_position(enum Chirp_Status *Chirp_Status, uint32_t Chirp_Count
 uint16_t temp1,temp2;
 void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 {
-	Send_packets:
+	
 	
 	uint16_t start_p1,end_p1,start_p2,end_p2;
 	channel_coding_convert(freq_points,id_and_payload_symbol_len);
@@ -301,7 +301,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 	
 	
-	
+	Send_packets:
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
 	delay_ms(5);
