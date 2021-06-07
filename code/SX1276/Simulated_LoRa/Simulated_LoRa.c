@@ -80,14 +80,14 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 
 void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16_t *end_p1, uint16_t *start_p2, uint16_t *end_p2)
 {
-	int16_t total_chip = 1<<sf;
-	int start_reserver_distance = (int)(0.50 * total_chip);
-	int end_reserver_distance = (int)(0.00 * total_chip);
-	int turn_reserver_distance = (int)(0.00 * total_chip);
-	int blank_width = (int)(0.5 * total_chip);
-	
-	float distance_to_max_freq = ((bw>>1)-freq)/(bw/(1<<sf));
-	float distance_to_symbol_end = (1<<sf)-distance_to_max_freq;
+//	int16_t total_chip = 1<<sf;
+//	int start_reserver_distance = (int)(0.50 * total_chip);
+//	int end_reserver_distance = (int)(0.00 * total_chip);
+//	int turn_reserver_distance = (int)(0.00 * total_chip);
+//	int blank_width = (int)(0.5 * total_chip);
+//	
+//	float distance_to_max_freq = ((bw>>1)-freq)/(bw/(1<<sf));
+//	float distance_to_symbol_end = (1<<sf)-distance_to_max_freq;
 	
 	int start_blank_position_1 = 0;
 	int end_blank_position_1 = 0;
@@ -115,8 +115,12 @@ void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16
 //		start_blank_position_1 = distance_to_max_freq + turn_reserver_distance;
 //		end_blank_position_1 = start_blank_position_1 + blank_width;
 //	}
-	start_blank_position_1 = (1<<sf)/2;
+	start_blank_position_1 = (1<<sf)*7/10;
 	end_blank_position_1 = (1<<sf);
+	
+//	start_blank_position_1 = 0;
+//	end_blank_position_1 = 0;
+	
 	start_blank_position_2 = 0;
 	end_blank_position_2 = 0;
 	
@@ -224,8 +228,9 @@ void check_symbol_position(enum Chirp_Status *Chirp_Status, uint32_t Chirp_Count
 uint16_t temp1,temp2;
 void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 {
-	uint16_t start_p1,end_p1,start_p2,end_p2;
+	Send_packets:
 	
+	uint16_t start_p1,end_p1,start_p2,end_p2;
 	channel_coding_convert(freq_points,id_and_payload_symbol_len);
 	
 	/******** debug temps   ***********/
@@ -296,9 +301,10 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 	
 	
-	Send_packets:
+	
+	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-	delay_ms(1);
+	delay_ms(5);
 	
 	#ifdef CALIBRATION_FROM_RTC
 	TIM2->CNT = 0;
@@ -313,9 +319,9 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	#endif
 	
 	/*******************/
- 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
-	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
-	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
+// 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
+//	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
+//	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 	
 
 	while( Chirp_Count_No1 < LORA_TOTAL_LENGTH_NO1 )
@@ -369,18 +375,18 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 					}
 					break;
 				}
-				default:break;
+				default:while(1);break;
 			}
 			
 //			if(Chirp_Status_No1 == Payload && ((Symbol_Chip_Count > start_p1 && Symbol_Chip_Count < end_p1) || (Symbol_Chip_Count > start_p2 && Symbol_Chip_Count < end_p2)))
-			if(Chirp_Status_No1 == Payload && ((Symbol_Chip_Count > start_p1 && Symbol_Chip_Count < end_p1) || (Symbol_Chip_Count > start_p2 && Symbol_Chip_Count < end_p2)))
+			if(Chirp_Status_No1 == Payload &&((Chip_Position_No1 > start_p1 && Chip_Position_No1 < end_p1) ))
 			{
-				LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
-				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)RF_FREQUENCY );
-			}
+//				LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)(RF_FREQUENCY - LORA_BW) );
+			} 
 			else
 			{
-				LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
+//				LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
 				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)Input_Freq );
 			}
 			
@@ -408,7 +414,6 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 			}
 			
 			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
-
 
 			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
 			
@@ -470,9 +475,10 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	/*******************/
 	temp1 = TIM3->CNT;
 	temp2 = TIM4->CNT;
-	delay_ms(1);
+
 	SX1276SetOpMode( RF_OPMODE_SLEEP );
-	
+	SX1276SetSleep();
+	LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 	Total_Chip_Count = 0;
 	Chirp_Count_No1 = 0;
 	#ifdef CALIBRATION_FROM_RTC
