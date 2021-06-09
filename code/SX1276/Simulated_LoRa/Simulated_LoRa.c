@@ -115,7 +115,7 @@ void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16
 //		start_blank_position_1 = distance_to_max_freq + turn_reserver_distance;
 //		end_blank_position_1 = start_blank_position_1 + blank_width;
 //	}
-	start_blank_position_1 = (1<<sf)*13/20;
+	start_blank_position_1 = (1<<sf)/2;
 	end_blank_position_1 = (1<<sf);
 	
 //	start_blank_position_1 = 0;
@@ -329,7 +329,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 		
 		check_symbol_position(&Chirp_Status_No1, Chirp_Count_No1, &Init_Frequency_Begin_Point_No1, &Next_Init_Frequency_Begin_Point_No1);
 		
-		if(Chirp_Status_No1 == Payload)
+//		if(Chirp_Status_No1 == Payload)
 			blank_position_cal(LORA_SF_NO1, LoRa_Payload_Start_Freq_No1[ Chirp_Count_No1 - LORA_PREAMBLE_LENGTH_NO1 - LORA_ID_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 - 1 ], \
 												LORA_BW, &start_p1, &end_p1, &start_p2, &end_p2);
 		
@@ -378,8 +378,8 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 				default:while(1);break;
 			}
 			
-//			if(Chirp_Status_No1 == Payload && ((Symbol_Chip_Count > start_p1 && Symbol_Chip_Count < end_p1) || (Symbol_Chip_Count > start_p2 && Symbol_Chip_Count < end_p2)))
-			if(Chirp_Status_No1 == Payload &&((Chip_Position_No1 > start_p1 && Chip_Position_No1 < end_p1) ))
+//			if(Chirp_Status_No1 == Payload &&((Chip_Position_No1 > start_p1 && Chip_Position_No1 < end_p1) ))
+			if((Chip_Position_No1 > start_p1 && Chip_Position_No1 < end_p1) )
 			{
 //				LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)(RF_FREQUENCY - LORA_BW) );

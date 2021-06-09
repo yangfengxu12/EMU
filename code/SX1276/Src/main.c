@@ -101,7 +101,7 @@ int main(void)
 		for (int j = 0; j < BufferSize; j++)
 		{
 //			Tx_Buffer[j] = rand()%255;
-			Tx_Buffer[j] = 0x32;
+			Tx_Buffer[j] = 0x31;
 		}
 //		Tx_Buffer[92] = 0x34;
 		

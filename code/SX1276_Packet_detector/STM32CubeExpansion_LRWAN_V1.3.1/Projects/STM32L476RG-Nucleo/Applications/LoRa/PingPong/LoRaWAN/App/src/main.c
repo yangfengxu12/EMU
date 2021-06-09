@@ -267,7 +267,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 	for(i=0;i<BufferSize;i++)
 	{
 //		temp = rand()%255;
-		temp = 0x32;
+		temp = 0x31;
 		if(Buffer[i] != temp)
 		{
 			Payload_error++;
