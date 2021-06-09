@@ -112,7 +112,7 @@ int main(void)
 		
 		free(packet_freq_points_No1);
 		printf("Tx done, Count:%d\r\n",i+1);
-		delay_ms(3000);
+		delay_ms(1000);
 	}
 	printf("finish!!\r\n");
 

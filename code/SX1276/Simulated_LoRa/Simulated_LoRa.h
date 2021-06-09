@@ -79,10 +79,10 @@ extern uint32_t Time;
 
 void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count );
 void channel_coding_convert(int* freq_points,int id_and_payload_symbol_len);
-void check_symbol_position(enum Chirp_Status *Chirp_Status, uint32_t Chirp_Count, int *Init_Frequency_Begin_Point, uint32_t *Next_Init_Frequency_Begin_Point);
-void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len);
 
+
+void symbol_start_end_time_cal(void);
 void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16_t *end_p1, uint16_t *start_p2, uint16_t *end_p2);
-
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len);
 
 #endif

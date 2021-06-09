@@ -27,11 +27,32 @@ Project File Date:  06/01/2021
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
-compiling Modulation.c...
+compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(163): warning:  #177-D: variable "start_p1"  was declared but never referenced
+  	uint16_t start_p1,end_p1,start_p2,end_p2;
+..\Simulated_LoRa\Simulated_LoRa.c(163): warning:  #177-D: variable "end_p1"  was declared but never referenced
+  	uint16_t start_p1,end_p1,start_p2,end_p2;
+..\Simulated_LoRa\Simulated_LoRa.c(163): warning:  #177-D: variable "start_p2"  was declared but never referenced
+  	uint16_t start_p1,end_p1,start_p2,end_p2;
+..\Simulated_LoRa\Simulated_LoRa.c(163): warning:  #177-D: variable "end_p2"  was declared but never referenced
+  	uint16_t start_p1,end_p1,start_p2,end_p2;
+..\Simulated_LoRa\Simulated_LoRa.c(183): warning:  #177-D: variable "Chip_Mid_KeyPoint_No1"  was declared but never referenced
+  	int Chip_Mid_KeyPoint_No1 = 0;
+..\Simulated_LoRa\Simulated_LoRa.c(187): warning:  #177-D: variable "Init_Frequency_Begin_Point_No1"  was declared but never referenced
+  	int Init_Frequency_Begin_Point_No1 = LORA_BASE_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c(188): warning:  #177-D: variable "Init_Frequency_End_Point_No1"  was declared but never referenced
+  	int Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c(191): warning:  #177-D: variable "Next_Init_Frequency_Begin_Point_No1"  was declared but never referenced
+  	uint32_t Next_Init_Frequency_Begin_Point_No1 = LORA_BASE_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c(192): warning:  #177-D: variable "Next_Init_Frequency_End_Point_No1"  was declared but never referenced
+  	uint32_t Next_Init_Frequency_End_Point_No1 = LORA_MAX_FREQ;
+..\Simulated_LoRa\Simulated_LoRa.c(224): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c: 10 warnings, 0 errors
 linking...
-Program Size: Code=35460 RO-data=1160 RW-data=476 ZI-data=43324  
+Program Size: Code=35296 RO-data=1160 RW-data=476 ZI-data=43324  
 FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 0 Warning(s).
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,7 +75,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
