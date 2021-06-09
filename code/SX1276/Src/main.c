@@ -77,13 +77,13 @@ int main(void)
 	LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 
 	Radio.Init(&RadioEvents);
-  Radio.SetChannel(RF_FREQUENCY + LORA_BW);
+  Radio.SetChannel(RF_FREQUENCY - LORA_BW);
 	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
 
 	SX1276Write( REG_OSC, RF_OSC_CLKOUT_1_MHZ );
 	
 	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
-	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_150 );
+	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_300 );
 	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
 	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MODULATIONSHAPING_MASK ) | RF_PARAMP_MODULATIONSHAPING_01 );
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
@@ -106,6 +106,8 @@ int main(void)
 //		Tx_Buffer[92] = 0x34;
 		
 		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
+//		packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
+		
 		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
 		
 		free(packet_freq_points_No1);
