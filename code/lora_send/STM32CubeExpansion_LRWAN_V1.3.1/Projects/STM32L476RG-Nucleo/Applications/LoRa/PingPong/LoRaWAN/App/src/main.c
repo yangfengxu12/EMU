@@ -8,7 +8,7 @@
 
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                433000000 // Hz
+#define RF_FREQUENCY                                434000000 // Hz
 
 
 #define TX_OUTPUT_POWER                            14        // dBm
@@ -154,8 +154,7 @@ int main(void)
   {
 		for (i = 0; i < BufferSize; i++)
 		{
-//			Buffer[i] = rand() % 255;
-			Buffer[i] = 0x31;
+			Buffer[i] = rand() % 255;
 		}
 		PRINTF("send\n");
 		Radio.Send(Buffer, BufferSize);  
