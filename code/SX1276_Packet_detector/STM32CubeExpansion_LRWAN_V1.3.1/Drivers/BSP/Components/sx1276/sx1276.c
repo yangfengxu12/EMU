@@ -514,7 +514,7 @@ void SX1276SetRxConfig( RadioModems_t modem, uint32_t bandwidth,
             }
             else
             {
-                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;
+                SX1276.Settings.LoRa.LowDatarateOptimize = 0x00;
             }
 
             SX1276Write( REG_LR_MODEMCONFIG1,
