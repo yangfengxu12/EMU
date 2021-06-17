@@ -148,92 +148,60 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32L4xx_1024 -FS08000000 -FL0100000 -FP0($$Device:STM32L476RGTx$CMSIS\Flash\STM32L4xx_1024.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>467</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134233974</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\467</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>580</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134234912</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\580</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sf,0x0A</ItemText>
+          <ItemText>LORA_TOTAL_LENGTH_NO1,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>freq,0x0A</ItemText>
+          <ItemText>Symbol_Chip_Count,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>start_reserver_distance,0x0A</ItemText>
+          <ItemText>Input_Freq</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>end_reserver_distance,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>turn_reserver_distance,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>blank_width,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>distance_to_max_freq</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>distance_to_symbol_end</ItemText>
-        </Ww>
-        <Ww>
-          <count>8</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>start_blank_position_1,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>9</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>end_blank_position_1,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>10</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>start_blank_position_2,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>11</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>end_blank_position_2,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>12</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>total_chip,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>13</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>start_p1,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>14</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>end_p1,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>15</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>start_p2,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>16</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>end_p2,0x0A</ItemText>
+          <ItemText>Chirp_Count_No2,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -252,7 +220,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>260</SubType>
-          <ItemText>Chip_Count_Record_No1</ItemText>
+          <ItemText>LoRa_Start_Freq_No1</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -260,7 +228,7 @@
         <Mm>
           <WinNumber>2</WinNumber>
           <SubType>260</SubType>
-          <ItemText>output</ItemText>
+          <ItemText>Symbol_Start_Time_No2</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>
@@ -268,7 +236,7 @@
         <Mm>
           <WinNumber>3</WinNumber>
           <SubType>260</SubType>
-          <ItemText>output</ItemText>
+          <ItemText>LoRa_Start_Freq_No2</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow3>
