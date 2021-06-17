@@ -63,7 +63,7 @@ int main(void)
 	int *LoRa_Payload_Start_Freq_No2 = NULL;
 	
 	HAL_Init();
-//	HW_GpioInit();
+
   SystemClock_Config();
 	
   HW_Init();
@@ -77,7 +77,7 @@ int main(void)
 	LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 
 	Radio.Init(&RadioEvents);
-  Radio.SetChannel(RF_FREQUENCY + LORA_BW);
+  Radio.SetChannel(RF_FREQUENCY - LORA_BW);
 	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
 
 	SX1276Write( REG_OSC, RF_OSC_CLKOUT_1_MHZ );
@@ -94,7 +94,7 @@ int main(void)
 	
 	printf("Tx\r\n");
 	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
-	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
+	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY_NO1,LORA_SF_NO1,RF_FREQUENCY_NO2,LORA_SF_NO2);
 	
 	for(i=0;i<1000;i++)
 	{
@@ -106,11 +106,15 @@ int main(void)
 //		Tx_Buffer[92] = 0x34;
 		
 		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
-		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
+		packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
+		
+//		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
+		LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2);
 		
 		free(packet_freq_points_No1);
+		free(packet_freq_points_No2);
 		printf("Tx done, Count:%d\r\n",i+1);
-		delay_ms(3000);
+		delay_ms(1000);
 	}
 	printf("finish!!\r\n");
 
