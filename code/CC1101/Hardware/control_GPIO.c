@@ -37,3 +37,13 @@ void LL_GPIO_TogglePin(GPIO_TypeDef *GPIOx, uint32_t PinMask)
 {
   WRITE_REG(GPIOx->ODR, READ_REG(GPIOx->ODR) ^ PinMask);
 }
+
+void LL_GPIO_ResetOutputPin(GPIO_TypeDef *GPIOx, uint32_t PinMask)
+{
+  WRITE_REG(GPIOx->BRR, PinMask);
+}
+
+void LL_GPIO_SetOutputPin(GPIO_TypeDef *GPIOx, uint32_t PinMask)
+{
+  WRITE_REG(GPIOx->BSRR, PinMask);
+}

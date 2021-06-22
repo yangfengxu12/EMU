@@ -9,7 +9,7 @@
 
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
-#define RF_FREQUENCY                                434000000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 #define LORA_SPREADING_FACTOR                       7 // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
@@ -259,8 +259,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   printf("OnRxDone, PL = %d, CR = 4/%d, CRC %s\n", \
 				BufferSize,((SX1276Read(REG_LR_MODEMSTAT) & 0xe0)>>5)+4, \
 				((SX1276Read( REG_LR_HOPCHANNEL )&0x40) > 0)?"ON":"OFF");
-//	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
-//  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
+	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
 	
 	received_count++;
 	printf("receive packets count=%ld\n",received_count);
