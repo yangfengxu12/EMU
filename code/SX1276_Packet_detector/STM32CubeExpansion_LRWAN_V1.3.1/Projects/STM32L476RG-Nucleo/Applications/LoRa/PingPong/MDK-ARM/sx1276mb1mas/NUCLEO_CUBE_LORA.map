@@ -1129,13 +1129,13 @@ Section Cross References
     main.o(i.OnRxDone) refers to sx1276.o(i.SX1276Read) for SX1276Read
     main.o(i.OnRxDone) refers to main.o(.data) for .data
     main.o(i.OnRxDone) refers to main.o(.bss) for .bss
-    main.o(i.OnRxError) refers to trace.o(i.TraceSend) for TraceSend
+    main.o(i.OnRxError) refers to printfa.o(i.__0printf) for __2printf
     main.o(i.OnRxError) refers to main.o(.data) for .data
-    main.o(i.OnRxTimeout) refers to trace.o(i.TraceSend) for TraceSend
+    main.o(i.OnRxTimeout) refers to printfa.o(i.__0printf) for __2printf
     main.o(i.OnRxTimeout) refers to main.o(.data) for .data
     main.o(i.OnTxDone) refers to trace.o(i.TraceSend) for TraceSend
     main.o(i.OnTxDone) refers to main.o(.data) for .data
-    main.o(i.OnTxTimeout) refers to trace.o(i.TraceSend) for TraceSend
+    main.o(i.OnTxTimeout) refers to printfa.o(i.__0printf) for __2printf
     main.o(i.OnTxTimeout) refers to main.o(.data) for .data
     main.o(i.OnledEvent) refers to timeserver.o(i.TimerStart) for TimerStart
     main.o(i.OnledEvent) refers to main.o(.bss) for .bss

@@ -27,13 +27,10 @@ Project File Date:  06/22/2021
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'CC1101_2_LoRa'
+compiling CC1101.c...
 compiling main.c...
 ../Src/main.c(29): warning:  #177-D: variable "datarate"  was declared but never referenced
     uint16_t datarate,i=0;
-../Src/main.c(32): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
-  	int *packet_freq_points_No2 = NULL;
-../Src/main.c(34): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
-  	int symbol_len_No2 = NULL;
 ../Src/main.c(36): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
   	int *LoRa_ID_Start_Freq_No1 = NULL;
 ../Src/main.c(37): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
@@ -42,7 +39,7 @@ compiling main.c...
   	int *LoRa_ID_Start_Freq_No2 = NULL;
 ../Src/main.c(40): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
   	int *LoRa_Payload_Start_Freq_No2 = NULL;
-../Src/main.c: 7 warnings, 0 errors
+../Src/main.c: 5 warnings, 0 errors
 compiling Simulated_LoRa.c...
 ..\Simulated_LoRa\Simulated_LoRa.c(166): warning:  #177-D: variable "start_p1"  was declared but never referenced
   	uint16_t start_p1,end_p1,start_p2,end_p2;
@@ -56,9 +53,13 @@ compiling Simulated_LoRa.c...
   	int Chip_Mid_KeyPoint_No1 = 0;
 ..\Simulated_LoRa\Simulated_LoRa.c(312): warning:  #177-D: label "Symbol_End"  was declared but never referenced
   		Symbol_End:
-..\Simulated_LoRa\Simulated_LoRa.c: 6 warnings, 0 errors
+..\Simulated_LoRa\Simulated_LoRa.c(496): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(631): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c: 8 warnings, 0 errors
 linking...
-Program Size: Code=24992 RO-data=752 RW-data=572 ZI-data=42596  
+Program Size: Code=25812 RO-data=752 RW-data=596 ZI-data=42596  
 FromELF: creating hex file...
 ".\CC1101_2LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 13 Warning(s).
 
@@ -83,7 +84,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

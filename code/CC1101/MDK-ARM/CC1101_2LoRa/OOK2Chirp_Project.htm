@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\CC1101_2LoRa\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\CC1101_2LoRa\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jun 22 11:06:22 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Jun 24 17:33:31 2021
 <BR><P>
-<H3>Maximum Stack Usage =        464 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        472 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+main &rArr; LoRa_Generate_Double_Packet &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
 <P>
 <H3>
 Mutually Recursive functions
@@ -630,7 +630,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI1_ReadWriteByte_u8
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[88]"></a>Control_GPIO_Init</STRONG> (Thumb, 196 bytes, Stack size 32 bytes, control_gpio.o(i.Control_GPIO_Init))
@@ -659,7 +659,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CC1101_Burst_Write
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[f8]"></a>GPIO_Set</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, sys.o(i.GPIO_Set))
@@ -710,13 +710,13 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9e]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32l4xx_hal.o(i.HAL_GetTick))
-<BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
-<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
+<BR><BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI2_Config
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI1_Config
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_EnterInitMode
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_WaitForSynchro
 </UL>
@@ -794,9 +794,9 @@ Global Symbols
 <P><STRONG><a name="[9b]"></a>HAL_RCCEx_PeriphCLKConfig</STRONG> (Thumb, 1230 bytes, Stack size 32 bytes, stm32l4xx_hal_rcc_ex.o(i.HAL_RCCEx_PeriphCLKConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI2_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI2_Config
+<BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI2_Config
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCCEx_PLLSAI1_Config
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_MspInit
 </UL>
@@ -804,9 +804,9 @@ Global Symbols
 <P><STRONG><a name="[9f]"></a>HAL_RCC_ClockConfig</STRONG> (Thumb, 360 bytes, Stack size 24 bytes, stm32l4xx_hal_rcc.o(i.HAL_RCC_ClockConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HAL_RCC_ClockConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
@@ -835,9 +835,9 @@ Global Symbols
 <P><STRONG><a name="[a0]"></a>HAL_RCC_GetSysClockFreq</STRONG> (Thumb, 220 bytes, Stack size 20 bytes, stm32l4xx_hal_rcc.o(i.HAL_RCC_GetSysClockFreq))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
+<BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
+<LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
 <P><STRONG><a name="[a4]"></a>HAL_RCC_MCOConfig</STRONG> (Thumb, 86 bytes, Stack size 40 bytes, stm32l4xx_hal_rcc.o(i.HAL_RCC_MCOConfig))
@@ -851,10 +851,10 @@ Global Symbols
 <P><STRONG><a name="[a5]"></a>HAL_RCC_OscConfig</STRONG> (Thumb, 1660 bytes, Stack size 32 bytes, stm32l4xx_hal_rcc.o(i.HAL_RCC_OscConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_SetFlashLatencyFromMSIRange
+<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_SetFlashLatencyFromMSIRange
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_MspInit
@@ -1224,11 +1224,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ea]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, control_gpio.o(i.LL_GPIO_ResetOutputPin))
-<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[e8]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, control_gpio.o(i.LL_GPIO_SetOutputPin))
-<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[f5]"></a>LL_GPIO_TogglePin</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, control_gpio.o(i.LL_GPIO_TogglePin))
@@ -1274,8 +1274,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e3]"></a>LoRa_Generate_Signal</STRONG> (Thumb, 1248 bytes, Stack size 40 bytes, simulated_lora.o(i.LoRa_Generate_Signal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+<P><STRONG><a name="[e3]"></a>LoRa_Generate_Double_Packet</STRONG> (Thumb, 1734 bytes, Stack size 48 bytes, simulated_lora.o(i.LoRa_Generate_Double_Packet))
+<BR><BR>[Stack]<UL><LI>Max Depth = 408<LI>Call Chain = LoRa_Generate_Double_Packet &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CC1101_Set_OpMode
@@ -1283,12 +1283,11 @@ Global Symbols
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_Init
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Timer_Calibration
-<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal_double_packets
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert_double_packets
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fast_SetChannel
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_EnableCounter
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_DisableCounter
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1360,7 +1359,7 @@ Global Symbols
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Min
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Max
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[d]"></a>RTC_WKUP_IRQHandler</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, rtc.o(i.RTC_WKUP_IRQHandler))
@@ -1475,7 +1474,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Stop_IT
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[b7]"></a>TIM_Base_SetConfig</STRONG> (Thumb, 170 bytes, Stack size 8 bytes, stm32l4xx_hal_tim.o(i.TIM_Base_SetConfig))
@@ -1501,10 +1500,10 @@ Global Symbols
 <P><STRONG><a name="[8d]"></a>TraceSend</STRONG> (Thumb, 126 bytes, Stack size 296 bytes, trace.o(i.TraceSend))
 <BR><BR>[Stack]<UL><LI>Max Depth = 364<LI>Call Chain = TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetStopMode
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circular_queue_get
+<BR>[Calls]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circular_queue_get
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circular_queue_add
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vcom_Trace
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetStopMode
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_PRIMASK
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsnprintf
 </UL>
@@ -1600,7 +1599,7 @@ Global Symbols
 <P><STRONG><a name="[df]"></a>free</STRONG> (Thumb, 88 bytes, Stack size 12 bytes, mallocr.o(i.__free$realloc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = free
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Channel_Coding
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Interleaver
@@ -1612,15 +1611,14 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;internal_alloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Whitening
+<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Whitening
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Modulation
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Add_Header
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hanmming_Enc
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gray_Decoder
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Add_CRC
-<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal_double_packets
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert_double_packets
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;realloc
 </UL>
 
@@ -1630,12 +1628,12 @@ Global Symbols
 
 <P><STRONG><a name="[13c]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[e4]"></a>channel_coding_convert</STRONG> (Thumb, 134 bytes, Stack size 16 bytes, simulated_lora.o(i.channel_coding_convert))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = channel_coding_convert &rArr; malloc &rArr; internal_alloc
+<P><STRONG><a name="[e4]"></a>channel_coding_convert_double_packets</STRONG> (Thumb, 272 bytes, Stack size 24 bytes, simulated_lora.o(i.channel_coding_convert_double_packets))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = channel_coding_convert_double_packets &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[104]"></a>circular_queue_add</STRONG> (Thumb, 216 bytes, Stack size 32 bytes, queue.o(i.circular_queue_add))
@@ -1673,7 +1671,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CC1101_Reset
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Timer_Calibration
@@ -1688,8 +1686,8 @@ Global Symbols
 <P><STRONG><a name="[64]"></a>fputc</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, usart.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 214 bytes, Stack size 64 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 464<LI>Call Chain = main &rArr; LoRa_Generate_Signal &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 256 bytes, Stack size 64 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 472<LI>Call Chain = main &rArr; LoRa_Generate_Double_Packet &rArr; RTC_Timer_Calibration &rArr; RTC_Init &rArr; HAL_RTC_Init &rArr; HAL_RTC_MspInit &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
@@ -1697,7 +1695,7 @@ Global Symbols
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_Init
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI1_Init
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Channel_Coding
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_SPI_Init
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
@@ -1725,12 +1723,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Interleaver
 </UL>
 
-<P><STRONG><a name="[e5]"></a>symbol_start_end_time_cal</STRONG> (Thumb, 90 bytes, Stack size 8 bytes, simulated_lora.o(i.symbol_start_end_time_cal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = symbol_start_end_time_cal &rArr; malloc &rArr; internal_alloc
+<P><STRONG><a name="[e5]"></a>symbol_start_end_time_cal_double_packets</STRONG> (Thumb, 170 bytes, Stack size 8 bytes, simulated_lora.o(i.symbol_start_end_time_cal_double_packets))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = symbol_start_end_time_cal_double_packets &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[11f]"></a>uart_init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, usart.o(i.uart_init))
@@ -1894,11 +1892,11 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[eb]"></a>LL_TIM_DisableCounter</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_TIM_DisableCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[e9]"></a>LL_TIM_EnableCounter</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_TIM_EnableCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Double_Packet
 </UL>
 
 <P><STRONG><a name="[114]"></a>_fp_digits</STRONG> (Thumb, 366 bytes, Stack size 64 bytes, printfa.o(i._fp_digits), UNUSED)

@@ -9,7 +9,7 @@
 
 //#define RF_FREQUENCY                                (433000000 + 400000)// Hz
 //#define LORA_SPREADING_FACTOR                       8         // [SF7..SF12]
-#define RF_FREQUENCY                                433000000 // Hz
+#define RF_FREQUENCY                                434200000 // Hz
 #define LORA_SPREADING_FACTOR                       7 // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
@@ -295,14 +295,14 @@ void OnTxTimeout(void)
 //  Radio.Sleep();
   State = TX_TIMEOUT;
 
-  PRINTF("OnTxTimeout\n\r");
+  printf("OnTxTimeout\n\r");
 }
 
 void OnRxTimeout(void)
 {
 //  Radio.Sleep();
   State = RX_TIMEOUT;
-  PRINTF("OnRxTimeout\n\r");
+  printf("OnRxTimeout\n\r");
 }
 
 void OnRxError(void)
@@ -310,7 +310,7 @@ void OnRxError(void)
 //  Radio.Sleep();
 	State = RX_ERROR;
 	Rx_Error_Count++;
-  PRINTF("\r\nOnRxError,Count:%d\n\r",Rx_Error_Count);
+  printf("\r\nOnRxError,Count:%d\n\r",Rx_Error_Count);
 }
 
 static void OnledEvent(void *context)

@@ -26,7 +26,7 @@
 // PA ramping = false 
 // Rf settings for CC1101
 static uint8_t  CC1101_Init_Setting[] = {
-    0x0A,  // IOCFG2        GDO2 Output Pin Configuration  0x0B DATA_CLK  0x0A PLL LOCKED
+    0x0B,  // IOCFG2        GDO2 Output Pin Configuration  0x0B DATA_CLK  0x0A PLL LOCKED
     0x2E,  // IOCFG1        GDO1 Output Pin Configuration
     0x0D,  // IOCFG0        GDO0 Output Pin Configuration	 0x0C for sync  0x0D for async
     0x47,  // FIFOTHR       RX FIFO and TX FIFO Thresholds
@@ -40,9 +40,9 @@ static uint8_t  CC1101_Init_Setting[] = {
     0x06,  // FSCTRL1       Frequency Synthesizer Control
     0x00,  // FSCTRL0       Frequency Synthesizer Control
     0x10,  // FREQ2         Frequency Control Word, High Byte
-    0xA7,  // FREQ1         Frequency Control Word, Middle Byte
-    0x62,  // FREQ0         Frequency Control Word, Low Byte
-    0xFD,  // MDMCFG4       Modem Configuration
+    0xB1,  // FREQ1         Frequency Control Word, Middle Byte
+    0x3B,  // FREQ0         Frequency Control Word, Low Byte
+    0xFC,  // MDMCFG4       Modem Configuration
     0x3B,  // MDMCFG3       Modem Configuration
     0x30,  // MDMCFG2       Modem Configuration
     0x22,  // MDMCFG1       Modem Configuration
@@ -51,11 +51,11 @@ static uint8_t  CC1101_Init_Setting[] = {
     0x07,  // MCSM2         Main Radio Control State Machine Configuration
     0x30,  // MCSM1         Main Radio Control State Machine Configuration
     0x18,  // MCSM0         Main Radio Control State Machine Configuration
-    0x16,  // FOCCFG        Frequency Offset Compensation Configuration
+    0x14,  // FOCCFG        Frequency Offset Compensation Configuration
     0x6C,  // BSCFG         Bit Synchronization Configuration
     0x03,  // AGCCTRL2      AGC Control
     0x40,  // AGCCTRL1      AGC Control
-    0x91,  // AGCCTRL0      AGC Control
+    0x92,  // AGCCTRL0      AGC Control
     0x87,  // WOREVT1       High Byte Event0 Timeout
     0x6B,  // WOREVT0       Low Byte Event0 Timeout
     0xFB,  // WORCTRL       Wake On Radio Control
@@ -74,5 +74,17 @@ static uint8_t  CC1101_Init_Setting[] = {
     0x35,  // TEST1         Various Test Settings
     0x09,  // TEST0         Various Test Settings
 };
+
+static uint8_t  CC1101_PA_Table_Settings[] = {
+		0x00,
+		0xC0,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+};
+
 
 #endif

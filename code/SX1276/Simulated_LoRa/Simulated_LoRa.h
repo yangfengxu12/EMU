@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define RF_FREQUENCY                                433600000 // Hz
-#define TX_OUTPUT_POWER                             14        // dBm
+#define RF_FREQUENCY                                433000000 // Hz
+#define TX_OUTPUT_POWER                             10        // dBm
 #define DATA_RATE																		25000
 
 #define FREQ_OFFSET_1_2															400000
@@ -15,7 +15,7 @@
 #define LORA_BW																			125000		// Hz
 
 /**********  Packet 1 parameters    **************************/
-#define RF_FREQUENCY_NO1														433600000
+#define RF_FREQUENCY_NO1														433000000
 
 #define LORA_BASE_FREQ_NO1													(RF_FREQUENCY_NO1 - (LORA_BW >> 1)) // Hz
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
