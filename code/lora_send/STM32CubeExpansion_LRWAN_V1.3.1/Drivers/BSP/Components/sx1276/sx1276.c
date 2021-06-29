@@ -674,7 +674,7 @@ void SX1276SetTxConfig( RadioModems_t modem, int8_t power, uint32_t fdev,
             }
             else
             {
-                SX1276.Settings.LoRa.LowDatarateOptimize = 0x01;
+                SX1276.Settings.LoRa.LowDatarateOptimize = 0x00;
             }
 
             if( SX1276.Settings.LoRa.FreqHopOn == true )

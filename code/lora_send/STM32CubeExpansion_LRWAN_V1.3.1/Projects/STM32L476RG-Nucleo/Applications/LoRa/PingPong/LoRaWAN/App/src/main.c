@@ -180,32 +180,32 @@ int main(void)
 		Radio.SetChannel(RF_FREQUENCY);
 
 
-		while(1)
-		{
-			printf("Tx:waiting connection\n");
-			if(USART_RX_STA&0x8000)
-			{
-				if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
-				{
-					printf("Tx:Hi!\n");
-					USART_RX_STA=0;
-					break;
-				}
-				else
-				{
-					printf("There is no Hello!\n");
-				}
-				USART_RX_STA=0;
-			}
-			DelayMs(2000);
-		}
+//		while(1)
+//		{
+//			printf("Tx:waiting connection\n");
+//			if(USART_RX_STA&0x8000)
+//			{
+//				if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
+//				{
+//					printf("Tx:Hi!\n");
+//					USART_RX_STA=0;
+//					break;
+//				}
+//				else
+//				{
+//					printf("There is no Hello!\n");
+//				}
+//				USART_RX_STA=0;
+//			}
+//			DelayMs(2000);
+//		}
 			
-		DelayMs(500);
-		memset(USART_RX_BUF, 0, USART_REC_LEN);
+//		DelayMs(500);
+//		memset(USART_RX_BUF, 0, USART_REC_LEN);
 		USART_RX_STA=0;
 		while(1)
 		{
-			printf("Tx:waiting settings...\n");
+//			printf("Tx:waiting settings...\n");
 			if(USART_RX_STA&0x8000)
 			{
 				if(strstr((char*)USART_RX_BUF,"PL") != NULL)
@@ -216,7 +216,7 @@ int main(void)
 				}
 				USART_RX_STA=0;
 			}
-			DelayMs(2000);
+			DelayMs(1000);
 		}
 		DelayMs(1000);
 		temp = 0;
@@ -279,7 +279,7 @@ int main(void)
 		}
 		PC_lowdatarateoptimize = temp;
 		
-		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
+//		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
 
 		int packets_count = 0;
 		
@@ -294,12 +294,13 @@ int main(void)
 		ENABLE_IRQ();								
 		while(1)
 		{
-			printf("Tx:waiting payload data...\n");
+//			printf("Tx:waiting payload data...\n");
 			if(USART_RX_STA&0x8000)
 			{
 				len=USART_RX_STA&0x3fff;
 				if(strstr((char*)USART_RX_BUF,"END") != NULL)
 				{
+					printf("reset\r\n");
 					break;
 				}
 				else if(strstr((char*)USART_RX_BUF,"PD") != NULL)
@@ -320,10 +321,12 @@ int main(void)
 						}
 						Buffer[j] = temp;
 						str_header = str_header+len+1;
-
+						
 					}
-					printf("Tx:transmiting packets");
-					
+					USART_RX_STA=0;
+				}
+				else if(strstr((char*)USART_RX_BUF,"CONFIRMED") != NULL)
+				{
 					Radio.Send(Buffer, PC_payload_length);
 																											
 					DelayMs(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
