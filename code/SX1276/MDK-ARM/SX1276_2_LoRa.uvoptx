@@ -148,40 +148,7 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32L4xx_1024 -FS08000000 -FL0100000 -FP0($$Device:STM32L476RGTx$CMSIS\Flash\STM32L4xx_1024.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>467</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134233974</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\467</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>580</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134234912</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\580</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -203,6 +170,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>Chirp_Count_No2,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chirp_Count_No1,0x0A</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -220,7 +192,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>260</SubType>
-          <ItemText>LoRa_Start_Freq_No1</ItemText>
+          <ItemText>Symbol_Start_Time_No2</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -228,7 +200,7 @@
         <Mm>
           <WinNumber>2</WinNumber>
           <SubType>260</SubType>
-          <ItemText>Symbol_Start_Time_No2</ItemText>
+          <ItemText>Symbol_Start_Time_No1</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>
@@ -236,7 +208,7 @@
         <Mm>
           <WinNumber>3</WinNumber>
           <SubType>260</SubType>
-          <ItemText>LoRa_Start_Freq_No2</ItemText>
+          <ItemText>Symbol_End_Time_No2</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow3>

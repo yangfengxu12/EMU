@@ -446,17 +446,26 @@ void symbol_start_end_time_cal_double_packets()
 	
 	for(int i=0;i < LORA_TOTAL_LENGTH_NO2;i++)
 	{
-		Symbol_Start_Time_No2[i] = (Symbol_Start_Time_No1[i] + Symbol_End_Time_No1[i])>>1;
+//		Symbol_Start_Time_No2[i] = (Symbol_Start_Time_No1[i] + Symbol_End_Time_No1[i])>>1;
+		if(i< LORA_PREAMBLE_LENGTH_NO2 + LORA_ID_LENGTH_NO2 + LORA_SFD_LENGTH_NO2 + LORA_QUARTER_SFD_LENGTH_NO2)
+			Symbol_Start_Time_No2[i] = (i*(1<<LORA_SF_NO2))<<3;
+		else
+			Symbol_Start_Time_No2[i] = ((i-1)*(1<<LORA_SF_NO2) + (1<<LORA_SF_NO2)/4) << 3;
 	}
 	Symbol_End_Time_No2 = Symbol_Start_Time_No2 + 1;
 	
+
+	for(int i=0;i < LORA_TOTAL_LENGTH_NO1;i++)
+	{
+		Symbol_Start_Time_No1[i] += Symbol_End_Time_No2[ LORA_PREAMBLE_LENGTH_NO2 + LORA_ID_LENGTH_NO2 + LORA_SFD_LENGTH_NO2 + LORA_QUARTER_SFD_LENGTH_NO2 ];
+	}
 }
 
 
 
 void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbol_len_No1, int * freq_points_No2, int id_and_payload_symbol_len_No2)
 {
-	bool No1_or_No2=false;
+	bool No1_or_No2=true;
 	channel_coding_convert_double_packets(freq_points_No1,id_and_payload_symbol_len_No1,freq_points_No2,id_and_payload_symbol_len_No2);
 	symbol_start_end_time_cal_double_packets();
 	
@@ -515,7 +524,7 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 //	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
 //	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_12);
 	
-	while( Chirp_Count_No1 < LORA_TOTAL_LENGTH_NO1)
+	while( Chirp_Count_No1 < LORA_TOTAL_LENGTH_NO1 || Chirp_Count_No2 < LORA_TOTAL_LENGTH_NO2)
 	{
 
 		while(Comped_Time <= Symbol_End_Time_No1[Chirp_Count_No1])  // generate symbol
@@ -557,7 +566,8 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 					if( Input_Freq > LORA_MAX_FREQ_NO1 )
 						Input_Freq = Input_Freq - LORA_BW;
 				}
-				else while(1);
+				else 
+					break;
 			}
 			else
 			{
@@ -595,7 +605,8 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 					if( Input_Freq > LORA_MAX_FREQ_NO2 )
 						Input_Freq = Input_Freq - LORA_BW;
 				}
-				else while(1);
+				else 
+					break;
 			}
 			
 			SX_FREQ_TO_CHANNEL( Channel, (uint32_t)Input_Freq );
@@ -627,11 +638,15 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 
 			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
 			
-			if(Comped_Time > Symbol_Start_Time_No2[Chirp_Count_No2])
+			if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] + Symbol_End_Time_No1[Chirp_Count_No1])/2)
 			{
 				No1_or_No2 = true;
 			}
 			
+			if( Comped_Time >= Symbol_End_Time_No2[Chirp_Count_No2])
+			{
+				Chirp_Count_No2++;
+			}
 			
 			Total_Chip_Count++;
 			Symbol_Chip_Count++;
@@ -639,10 +654,16 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 
 		}	// end loop of symbol
 		Symbol_End:
-		No1_or_No2 = false;
+		
 		Symbol_Chip_Count = 0;
-		Chirp_Count_No1++;
-		Chirp_Count_No2++;
+		if( Comped_Time >= Symbol_End_Time_No1[Chirp_Count_No1])
+		{
+			Chirp_Count_No1++;
+		}
+		if( Chirp_Count_No1 < LORA_TOTAL_LENGTH_NO1)
+			No1_or_No2 = false;
+		else
+			No1_or_No2 = true;
 		Chip_Position_No1 = 0;
 		Chip_Position_No2 = 0;
 //		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);	
