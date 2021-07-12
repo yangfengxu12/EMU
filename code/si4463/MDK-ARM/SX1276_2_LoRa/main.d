@@ -60,6 +60,13 @@
 .\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
 .\sx1276_2_lora\main.o: ..\Hardware\debug.h
 .\sx1276_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\sx1276_2_lora\main.o: ..\BSP\SX1276\radio.h
+.\sx1276_2_lora\main.o: ..\Utilities\timeServer.h
+.\sx1276_2_lora\main.o: ..\Utilities\low_power_manager.h
+.\sx1276_2_lora\main.o: ..\BSP\SX1276\sx1276.h
+.\sx1276_2_lora\main.o: ..\BSP\SX1276\sx1276Regs-Fsk.h
+.\sx1276_2_lora\main.o: ..\BSP\SX1276\sx1276Regs-LoRa.h
+.\sx1276_2_lora\main.o: ..\BSP\SX1276\sx1276mb1mas.h
 .\sx1276_2_lora\main.o: ..\Hardware\timer.h
 .\sx1276_2_lora\main.o: ..\Hardware\control_GPIO.h
 .\sx1276_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_tim.h

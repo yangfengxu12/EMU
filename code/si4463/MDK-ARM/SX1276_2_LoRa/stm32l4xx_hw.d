@@ -59,3 +59,4 @@
 .\sx1276_2_lora\stm32l4xx_hw.o: ..\Hardware\debug.h
 .\sx1276_2_lora\stm32l4xx_hw.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\sx1276_2_lora\stm32l4xx_hw.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\sx1276_2_lora\stm32l4xx_hw.o: ..\BSP\SX1276\radio.h

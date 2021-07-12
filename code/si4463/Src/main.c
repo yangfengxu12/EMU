@@ -2,10 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hw.h"
-
-
+#include "radio.h"
+#include "timeServer.h"
+#include "low_power_manager.h"
 //#include "malloc.h" 
-
+#include "sx1276.h"
+#include "sx1276mb1mas.h"
 
 #include "timer.h"
 #include "fast_spi.h"
@@ -25,6 +27,7 @@
 
 //#define CODING
 
+static RadioEvents_t RadioEvents;
 																											
 extern TIM_HandleTypeDef TIM2_Handler;
 extern uint32_t time_count;
@@ -70,11 +73,8 @@ int main(void)
 	uart_init(115200);
 //	
 	Control_GPIO_Init();
-//	/*Disbale Stand-by mode*/
-	
-	
-	
-	
+
+	SX1276WriteBuffer(0x02,Tx_Buffer,9);
 	
 //	printf("Tx\r\n");
 //	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");

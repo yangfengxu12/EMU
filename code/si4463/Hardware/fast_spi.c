@@ -23,7 +23,7 @@ void SPI1_Init(void)
 	tempreg|=0<<1;			// CPOL=0
 	tempreg|=0<<0;			//CPHA=0
  	//对SPI1属于APB2的外设.时钟频率最大为80Mhz频率.
-	tempreg|=2<<3;			//Fsck=Fpclk1/8 
+	tempreg|=5<<3;			//Fsck=Fpclk1/8 
 	tempreg|=0<<7;			//MSB First
 	tempreg|=1<<6;			//SPI启动
 	
@@ -103,11 +103,12 @@ uint8_t SPI1_WriteByte_u16(uint16_t TxData)
 uint8_t SX1276_Burst_Read(uint8_t reg,uint8_t *pBuf,uint8_t len)
 {
 	uint8_t status,uint8_t_ctr;	       
-  	GPIOB->BRR = GPIO_PIN_6;           //使能SPI传输
-  	status=SPI1_ReadByte(reg);//发送寄存器值(位置),并读取状态值   	   
- 	for(uint8_t_ctr=0;uint8_t_ctr<len;uint8_t_ctr++)pBuf[uint8_t_ctr]=SPI1_ReadByte(0XFF);//读出数据
-  	GPIOB->BSRR = GPIO_PIN_6;       //关闭SPI传输
-  	return status;        //返回读到的状态值
+  GPIOB->BRR = GPIO_PIN_6;           //使能SPI传输
+  status=SPI1_ReadByte(reg);//发送寄存器值(位置),并读取状态值   	   
+ 	for(uint8_t_ctr=0;uint8_t_ctr<len;uint8_t_ctr++)
+		pBuf[uint8_t_ctr]=SPI1_ReadByte(0XFF);//读出数据
+  GPIOB->BSRR = GPIO_PIN_6;       //关闭SPI传输
+  return status;        //返回读到的状态值
 }
 
 uint8_t SX1276_Burst_Write(uint8_t reg, uint8_t *pBuf, uint8_t len)
@@ -126,7 +127,7 @@ uint8_t SX1276_Burst_Write(uint8_t reg, uint8_t *pBuf, uint8_t len)
 	}
 	else	// len = even
 	{
-		SPI1_WriteByte_u8( reg | 0x80 );
+		SPI1_WriteByte_u8( reg );
 		if( len >= 1 )	// len = 2,4,6...
 		{
 			for(uint8_t_ctr = 0; uint8_t_ctr < ( len >> 1 ); uint8_t_ctr++ )

@@ -694,6 +694,16 @@
               <FilePath>..\BSP\stm32l4xx_nucleo.c</FilePath>
             </File>
             <File>
+              <FileName>sx1276.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\SX1276\sx1276.c</FilePath>
+            </File>
+            <File>
+              <FileName>sx1276mb1mas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\SX1276\sx1276mb1mas.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32l4xx_hw.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\stm32l4xx_hw.c</FilePath>
