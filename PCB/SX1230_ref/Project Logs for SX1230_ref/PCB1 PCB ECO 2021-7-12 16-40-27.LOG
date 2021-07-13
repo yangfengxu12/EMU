@@ -1,0 +1,23 @@
+Removed Pin From Net: NetName=VBAT Pin=P1-5
+Removed Pin From Net: NetName=GND Pin=P1-8
+Change Component Footprint: Designator=L3 Old Footprint=0402-A New Footprint=0603_L
+Change Component Footprint: Designator=L4 Old Footprint=0402-A New Footprint=0603_L
+Change Component Comment : Designator=L4 Old Comment=Inductor New Comment=10nH ±5%
+Change Component Comment : Designator=L3 Old Comment=Inductor New Comment=12nH ±5%
+Change component parameters: Designator = "L3" ("L3"); Footprint = "0402-A"; UniqueID = "\OQEDHYLK" ("\OQEDHYLK")
+Change component parameters (AddParameter): Name = "ComponentLink1Description"; Value = "供应商链接"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.szlcsc.com/product/details_30010.html"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Notepad"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier"; Value = "LC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SuppliersPartNumber"; Value = "C29258"; VariantName = "[No Variations]"
+Change component parameters: Designator = "L4" ("L4"); Footprint = "0402-A"; UniqueID = "\FDUCZHQE" ("\FDUCZHQE")
+Change component parameters (AddParameter): Name = "ComponentLink1Description"; Value = "供应商链接"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.szlcsc.com/product/details_16347.html"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Notepad"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier"; Value = "LC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SuppliersPartNumber"; Value = "C15666"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=VBAT Pin=P1-4
+Added Pin To Net: NetName=GND Pin=P1-6
+Added Room: Name=Sheet1
