@@ -18,7 +18,6 @@
 #include "LoRa_Channel_Coding.h"
 #include "control_GPIO.h"
 
-
 //#include "Timer_Calibration.h"
 #include "Timer_Calibration_From_SX1276.h"
 
@@ -34,10 +33,140 @@ extern uint32_t time_count;
 extern uint32_t Time_temp;
 
 
-#define BUFFER_SIZE                                 255// Define the payload size here
+#define BUFFER_SIZE                                 64// Define the payload size here
 
-uint8_t Tx_Buffer[BUFFER_SIZE]={
-		0xFF
+uint8_t Tx_Buffer_1[BUFFER_SIZE]={
+	0x40,
+	0x2c,
+	0x00,
+	0x42,
+	0x00,
+	0x00,
+	0x05,
+	0x00,
+	0x02,
+	0xa2,
+	0xd0,
+	0xaf,
+	0x6d,
+	0x53,
+	0xf1,
+	0x1c,
+	0xbb,
+	0x7e,
+	0xc0,
+	0x29,
+	0x2c,
+	0x25,
+	0x7a,
+	0xe5,
+	0x51,
+	0xe9,
+	0xec,
+	0xec,
+	0x29,
+	0xab,
+	0xd6,
+	0x54,
+	0x73,
+	0x41,
+	0xc4,
+	0xf0,
+	0xaf,
+	0xe7,
+	0x59,
+	0xd6,
+	0x52,
+	0x9c,
+	0xa7,
+	0xe8,
+	0xfb,
+	0xbf,
+	0x71,
+	0x35,
+	0x21,
+	0xb6,
+	0x34,
+	0x34,
+	0xb0,
+	0xdd,
+	0x62,
+	0x8b,
+	0x28,
+	0x32,
+	0xdd,
+	0xf4,
+	0x59,
+	0x30,
+	0x76,
+	0x57
+};
+
+uint8_t Tx_Buffer_2[BUFFER_SIZE]={
+	0x40,
+	0x37,
+	0x00,
+	0x1e,
+	0x00,
+	0x00,
+	0x01,
+	0x00,
+	0x02,
+	0x79,
+	0x91,
+	0x05,
+	0x55,
+	0x29,
+	0x3b,
+	0x6b,
+	0xab,
+	0x26,
+	0xbe,
+	0xfe,
+	0x3e,
+	0xc4,
+	0x1c,
+	0x3f,
+	0x4b,
+	0x6d,
+	0x72,
+	0x12,
+	0xfb,
+	0x99,
+	0x8e,
+	0x71,
+	0xfa,
+	0xe3,
+	0x9f,
+	0x49,
+	0x17,
+	0x81,
+	0xb7,
+	0x43,
+	0xf6,
+	0xbf,
+	0xff,
+	0xad,
+	0x4d,
+	0x9a,
+	0xef,
+	0xdc,
+	0xc4,
+	0x5f,
+	0x32,
+	0xa5,
+	0xe5,
+	0x7c,
+	0x74,
+	0x32,
+	0x28,
+	0xa8,
+	0x0e,
+	0x8d,
+	0xf3,
+	0x8a,
+	0x8f,
+	0x6d
 };
 
 uint16_t BufferSize = BUFFER_SIZE;
@@ -98,15 +227,14 @@ int main(void)
 	
 	for(i=0;i<1000;i++)
 	{
-		for (int j = 0; j < BufferSize; j++)
-		{
-//			Tx_Buffer[j] = rand()%255;
-			Tx_Buffer[j] = 0x31;
-		}
-//		Tx_Buffer[92] = 0x34;
+//		for (int j = 0; j < BufferSize; j++)
+//		{
+////			Tx_Buffer[j] = rand()%255;
+//			Tx_Buffer[j] = 0x31;
+//		}
 		
-		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
-		packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
+		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer_1, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
+		packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer_2, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
 		
 //		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
 		LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2);
@@ -114,7 +242,7 @@ int main(void)
 		free(packet_freq_points_No1);
 		free(packet_freq_points_No2);
 		printf("Tx done, Count:%d\r\n",i+1);
-		delay_ms(1000);
+		delay_ms(5000);
 	}
 	printf("finish!!\r\n");
 
