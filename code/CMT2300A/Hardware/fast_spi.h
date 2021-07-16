@@ -18,12 +18,13 @@
 void SPI1_Init(void);			 //初始化SPI1口
 void SPI1_SetSpeed(uint8_t SpeedSet); //设置SPI1速度   
 
-uint8_t SPI1_ReadByte(uint8_t TxData);
+//uint8_t SPI1_ReadByte(uint8_t TxData);
+//uint8_t SPI1_WriteByte_u8(uint8_t TxData);
+//uint8_t SPI1_WriteByte_u16(uint16_t TxData);
 uint8_t SPI1_WriteByte_u8(uint8_t TxData);
-uint8_t SPI1_WriteByte_u16(uint16_t TxData);
+uint16_t SPI1_WriteByte_u16(uint16_t TxData);
 
-uint8_t SX1276_Burst_Read(uint8_t reg,uint8_t *pBuf,uint8_t len);
-uint8_t SX1276_Burst_Write(uint8_t reg, uint8_t *pBuf, uint8_t len);
-
+uint8_t CMT2300A_Burst_Write(uint8_t addr, uint8_t *pBuf, uint8_t len);
+u8 SPI1_ReadWriteByte(u8 TxData);
 #endif
 

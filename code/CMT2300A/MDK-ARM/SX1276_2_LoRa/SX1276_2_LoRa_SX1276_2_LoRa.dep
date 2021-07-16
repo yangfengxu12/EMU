@@ -1,7 +1,7 @@
 Dependencies for Project 'SX1276_2_LoRa', Target 'SX1276_2_LoRa': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32l476xx.s)(0x60E2663C)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include--pd "__UVISION_VERSION SETA 532" --pd "_RTE_ SETA 1" --pd "STM32L476xx SETA 1" --pd "_RTE_ SETA 1"--list ..\..\..\..\..\startup_stm32l476xx.lst --xref -o .\sx1276_2_lora\startup_stm32l476xx.o --depend .\sx1276_2_lora\startup_stm32l476xx.d)
-F (../Src/main.c)(0x60EED0C9)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\main.o --omf_browse .\sx1276_2_lora\main.crf --depend .\sx1276_2_lora\main.d)
+F (../Src/main.c)(0x60F1369B)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\main.o --omf_browse .\sx1276_2_lora\main.crf --depend .\sx1276_2_lora\main.d)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5F03E049)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h)(0x5F03E048)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5F337D68)
@@ -71,6 +71,16 @@ I (..\Hardware\sys.h)(0x60ED919A)
 I (..\Hardware\rtc.h)(0x5F646E99)
 I (..\Hardware\delay.h)(0x5F33DBCA)
 I (..\Hardware\usart.h)(0x60E2663B)
+I (..\Simulated_LoRa\Simulated_LoRa.h)(0x60F11E57)
+I (..\Hardware\fast_spi.h)(0x60F12181)
+I (..\LoRa_Channel_Coding\LoRa_Channel_Coding.h)(0x608237F0)
+I (..\LoRa_Channel_Coding\Whitening.h)(0x60361CEC)
+I (..\LoRa_Channel_Coding\Header.h)(0x6036273F)
+I (..\LoRa_Channel_Coding\Add_CRC.h)(0x6036233D)
+I (..\LoRa_Channel_Coding\Hanmming_Enc.h)(0x60362383)
+I (..\LoRa_Channel_Coding\Interleaver.h)(0x6082374E)
+I (..\LoRa_Channel_Coding\Gray_decode.h)(0x60827331)
+I (..\LoRa_Channel_Coding\Modulation.h)(0x603623F6)
 I (..\Simulated_LoRa\Timer_Calibration_From_SX1276.h)(0x604B48AB)
 I (..\BSP\CMT2300A\radio.h)(0x60ED89E5)
 I (..\BSP\CMT2300A\cmt2300a.h)(0x60ED929E)
@@ -2453,9 +2463,9 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5F03E04E)
 I (..\Hardware\delay.h)(0x5F33DBCA)
 I (..\Hardware\sys.h)(0x60ED919A)
-I (..\BSP\CMT2300A\cmt2300a_params.h)(0x60EEB753)
+I (..\BSP\CMT2300A\cmt2300a_params.h)(0x60F13C0C)
 I (F:\Keil_v5\ARM\ARMCC\include\string.h)(0x5F63878A)
-F (..\BSP\CMT2300A\common.c)(0x60EECDC8)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\common.o --omf_browse .\sx1276_2_lora\common.crf --depend .\sx1276_2_lora\common.d)
+F (..\BSP\CMT2300A\common.c)(0x60F12664)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\common.o --omf_browse .\sx1276_2_lora\common.crf --depend .\sx1276_2_lora\common.d)
 I (..\BSP\CMT2300A\common.h)(0x60EE71B6)
 I (F:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
 I (F:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5F63877C)
@@ -2498,7 +2508,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5F03E04E)
 I (F:\Keil_v5\ARM\ARMCC\include\string.h)(0x5F63878A)
-F (..\BSP\CMT2300A\cmt2300a_params.h)(0x60EEB753)()
+F (..\BSP\CMT2300A\cmt2300a_params.h)(0x60F13C0C)()
 F (..\Hardware\timer.c)(0x604B48AA)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\timer.o --omf_browse .\sx1276_2_lora\timer.crf --depend .\sx1276_2_lora\timer.d)
 I (..\Hardware\timer.h)(0x60ED8535)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5F03E049)
@@ -2584,8 +2594,8 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5F03E04E)
-F (..\Hardware\fast_spi.c)(0x60ED7AD2)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\fast_spi.o --omf_browse .\sx1276_2_lora\fast_spi.crf --depend .\sx1276_2_lora\fast_spi.d)
-I (..\Hardware\fast_spi.h)(0x5F337D68)
+F (..\Hardware\fast_spi.c)(0x60F13392)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\fast_spi.o --omf_browse .\sx1276_2_lora\fast_spi.crf --depend .\sx1276_2_lora\fast_spi.d)
+I (..\Hardware\fast_spi.h)(0x60F12181)
 I (..\Hardware\sys.h)(0x60ED919A)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5F03E049)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h)(0x5F03E048)
@@ -2793,7 +2803,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5F03E04E)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5F03E04E)
-F (..\Simulated_LoRa\Simulated_LoRa.c)(0x60ED8F7C)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\simulated_lora.o --omf_browse .\sx1276_2_lora\simulated_lora.crf --depend .\sx1276_2_lora\simulated_lora.d)
+F (..\Simulated_LoRa\Simulated_LoRa.c)(0x60F13490)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\simulated_lora.o --omf_browse .\sx1276_2_lora\simulated_lora.crf --depend .\sx1276_2_lora\simulated_lora.d)
 I (..\Hardware\hw.h)(0x5DE7E11E)
 I (F:\Keil_v5\ARM\ARMCC\include\math.h)(0x5F63877C)
 I (F:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5F63877C)
@@ -2860,15 +2870,17 @@ I (..\BSP\CMT2300A\cmt2300a_hal.h)(0x60ED9275)
 I (..\BSP\CMT2300A\gpio_defs.h)(0x60EE4DBD)
 I (..\Hardware\delay.h)(0x5F33DBCA)
 I (..\Hardware\sys.h)(0x60ED919A)
-I (..\Hardware\control_GPIO.h)(0x5FEB3076)
-I (..\Simulated_LoRa\Simulated_LoRa.h)(0x60ED254B)
-I (..\Hardware\fast_spi.h)(0x5F337D68)
+I (..\BSP\CMT2300A\common.h)(0x60EE71B6)
+I (..\Simulated_LoRa\Simulated_LoRa.h)(0x60F11E57)
+I (..\Hardware\fast_spi.h)(0x60F12181)
 I (F:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
-I (..\Simulated_LoRa\Timer_Calibration_From_SX1276.h)(0x604B48AB)
+I (..\Simulated_LoRa\Timer_Calibration.h)(0x604B48AB)
 I (..\Hardware\timer.h)(0x60ED8535)
+I (..\Hardware\control_GPIO.h)(0x5FEB3076)
 I (../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_tim.h)(0x604B48AA)
 I (../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_gpio.h)(0x604B48AA)
 I (../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_bus.h)(0x604B48AA)
+I (..\Hardware\rtc.h)(0x5F646E99)
 F (..\Simulated_LoRa\Timer_Calibration.c)(0x604B48AB)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\timer_calibration.o --omf_browse .\sx1276_2_lora\timer_calibration.crf --depend .\sx1276_2_lora\timer_calibration.d)
 I (..\Simulated_LoRa\timer_calibration.h)(0x604B48AB)
 I (..\Hardware\timer.h)(0x60ED8535)
@@ -2917,7 +2929,7 @@ I (../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_bus.h)(0x604B48AA)
 I (..\Hardware\sys.h)(0x60ED919A)
 I (..\Hardware\rtc.h)(0x5F646E99)
 I (..\Hardware\delay.h)(0x5F33DBCA)
-F (..\Simulated_LoRa\Simulated_LoRa.h)(0x60ED254B)()
+F (..\Simulated_LoRa\Simulated_LoRa.h)(0x60F11E57)()
 F (..\Simulated_LoRa\Timer_Calibration_From_SX1276.c)(0x604B48AB)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_LL_Driver/Inc -I ../Drivers/STM32L4xx_LL_Driver/Src -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ..\BSP -I ..\BSP\CMT2300A -I ..\Hardware -I ..\Utilities -I ..\Simulated_LoRa -I ..\LoRa_Channel_Coding -I ..\MALLOC --C99-I.\RTE\_SX1276_2_LoRa-IF:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IF:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32L476xx -D_RTE_ -DSTM32L476xx -DUSE_STM32L4XX_NUCLEO -DUSE_HAL_DRIVER -DUSE_FULL_LL_DRIVER-o .\sx1276_2_lora\timer_calibration_from_sx1276.o --omf_browse .\sx1276_2_lora\timer_calibration_from_sx1276.crf --depend .\sx1276_2_lora\timer_calibration_from_sx1276.d)
 I (..\Simulated_LoRa\Timer_Calibration_From_SX1276.h)(0x604B48AB)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5F03E049)

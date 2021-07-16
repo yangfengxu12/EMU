@@ -9,8 +9,8 @@
 
 //#define RF_FREQUENCY                                (433000000 + 200000)// Hz
 //#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
-#define RF_FREQUENCY                                486300000 // Hz
-#define LORA_SPREADING_FACTOR                       11 // [SF7..SF12]
+#define RF_FREQUENCY                                433000000 // Hz
+#define LORA_SPREADING_FACTOR                       7 // [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
@@ -144,15 +144,15 @@ int main(void)
   Radio.SetChannel(RF_FREQUENCY);
 
 
-  Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
-                    LORA_SPREADING_FACTOR, LORA_CODINGRATE,
-                    LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
+//  Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
+//                    LORA_SPREADING_FACTOR, LORA_CODINGRATE,
+//                    LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
+//                    true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
 	
   Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
                     LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                     LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
+                    255, true, 0, 0, LORA_IQ_INVERSION_ON, true);
 								
 	SX1276SetRx(0);
 	SX1276SetMaxPayloadLength( MODEM_LORA, 255 );
@@ -172,7 +172,7 @@ int main(void)
 	
 	reg=(SX1276Read(REG_LR_FEIMSB)<<16)|(SX1276Read(REG_LR_FEIMID)<<8)|SX1276Read(REG_LR_FEILSB);
 	
-	PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
 //	while(1);
 	
   while (1)
@@ -224,13 +224,13 @@ int main(void)
 //		DelayMs(100);
 //		reg=0x00;
   }
-}
+} 
 
 void OnTxDone(void)
 {
 //  Radio.Sleep();
   State = TX;
-  PRINTF("OnTxDone\n\r");
+  printf("OnTxDone\n\r");
 }
 
 uint8_t temp;
@@ -259,8 +259,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   printf("OnRxDone, PL = %d, CR = 4/%d, CRC %s\n", \
 				BufferSize,((SX1276Read(REG_LR_MODEMSTAT) & 0xe0)>>5)+4, \
 				((SX1276Read( REG_LR_HOPCHANNEL )&0x40) > 0)?"ON":"OFF");
-//	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
-//  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
+	printf("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
+  printf("RssiValue=%d dBm, SnrValue=%d\n", rssi, snr);
 	
 	received_count++;
 	printf("receive packets count=%ld\n",received_count);

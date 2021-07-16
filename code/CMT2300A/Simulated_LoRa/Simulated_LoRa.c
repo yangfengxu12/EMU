@@ -1,14 +1,15 @@
 #include "hw.h"
 #include "radio.h"
-//#include "sx1276.h"
-//#include "sx1276mb1mas.h"
 #include "delay.h"
-#include "control_GPIO.h"
+#include "cmt2300a_defs.h"
+#include "common.h"
+//#include "control_GPIO.h"
 
 #include "Simulated_LoRa.h"
 
-#include "Timer_Calibration_From_SX1276.h"
-#define Comped_Time (( (uint16_t)TIM4->CNT << 16 ) | (uint16_t)TIM3->CNT ) 
+#include "Timer_Calibration.h"
+
+#define Comped_Time ( TIM2->CNT + Timer_Compensation_Count )
 
 
 
@@ -33,27 +34,39 @@ uint32_t *Symbol_End_Time_No1;
 uint32_t *Symbol_Start_Time_No2;
 uint32_t *Symbol_End_Time_No2;
 
-uint8_t Channel_Freq_MSB_temp = 0;
-uint8_t Channel_Freq_MID_temp = 0;
-uint8_t Channel_Freq_LSB_temp = 0;
+uint8_t Channel_Freq_N7_0_temp = 0;
+uint8_t Channel_Freq_K19_16_temp = 0;
+uint8_t Channel_Freq_K15_8_temp = 0;
+uint8_t Channel_Freq_K7_0_temp = 0;
 
 float Input_Freq;
 uint32_t Channel;
 
-uint8_t Channel_Freq[3] = {0};  //MSB,MID,LSB
+uint8_t Channel_Freq[4] = {0};  //MSB,MID,LSB
 uint8_t Changed_Register_Count = 1;  // the number of changed registers.
+
+
+int Timer_Compensation_Index = 0;
+int Timer_Compensation_Flag = 0;
+int Timer_Compensation_Flag_Last = 0;
+
+extern SPI_HandleTypeDef SPI1_Handler;
 
 void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count )
 {
-//	uint8_t Reg_Address;
-//	switch(Changed_Register_Count)
-//	{
-//		case 1:Reg_Address = REG_FRFLSB;break;
-//		case 2:Reg_Address = REG_FRFMID;break;
-//		case 3:Reg_Address = REG_FRFMSB;break;
-//		default:Reg_Address = REG_FRFMSB;break;
-//	}
-//	SX1276_Burst_Write( Reg_Address, freq + 3 - Changed_Register_Count, Changed_Register_Count);
+	uint8_t Reg_Address;
+	switch(Changed_Register_Count)
+	{
+		case 1:Reg_Address = CMT2300A_CUS_RF8;break;
+		case 2:Reg_Address = CMT2300A_CUS_RF7;break;
+		case 3:Reg_Address = CMT2300A_CUS_RF6;break;
+		case 4:Reg_Address = CMT2300A_CUS_RF5;break;
+		default:Reg_Address = CMT2300A_CUS_RF5;break;
+	}
+
+//	CMT2300A_ConfigRegBank(Reg_Address,freq + 4 - Changed_Register_Count,Changed_Register_Count);
+	CMT2300A_Burst_Write( Reg_Address, freq + 4 - Changed_Register_Count,Changed_Register_Count);
+
 }
 
 void symbol_start_end_time_cal()
@@ -166,7 +179,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	/******** debug temps   ***********/
 //	uint32_t Chip_Count_No1[LORA_TOTAL_LENGTH_NO1] = {0};
 //	uint32_t *Chirp_Time_Record_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(uint32_t));
-	uint32_t *Chip_Count_Record_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(uint32_t));
+//	uint32_t *Chip_Count_Record_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(uint32_t));
 	
 //	float *Freq_Record_NO1 = malloc((1<<LORA_SF_NO1) * sizeof(float));
 //	uint32_t *Chip_Time_Record_NO1 = malloc( (1<< LORA_SF_NO1) * sizeof(uint32_t));
@@ -193,42 +206,63 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	uint32_t Total_Chip_Count = 0;
 	uint32_t Symbol_Chip_Count = 0;
 	
-	Init_Timer_Calibration_From_SX1276();
+	Timer_Compensation_Index = RTC_Timer_Calibration();
+	
+	TIM3_Init( Timer_Compensation_Index - 1 );
+	
+	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_3);
+	
+	CMT2300A_GoStby();
+	CMT2300A_GoTx();
+	delay_ms(10);
+	HAL_SPI_DeInit(&SPI1_Handler);
+	SPI1_Init();
+	delay_ms(90);
 	
 	SX_FREQ_TO_CHANNEL( Channel, RF_FREQUENCY );
-	Channel_Freq[0] = ( uint8_t )(( Channel >> 16 ) & 0xFF );
-	Channel_Freq[1] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
-	Channel_Freq[2] = ( uint8_t )(( Channel ) & 0xFF );
-	if( Channel_Freq_MSB_temp != Channel_Freq[0] )
+
+	Channel_Freq[0] = ( uint8_t )(( Channel >> 24 ) & 0xFF );
+	Channel_Freq[1] = ( uint8_t )(( Channel ) & 0xFF );
+	Channel_Freq[2] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
+	Channel_Freq[3] = ( uint8_t )(( Channel >> 16 ) & 0x0F ) | CMT_FSK_SWT_VALUE | CMT_FREQ_VCO_BANK_VALUE;
+	
+	if( Channel_Freq_N7_0_temp != Channel_Freq[0] )
+	{
+		Changed_Register_Count = 4;
+		Channel_Freq_N7_0_temp = Channel_Freq[0];
+		Channel_Freq_K7_0_temp = Channel_Freq[1];
+		Channel_Freq_K15_8_temp = Channel_Freq[2];
+		Channel_Freq_K19_16_temp = Channel_Freq[3];
+	}
+	else if( Channel_Freq_K7_0_temp != Channel_Freq[1] )
 	{
 		Changed_Register_Count = 3;
-		Channel_Freq_MSB_temp = Channel_Freq[0];
-		Channel_Freq_MID_temp = Channel_Freq[1];
-		Channel_Freq_LSB_temp = Channel_Freq[2];
+		Channel_Freq_K7_0_temp = Channel_Freq[1];
+		Channel_Freq_K15_8_temp = Channel_Freq[2];
+		Channel_Freq_K19_16_temp = Channel_Freq[3];
 	}
-	else if( Channel_Freq_MID_temp != Channel_Freq[1] )
+	else if( Channel_Freq_K15_8_temp != Channel_Freq[2] )
 	{
 		Changed_Register_Count = 2;
-		Channel_Freq_MID_temp = Channel_Freq[1];
-		Channel_Freq_LSB_temp = Channel_Freq[2];
+		Channel_Freq_K15_8_temp = Channel_Freq[2];
+		Channel_Freq_K19_16_temp = Channel_Freq[3];
 	}
-	else if( Channel_Freq_MID_temp != Channel_Freq[2] )
+	else if( Channel_Freq_K19_16_temp != Channel_Freq[3] )
 	{
 		Changed_Register_Count = 1;
-		Channel_Freq_LSB_temp = Channel_Freq[2];
+		Channel_Freq_K19_16_temp = Channel_Freq[3];
 	}
 	Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 	
 	
 	Send_packets:
-	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
-// 	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-	delay_ms(5);
 	
+
+
+	LL_TIM_EnableCounter(TIM2);
 	LL_TIM_EnableCounter(TIM3);
-	LL_TIM_EnableCounter(TIM4);
+	TIM2->CNT = 0;
 	TIM3->CNT = 0;
-	TIM4->CNT = 0;
 
 	
 	/*******************/
@@ -283,38 +317,48 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 				while(1);
 			}	
 			
-			if(Chirp_Status_No1 == Payload && Chip_Position_No1 > (1<<LORA_SF_NO1)*10/10)
-			{
-				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)RF_FREQUENCY);
-			}
-			else			
-			{
-				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)Input_Freq );
-			}
+//			if(Chirp_Status_No1 == Payload && Chip_Position_No1 > (1<<LORA_SF_NO1)*10/10)
+//			{
+//				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)RF_FREQUENCY);
+//			}
+//			else			
+//			{
+//				SX_FREQ_TO_CHANNEL( Channel, (uint32_t)Input_Freq );
+//			}
 			
-			Channel_Freq[0] = ( uint8_t )(( Channel >> 16 ) & 0xFF );
-			Channel_Freq[1] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
-			Channel_Freq[2] = ( uint8_t )(( Channel ) & 0xFF );
-			
-			if( Channel_Freq_MSB_temp != Channel_Freq[0] )
+			SX_FREQ_TO_CHANNEL( Channel, Input_Freq );
+
+			Channel_Freq[0] = ( uint8_t )(( Channel >> 24 ) & 0xFF );
+			Channel_Freq[1] = ( uint8_t )(( Channel ) & 0xFF );
+			Channel_Freq[2] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
+			Channel_Freq[3] = ( uint8_t )(( Channel >> 16 ) & 0x0F ) | CMT_FSK_SWT_VALUE | CMT_FREQ_VCO_BANK_VALUE;
+
+			if( Channel_Freq_N7_0_temp != Channel_Freq[0] )
+			{
+				Changed_Register_Count = 4;
+				Channel_Freq_N7_0_temp = Channel_Freq[0];
+				Channel_Freq_K7_0_temp = Channel_Freq[1];
+				Channel_Freq_K15_8_temp = Channel_Freq[2];
+				Channel_Freq_K19_16_temp = Channel_Freq[3];
+			}
+			else if( Channel_Freq_K7_0_temp != Channel_Freq[1] )
 			{
 				Changed_Register_Count = 3;
-				Channel_Freq_MSB_temp = Channel_Freq[0];
-				Channel_Freq_MID_temp = Channel_Freq[1];
-				Channel_Freq_LSB_temp = Channel_Freq[2];
+				Channel_Freq_K7_0_temp = Channel_Freq[1];
+				Channel_Freq_K15_8_temp = Channel_Freq[2];
+				Channel_Freq_K19_16_temp = Channel_Freq[3];
 			}
-			else if( Channel_Freq_MID_temp != Channel_Freq[1] )
+			else if( Channel_Freq_K15_8_temp != Channel_Freq[2] )
 			{
 				Changed_Register_Count = 2;
-				Channel_Freq_MID_temp = Channel_Freq[1];
-				Channel_Freq_LSB_temp = Channel_Freq[2];
+				Channel_Freq_K15_8_temp = Channel_Freq[2];
+				Channel_Freq_K19_16_temp = Channel_Freq[3];
 			}
-			else if( Channel_Freq_MID_temp != Channel_Freq[2] )
+			else if( Channel_Freq_K19_16_temp != Channel_Freq[3] )
 			{
 				Changed_Register_Count = 1;
-				Channel_Freq_LSB_temp = Channel_Freq[2];
+				Channel_Freq_K19_16_temp = Channel_Freq[3];
 			}
-			
 			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 
 			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
@@ -325,21 +369,24 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 
 		}	// end loop of symbol
 		Symbol_End:
-		Chip_Count_Record_No1[Chirp_Count_No1] = Symbol_Chip_Count;
+//		Chip_Count_Record_No1[Chirp_Count_No1] = Symbol_Chip_Count;
 		Symbol_Chip_Count = 0;
 		Chirp_Count_No1++;
 		Chip_Position_No1 = 0;
 //		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);	
 	}
 	/*******************/
-//	temp1 = TIM3->CNT;
-//	temp2 = TIM4->CNT;
 
-//	SX1276SetOpMode( RF_OPMODE_SLEEP );
+	delay_ms(10);
+	GPIO_Config();
+	RF_Init();
+	CMT2300A_GoSleep();
+	delay_ms(10);
+	
 	LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 	
 	free(LoRa_Start_Freq_No1);
-	free(Chip_Count_Record_No1);
+//	free(Chip_Count_Record_No1);
 	free(Symbol_Start_Time_No1);
 	free(Symbol_End_Time_No1);
 	
@@ -347,10 +394,10 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	Chirp_Count_No1 = 0;
 	Chirp_Status_No1 = Preamble;
 
+	TIM2->CNT = 0;
 	TIM3->CNT = 0;
-	TIM4->CNT = 0;
+	LL_TIM_DisableCounter(TIM2);
 	LL_TIM_DisableCounter(TIM3);
-	LL_TIM_DisableCounter(TIM4);
 }
 
 //*************************************************************/
@@ -482,30 +529,30 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 	uint32_t Total_Chip_Count = 0;
 	uint32_t Symbol_Chip_Count = 0;
 	
-	Init_Timer_Calibration_From_SX1276();
+//	Init_Timer_Calibration_From_SX1276();
 	
 	SX_FREQ_TO_CHANNEL( Channel, RF_FREQUENCY );
-	Channel_Freq[0] = ( uint8_t )(( Channel >> 16 ) & 0xFF );
-	Channel_Freq[1] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
-	Channel_Freq[2] = ( uint8_t )(( Channel ) & 0xFF );
-	if( Channel_Freq_MSB_temp != Channel_Freq[0] )
-	{
-		Changed_Register_Count = 3;
-		Channel_Freq_MSB_temp = Channel_Freq[0];
-		Channel_Freq_MID_temp = Channel_Freq[1];
-		Channel_Freq_LSB_temp = Channel_Freq[2];
-	}
-	else if( Channel_Freq_MID_temp != Channel_Freq[1] )
-	{
-		Changed_Register_Count = 2;
-		Channel_Freq_MID_temp = Channel_Freq[1];
-		Channel_Freq_LSB_temp = Channel_Freq[2];
-	}
-	else if( Channel_Freq_MID_temp != Channel_Freq[2] )
-	{
-		Changed_Register_Count = 1;
-		Channel_Freq_LSB_temp = Channel_Freq[2];
-	}
+//	Channel_Freq[0] = ( uint8_t )(( Channel >> 16 ) & 0xFF );
+//	Channel_Freq[1] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
+//	Channel_Freq[2] = ( uint8_t )(( Channel ) & 0xFF );
+//	if( Channel_Freq_MSB_temp != Channel_Freq[0] )
+//	{
+//		Changed_Register_Count = 3;
+//		Channel_Freq_MSB_temp = Channel_Freq[0];
+//		Channel_Freq_MID_temp = Channel_Freq[1];
+//		Channel_Freq_LSB_temp = Channel_Freq[2];
+//	}
+//	else if( Channel_Freq_MID_temp != Channel_Freq[1] )
+//	{
+//		Changed_Register_Count = 2;
+//		Channel_Freq_MID_temp = Channel_Freq[1];
+//		Channel_Freq_LSB_temp = Channel_Freq[2];
+//	}
+//	else if( Channel_Freq_MID_temp != Channel_Freq[2] )
+//	{
+//		Changed_Register_Count = 1;
+//		Channel_Freq_LSB_temp = Channel_Freq[2];
+//	}
 	Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 	
 	
@@ -615,24 +662,24 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 			Channel_Freq[1] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
 			Channel_Freq[2] = ( uint8_t )(( Channel ) & 0xFF );
 			
-			if( Channel_Freq_MSB_temp != Channel_Freq[0] )
-			{
-				Changed_Register_Count = 3;
-				Channel_Freq_MSB_temp = Channel_Freq[0];
-				Channel_Freq_MID_temp = Channel_Freq[1];
-				Channel_Freq_LSB_temp = Channel_Freq[2];
-			}
-			else if( Channel_Freq_MID_temp != Channel_Freq[1] )
-			{
-				Changed_Register_Count = 2;
-				Channel_Freq_MID_temp = Channel_Freq[1];
-				Channel_Freq_LSB_temp = Channel_Freq[2];
-			}
-			else if( Channel_Freq_MID_temp != Channel_Freq[2] )
-			{
-				Changed_Register_Count = 1;
-				Channel_Freq_LSB_temp = Channel_Freq[2];
-			}
+//			if( Channel_Freq_MSB_temp != Channel_Freq[0] )
+//			{
+//				Changed_Register_Count = 3;
+//				Channel_Freq_MSB_temp = Channel_Freq[0];
+//				Channel_Freq_MID_temp = Channel_Freq[1];
+//				Channel_Freq_LSB_temp = Channel_Freq[2];
+//			}
+//			else if( Channel_Freq_MID_temp != Channel_Freq[1] )
+//			{
+//				Changed_Register_Count = 2;
+//				Channel_Freq_MID_temp = Channel_Freq[1];
+//				Channel_Freq_LSB_temp = Channel_Freq[2];
+//			}
+//			else if( Channel_Freq_MID_temp != Channel_Freq[2] )
+//			{
+//				Changed_Register_Count = 1;
+//				Channel_Freq_LSB_temp = Channel_Freq[2];
+//			}
 			
 			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 

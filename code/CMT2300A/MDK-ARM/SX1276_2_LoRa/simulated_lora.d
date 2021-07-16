@@ -66,12 +66,14 @@
 .\sx1276_2_lora\simulated_lora.o: ..\BSP\CMT2300A\gpio_defs.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\delay.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\sys.h
-.\sx1276_2_lora\simulated_lora.o: ..\Hardware\control_GPIO.h
+.\sx1276_2_lora\simulated_lora.o: ..\BSP\CMT2300A\common.h
 .\sx1276_2_lora\simulated_lora.o: ..\Simulated_LoRa\Simulated_LoRa.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\fast_spi.h
 .\sx1276_2_lora\simulated_lora.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\sx1276_2_lora\simulated_lora.o: ..\Simulated_LoRa\Timer_Calibration_From_SX1276.h
+.\sx1276_2_lora\simulated_lora.o: ..\Simulated_LoRa\Timer_Calibration.h
 .\sx1276_2_lora\simulated_lora.o: ..\Hardware\timer.h
+.\sx1276_2_lora\simulated_lora.o: ..\Hardware\control_GPIO.h
 .\sx1276_2_lora\simulated_lora.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_tim.h
 .\sx1276_2_lora\simulated_lora.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_gpio.h
 .\sx1276_2_lora\simulated_lora.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_bus.h
+.\sx1276_2_lora\simulated_lora.o: ..\Hardware\rtc.h
