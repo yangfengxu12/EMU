@@ -133,54 +133,19 @@ int main(void)
 	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
   SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
 
-//	packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 
-	
-//	printf("Tx\r\n");
-//	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
-//	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY,LORA_SF_NO1,RF_FREQUENCY+FREQ_OFFSET_1_2,LORA_SF_NO2);
-//	
-//	for(i=0;i<1000;i++)
-//	{
-//		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
-//		
-//		printf("Tx done, Count:%d\r\n",i+1);
-//		delay_ms(8000);
-//	}
 	printf("init finish!!\r\n");
 	memset(USART_RX_BUF, 0, USART_REC_LEN);
+	
+	
 	while(1)
 	{
-		while(1)
-		{
-			printf("Tx:waiting connection\n");
-			if(USART_RX_STA&0x8000)
-			{
-				len=USART_RX_STA&0x3fff;
-				if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
-				{
-					printf("Tx:Hi!\n");
-					USART_RX_STA=0;
-					break;
-				}
-				else
-				{
-					printf("There is no Hello!\n");
-				}
-				USART_RX_STA=0;
-			}
-			delay_ms(2000);
-		}
-		
-		delay_ms(500);
-		memset(USART_RX_BUF, 0, USART_REC_LEN);
 		USART_RX_STA=0;
 		while(1)
 		{
-			printf("Tx:waiting settings...\n");
+//			printf("Tx:waiting settings...\n");
 			if(USART_RX_STA&0x8000)
 			{
-				len=USART_RX_STA&0x3fff;
 				if(strstr((char*)USART_RX_BUF,"PL") != NULL)
 				{
 					printf((char*)USART_RX_BUF);
@@ -189,9 +154,9 @@ int main(void)
 				}
 				USART_RX_STA=0;
 			}
-			delay_ms(2000);
+			DelayMs(1000);
 		}
-		delay_ms(1000);
+		DelayMs(1000);
 		temp = 0;
 		str_header = strstr((char*)USART_RX_BUF,"PL");
 		substr = strtok(str_header, delim);
@@ -252,22 +217,21 @@ int main(void)
 		}
 		PC_lowdatarateoptimize = temp;
 		
-	//	while(1){
-		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
-	//		delay_ms(2000);
-	//	}
+//		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
+
 		int packets_count = 0;
-		memset(USART_RX_BUF, 0, USART_REC_LEN);
+	
 		USART_RX_STA=0;
+		ENABLE_IRQ();								
 		while(1)
 		{
-			printf("Tx:waiting payload data...\n");
+//			printf("Tx:waiting payload data...\n");
 			if(USART_RX_STA&0x8000)
 			{
 				len=USART_RX_STA&0x3fff;
 				if(strstr((char*)USART_RX_BUF,"END") != NULL)
 				{
-					HAL_NVIC_SystemReset();
+					printf("reset\r\n");
 					break;
 				}
 				else if(strstr((char*)USART_RX_BUF,"PD") != NULL)
@@ -288,10 +252,20 @@ int main(void)
 						}
 						Tx_Buffer[j] = temp;
 						str_header = str_header+len+1;
-//						printf("%d\t",Tx_Buffer[j]);
+						
 					}
-//					printf("\n");
-//					printf("Tx:transmiting packets");
+					USART_RX_STA=0;
+				}
+				else if(strstr((char*)USART_RX_BUF,"CONFIRMED") != NULL)
+				{
+//					Radio.Send(Buffer, PC_payload_length);
+//																											
+//					DelayMs(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+
+//					packets_count++;
+//					printf("Tx:done, count:%d\n",packets_count);
+//					USART_RX_STA=0;
+					
 					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, 125000, PC_spread_factor, \
 																											PC_coding_rate, PC_CRC?true:false, PC_implicit_header?true:false, \
 																												&symbol_len_No1, PC_lowdatarateoptimize?true:false);
@@ -306,20 +280,10 @@ int main(void)
 					printf("Tx:done, count:%d\n",packets_count);
 					USART_RX_STA=0;
 				}
-				else
-				{
-					USART_RX_STA=0;
-				}
 			}
-			delay_ms(1000);
+			DelayMs(1000);
 		}
-//		while(1)
-//		{
-//			printf("Tx:tx packets:%d\n",packets_count);
-//			delay_ms(1000);
-//		}
-	
+
 	}
 }
-
 
