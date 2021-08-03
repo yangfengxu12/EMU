@@ -27,48 +27,7 @@ Project File Date:  07/19/2021
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
-assembling startup_stm32l476xx.s...
-compiling usart.c...
-compiling rtc.c...
-..\Hardware\rtc.c(63): warning:  #940-D: missing return statement at end of non-void function "RTC_Init" 
-  }
-..\Hardware\rtc.c: 1 warning, 0 errors
-compiling Modulation.c...
-compiling stm32l4xx_it.c...
-compiling Simulated_LoRa.c...
-..\Simulated_LoRa\Simulated_LoRa.c(342): warning:  #167-D: argument of type "int *" is incompatible with parameter of type "uint32_t *"
-  		check_symbol_position(&Chirp_Status_No1, Chirp_Count_No1, &Init_Frequency_Begin_Point_No1, &Next_Init_Frequency_Begin_Point_No1);
-..\Simulated_LoRa\Simulated_LoRa.c(240): warning:  #177-D: variable "LORA_FREQ_STEP_NO2"  was declared but never referenced
-  	uint32_t LORA_FREQ_STEP_NO2		=											( LORA_BW / ( 1 << LORA_SF_NO2 ));
-..\Simulated_LoRa\Simulated_LoRa.c(241): warning:  #177-D: variable "LORA_SYMBOL_TIME_NO2"  was declared but never referenced
-  	uint32_t LORA_SYMBOL_TIME_NO2	=											(( 1 << LORA_SF_NO2 ) << 3);
-..\Simulated_LoRa\Simulated_LoRa.c(262): warning:  #550-D: variable "Chip_Mid_KeyPoint_No1"  was set but never used
-  	int Chip_Mid_KeyPoint_No1 = 0;
-..\Simulated_LoRa\Simulated_LoRa.c: 4 warnings, 0 errors
-compiling main.c...
-../Src/main.c(91): warning:  #177-D: variable "i"  was declared but never referenced
-    uint16_t datarate,i,len,t;
-../Src/main.c(91): warning:  #177-D: variable "t"  was declared but never referenced
-    uint16_t datarate,i,len,t;
-../Src/main.c(92): warning:  #177-D: variable "USART_temp"  was declared but never referenced
-  	uint8_t  USART_temp[USART_REC_LEN];
-../Src/main.c(98): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
-  	int *packet_freq_points_No2 = NULL;
-../Src/main.c(101): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
-  	int symbol_len_No2 = NULL;
-../Src/main.c(103): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
-  	int *LoRa_ID_Start_Freq_No1 = NULL;
-../Src/main.c(104): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
-  	int *LoRa_Payload_Start_Freq_No1 = NULL;
-../Src/main.c(106): warning:  #177-D: variable "LoRa_ID_Start_Freq_No2"  was declared but never referenced
-  	int *LoRa_ID_Start_Freq_No2 = NULL;
-../Src/main.c(107): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
-  	int *LoRa_Payload_Start_Freq_No2 = NULL;
-../Src/main.c: 9 warnings, 0 errors
-linking...
-Program Size: Code=41072 RO-data=1304 RW-data=520 ZI-data=69240  
-FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 14 Warning(s).
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -91,7 +50,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:08
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

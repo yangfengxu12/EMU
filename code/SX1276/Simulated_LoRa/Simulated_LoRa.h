@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define RF_FREQUENCY                                470000000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 #define TX_OUTPUT_POWER                             14        // dBm
 #define DATA_RATE																		25000
 

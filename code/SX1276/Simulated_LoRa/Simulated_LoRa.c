@@ -503,7 +503,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len,int s
 	temp1 = TIM3->CNT;
 	temp2 = TIM4->CNT;
 	delay_ms(1);
-	SX1276SetOpMode( RF_OPMODE_SYNTHESIZER_TX );
+	SX1276SetOpMode( RF_OPMODE_SLEEP );
 	
 	Total_Chip_Count = 0;
 	Chirp_Count_No1 = 0;

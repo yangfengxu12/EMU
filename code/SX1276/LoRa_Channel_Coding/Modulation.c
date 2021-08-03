@@ -14,10 +14,10 @@
 int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint16_t ninput_items, uint16_t *noutput_items)
 {
 	
-//	int id1 = 8; //1
-//	int id2 = 16;//2
-	int id1 = 24;//3
-	int id2 = 32;//4
+	int id1 = 8; //1
+	int id2 = 16;//2
+//	int id1 = 24;//3
+//	int id2 = 32;//4
 	int *output;
 	
 //	uint8_t *in = malloc(ninput_items*sizeof(uint8_t));

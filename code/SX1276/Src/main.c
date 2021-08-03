@@ -216,6 +216,10 @@ int main(void)
 			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
 		}
 		PC_lowdatarateoptimize = temp;
+		if(PC_spread_factor>=11)
+			PC_lowdatarateoptimize = 1;
+		else
+			PC_lowdatarateoptimize = 0;
 		
 //		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
 
