@@ -154,9 +154,9 @@ int main(void)
 				}
 				USART_RX_STA=0;
 			}
-			DelayMs(1000);
+			delay_ms(1000);
 		}
-		DelayMs(1000);
+		delay_ms(1000);
 		temp = 0;
 		str_header = strstr((char*)USART_RX_BUF,"PL");
 		substr = strtok(str_header, delim);
@@ -277,8 +277,8 @@ int main(void)
 					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
 					
 					free(packet_freq_points_No1);
-																											
-					DelayMs(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+					delay_ms(500);																			
+//					delay_ms(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
 
 					packets_count++;
 					printf("Tx:done, count:%d\n",packets_count);
