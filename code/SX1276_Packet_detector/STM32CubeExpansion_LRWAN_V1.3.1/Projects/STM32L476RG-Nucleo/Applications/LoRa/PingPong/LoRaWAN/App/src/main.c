@@ -303,7 +303,7 @@ int main(void)
 					USART_RX_STA=0;
 				}
 			}
-			DelayMs(2000);
+			DelayMs(500);
 		}
 		
 	}

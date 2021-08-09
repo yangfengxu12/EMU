@@ -262,18 +262,10 @@ int main(void)
 				}
 				else if(strstr((char*)USART_RX_BUF,"CONFIRMED") != NULL)
 				{
-//					Radio.Send(Buffer, PC_payload_length);
-//																											
-//					DelayMs(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
 
-//					packets_count++;
-//					printf("Tx:done, count:%d\n",packets_count);
-//					USART_RX_STA=0;
-					
 					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, 125000, PC_spread_factor, \
 																											PC_coding_rate, PC_CRC?true:false, PC_implicit_header?true:false, \
-																												&symbol_len_No1, PC_lowdatarateoptimize?true:false);
-																											
+																												&symbol_len_No1, PC_lowdatarateoptimize?true:false);															
 					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
 					
 					free(packet_freq_points_No1);
@@ -285,7 +277,7 @@ int main(void)
 					USART_RX_STA=0;
 				}
 			}
-			DelayMs(1000);
+			delay_ms(200);
 		}
 
 	}
