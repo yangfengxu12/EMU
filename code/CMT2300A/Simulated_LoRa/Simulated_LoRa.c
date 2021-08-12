@@ -212,10 +212,13 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_3);
 	
+	GPIO_Config();
+	RF_Init();
+	
 	CMT2300A_GoStby();
 	CMT2300A_GoTx();
 	delay_ms(10);
-	HAL_SPI_DeInit(&SPI1_Handler);
+	
 	SPI1_Init();
 	delay_ms(90);
 	
@@ -361,7 +364,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 			}
 			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
 
-			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
+			while( Comped_Time & ( 4 - 1 ));// chip time = 8us
 			
 			Total_Chip_Count++;
 			Symbol_Chip_Count++;
@@ -373,11 +376,12 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 		Symbol_Chip_Count = 0;
 		Chirp_Count_No1++;
 		Chip_Position_No1 = 0;
-//		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);	
+		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);	
 	}
 	/*******************/
 
 	delay_ms(10);
+	HAL_SPI_DeInit(&SPI1_Handler);
 	GPIO_Config();
 	RF_Init();
 	CMT2300A_GoSleep();

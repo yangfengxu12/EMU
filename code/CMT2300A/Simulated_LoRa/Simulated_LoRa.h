@@ -21,13 +21,13 @@
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
 
 
-#define LORA_SF_NO1													 				7				// spread factor
+#define LORA_SF_NO1													 				7// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
 #define LORA_HAS_CRC_NO1														false		// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
 #define LORA_LOWDATERATEOPTIMIZE_NO1								false		// true or false
 
-#define LORA_PREAMBLE_LENGTH_NO1										8
+#define LORA_PREAMBLE_LENGTH_NO1										12
 #define LORA_ID_LENGTH_NO1													2
 #define LORA_SFD_LENGTH_NO1													2
 #define LORA_QUARTER_SFD_LENGTH_NO1									1
@@ -64,7 +64,7 @@
         uint32_t initialFreqInt,initialFreqFrac;																																	\
 				initialFreqInt = freq / 6500000;																												\
 				initialFreqFrac =(freq - initialFreqInt * 6500000) * FREQ_STEP ;																	\
-				channel = ( initialFreqInt << 24 ) + initialFreqFrac;																											\
+				channel = ( initialFreqInt << 24 ) | initialFreqFrac;																											\
     }while( 0 )
 		
 enum Chirp_Status{

@@ -15,7 +15,7 @@
 #define LORA_BW																			125000		// Hz
 
 /**********  Packet 1 parameters    **************************/
-#define RF_FREQUENCY_NO1														486300000
+#define RF_FREQUENCY_NO1														RF_FREQUENCY
 
 #define LORA_BASE_FREQ_NO1													(RF_FREQUENCY_NO1 - (LORA_BW >> 1)) // Hz
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
