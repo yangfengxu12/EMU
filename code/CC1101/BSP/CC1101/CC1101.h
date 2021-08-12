@@ -31,6 +31,8 @@
 void CC1101_Init( void );
 void CC1101_Reset( void );
 void CC1101_Set_OpMode( uint8_t opMode );
+void CC1101_Set_TxPower( void );
+
 
 uint8_t CC1101_Single_Read(uint8_t reg);
 uint8_t CC1101_Single_Write(uint8_t reg, uint8_t TxData);

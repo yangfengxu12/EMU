@@ -20,6 +20,13 @@ void CC1101_Set_OpMode( uint8_t opMode )
 	SPI1_ReadWriteByte_u8( opMode );
 	SPI1_CS_HIGH;
 }
+ 
+void CC1101_Set_TxPower( void )
+{
+	SPI1_CS_LOW;
+	CC1101_Burst_Write( 0x3E, CC1101_PA_Table_Settings, 8);
+	SPI1_CS_HIGH;
+}
 
 uint8_t CC1101_Single_Read(uint8_t reg)
 {
