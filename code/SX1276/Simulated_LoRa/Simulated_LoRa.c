@@ -455,10 +455,10 @@ void symbol_start_end_time_cal_double_packets()
 	Symbol_End_Time_No2 = Symbol_Start_Time_No2 + 1;
 	
 
-	for(int i=0;i < LORA_TOTAL_LENGTH_NO1;i++)
-	{
-		Symbol_Start_Time_No1[i] += Symbol_End_Time_No2[ LORA_PREAMBLE_LENGTH_NO2 + LORA_ID_LENGTH_NO2 + LORA_SFD_LENGTH_NO2 + LORA_QUARTER_SFD_LENGTH_NO2 ];
-	}
+//	for(int i=0;i < LORA_TOTAL_LENGTH_NO1;i++)
+//	{
+//		Symbol_Start_Time_No1[i] += Symbol_End_Time_No2[ LORA_PREAMBLE_LENGTH_NO2 + LORA_ID_LENGTH_NO2 + LORA_SFD_LENGTH_NO2 + LORA_QUARTER_SFD_LENGTH_NO2 ];
+//	}
 }
 
 
@@ -642,7 +642,7 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 			{
 				No1_or_No2 = true;
 			}
-			
+
 			if( Comped_Time >= Symbol_End_Time_No2[Chirp_Count_No2])
 			{
 				Chirp_Count_No2++;
