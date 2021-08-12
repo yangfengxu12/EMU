@@ -137,7 +137,9 @@ uint32_t airtime_cal(int bw, int sf, int cr, int pktLen, int crc, int ih, int ld
 	airTime = (uint32_t) floor( tOnAir * 1000 + 0.999 );
 	return airTime;
 }
- 
+
+bool tx_done = false;
+
 int main(void)
 {
 	uint16_t len=0;
@@ -329,14 +331,19 @@ int main(void)
 				{
 					Radio.Send(Buffer, PC_payload_length);
 																											
-					DelayMs(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+					DelayMs(airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+					while(tx_done==false)
+					{
+						DelayMs(10);
+					}
+					tx_done=false;
 
 					packets_count++;
 					printf("Tx:done, count:%d\n",packets_count);
 					USART_RX_STA=0;
 				}
 			}
-			DelayMs(1000);
+			DelayMs(100);
 		}
 
 	}
@@ -353,6 +360,7 @@ void OnTxDone(void)
 //  State = TX;
 //	Tx_count++;
 //  PRINTF("OnTxDone,Count:%d\n\r",Tx_count);
+	tx_done=true;
 }
 
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
