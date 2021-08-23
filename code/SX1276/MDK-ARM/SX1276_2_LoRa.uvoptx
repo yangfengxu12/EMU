@@ -175,6 +175,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>Chirp_Count_No1,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Chirp_Count_No1</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Comped_Time,0x0A</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -208,7 +218,7 @@
         <Mm>
           <WinNumber>3</WinNumber>
           <SubType>260</SubType>
-          <ItemText>Symbol_End_Time_No2</ItemText>
+          <ItemText>Symbol_End_Time_No1</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow3>
@@ -978,7 +988,7 @@
 
   <Group>
     <GroupName>BSP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

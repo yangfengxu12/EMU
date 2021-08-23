@@ -7,7 +7,7 @@
 #include <math.h>
 
 #define RF_FREQUENCY                                486000000// Hz
-#define TX_OUTPUT_POWER                             10        // dBm
+#define TX_OUTPUT_POWER                             5        // dBm
 #define DATA_RATE																		25000
 
 #define FREQ_OFFSET_1_2															400000
@@ -21,11 +21,11 @@
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
 
 
-#define LORA_SF_NO1													 				10				// spread factor
+#define LORA_SF_NO1													 				7				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
-#define LORA_HAS_CRC_NO1														false		// true or false
+#define LORA_HAS_CRC_NO1														false 	// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
-#define LORA_LOWDATERATEOPTIMIZE_NO1								true		// true or false
+#define LORA_LOWDATERATEOPTIMIZE_NO1								false		// true or false
 
 #define LORA_PREAMBLE_LENGTH_NO1										8
 #define LORA_ID_LENGTH_NO1													2
@@ -33,14 +33,14 @@
 #define LORA_QUARTER_SFD_LENGTH_NO1									1
 
 /**********  Packet 2 parameters    **************************/
-#define RF_FREQUENCY_NO2														RF_FREQUENCY_NO1 + 600000 
+#define RF_FREQUENCY_NO2														RF_FREQUENCY_NO1 + 400000 
 
 #define LORA_BASE_FREQ_NO2													(RF_FREQUENCY_NO2 - (LORA_BW >> 1)) // Hz
 #define LORA_MAX_FREQ_NO2														(RF_FREQUENCY_NO2 + (LORA_BW >> 1)) // Hz
 
-#define LORA_SF_NO2																	11				// spread factor
-#define LORA_CR_NO2																	4				// coding rate [1,2,3,4] ([4/5,4/6,4/7,4/8])
-#define LORA_HAS_CRC_NO2														false		// true or false
+#define LORA_SF_NO2																	7				// spread factor
+#define LORA_CR_NO2																	1				// coding rate [1,2,3,4] ([4/5,4/6,4/7,4/8])
+#define LORA_HAS_CRC_NO2														true		// true or false
 #define LORA_IMPL_HEAD_NO2													false		// true or false
 #define LORA_LOWDATERATEOPTIMIZE_NO2								true		// true or false																						
 
@@ -81,7 +81,7 @@ void blank_position_cal(uint8_t sf, int freq, int bw, uint16_t *start_p1, uint16
 
 void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len);
 
-
+void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank);
 
 
 void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_payload_symbol_len_no1,int* freq_points_no2,int id_and_payload_symbol_len_no2);

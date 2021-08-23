@@ -8,10 +8,10 @@
 
 #include "sx1276.h"
 
-#define RF_FREQUENCY                                434000000 // Hz
+#define RF_FREQUENCY                                486000000 // Hz
 
 
-#define TX_OUTPUT_POWER                            14        // dBm
+#define TX_OUTPUT_POWER                            5        // dBm
 
 
 #define LORA_BANDWIDTH                              0         // [0: 125 kHz,
@@ -149,17 +149,24 @@ int main(void)
 
 	PRINTF("LowDatarateOptimize:%s\n",((SX1276Read( REG_LR_MODEMCONFIG3 )&0x8) > 0)?"ON":"OFF");
 	
-
-  while (1)
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+	PRINTF("Private 0x12\r\n");
+	
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+//	PRINTF("Public 0x34\r\n");
+	for(i = 0; i < BufferSize; i++)
+	{
+//			Buffer[i] = rand() % 255;
+		Buffer[i] = 0x31;
+	}
+	uint16_t j=0;
+  while (j<400)
   {
-		for (i = 0; i < BufferSize; i++)
-		{
-			Buffer[i] = rand() % 255;
-		}
-		PRINTF("send\n");
+//		PRINTF("send\n");
 		Radio.Send(Buffer, BufferSize);  
-		PRINTF("send done\n");
-		DelayMs(2000);
+		
+		j++;
+		DelayMs(450);
   }
 }
 
