@@ -97,7 +97,6 @@ static void OnledEvent(void *context);
  * Main application entry point.
  */
  
- 
 int main(void)
 {
   bool isMaster = true;
@@ -115,11 +114,11 @@ int main(void)
   /*Disbale Stand-by mode*/
   LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 
-  /* Led Timers*/
-//  TimerInit(&timerLed, OnledEvent);
-//  TimerSetValue(&timerLed, LED_PERIOD_MS);
+//  /* Led Timers*/
+////  TimerInit(&timerLed, OnledEvent);
+////  TimerSetValue(&timerLed, LED_PERIOD_MS);
 
-//  TimerStart(&timerLed);
+////  TimerStart(&timerLed);
 
   // Radio initialization
   RadioEvents.TxDone = OnTxDone;
@@ -160,13 +159,13 @@ int main(void)
 		Buffer[i] = 0x31;
 	}
 	uint16_t j=0;
-  while (j<400)
+  while (j<500)
   {
 //		PRINTF("send\n");
 		Radio.Send(Buffer, BufferSize);  
 		
 		j++;
-		DelayMs(450);
+		DelayMs(480);
   }
 }
 
