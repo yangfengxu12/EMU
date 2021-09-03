@@ -97,22 +97,22 @@ int main(void)
 		Tx_Buffer[j] = 0x31;
 	}
 	
-	for(i=0;i<100;i++)
+	for(i=0;i<300;i++)
 //	while(1)
 	{
 		
 		
-		packet_freq_points_No1 = LoRa_Channel_Coding(data_1, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
+		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 //		packet_freq_points_No2 = LoRa_Channel_Coding(data_2, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
 		
 		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
-//		LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,0.45);
+//		LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,1);
 //		LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2);
 		
 		free(packet_freq_points_No1);
-		free(packet_freq_points_No2);
+//		free(packet_freq_points_No2);
 		printf("Tx done, Count:%d\r\n",i+1);
-		delay_ms(7000);
+		delay_ms(80);
 	}
 	printf("finish!!\r\n");
 
