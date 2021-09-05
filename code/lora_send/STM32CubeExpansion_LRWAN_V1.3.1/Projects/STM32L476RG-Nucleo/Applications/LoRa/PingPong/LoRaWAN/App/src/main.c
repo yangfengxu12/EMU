@@ -181,29 +181,6 @@ int main(void)
 
 		Radio.SetChannel(RF_FREQUENCY);
 
-
-//		while(1)
-//		{
-//			printf("Tx:waiting connection\n");
-//			if(USART_RX_STA&0x8000)
-//			{
-//				if(strstr((char*)USART_RX_BUF,"PC:Hello") != NULL)
-//				{
-//					printf("Tx:Hi!\n");
-//					USART_RX_STA=0;
-//					break;
-//				}
-//				else
-//				{
-//					printf("There is no Hello!\n");
-//				}
-//				USART_RX_STA=0;
-//			}
-//			DelayMs(2000);
-//		}
-			
-//		DelayMs(500);
-//		memset(USART_RX_BUF, 0, USART_REC_LEN);
 		USART_RX_STA=0;
 		while(1)
 		{
@@ -259,7 +236,7 @@ int main(void)
 		{
 			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
 		}
-		PC_CRC = temp;
+		PC_CRC = temp?true:false;
 		
 		temp = 0;
 		str_header = strstr((char*)substr,"IH");
@@ -269,7 +246,7 @@ int main(void)
 		{
 			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
 		}
-		PC_implicit_header = temp;
+		PC_implicit_header = temp?true:false;
 		
 		temp = 0;
 		str_header = strstr((char*)substr,"LDO");
@@ -279,18 +256,16 @@ int main(void)
 		{
 			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
 		}
-		PC_lowdatarateoptimize = temp;
+		PC_lowdatarateoptimize = temp?true:false;
 		
-//		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
+//		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\r\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
 
 		int packets_count = 0;
 		
 		Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
 										PC_spread_factor, PC_coding_rate,
-										LORA_PREAMBLE_LENGTH, 
-										PC_implicit_header,
-										PC_CRC, 0, 0, LORA_IQ_INVERSION_ON, 3000);
-			
+										LORA_PREAMBLE_LENGTH, false,
+										PC_CRC, 0, 0, LORA_IQ_INVERSION_ON, 10000);
 		
 		USART_RX_STA=0;
 		ENABLE_IRQ();								
@@ -299,7 +274,7 @@ int main(void)
 //			printf("Tx:waiting payload data...\n");
 			if(USART_RX_STA&0x8000)
 			{
-				len=USART_RX_STA&0x3fff;
+				
 				if(strstr((char*)USART_RX_BUF,"END") != NULL)
 				{
 					printf("reset\r\n");
@@ -307,11 +282,12 @@ int main(void)
 				}
 				else if(strstr((char*)USART_RX_BUF,"PD") != NULL)
 				{
-					printf((char*)USART_RX_BUF);
-					
+					len=USART_RX_STA&0x3fff;
+//					printf((char*)USART_RX_BUF);
+//					printf("\r\n");
 					str_header = strstr((char*)USART_RX_BUF,"PD");
 					str_header += 2;
-//					printf("\n");
+					
 					for(int j=0;j<PC_payload_length;j++)
 					{
 						str_header = strtok(str_header, delim);
@@ -329,37 +305,36 @@ int main(void)
 				}
 				else if(strstr((char*)USART_RX_BUF,"CONFIRMED") != NULL)
 				{
+					
 					Radio.Send(Buffer, PC_payload_length);
-																											
-					DelayMs(airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+
 					while(tx_done==false)
 					{
-						DelayMs(10);
+						DelayMs(200);
+//						printf("tx_donw=false\r\n");	
 					}
+//					printf("tx_donw=true\r\n");	
 					tx_done=false;
-
-					packets_count++;
-					printf("Tx:done, count:%d\n",packets_count);
+//					packets_count++;
+//					printf("Tx:done, count:%d\n",packets_count);
 					USART_RX_STA=0;
 				}
 			}
-			DelayMs(100);
+			DelayMs(50);
 		}
 
 	}
-	
-	
-	
 	
 	
 }
 
 void OnTxDone(void)
 {
-//  Radio.Sleep();
-//  State = TX;
-//	Tx_count++;
-//  PRINTF("OnTxDone,Count:%d\n\r",Tx_count);
+  Radio.Sleep();
+  State = TX;
+	Tx_count++;
+//  printf("OnTxdone,Count:%d\r\n",Tx_count);
+	printf("Tx:done, count:%d\n",Tx_count);
 	tx_done=true;
 }
 
@@ -372,8 +347,8 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
   SnrValue = snr;
   State = RX;
 
-  PRINTF("OnRxDone\n\r");
-  PRINTF("RssiValue=%d dBm, SnrValue=%d\n\r", rssi, snr);
+  printf("OnRxDone\n\r");
+  printf("RssiValue=%d dBm, SnrValue=%d\n\r", rssi, snr);
 }
 
 void OnTxTimeout(void)
@@ -381,21 +356,21 @@ void OnTxTimeout(void)
 //  Radio.Sleep();
   State = TX_TIMEOUT;
 
-  PRINTF("OnTxTimeout\n\r");
+  printf("OnTxTimeout\n\r");
 }
 
 void OnRxTimeout(void)
 {
 //  Radio.Sleep();
   State = RX_TIMEOUT;
-  PRINTF("OnRxTimeout\n\r");
+  printf("OnRxTimeout\n\r");
 }
 
 void OnRxError(void)
 {
 //  Radio.Sleep();
   State = RX_ERROR;
-  PRINTF("OnRxError\n\r");
+  printf("OnRxError\n\r");
 }
 
 static void OnledEvent(void *context)

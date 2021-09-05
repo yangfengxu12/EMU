@@ -1171,21 +1171,6 @@
               <FileType>1</FileType>
               <FilePath>..\Core\src\stm32l4xx_it.c</FilePath>
             </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\sys.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\usart.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2384,21 +2369,6 @@
               <FileName>stm32l4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\src\stm32l4xx_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\sys.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3599,21 +3569,6 @@
               <FileType>1</FileType>
               <FilePath>..\Core\src\stm32l4xx_it.c</FilePath>
             </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\sys.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\usart.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -4761,21 +4716,6 @@
               <FileName>stm32l4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\src\stm32l4xx_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\sys.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5925,21 +5865,6 @@
               <FileType>1</FileType>
               <FilePath>..\Core\src\stm32l4xx_it.c</FilePath>
             </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\sys.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\usart.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -7088,21 +7013,6 @@
               <FileType>1</FileType>
               <FilePath>..\Core\src\stm32l4xx_it.c</FilePath>
             </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\sys.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LoRaWAN\App\src\usart.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -7148,7 +7058,7 @@
   <LayerInfo>
     <Layers>
       <Layer>
-        <LayName>Lora</LayName>
+        <LayName>&lt;Project Info&gt;</LayName>
         <LayTarg>0</LayTarg>
         <LayPrjMark>1</LayPrjMark>
       </Layer>
