@@ -282,13 +282,47 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 //
 //
 //*************************************************************/
+void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len)
+{
+  LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
+															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
+															id_and_payload_symbol_len;
+	
+	LoRa_Start_Freq_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(int));
+	
+	for(int i=0; i< LORA_TOTAL_LENGTH_NO1; i++)
+	{
+		if(i < LORA_PREAMBLE_LENGTH_NO1)
+		{
+			LoRa_Start_Freq_No1[i] = RF_FREQUENCY - 62500;
+		}
+		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1)
+		{
+			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + freq_points[i - LORA_PREAMBLE_LENGTH_NO1];
+		}
+		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1)
+		{
+			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + 62500 - 500;
+		}
+		else if(i < LORA_TOTAL_LENGTH_NO1)
+		{
+			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + freq_points[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
+		}
+		else
+		{
+			while(1);
+		}
+	}
+}
+
+
 void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank)
 {
 	bool No1_or_No2=true;
 	float blank_res = 1 - blank;
 	int chirp_time = (1<<LORA_SF_NO1)<<3;
 	
-	channel_coding_convert(freq_points,id_and_payload_symbol_len);
+	channel_coding_convert_with_blank(freq_points,id_and_payload_symbol_len);
 	symbol_start_end_time_cal();
 	
 	/******** debug temps   ***********/
@@ -532,7 +566,7 @@ void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_paylo
 
 void symbol_start_end_time_cal_double_packets()
 {
-	int symbol_offset=46;
+	int symbol_offset=0;
 	/***********  packet no 1       *****************/
 	Symbol_Start_Time_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(uint32_t));
 	Symbol_End_Time_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(uint32_t));

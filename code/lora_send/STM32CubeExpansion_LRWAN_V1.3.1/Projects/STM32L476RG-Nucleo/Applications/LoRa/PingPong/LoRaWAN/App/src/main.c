@@ -18,7 +18,7 @@
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
-#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       10         // [SF7..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
 //  3: 4/7,
@@ -41,7 +41,7 @@ typedef enum
 } States_t;
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 255 // Define the payload size here
+#define BUFFER_SIZE                                 10 // Define the payload size here
 #define LED_PERIOD_MS               200
 
 
@@ -159,13 +159,13 @@ int main(void)
 		Buffer[i] = 0x31;
 	}
 	uint16_t j=0;
-  while (j<250)
+  while (j<1000)
   {
 //		PRINTF("send\n");
 		Radio.Send(Buffer, BufferSize);  
 		
 		j++;
-		DelayMs(9500);
+		DelayMs(250);
   }
 }
 

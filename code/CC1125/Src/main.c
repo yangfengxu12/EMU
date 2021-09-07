@@ -32,16 +32,16 @@ int main(void)
 {
 	uint16_t datarate,i=0;
 	
-	int *packet_freq_points_No1 = NULL;
-	int *packet_freq_points_No2 = NULL;
-	int symbol_len_No1 = NULL;
-	int symbol_len_No2 = NULL;
-	
-	int *LoRa_ID_Start_Freq_No1 = NULL;
-	int *LoRa_Payload_Start_Freq_No1 = NULL;
+//	int *packet_freq_points_No1 = NULL;
+//	int *packet_freq_points_No2 = NULL;
+//	int symbol_len_No1 = NULL;
+//	int symbol_len_No2 = NULL;
+//	
+//	int *LoRa_ID_Start_Freq_No1 = NULL;
+//	int *LoRa_Payload_Start_Freq_No1 = NULL;
 
-	int *LoRa_ID_Start_Freq_No2 = NULL;
-	int *LoRa_Payload_Start_Freq_No2 = NULL;
+//	int *LoRa_ID_Start_Freq_No2 = NULL;
+//	int *LoRa_Payload_Start_Freq_No2 = NULL;
 	
 	
 	HAL_Init();
@@ -56,9 +56,17 @@ int main(void)
 	Control_GPIO_Init();
 	
 	CC1125_Init();	
+
+	CC1125_Set_Central_Frequency(RF_FREQUENCY);
+	uint8_t freq[2] = {0x34,0x15};
 	
 	
-	
+//	CC1125_Set_OpMode(SCAL);
+	CC1125_Set_OpMode(SAFC);
+	delay_ms(10);
+	CC1125_Set_OpMode(STX);
+//	Fast_SetChannel(freq,2);
+	CC1125_Set_Central_Frequency(RF_FREQUENCY+200000);
 //	TIM2_Init(0xffffffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
 //	
 //	printf("Tx\r\n");
@@ -91,7 +99,7 @@ int main(void)
 //		printf("Tx done, Count:%d\r\n",i+1);
 //		delay_ms(100);
 //	}
-	printf("finish!!\r\n");
-}
+//	printf("finish!!\r\n");
+  }
 
 

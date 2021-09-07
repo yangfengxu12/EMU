@@ -28,8 +28,6 @@ Project File Date:  09/02/2021
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
 compiling main.c...
-../Src/main.c(52): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
-  	int symbol_len_No2 = NULL;
 ../Src/main.c(54): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
   	int *LoRa_ID_Start_Freq_No1 = NULL;
 ../Src/main.c(55): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
@@ -38,11 +36,29 @@ compiling main.c...
   	int *LoRa_ID_Start_Freq_No2 = NULL;
 ../Src/main.c(58): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
   	int *LoRa_Payload_Start_Freq_No2 = NULL;
-../Src/main.c: 5 warnings, 0 errors
+../Src/main.c: 4 warnings, 0 errors
+compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(126): warning:  #177-D: variable "chirp_time"  was declared but never referenced
+  	int chirp_time = (1<<LORA_SF_NO1)<<3;
+..\Simulated_LoRa\Simulated_LoRa.c(167): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(254): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c(321): warning:  #177-D: variable "No1_or_No2"  was declared but never referenced
+  	bool No1_or_No2=true;
+..\Simulated_LoRa\Simulated_LoRa.c(364): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(465): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c(652): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(796): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c: 8 warnings, 0 errors
 linking...
-Program Size: Code=35096 RO-data=1160 RW-data=272 ZI-data=43584  
+Program Size: Code=36108 RO-data=1160 RW-data=272 ZI-data=43336  
 FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 5 Warning(s).
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 12 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -65,7 +81,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>
