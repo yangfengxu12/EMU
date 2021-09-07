@@ -58,15 +58,16 @@ int main(void)
 	CC1125_Init();	
 
 	CC1125_Set_Central_Frequency(RF_FREQUENCY);
-	uint8_t freq[2] = {0x34,0x15};
+//	uint8_t freq[2] = {0x34,0x15};
 	
 	
 //	CC1125_Set_OpMode(SCAL);
 	CC1125_Set_OpMode(SAFC);
 	delay_ms(10);
 	CC1125_Set_OpMode(STX);
+	CC1125_Set_OpMode(SAFC);
 //	Fast_SetChannel(freq,2);
-	CC1125_Set_Central_Frequency(RF_FREQUENCY+200000);
+//	CC1125_Set_Central_Frequency(RF_FREQUENCY+200000);
 //	TIM2_Init(0xffffffff,80-1);       //Timer resolution = 1us; auto-reload value = 0xfffff
 //	
 //	printf("Tx\r\n");

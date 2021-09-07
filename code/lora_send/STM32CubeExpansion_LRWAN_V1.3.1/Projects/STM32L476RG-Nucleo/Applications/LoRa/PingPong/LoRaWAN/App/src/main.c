@@ -165,7 +165,7 @@ int main(void)
 		Radio.Send(Buffer, BufferSize);  
 		
 		j++;
-		DelayMs(250);
+		DelayMs(350);
   }
 }
 
