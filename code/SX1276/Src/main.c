@@ -23,13 +23,23 @@
 
 //#define CODING
 
-#define BUFFER_SIZE                                 10// Define the payload size here
+#define BUFFER_SIZE                                 51// Define the payload size here
 #define PACKET_COUNT																1000	//
 #define INTERVAL_TIME																100 // ms
 
-#define LOOK
-//#define LOOK_BLANK
-//#define LOOK_DOUBLE
+
+#define MODE  																			1 // #1 LOOK, LOOK run as normal lora
+																											// #2 LOOK_BLANK, insert blank in symbols
+																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
+
+#if (MODE==1) 																			
+	#define LOOK
+#elif (MODE==2)
+	#define LOOK_BLANK
+	#define LOOK_BLANK_RATIO														0.75  // This para means x% turn on PA and (1-x)% turn off PA.
+#elif (MODE==3)
+	#define LOOK_DOUBLE
+#endif
 
 static RadioEvents_t RadioEvents;
 																											
@@ -109,10 +119,11 @@ int main(void)
 		packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
 		#endif
 		
-		
+		#ifdef LOOK
 		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
+		#endif
 		#ifdef LOOK_BLANK
-		LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,0.15);
+		LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,LOOK_BLANK_RATIO);
 		#endif
 		#ifdef LOOK_DOUBLE
 		LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2);

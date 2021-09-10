@@ -290,6 +290,22 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 	
 	LoRa_Start_Freq_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(int));
 	
+	int freq_offset = 0;
+	if(LORA_SF_NO1 == 7)
+		freq_offset = 0;
+	else if(LORA_SF_NO1 == 8)
+		freq_offset = 50;
+	else if(LORA_SF_NO1 == 9)
+		freq_offset = 0;
+	else if(LORA_SF_NO1 == 10)
+		freq_offset = 500;
+	else if(LORA_SF_NO1 == 11)
+		freq_offset = 500;
+	else if(LORA_SF_NO1 == 12)
+		freq_offset = 500;
+	else
+		while(1);
+	
 	for(int i=0; i< LORA_TOTAL_LENGTH_NO1; i++)
 	{
 		if(i < LORA_PREAMBLE_LENGTH_NO1)
@@ -302,7 +318,7 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + 62500 - 500;
+			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + 62500 + freq_offset;
 		}
 		else if(i < LORA_TOTAL_LENGTH_NO1)
 		{
@@ -444,18 +460,18 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 			}
 			
 			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
+
+				
+			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
 			
 			if((Chirp_Count_No1>LORA_PREAMBLE_LENGTH_NO1+LORA_ID_LENGTH_NO1+LORA_SFD_LENGTH_NO1+LORA_QUARTER_SFD_LENGTH_NO1-1)&&\
 				(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] +  chirp_time*blank))
 			)
 			{
 				LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
-				while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]);
+				while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-4);
+				goto Symbol_End;
 			}
-				
-			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
-			
-			LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
 			
 			Total_Chip_Count++;
 			Symbol_Chip_Count++;
@@ -465,10 +481,7 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 		Symbol_End:
 		LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
 		Symbol_Chip_Count = 0;
-		if( Comped_Time >= Symbol_End_Time_No1[Chirp_Count_No1])
-		{
-			Chirp_Count_No1++;
-		}
+		Chirp_Count_No1++;
 		Chip_Position_No1 = 0;
 //		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);	
 	}
