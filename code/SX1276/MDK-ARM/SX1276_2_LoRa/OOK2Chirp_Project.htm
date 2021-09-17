@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SX1276_2_LoRa\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SX1276_2_LoRa\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Sep 17 15:39:53 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Sep 17 21:02:09 2021
 <BR><P>
 <H3>Maximum Stack Usage =        668 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1399,7 +1399,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[112]"></a>LoRa_Generate_Signal_With_Blank</STRONG> (Thumb, 944 bytes, Stack size 56 bytes, simulated_lora.o(i.LoRa_Generate_Signal_With_Blank))
+<P><STRONG><a name="[112]"></a>LoRa_Generate_Signal_With_Blank</STRONG> (Thumb, 950 bytes, Stack size 56 bytes, simulated_lora.o(i.LoRa_Generate_Signal_With_Blank))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = LoRa_Generate_Signal_With_Blank &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
@@ -2311,7 +2311,7 @@ Global Symbols
 
 <P><STRONG><a name="[18c]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[113]"></a>channel_coding_convert_with_blank</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, simulated_lora.o(i.channel_coding_convert_with_blank))
+<P><STRONG><a name="[113]"></a>channel_coding_convert_with_blank</STRONG> (Thumb, 140 bytes, Stack size 16 bytes, simulated_lora.o(i.channel_coding_convert_with_blank))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = channel_coding_convert_with_blank &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
@@ -2367,7 +2367,7 @@ Global Symbols
 <P><STRONG><a name="[65]"></a>fputc</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, usart.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 374 bytes, Stack size 72 bytes, main.o(i.main))
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 372 bytes, Stack size 72 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 668<LI>Call Chain = main &rArr; SystemClock_Config &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[170]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init

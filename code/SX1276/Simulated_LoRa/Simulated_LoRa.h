@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define RF_FREQUENCY                                435000000// Hz
+#define RF_FREQUENCY                                434000000// Hz
 #define TX_OUTPUT_POWER                             5        // dBm
-#define DATA_RATE																		25000
+#define DATA_RATE																		250000
 
 #define FREQ_OFFSET_1_2															400000
 	
@@ -21,7 +21,7 @@
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
 
 
-#define LORA_SF_NO1													 				7				// spread factor
+#define LORA_SF_NO1													 				9				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
 #define LORA_HAS_CRC_NO1														false 	// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false

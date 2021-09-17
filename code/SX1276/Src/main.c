@@ -25,7 +25,7 @@
 
 #define BUFFER_SIZE                                 255// Define the payload size here
 #define PACKET_COUNT																1000	//
-#define INTERVAL_TIME																200 // ms
+#define INTERVAL_TIME																100 // ms
 
 
 #define MODE  																			2 // #1 LOOK, LOOK run as normal lora
@@ -36,7 +36,7 @@
 	#define LOOK
 #elif (MODE==2)
 	#define LOOK_BLANK
-	#define LOOK_BLANK_RATIO														0.7  // This para means x% turn on PA and (1-x)% turn off PA.
+	#define LOOK_BLANK_RATIO														0.70  // This para means x% turn on PA and (1-x)% turn off PA.
 #elif (MODE==3)
 	#define LOOK_DOUBLE
 #endif
