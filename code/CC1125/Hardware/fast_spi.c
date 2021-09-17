@@ -21,7 +21,7 @@ void SPI1_Init(void)
 	tempreg|=0<<1;			// CPOL=0
 	tempreg|=0<<0;			//CPHA=0
  	//对SPI1属于APB2的外设.时钟频率最大为80Mhz频率.
-	tempreg|=3<<3;			//Fsck=Fpclk1/16
+	tempreg|=2<<3;			//Fsck=Fpclk1/16
 	tempreg|=0<<7;			//MSB First
 	tempreg|=1<<6;			//SPI启动
 	
