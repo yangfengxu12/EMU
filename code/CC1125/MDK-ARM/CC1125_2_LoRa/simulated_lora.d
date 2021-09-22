@@ -69,6 +69,7 @@
 .\cc1125_2_lora\simulated_lora.o: ..\Simulated_LoRa\Simulated_LoRa.h
 .\cc1125_2_lora\simulated_lora.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\cc1125_2_lora\simulated_lora.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_tim.h
-.\cc1125_2_lora\simulated_lora.o: ..\Simulated_LoRa\Timer_Calibration.h
+.\cc1125_2_lora\simulated_lora.o: ..\Simulated_LoRa\Timer_Calibration_From_CC1125.h
 .\cc1125_2_lora\simulated_lora.o: ..\Hardware\timer.h
-.\cc1125_2_lora\simulated_lora.o: ..\Hardware\rtc.h
+.\cc1125_2_lora\simulated_lora.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_gpio.h
+.\cc1125_2_lora\simulated_lora.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_bus.h

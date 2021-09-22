@@ -2,6 +2,9 @@
 #define _TIMER_H
 #include "stm32l4xx.h"
 #include "control_GPIO.h"
+#include "stm32l4xx_ll_tim.h"
+#include "stm32l4xx_ll_gpio.h"
+#include "stm32l4xx_ll_bus.h"
 typedef uint32_t  u32;
 typedef uint16_t u16;
 typedef uint8_t  u8;
@@ -24,5 +27,9 @@ uint32_t LL_TIM_IsActiveFlag_UPDATE(TIM_TypeDef *TIMx);
 void LL_TIM_ClearFlag_UPDATE(TIM_TypeDef *TIMx);
 
 void TIM15_Init(void);
+
+void MX_TIM3_Init(void);
+void MX_TIM4_Init(void);
+
 #endif
 

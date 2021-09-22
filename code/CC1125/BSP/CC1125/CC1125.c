@@ -244,7 +244,7 @@ void CC1125_Reg_Init()
     CC1125_Single_Write(REG_PREAMBLE_CFG1,0x00);     //Preamble Length Configuration Reg. 1
     CC1125_Single_Write(REG_FREQ_IF_CFG,0x00);       //RX Mixer Frequency Configuration
     CC1125_Single_Write(REG_IQIC,0x00);              //Digital Image Channel Compensation Configuration
-    CC1125_Single_Write(REG_CHAN_BW,0x01);           //Channel Filter Configuration
+    CC1125_Single_Write(REG_CHAN_BW,0x81);           //Channel Filter Configuration
     CC1125_Single_Write(REG_MDMCFG1,0x06);           //General Modem Parameter Configuration Reg. 1
     CC1125_Single_Write(REG_MDMCFG0,0x45);           //General Modem Parameter Configuration Reg. 0
     CC1125_Single_Write(REG_SYMBOL_RATE2,0xA4);      //Symbol Rate Configuration Exponent and Mantissa [1..

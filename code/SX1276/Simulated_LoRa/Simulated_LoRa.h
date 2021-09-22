@@ -8,7 +8,7 @@
 
 #define RF_FREQUENCY                                486000000// Hz
 #define TX_OUTPUT_POWER                             5        // dBm
-#define DATA_RATE																		25000
+#define DATA_RATE																		250000
 
 #define FREQ_OFFSET_1_2															400000
 	
@@ -21,7 +21,7 @@
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
 
 
-#define LORA_SF_NO1													 				7				// spread factor
+#define LORA_SF_NO1													 				12				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
 #define LORA_HAS_CRC_NO1														false 	// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
@@ -33,7 +33,7 @@
 #define LORA_QUARTER_SFD_LENGTH_NO1									1
 
 /**********  Packet 2 parameters    **************************/
-#define RF_FREQUENCY_NO2														RF_FREQUENCY_NO1 + 400000 
+#define RF_FREQUENCY_NO2														(RF_FREQUENCY_NO1 + 400000) 
 
 #define LORA_BASE_FREQ_NO2													(RF_FREQUENCY_NO2 - (LORA_BW >> 1)) // Hz
 #define LORA_MAX_FREQ_NO2														(RF_FREQUENCY_NO2 + (LORA_BW >> 1)) // Hz
@@ -74,7 +74,7 @@ enum Chirp_Status{
 		
 extern uint32_t Time;
 
-void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count );
+void Fast_SetChannel( uint32_t Input_Freq );
 
 void channel_coding_convert(int* freq_points,int id_and_payload_symbol_len);
 void symbol_start_end_time_cal(void);

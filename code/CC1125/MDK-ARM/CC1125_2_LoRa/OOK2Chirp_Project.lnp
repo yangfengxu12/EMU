@@ -77,6 +77,7 @@
 ".\cc1125_2_lora\utilities.o"
 ".\cc1125_2_lora\simulated_lora.o"
 ".\cc1125_2_lora\timer_calibration.o"
+".\cc1125_2_lora\timer_calibration_from_cc1125.o"
 ".\cc1125_2_lora\add_crc.o"
 ".\cc1125_2_lora\gray_decode.o"
 ".\cc1125_2_lora\hanmming_enc.o"

@@ -828,6 +828,16 @@
               <FileType>1</FileType>
               <FilePath>..\Simulated_LoRa\Timer_Calibration.c</FilePath>
             </File>
+            <File>
+              <FileName>Timer_Calibration_From_CC1125.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Simulated_LoRa\Timer_Calibration_From_CC1125.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_Calibration_From_CC1125.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Simulated_LoRa\Timer_Calibration_From_CC1125.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

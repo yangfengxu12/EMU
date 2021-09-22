@@ -1,5 +1,7 @@
 #include "timer_calibration.h"
 
+
+
 u8 RTC_NOT_STABLE = 0;
 
 int RTC_Timer_Calibration( void )
@@ -13,7 +15,10 @@ int RTC_Timer_Calibration( void )
 	RTC_Init();
 	delay_ms( 100 );
 	TIM15_Init();
-	while( ! Timer_Calibration_Done_Flag );
+	while( Timer_Calibration_Done_Flag == 0 )
+	{
+		delay_ms( 800 );
+	}
 	
 	Timer_Calibration_Done_Flag = 0;
 	
@@ -35,9 +40,8 @@ int RTC_Timer_Calibration( void )
 		sum += Input_Captured_Record[ i ][ 3 ];
 	}
 	average = sum / Calibration_Times;
-	return 1000000 / average;
+	return 1000000 / average ;
 }
-
 
 int Max(int x,int y)
 {

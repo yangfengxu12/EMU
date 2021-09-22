@@ -15,7 +15,6 @@ extern TIM_HandleTypeDef TIM2_Handler;
 extern TIM_HandleTypeDef TIM3_Handler;
 
 extern uint32_t Time;
-extern _Bool Chip_flag;
 extern u8 Timer_Calibration_Done_Flag;
 extern int Input_Captured_Record[Calibration_Times][4];
 extern int Timer_Compensation_Count;

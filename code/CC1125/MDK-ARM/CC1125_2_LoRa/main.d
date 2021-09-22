@@ -66,6 +66,9 @@
 .\cc1125_2_lora\main.o: ..\BSP\CC1125\CC1125_Regs.h
 .\cc1125_2_lora\main.o: ..\Hardware\timer.h
 .\cc1125_2_lora\main.o: ..\Hardware\control_GPIO.h
+.\cc1125_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_tim.h
+.\cc1125_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_gpio.h
+.\cc1125_2_lora\main.o: ../Drivers/STM32L4xx_LL_Driver/Inc/stm32l4xx_ll_bus.h
 .\cc1125_2_lora\main.o: ..\Hardware\rtc.h
 .\cc1125_2_lora\main.o: ..\Hardware\usart.h
 .\cc1125_2_lora\main.o: ..\Simulated_LoRa\Simulated_LoRa.h
