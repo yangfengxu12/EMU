@@ -25,7 +25,7 @@
 
 #define BUFFER_SIZE                                 255// Define the payload size here
 #define PACKET_COUNT																1000	//
-#define INTERVAL_TIME																100 // ms
+#define INTERVAL_TIME																150 // ms
 
 
 #define MODE  																			2 // #1 LOOK, LOOK run as normal lora
@@ -36,10 +36,12 @@
 	#define LOOK
 #elif (MODE==2)
 	#define LOOK_BLANK
-	#define LOOK_BLANK_RATIO														0.70  // This para means x% turn on PA and (1-x)% turn off PA.
+	#define LOOK_BLANK_RATIO														0.35  // This para means x% turn on PA and (1-x)% turn off PA.
 #elif (MODE==3)
 	#define LOOK_DOUBLE
 #endif
+
+#define ENABLE_USART
 
 static RadioEvents_t RadioEvents;
 																											
@@ -78,10 +80,11 @@ int main(void)
 	
 	SPI1_Init();
 	delay_init(80);
+#ifdef ENABLE_USART
 	uart_init(115200);
+#endif
 //	
 	Control_GPIO_Init();
-//	/*Disbale Stand-by mode*/
 	LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 
 	Radio.Init(&RadioEvents);
@@ -99,14 +102,13 @@ int main(void)
 	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
 	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
   SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
-	
+#ifdef ENABLE_USART
 	printf("Tx\r\n");
 	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
 	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY_NO1,LORA_SF_NO1,RF_FREQUENCY_NO2,LORA_SF_NO2);
-	
+#endif
 	for (int j = 0; j < BufferSize; j++)
 	{
-//			Tx_Buffer[j] = rand()%255;
 		Tx_Buffer[j] = 0x31;
 	}
 	
@@ -133,10 +135,15 @@ int main(void)
 		#ifdef LOOK_DOUBLE
 		free(packet_freq_points_No2);
 		#endif
+		
+		#ifdef ENABLE_USART
 		printf("Tx done, Count:%d\r\n",i+1);
+		#endif
 		delay_ms(INTERVAL_TIME);
 	}
+#ifdef ENABLE_USART
 	printf("finish!!\r\n");
+#endif
 
 }
 
