@@ -23,9 +23,9 @@
 
 //#define CODING
 
-#define BUFFER_SIZE                                 255// Define the payload size here
+#define BUFFER_SIZE                                 10// Define the payload size here
 #define PACKET_COUNT																1000	//
-#define INTERVAL_TIME																150 // ms
+#define INTERVAL_TIME																450 // ms
 
 
 #define MODE  																			2 // #1 LOOK, LOOK run as normal lora
