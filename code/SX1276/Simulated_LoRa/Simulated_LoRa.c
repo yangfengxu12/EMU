@@ -270,7 +270,7 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 	
 	int freq_offset = 0;
 	if(LORA_SF_NO1 == 7)
-		freq_offset = 470;
+		freq_offset = 400;
 	else if(LORA_SF_NO1 == 8)
 		freq_offset = 250;
 	else if(LORA_SF_NO1 == 9)
@@ -395,28 +395,21 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 			{
 				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_position))
 				{
-	//				Fast_SetChannel( RF_FREQUENCY_NO2 );
-	//				while( Comped_Time & ( 64 - 1 ));
-					
-					
-					SX1276SetOpMode( RF_OPMODE_STANDBY );
 					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+					SX1276SetOpMode( RF_OPMODE_STANDBY );
 					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-120);
-					
 					SX1276SetOpMode(RF_OPMODE_TRANSMITTER);
-					LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
-					Fast_SetChannel( LoRa_Start_Freq_No1[Chirp_Count_No1+1] );
-					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]);
+					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-8);
 					goto Symbol_End;
 				}
 			}
+			
 			Total_Chip_Count++;
 			Symbol_Chip_Count++;
 			Changed_Register_Count = 1;
 		}	// end loop of symbol
 		Symbol_End:
-//		LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
-		
+		LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
 		Symbol_Chip_Count = 0;
 		Chirp_Count_No1++;
 		Chip_Position_No1 = 0;

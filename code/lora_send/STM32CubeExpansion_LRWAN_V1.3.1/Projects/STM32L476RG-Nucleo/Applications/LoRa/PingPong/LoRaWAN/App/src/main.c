@@ -11,7 +11,7 @@
 #define RF_FREQUENCY                                486000000 // Hz
 
 
-#define TX_OUTPUT_POWER                            5        // dBm
+#define TX_OUTPUT_POWER                            0        // dBm
 
 
 #define LORA_BANDWIDTH                              0         // [0: 125 kHz,
@@ -29,7 +29,7 @@
 #define LORA_IQ_INVERSION_ON                        false
 
 #define PACKET_TIME																	1000
-#define INTEVAL_TIME																150
+#define INTEVAL_TIME																1450
 #define BUFFER_SIZE                                 10 // Define the payload size here
 
 #define RX_TIMEOUT_VALUE                            1000
@@ -45,7 +45,7 @@ typedef enum
   TX_TIMEOUT,
 } States_t;
 
-
+uint8_t data_1[21] = {0x80, 0x37, 0x00, 0x1e, 0x00, 0x00, 0x01, 0x00, 0x02, 0x79, 0x91, 0x05, 0x55, 0x29, 0x3b, 0x6b, 0xab, 0xd7, 0x47, 0xc0, 0x49};
 
 uint32_t Tx_count = 0;
 
@@ -136,7 +136,7 @@ int main(void)
   Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
                     LORA_SPREADING_FACTOR, LORA_CODINGRATE,
                     LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    false, 0, 0, LORA_IQ_INVERSION_ON, 10000);
+                    true, 0, 0, LORA_IQ_INVERSION_ON, 10000);
 
 //  Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
 //                    LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
@@ -164,7 +164,7 @@ int main(void)
   while (j<PACKET_TIME)
   {
 //		PRINTF("send\n");
-		Radio.Send(Buffer, BufferSize);  
+		Radio.Send(data_1, BufferSize);  
 		
 		j++;
 		DelayMs(INTEVAL_TIME);

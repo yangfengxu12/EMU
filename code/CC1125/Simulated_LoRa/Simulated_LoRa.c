@@ -37,37 +37,60 @@ uint32_t *Symbol_Start_Time_No2;
 uint32_t *Symbol_End_Time_No2;
 
 uint8_t Channel_Freq_MSB_temp = 0;
+uint8_t Channel_Freq_MID_temp = 0;
 uint8_t Channel_Freq_LSB_temp = 0;
 
 float Input_Freq;
 uint32_t Channel;
 
-uint8_t Channel_Freq[2] = {0};  //MSB,LSB
-uint8_t Changed_Register_Count = 2;  // the number of changed registers.
+uint8_t Channel_Freq[3] = {0};  //MSB,LSB
+uint8_t Changed_Register_Count = 3;  // the number of changed registers.
 
 void CC1125_Set_Central_Frequency(uint32_t freq)
 {
-	float factor = 76.2939453125;
-	uint32_t Freq_Set=0;
+	uint16_t addr;
 	uint8_t Freq_Set_Bufffer[3];
-	Freq_Set = (uint32_t)((float)freq / factor);
-	Freq_Set_Bufffer[0] = (Freq_Set & 0xFF0000) >> 16;
-	Freq_Set_Bufffer[1] = (Freq_Set & 0xFF00) >> 8;
-	Freq_Set_Bufffer[2] = Freq_Set & 0xFF;
-	CC1125_Burst_Write(REG_FREQ2,Freq_Set_Bufffer,3);
+	
+	SX_FREQ_TO_CHANNEL( Channel, freq );
+	
+	Freq_Set_Bufffer[0] = (Channel & 0xFF0000) >> 16;  //MSB
+	Freq_Set_Bufffer[1] = (Channel & 0xFF00) >> 8;			//MID
+	Freq_Set_Bufffer[2] = Channel & 0xFF;							//LSB
+	if(Freq_Set_Bufffer[0] != Channel_Freq_MSB_temp)
+	{
+		Changed_Register_Count = 3;
+		Channel_Freq_MSB_temp = Freq_Set_Bufffer[0];
+		Channel_Freq_MID_temp = Freq_Set_Bufffer[1];
+		Channel_Freq_LSB_temp = Freq_Set_Bufffer[2];
+		addr = REG_FREQ2;
+	}
+	else if(Freq_Set_Bufffer[1] != Channel_Freq_MID_temp)
+	{
+		Changed_Register_Count = 2;
+		Channel_Freq_MID_temp = Freq_Set_Bufffer[1];
+		Channel_Freq_LSB_temp = Freq_Set_Bufffer[2];
+		addr = REG_FREQ1;
+	}
+	else
+	{
+		Changed_Register_Count = 1;
+		Channel_Freq_LSB_temp = Freq_Set_Bufffer[2];
+		addr = REG_FREQ0;
+	}
+	CC1125_Burst_Write(addr,Freq_Set_Bufffer+3-Changed_Register_Count,Changed_Register_Count);
 }
 
-void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count )
-{
-	uint16_t Reg_Address;
-	switch(Changed_Register_Count)
-	{
-		case 1:Reg_Address = REG_FREQOFF0;break;
-		case 2:Reg_Address = REG_FREQOFF1;break;
-		default:Reg_Address = REG_FREQOFF1;break;
-	}
-	CC1125_Burst_Write( Reg_Address, freq, Changed_Register_Count);
-}
+//void Fast_SetChannel( uint8_t *freq, uint8_t Changed_Register_Count )
+//{
+//	uint16_t Reg_Address;
+//	switch(Changed_Register_Count)
+//	{
+//		case 1:Reg_Address = REG_FREQOFF0;break;
+//		case 2:Reg_Address = REG_FREQOFF1;break;
+//		default:Reg_Address = REG_FREQOFF1;break;
+//	}
+//	CC1125_Burst_Write( Reg_Address, freq, Changed_Register_Count);
+//}
 
 void symbol_start_end_time_cal()
 {
@@ -93,6 +116,20 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 	LoRa_Start_Freq_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(int));
 	
 	int freq_offset = 0;
+	if(LORA_SF_NO1 == 7)
+		freq_offset = 500;
+	else if(LORA_SF_NO1 == 8)
+		freq_offset = 700;
+	else if(LORA_SF_NO1 == 9)
+		freq_offset = 600;
+	else if(LORA_SF_NO1 == 10)
+		freq_offset = 300;
+	else if(LORA_SF_NO1 == 11)
+		freq_offset = 600;
+	else if(LORA_SF_NO1 == 12)
+		freq_offset = 600;
+	else
+		while(1);
 	
 	for(int i=0; i< LORA_TOTAL_LENGTH_NO1; i++)
 	{
@@ -140,12 +177,14 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	
 	Init_Timer_Calibration_From_CC1125();
 	
-	CC1125_Set_Central_Frequency( LORA_BASE_FREQ_NO1 );
+	CC1125_Set_Central_Frequency( LORA_BASE_FREQ_NO1 - LORA_BW/2);
 	
 	Send_packets:
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
- 	CC1125_Set_OpMode(STX);
+	
+ 	CC1125_Set_OpMode(SCAL);
 	delay_ms(1);
+	CC1125_Set_OpMode(STX);
 	
 	LL_TIM_EnableCounter(TIM3);
 	LL_TIM_EnableCounter(TIM4);
@@ -193,31 +232,9 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 			else 
 				break;
 			
-//			Freq_Offset = Input_Freq - LORA_BASE_FREQ_NO1; //calculate the OFFSET between central freq and target freq, plz ref the userguide of CC1125(not datasheet)
-			
-//			SX_FREQ_TO_CHANNEL( Channel, Freq_Offset );
-//			
-//			Channel_Freq[0] = ( uint8_t )(( Channel >> 8 ) & 0xFF );
-//			Channel_Freq[1] = ( uint8_t )(( Channel ) & 0xFF );
-//			
-//			if( Channel_Freq_MSB_temp != Channel_Freq[0] )
-//			{
-//				Changed_Register_Count = 2;
-//				Channel_Freq_MSB_temp = Channel_Freq[0];
-//				Channel_Freq_LSB_temp = Channel_Freq[1];
-//			}
-//			else if( Channel_Freq_LSB_temp != Channel_Freq[1] )
-//			{
-//				Changed_Register_Count = 1;
-//				Channel_Freq_LSB_temp = Channel_Freq[1];
-//			}
-//			
-//			Fast_SetChannel( Channel_Freq, Changed_Register_Count );
-			
 			CC1125_Set_Central_Frequency( Input_Freq );
 			
 			while( Comped_Time & ( 8 - 1 ));// chip time = 8us
-			
 			
 			LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 			
@@ -227,6 +244,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 
 		}	// end loop of symbol
 		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_1);
+		CC1125_Set_OpMode(SCAL);
 		Symbol_End:
 		Symbol_Chip_Count = 0;
 		Chirp_Count_No1++;

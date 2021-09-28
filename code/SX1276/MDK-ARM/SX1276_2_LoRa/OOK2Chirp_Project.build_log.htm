@@ -41,10 +41,26 @@ compiling main.c...
 ../Src/main.c(73): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
   	int *LoRa_Payload_Start_Freq_No2 = NULL;
 ../Src/main.c: 6 warnings, 0 errors
+compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(151): warning:  #177-D: variable "chirp_time"  was declared but never referenced
+  	int chirp_time = (1<<LORA_SF_NO1)<<3;
+..\Simulated_LoRa\Simulated_LoRa.c(170): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(232): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c(315): warning:  #177-D: variable "No1_or_No2"  was declared but never referenced
+  	bool No1_or_No2=true;
+..\Simulated_LoRa\Simulated_LoRa.c(337): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(573): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(692): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=35464 RO-data=1160 RW-data=268 ZI-data=43340  
+Program Size: Code=35448 RO-data=1160 RW-data=268 ZI-data=43580  
 FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 6 Warning(s).
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 
