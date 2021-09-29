@@ -65,7 +65,7 @@ void HAL_MspInit(void)
   /* Configure all IOs in analog input              */
   /* Except PA143 and PA14 (SWCLK and SWD) for debug*/
   /* PA13 and PA14 are configured in debug_init     */
-//  HW_GpioInit();
+  HW_GpioInit();
 }
 
 

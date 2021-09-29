@@ -5,8 +5,6 @@ TIM_HandleTypeDef TIM3_Handler;      //定时器句柄
 
 uint32_t Time;
 
-_Bool Chip_flag = 0;
-
 //通用定时器3中断初始化
 //arr：自动重装值。
 //psc：时钟预分频数
