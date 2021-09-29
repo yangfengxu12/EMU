@@ -75,8 +75,7 @@ void NMI_Handler(void)
 
 void HardFault_Handler(void)
 {
-  printf("HardFault_Handler");
-	while (1)
+  while (1)
   {
     __NOP();
   }
