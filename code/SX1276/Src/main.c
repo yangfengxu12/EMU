@@ -240,7 +240,7 @@ int main(void)
 				}
 				else if(strstr((char*)USART_RX_BUF,"PD") != NULL)
 				{
-					printf((char*)USART_RX_BUF);
+//					printf((char*)USART_RX_BUF);
 					
 					str_header = strstr((char*)USART_RX_BUF,"PD");
 					str_header += 2;
@@ -269,7 +269,7 @@ int main(void)
 					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
 					
 					free(packet_freq_points_No1);
-					delay_ms(500);																			
+					delay_ms(100);																			
 //					delay_ms(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
 
 					packets_count++;
