@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SX1276_2_LoRa\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SX1276_2_LoRa\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Sep 29 19:36:22 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Sep 29 20:17:03 2021
 <BR><P>
 <H3>Maximum Stack Usage =        660 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -991,10 +991,10 @@ Global Symbols
 <P><STRONG><a name="[ce]"></a>HAL_RTCEx_TamperTimeStampIRQHandler</STRONG> (Thumb, 212 bytes, Stack size 8 bytes, stm32l4xx_hal_rtc_ex.o(i.HAL_RTCEx_TamperTimeStampIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_RTCEx_TamperTimeStampIRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTCEx_Tamper3EventCallback
+<BR>[Calls]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTCEx_TimeStampEventCallback
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTCEx_Tamper3EventCallback
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTCEx_Tamper2EventCallback
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTCEx_Tamper1EventCallback
-<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTCEx_TimeStampEventCallback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TAMP_STAMP_IRQHandler
 </UL>
@@ -1187,7 +1187,7 @@ Global Symbols
 <LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
-<P><STRONG><a name="[160]"></a>HAL_UART_RxCpltCallback</STRONG> (Thumb, 120 bytes, Stack size 0 bytes, usart.o(i.HAL_UART_RxCpltCallback))
+<P><STRONG><a name="[160]"></a>HAL_UART_RxCpltCallback</STRONG> (Thumb, 122 bytes, Stack size 0 bytes, usart.o(i.HAL_UART_RxCpltCallback))
 <BR><BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_8BIT
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_RxISR_16BIT
 </UL>
@@ -1237,8 +1237,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MSP_GetIRQn
 <LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
 <LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_GPIO_GetBitPos
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
 </UL>
 <BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276IoIrqInit
 </UL>
@@ -1382,7 +1382,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l476xx.o(RESET)
 </UL>
 <P><STRONG><a name="[10c]"></a>Init_Timer_Calibration_From_SX1276</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, timer_calibration_from_sx1276.o(i.Init_Timer_Calibration_From_SX1276))
-<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = Init_Timer_Calibration_From_SX1276 &rArr; MX_TIM3_Init &rArr; LL_GPIO_Init
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = Init_Timer_Calibration_From_SX1276 &rArr; MX_TIM3_Init &rArr; LL_TIM_IC_SetFilter
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
 <LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
@@ -1463,8 +1463,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[115]"></a>LoRa_Generate_Signal</STRONG> (Thumb, 772 bytes, Stack size 40 bytes, simulated_lora.o(i.LoRa_Generate_Signal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = LoRa_Generate_Signal &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
+<P><STRONG><a name="[115]"></a>LoRa_Generate_Signal</STRONG> (Thumb, 788 bytes, Stack size 48 bytes, simulated_lora.o(i.LoRa_Generate_Signal))
+<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = LoRa_Generate_Signal &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_EnableCounter
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_DisableCounter
@@ -1486,10 +1486,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[10d]"></a>MX_TIM3_Init</STRONG> (Thumb, 206 bytes, Stack size 56 bytes, timer.o(i.MX_TIM3_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = MX_TIM3_Init &rArr; LL_GPIO_Init
+<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = MX_TIM3_Init &rArr; LL_TIM_IC_SetFilter
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_Init
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_SetTriggerOutput
+<BR>[Calls]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_SetTriggerOutput
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_SetTriggerInput
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_SetClockSource
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_IC_SetPolarity
@@ -1499,6 +1498,7 @@ Global Symbols
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_DisableDMAReq_TRIG
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_DisableARRPreload
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_APB1_GRP1_EnableClock
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_Init
 <LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_Init
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
@@ -2463,8 +2463,8 @@ Global Symbols
 <LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[116]"></a>channel_coding_convert</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, simulated_lora.o(i.channel_coding_convert))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = channel_coding_convert &rArr; malloc &rArr; internal_alloc
+<P><STRONG><a name="[116]"></a>channel_coding_convert</STRONG> (Thumb, 208 bytes, Stack size 24 bytes, simulated_lora.o(i.channel_coding_convert))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = channel_coding_convert &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
@@ -2524,7 +2524,7 @@ Global Symbols
 <P><STRONG><a name="[66]"></a>fputc</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, usart.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[5c]"></a>main</STRONG> (Thumb, 1470 bytes, Stack size 64 bytes, main.o(i.main))
+<P><STRONG><a name="[5c]"></a>main</STRONG> (Thumb, 1516 bytes, Stack size 64 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 660<LI>Call Chain = main &rArr; SystemClock_Config &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
@@ -2585,8 +2585,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[117]"></a>symbol_start_end_time_cal</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, simulated_lora.o(i.symbol_start_end_time_cal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = symbol_start_end_time_cal &rArr; malloc &rArr; internal_alloc
+<P><STRONG><a name="[117]"></a>symbol_start_end_time_cal</STRONG> (Thumb, 114 bytes, Stack size 16 bytes, simulated_lora.o(i.symbol_start_end_time_cal))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = symbol_start_end_time_cal &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
@@ -2782,8 +2782,8 @@ Local Symbols
 <P><STRONG><a name="[104]"></a>HW_RTC_StartWakeUpAlarm</STRONG> (Thumb, 360 bytes, Stack size 56 bytes, hw_rtc.o(i.HW_RTC_StartWakeUpAlarm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HW_RTC_StartWakeUpAlarm &rArr; HAL_RTC_SetAlarm_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_SetAlarm_IT
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_RTC_StopAlarm
+<BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_RTC_StopAlarm
+<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RTC_SetAlarm_IT
 <LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_RTC_SetAlarm

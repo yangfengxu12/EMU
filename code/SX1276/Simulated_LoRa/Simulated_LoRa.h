@@ -76,13 +76,12 @@ extern uint32_t Time;
 
 void Fast_SetChannel( uint32_t Input_Freq );
 
-void channel_coding_convert(int* freq_points,int id_and_payload_symbol_len);
-void symbol_start_end_time_cal(void);
-void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len);
+void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len,int PC_spread_factor);
+void symbol_start_end_time_cal(int PC_spread_factor);
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len,int PC_spread_factor);
 
-
-void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len);
-void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank);
+void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len,int PC_spread_factor);
+void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank,int PC_spread_factor);
 
 
 void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_payload_symbol_len_no1,int* freq_points_no2,int id_and_payload_symbol_len_no2);

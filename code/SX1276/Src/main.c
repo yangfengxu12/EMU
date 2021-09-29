@@ -99,8 +99,8 @@ int main(void)
 	LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 
 	Radio.Init(&RadioEvents);
-  Radio.SetChannel(PC_center_freq - LORA_BW);
-	Radio.SetTxContinuousWave(PC_center_freq,TX_OUTPUT_POWER,3);
+  Radio.SetChannel(RF_FREQUENCY - LORA_BW);
+	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
 
 	SX1276Write( REG_OSC, RF_OSC_CLKOUT_1_MHZ );
 	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
@@ -196,7 +196,7 @@ int main(void)
 			temp += (int)((substr[len-1-i] - '0') * pow(10,i));
 		}
 		PC_lowdatarateoptimize = temp?true:false;
-//		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\r\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
+		printf("\nPayload length:%d,SF:%d,CR:%d,CRC:%d,IH:%d,LDO:%d\r\n",PC_payload_length,PC_spread_factor,PC_coding_rate,PC_CRC,PC_implicit_header,PC_lowdatarateoptimize);
 		USART_RX_STA=0;								
 		while(1)
 		{
@@ -211,8 +211,8 @@ int main(void)
 				else if(strstr((char*)USART_RX_BUF,"PD") != NULL)
 				{
 					len=USART_RX_STA&0x3fff;
-//					printf((char*)USART_RX_BUF);
-//					printf("\r\n");
+					printf((char*)USART_RX_BUF);
+					printf("\r\n");
 					str_header = strstr((char*)USART_RX_BUF,"PD");
 					str_header += 2;
 					
@@ -241,7 +241,7 @@ int main(void)
 					#endif
 					
 					#ifdef LOOK
-					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
+					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
 					#endif
 					#ifdef LOOK_BLANK
 					LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,LOOK_BLANK_RATIO);
