@@ -277,7 +277,7 @@ int main(void)
 					USART_RX_STA=0;
 				}
 			}
-			delay_ms(200);
+			delay_ms(100);
 		}
 
 	}
