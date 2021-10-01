@@ -81,7 +81,7 @@ void Fast_SetChannel( uint32_t Input_Freq )
 	SX1276_Burst_Write( Reg_Address, Channel_Freq + 3 - Changed_Register_Count, Changed_Register_Count);
 }
 
-void symbol_start_end_time_cal(int PC_spread_factor)
+void symbol_start_end_time_cal()
 {
 	Symbol_Start_Time_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(uint32_t));
 	Symbol_End_Time_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(uint32_t));
@@ -89,14 +89,14 @@ void symbol_start_end_time_cal(int PC_spread_factor)
 	for(int i=0;i < LORA_TOTAL_LENGTH_NO1;i++)
 	{
 		if(i< LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1)
-			Symbol_Start_Time_No1[i] = (i*(1<<PC_spread_factor))<<3;
+			Symbol_Start_Time_No1[i] = (i*(1<<LORA_SF_NO1))<<3;
 		else
-			Symbol_Start_Time_No1[i] = ((i-1)*(1<<PC_spread_factor) + (1<<PC_spread_factor)/4) << 3;
+			Symbol_Start_Time_No1[i] = ((i-1)*(1<<LORA_SF_NO1) + (1<<LORA_SF_NO1)/4) << 3;
 	}
 	Symbol_End_Time_No1 = Symbol_Start_Time_No1 + 1;
 }
 
-void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len,int PC_spread_factor)
+void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 {
   LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
 															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
@@ -105,17 +105,17 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len,int 
 	LoRa_Start_Freq_No1 = malloc(LORA_TOTAL_LENGTH_NO1 * sizeof(int));
 	
 	int freq_offset = 0;
-	if(PC_spread_factor == 7)
+	if(LORA_SF_NO1 == 7)
 		freq_offset = 500;
-	else if(PC_spread_factor == 8)
+	else if(LORA_SF_NO1 == 8)
 		freq_offset = 700;
-	else if(PC_spread_factor == 9)
+	else if(LORA_SF_NO1 == 9)
 		freq_offset = 600;
-	else if(PC_spread_factor == 10)
+	else if(LORA_SF_NO1 == 10)
 		freq_offset = 300;
-	else if(PC_spread_factor == 11)
+	else if(LORA_SF_NO1 == 11)
 		freq_offset = 600;
-	else if(PC_spread_factor == 12)
+	else if(LORA_SF_NO1 == 12)
 		freq_offset = 600;
 	else
 		while(1);
@@ -146,14 +146,12 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len,int 
 }
 
 
-void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len,int PC_spread_factor)
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 {
-	int chirp_time = (1<<PC_spread_factor)<<3;
-	float 	 LORA_FREQ_STEP_NO1		=											(float)LORA_BW / (float)((1 << PC_spread_factor));
-	int 		 LORA_SYMBOL_TIME_NO1	=											(( 1 << PC_spread_factor ) << 3);
+	int chirp_time = (1<<LORA_SF_NO1)<<3;
 	
-	channel_coding_convert(freq_points,id_and_payload_symbol_len,PC_spread_factor);
-	symbol_start_end_time_cal(PC_spread_factor);
+	channel_coding_convert(freq_points,id_and_payload_symbol_len);
+	symbol_start_end_time_cal();
 	
 	/******** debug temps   ***********/
 	
@@ -262,7 +260,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len,int P
 //
 //
 //*************************************************************/
-void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len,int PC_spread_factor)
+void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len)
 {
   LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
 															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
@@ -312,15 +310,15 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 }
 
 
-void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank,int PC_spread_factor)
+void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank)
 {
 	bool No1_or_No2=true;
 	float blank_res = 1 - blank;
 	int chirp_time = (1<<LORA_SF_NO1)<<3;
 	uint32_t blank_position = chirp_time*blank;
 	
-	channel_coding_convert_with_blank(freq_points,id_and_payload_symbol_len, PC_spread_factor);
-	symbol_start_end_time_cal(PC_spread_factor);
+	channel_coding_convert_with_blank(freq_points,id_and_payload_symbol_len);
+	symbol_start_end_time_cal();
 	
 	/******** debug temps   ***********/
 	

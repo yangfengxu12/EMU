@@ -14,35 +14,34 @@
 #include "rtc.h"
 #include "delay.h"
 #include "usart.h"
-
 #include "Simulated_LoRa.h"
 #include "LoRa_Channel_Coding.h"
 #include "control_GPIO.h"
 
-#include "Timer_Calibration.h"
-
+//#include "Timer_Calibration.h"
 #include "Timer_Calibration_From_SX1276.h"
 
+//#define CODING
+
+#define BUFFER_SIZE                                 255// Define the payload size here
+#define PACKET_COUNT																1000	//
+#define INTERVAL_TIME																150  // ms
 
 
-static RadioEvents_t RadioEvents;
-																											
-extern TIM_HandleTypeDef TIM2_Handler;
-extern uint32_t time_count;
-extern uint32_t Time_temp;
+#define MODE  																			2 // #1 LOOK, LOOK run as normal lora
+																											// #2 LOOK_BLANK, insert blank in symbols
+																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
+#if (MODE==1) 																			
+	#define LOOK
+#elif (MODE==2)
+	#define LOOK_BLANK
+	#define LOOK_BLANK_RATIO													0.8  // This para means x% turn on PA and (1-x)% turn off PA.
+#elif (MODE==3)
+	#define LOOK_DOUBLE
+#endif
 
-
-#define BUFFER_SIZE                                 255 // Define the payload size here
-
-
-
-uint8_t Tx_Buffer[BUFFER_SIZE]={
-		0xFF
-};
-
-uint16_t BufferSize = BUFFER_SIZE;
-
+#define ENABLE_USART
 
 int PC_center_freq = 433000000;
 int PC_tx_power = 14;
@@ -61,30 +60,20 @@ int PC_packets_times = 0;
 int PC_payload_length = 0;
 
 
-uint32_t airtime_cal(int bw, int sf, int cr, int pktLen, int crc, int ih, int ldo)
-{
-	uint32_t airTime = 0;
-	// Symbol rate : time for one symbol (secs)
-	double rs = bw / ( 1 << sf );
-	double ts = 1 / rs;
-	// time of preamble
-	double tPreamble = ( 8 + 4.25 ) * ts;
-	// Symbol length of payload and time
-	double tmp = ceil( ( 8 * pktLen - 4 * sf +
-											 28 + 16 * crc -
-											 ( ih ? 20 : 0 ) ) /
-											 ( double )( 4 * ( sf -
-											 ( ( ldo > 0 ) ? 2 : 0 ) ) ) ) *
-											 ( cr + 4 );
-	double nPayload = 8 + ( ( tmp > 0 ) ? tmp : 0 );
-	double tPayload = nPayload * ts;
-	// Time on air
-	double tOnAir = tPreamble + tPayload;
-	// return ms secs
-	airTime = (uint32_t) floor( tOnAir * 1000 + 0.999 );
-	return airTime;
-}
 
+
+static RadioEvents_t RadioEvents;
+																											
+extern TIM_HandleTypeDef TIM2_Handler;
+extern uint32_t time_count;
+extern uint32_t Time_temp;
+
+uint8_t data_1[21] = {0x80, 0x37, 0x00, 0x1e, 0x00, 0x00, 0x01, 0x00, 0x02, 0x79, 0x91, 0x05, 0x55, 0x29, 0x3b, 0x6b, 0xab, 0xd7, 0x47, 0xc0, 0x49};
+uint8_t data_2[21] = {0x80, 0x2c, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0x02, 0xbe, 0x52, 0xf5, 0x2c, 0xe3, 0xf6, 0xc0, 0xe4, 0x11, 0xd1, 0xb1, 0x6b};
+
+uint8_t Tx_Buffer[BUFFER_SIZE]={0};
+
+uint16_t BufferSize = BUFFER_SIZE;
 
 int main(void)
 {
@@ -93,7 +82,7 @@ int main(void)
 	int temp=0;
 	char * str_header,* substr;
 	char *delim = "_";
-
+	
 	int *packet_freq_points_No1 = NULL;
 	int *packet_freq_points_No2 = NULL;
 	
@@ -107,40 +96,42 @@ int main(void)
 	int *LoRa_Payload_Start_Freq_No2 = NULL;
 	
 	HAL_Init();
-  SystemClock_Config();
 
+  SystemClock_Config();
+	
   HW_Init();
 	
 	SPI1_Init();
 	delay_init(80);
+#ifdef ENABLE_USART
 	uart_init(115200);
-
+#endif
+//	
 	Control_GPIO_Init();
-//	/*Disbale Stand-by mode*/
 	LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 
 	Radio.Init(&RadioEvents);
-  Radio.SetChannel(RF_FREQUENCY);
+  Radio.SetChannel(RF_FREQUENCY - LORA_BW);
 	Radio.SetTxContinuousWave(RF_FREQUENCY,TX_OUTPUT_POWER,3);
 
 	SX1276Write( REG_OSC, RF_OSC_CLKOUT_1_MHZ );
 	
 	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
+	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_150 );
 	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MODULATIONSHAPING_MASK ) | RF_PARAMP_MODULATIONSHAPING_00 );
 	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
 	
 	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )DATA_RATE );
 	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
   SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
-
-
-	printf("init finish!!\r\n");
 	memset(USART_RX_BUF, 0, USART_REC_LEN);
 	
-	
+	printf("init finish!!\r\n");
 	while(1)
 	{
 		USART_RX_STA=0;
+		memset(USART_RX_BUF, 0, USART_REC_LEN);
 		while(1)
 		{
 //			printf("Tx:waiting settings...\n");
@@ -156,6 +147,7 @@ int main(void)
 			}
 			delay_ms(1000);
 		}
+//		printf("Mode:%d\n",MODE);
 		delay_ms(1000);
 		temp = 0;
 		str_header = strstr((char*)USART_RX_BUF,"PL");
@@ -226,7 +218,6 @@ int main(void)
 		int packets_count = 0;
 	
 		USART_RX_STA=0;
-		ENABLE_IRQ();								
 		while(1)
 		{
 //			printf("Tx:waiting payload data...\n");
@@ -263,23 +254,44 @@ int main(void)
 				else if(strstr((char*)USART_RX_BUF,"CONFIRMED") != NULL)
 				{
 
-					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, 125000, PC_spread_factor, \
-																											PC_coding_rate, PC_CRC?true:false, PC_implicit_header?true:false, \
-																												&symbol_len_No1, PC_lowdatarateoptimize?true:false);															
+				
+					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, LORA_BW, PC_spread_factor, PC_coding_rate, \
+																												PC_CRC?true:false, PC_implicit_header?true:false, \
+																													&symbol_len_No1, PC_lowdatarateoptimize?true:false);
+			
+					#ifdef LOOK_DOUBLE
+					packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, LORA_BW, PC_spread_factor, PC_coding_rate, \
+																												PC_CRC?true:false, PC_implicit_header?true:false, \
+																													&symbol_len_No1, PC_lowdatarateoptimize?true:false);
+					#endif
+					
+					#ifdef LOOK
 					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
+					#endif
+																												
+					#ifdef LOOK_BLANK
+					LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,LOOK_BLANK_RATIO);
+					#endif
+					#ifdef LOOK_DOUBLE
+					LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2,PC_spread_factor);
+					#endif
 					
 					free(packet_freq_points_No1);
-					delay_ms(100);																			
-//					delay_ms(1000+airtime_cal(125000, PC_spread_factor, PC_coding_rate, PC_payload_length, PC_CRC, PC_implicit_header, PC_lowdatarateoptimize));
+					#ifdef LOOK_DOUBLE
+					free(packet_freq_points_No2);
+					#endif
+																										
+					delay_ms(200);
 
 					packets_count++;
 					printf("Tx:done, count:%d\n",packets_count);
 					USART_RX_STA=0;
 				}
 			}
-			delay_ms(100);
 		}
 
 	}
+
 }
+
 
