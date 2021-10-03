@@ -28,7 +28,7 @@
 #define INTERVAL_TIME																150  // ms
 
 
-#define MODE  																			2 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			3 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
@@ -255,14 +255,14 @@ int main(void)
 				{
 
 				
-					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, LORA_BW, PC_spread_factor, PC_coding_rate, \
-																												PC_CRC?true:false, PC_implicit_header?true:false, \
-																													&symbol_len_No1, PC_lowdatarateoptimize?true:false);
+					packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, \
+																												LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, \
+																													&symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 			
 					#ifdef LOOK_DOUBLE
-					packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, LORA_BW, PC_spread_factor, PC_coding_rate, \
-																												PC_CRC?true:false, PC_implicit_header?true:false, \
-																													&symbol_len_No1, PC_lowdatarateoptimize?true:false);
+					packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, PC_payload_length, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, \
+																												LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, \
+																													&symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
 					#endif
 					
 					#ifdef LOOK
@@ -273,7 +273,7 @@ int main(void)
 					LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,LOOK_BLANK_RATIO);
 					#endif
 					#ifdef LOOK_DOUBLE
-					LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2,PC_spread_factor);
+					LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2);
 					#endif
 					
 					free(packet_freq_points_No1);

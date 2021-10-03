@@ -27,7 +27,26 @@ Project File Date:  09/02/2021
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SX1276_2_LoRa'
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+../Src/main.c(80): warning:  #177-D: variable "i"  was declared but never referenced
+    uint16_t datarate,i,len,t;
+../Src/main.c(80): warning:  #177-D: variable "t"  was declared but never referenced
+    uint16_t datarate,i,len,t;
+../Src/main.c(81): warning:  #177-D: variable "USART_temp"  was declared but never referenced
+  	uint8_t  USART_temp[USART_REC_LEN];
+../Src/main.c(92): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
+  	int *LoRa_ID_Start_Freq_No1 = NULL;
+../Src/main.c(93): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
+  	int *LoRa_Payload_Start_Freq_No1 = NULL;
+../Src/main.c(95): warning:  #177-D: variable "LoRa_ID_Start_Freq_No2"  was declared but never referenced
+  	int *LoRa_ID_Start_Freq_No2 = NULL;
+../Src/main.c(96): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
+  	int *LoRa_Payload_Start_Freq_No2 = NULL;
+../Src/main.c: 7 warnings, 0 errors
+linking...
+Program Size: Code=41524 RO-data=1308 RW-data=328 ZI-data=44408  
+FromELF: creating hex file...
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -50,7 +69,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
