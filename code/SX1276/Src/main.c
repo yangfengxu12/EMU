@@ -23,12 +23,12 @@
 
 //#define CODING
 
-#define BUFFER_SIZE                                 255// Define the payload size here
+#define BUFFER_SIZE                                 2// Define the payload size here
 #define PACKET_COUNT																1000	//
-#define INTERVAL_TIME																500  // ms
+#define INTERVAL_TIME																150  // ms
 
 
-#define MODE  																			2 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			1 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
@@ -52,7 +52,7 @@ extern uint32_t Time_temp;
 uint8_t data_1[21] = {0x80, 0x37, 0x00, 0x1e, 0x00, 0x00, 0x01, 0x00, 0x02, 0x79, 0x91, 0x05, 0x55, 0x29, 0x3b, 0x6b, 0xab, 0xd7, 0x47, 0xc0, 0x49};
 uint8_t data_2[21] = {0x80, 0x2c, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0x02, 0xbe, 0x52, 0xf5, 0x2c, 0xe3, 0xf6, 0xc0, 0xe4, 0x11, 0xd1, 0xb1, 0x6b};
 
-uint8_t Tx_Buffer[BUFFER_SIZE]={0};
+uint8_t Tx_Buffer[BUFFER_SIZE]={0x01,0x02};
 
 uint16_t BufferSize = BUFFER_SIZE;
 
@@ -109,7 +109,7 @@ int main(void)
 #endif
 	for (int j = 0; j < BufferSize; j++)
 	{
-		Tx_Buffer[j] = 0x31;
+//		Tx_Buffer[j] = 0x31;
 	}
 	
 	for(i=0;i<PACKET_COUNT;i++)
