@@ -270,13 +270,13 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 	
 	int freq_offset = 0;
 	if(LORA_SF_NO1 == 7)
-		freq_offset = 400;
+		freq_offset = 660;
 	else if(LORA_SF_NO1 == 8)
 		freq_offset = 250;
 	else if(LORA_SF_NO1 == 9)
-		freq_offset = 120;
+		freq_offset = 150;
 	else if(LORA_SF_NO1 == 10)
-		freq_offset = 60;
+		freq_offset = 90;
 	else if(LORA_SF_NO1 == 11)
 		freq_offset = 500;
 	else if(LORA_SF_NO1 == 12)

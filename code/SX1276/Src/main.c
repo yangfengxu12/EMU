@@ -23,12 +23,12 @@
 
 //#define CODING
 
-#define BUFFER_SIZE                                 2// Define the payload size here
+#define BUFFER_SIZE                                 51 // Define the payload size here
 #define PACKET_COUNT																1000	//
-#define INTERVAL_TIME																150  // ms
+#define INTERVAL_TIME																100  // ms
 
 
-#define MODE  																			1 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			2 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
@@ -36,7 +36,7 @@
 	#define LOOK
 #elif (MODE==2)
 	#define LOOK_BLANK
-	#define LOOK_BLANK_RATIO														0.8  // This para means x% turn on PA and (1-x)% turn off PA.
+	#define LOOK_BLANK_RATIO														0.5  // This para means x% turn on PA and (1-x)% turn off PA.
 #elif (MODE==3)
 	#define LOOK_DOUBLE
 #endif
@@ -109,7 +109,7 @@ int main(void)
 #endif
 	for (int j = 0; j < BufferSize; j++)
 	{
-//		Tx_Buffer[j] = 0x31;
+		Tx_Buffer[j] = 0x31;
 	}
 	
 	for(i=0;i<PACKET_COUNT;i++)
