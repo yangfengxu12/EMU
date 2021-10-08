@@ -28,7 +28,7 @@
 #define INTERVAL_TIME																150  // ms
 
 
-#define MODE  																			3 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			1 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
@@ -36,7 +36,7 @@
 	#define LOOK
 #elif (MODE==2)
 	#define LOOK_BLANK
-	#define LOOK_BLANK_RATIO													0.8  // This para means x% turn on PA and (1-x)% turn off PA.
+	#define LOOK_BLANK_RATIO													0.80  // This para means x% turn on PA and (1-x)% turn off PA.
 #elif (MODE==3)
 	#define LOOK_DOUBLE
 #endif
@@ -266,7 +266,7 @@ int main(void)
 					#endif
 					
 					#ifdef LOOK
-					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,PC_spread_factor);
+					LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
 					#endif
 																												
 					#ifdef LOOK_BLANK
