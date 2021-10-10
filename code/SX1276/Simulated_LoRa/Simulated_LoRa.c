@@ -312,11 +312,17 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 
 void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank)
 {
+	
+	
 	bool No1_or_No2=true;
 	float blank_res = 1 - blank;
 	int chirp_time = (1<<LORA_SF_NO1)<<3;
 	uint32_t blank_res_position = chirp_time*blank_res;
 	uint32_t blank_position = chirp_time*blank;
+	
+	float tmp = 0.5;
+	float blank_start = (int)(tmp*chirp_time/10);
+	float blank_end = (int)((tmp+blank_res*10)*chirp_time/10);
 	
 	channel_coding_convert_with_blank(freq_points,id_and_payload_symbol_len);
 	symbol_start_end_time_cal();
@@ -395,14 +401,24 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 			if((Chirp_Count_No1>LORA_PREAMBLE_LENGTH_NO1+LORA_ID_LENGTH_NO1+LORA_SFD_LENGTH_NO1+LORA_QUARTER_SFD_LENGTH_NO1-1))
 			{
 				//end
-//				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_position))
+				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_position))
+				{
+					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+					SX1276SetOpMode( RF_OPMODE_STANDBY );
+					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-120);
+					SX1276SetOpMode(RF_OPMODE_TRANSMITTER);
+					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-10);
+					goto Symbol_End;
+				}
+				// any position
+//				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] + blank_start) && Comped_Time < (Symbol_Start_Time_No1[Chirp_Count_No1] + blank_end))
 //				{
 //					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 //					SX1276SetOpMode( RF_OPMODE_STANDBY );
-//					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-120);
+//					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] + blank_end - 120);
 //					SX1276SetOpMode(RF_OPMODE_TRANSMITTER);
-//					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-8);
-//					goto Symbol_End;
+//					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_end-8);
+//					LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
 //				}
 				//start
 //				if(Comped_Time > Symbol_Start_Time_No1[Chirp_Count_No1] && Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_res_position)
@@ -415,19 +431,19 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 //					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_res_position-8);
 //				}
 				//mid
-				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] + (chirp_time>>1)) - (blank_res_position>>1) && Comped_Time < (Symbol_Start_Time_No1[Chirp_Count_No1]+ (chirp_time>>1)) + (blank_res_position>>1))
-				{
-					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
-					SX1276SetOpMode( RF_OPMODE_STANDBY );
-					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_res_position-120);
-					LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
-					SX1276SetOpMode(RF_OPMODE_TRANSMITTER);
-					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_res_position-8);
-				}
+//				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] + (chirp_time>>1)) - (blank_res_position>>1) && Comped_Time < (Symbol_Start_Time_No1[Chirp_Count_No1]+ (chirp_time>>1)) + (blank_res_position>>1))
+//				{
+//					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+//					SX1276SetOpMode( RF_OPMODE_STANDBY );
+//					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_res_position-120);
+//					LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
+//					SX1276SetOpMode(RF_OPMODE_TRANSMITTER);
+//					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_res_position-8);
+//				}
 			}
 			
-			Total_Chip_Count++;
-			Symbol_Chip_Count++;
+//			Total_Chip_Count++;
+//			Symbol_Chip_Count++;
 			Changed_Register_Count = 1;
 		}	// end loop of symbol
 		Symbol_End:

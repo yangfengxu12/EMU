@@ -10,7 +10,7 @@
 //#define RF_FREQUENCY                                (433000000 + 200000)// Hz
 //#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
 #define RF_FREQUENCY                                486000000 // Hz
-#define LORA_SPREADING_FACTOR                       7	// [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       7 	// [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
