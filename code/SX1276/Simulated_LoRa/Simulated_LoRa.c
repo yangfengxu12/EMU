@@ -393,13 +393,16 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 			
 			if((Chirp_Count_No1>LORA_PREAMBLE_LENGTH_NO1+LORA_ID_LENGTH_NO1+LORA_SFD_LENGTH_NO1+LORA_QUARTER_SFD_LENGTH_NO1-1))
 			{
-				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_position))
+				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_position)-10)
 				{
 					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+					#if (LORA_SF_NO1 != 7)
 					SX1276SetOpMode( RF_OPMODE_STANDBY );
-					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-120);
+					
+					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-130);
 					SX1276SetOpMode(RF_OPMODE_TRANSMITTER);
-					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-8);
+					#endif
+					while(Comped_Time < Symbol_End_Time_No1[Chirp_Count_No1]-10);
 					goto Symbol_End;
 				}
 			}
