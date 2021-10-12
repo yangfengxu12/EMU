@@ -80,9 +80,9 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
+            <UserProg1Name>F:\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin -o "$L@L.bin" "#L"</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -339,7 +339,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>STM32L476xx, USE_STM32L4XX_NUCLEO,USE_HAL_DRIVER,USE_FULL_LL_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32L4xx_LL_Driver/Inc;../Drivers/STM32L4xx_LL_Driver/Src;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa;..\LoRa_Channel_Coding;..\MALLOC</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32L4xx_LL_Driver/Inc;../Drivers/STM32L4xx_LL_Driver/Src;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa;..\LoRa_Channel_Coding;..\MALLOC;..\Toggle\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -877,6 +877,21 @@
               <FileName>Modulation.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\LoRa_Channel_Coding\Modulation.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>chirpobx</GroupName>
+          <Files>
+            <File>
+              <FileName>ll_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Toggle\Src\ll_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>toggle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Toggle\Src\toggle.c</FilePath>
             </File>
           </Files>
         </Group>
