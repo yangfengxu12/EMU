@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\SX1276_2_LoRa\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SX1276_2_LoRa\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Oct 11 19:57:55 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Oct 15 14:54:16 2021
 <BR><P>
-<H3>Maximum Stack Usage =        668 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        708 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; SystemClock_Config &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 <P>
@@ -434,11 +434,11 @@ Global Symbols
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_RTC_ms2Tick
 </UL>
 
-<P><STRONG><a name="[17f]"></a>rand</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rand.o(.text))
+<P><STRONG><a name="[187]"></a>rand</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rand.o(.text), UNUSED)
+
+<P><STRONG><a name="[17f]"></a>srand</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rand.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
-
-<P><STRONG><a name="[187]"></a>srand</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rand.o(.text), UNUSED)
 
 <P><STRONG><a name="[ac]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;internal_alloc
@@ -448,7 +448,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[109]"></a>__aeabi_memcpy4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_RTC_StartWakeUpAlarm
+<BR><BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_RTC_StartWakeUpAlarm
 </UL>
 
 <P><STRONG><a name="[188]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
@@ -758,7 +759,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276_Burst_Write
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[13c]"></a>GPIO_Set</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, sys.o(i.GPIO_Set))
@@ -1358,7 +1359,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[112]"></a>Interleaver</STRONG> (Thumb, 482 bytes, Stack size 72 bytes, interleaver.o(i.Interleaver))
@@ -1471,20 +1472,20 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[11e]"></a>LoRa_Generate_Signal_With_Blank</STRONG> (Thumb, 1028 bytes, Stack size 64 bytes, simulated_lora.o(i.LoRa_Generate_Signal_With_Blank))
-<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = LoRa_Generate_Signal_With_Blank &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
+<P><STRONG><a name="[11e]"></a>LoRa_Generate_Signal</STRONG> (Thumb, 780 bytes, Stack size 40 bytes, simulated_lora.o(i.LoRa_Generate_Signal))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = LoRa_Generate_Signal &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetOpMode
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fast_SetChannel
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_EnableCounter
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_TIM_DisableCounter
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_SetOutputPin
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_Timer_Calibration_From_SX1276
 <LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert_with_blank
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fast_SetChannel
 </UL>
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1929,7 +1930,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276StartCad
 <LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetTx
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetStby
@@ -2347,7 +2348,7 @@ Global Symbols
 <P><STRONG><a name="[114]"></a>free</STRONG> (Thumb, 88 bytes, Stack size 12 bytes, mallocr.o(i.__free$realloc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = free
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Channel_Coding
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;realloc
@@ -2399,7 +2400,7 @@ Global Symbols
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Add_Header
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Add_CRC
 <LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert_with_blank
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert
 </UL>
 
 <P><STRONG><a name="[19b]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
@@ -2408,12 +2409,12 @@ Global Symbols
 
 <P><STRONG><a name="[19d]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[11f]"></a>channel_coding_convert_with_blank</STRONG> (Thumb, 140 bytes, Stack size 16 bytes, simulated_lora.o(i.channel_coding_convert_with_blank))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = channel_coding_convert_with_blank &rArr; malloc &rArr; internal_alloc
+<P><STRONG><a name="[11f]"></a>channel_coding_convert</STRONG> (Thumb, 152 bytes, Stack size 24 bytes, simulated_lora.o(i.channel_coding_convert))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = channel_coding_convert &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[163]"></a>circular_queue_add</STRONG> (Thumb, 216 bytes, Stack size 32 bytes, queue.o(i.circular_queue_add))
@@ -2451,7 +2452,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -2464,8 +2465,8 @@ Global Symbols
 <P><STRONG><a name="[70]"></a>fputc</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, usart.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[66]"></a>main</STRONG> (Thumb, 368 bytes, Stack size 72 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 668<LI>Call Chain = main &rArr; SystemClock_Config &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
+<P><STRONG><a name="[66]"></a>main</STRONG> (Thumb, 616 bytes, Stack size 112 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 708<LI>Call Chain = main &rArr; SystemClock_Config &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
@@ -2474,7 +2475,7 @@ Global Symbols
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI1_Init
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Channel_Coding
 <LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetOffMode
 <LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_Init
@@ -2482,7 +2483,8 @@ Global Symbols
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Control_GPIO_Init
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-<LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;srand
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
@@ -2514,7 +2516,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[17d]"></a>uart_init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, usart.o(i.uart_init))
@@ -2827,19 +2829,19 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[125]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_GPIO_ResetOutputPin))
-<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[121]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_GPIO_SetOutputPin))
-<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[126]"></a>LL_TIM_DisableCounter</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_TIM_DisableCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[124]"></a>LL_TIM_EnableCounter</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_TIM_EnableCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
+<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
 </UL>
 
 <P><STRONG><a name="[119]"></a>LL_FLASH_DisenableProgram</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, ll_flash.o(i.LL_FLASH_DisenableProgram))

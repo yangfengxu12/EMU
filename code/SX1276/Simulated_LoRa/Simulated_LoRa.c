@@ -95,8 +95,8 @@ void symbol_start_end_time_cal()
 	}
 	Symbol_End_Time_No1 = Symbol_Start_Time_No1 + 1;
 }
-
-void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
+//void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
+void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len, int CF)
 {
   LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
 															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
@@ -124,19 +124,19 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 	{
 		if(i < LORA_PREAMBLE_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY - 62500;
+			LoRa_Start_Freq_No1[i] = CF - 62500;
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + freq_points[i - LORA_PREAMBLE_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF + freq_points[i - LORA_PREAMBLE_LENGTH_NO1];
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + 62500 + freq_offset;
+			LoRa_Start_Freq_No1[i] = CF + 62500 + freq_offset;
 		}
 		else if(i < LORA_TOTAL_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + freq_points[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF + freq_points[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
 		}
 		else
 		{
@@ -145,12 +145,12 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 	}
 }
 
-
-void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
+//void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len,int CF)
 {
 	int chirp_time = (1<<LORA_SF_NO1)<<3;
 	
-	channel_coding_convert(freq_points,id_and_payload_symbol_len);
+	channel_coding_convert(freq_points,id_and_payload_symbol_len,CF);
 	symbol_start_end_time_cal();
 	
 	/******** debug temps   ***********/
