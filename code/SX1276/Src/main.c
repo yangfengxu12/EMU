@@ -23,12 +23,12 @@
 
 //#define CODING
 
-#define BUFFER_SIZE                                 255// Define the payload size here
+#define BUFFER_SIZE                                 51// Define the payload size here
 #define PACKET_COUNT																1000	//
 #define INTERVAL_TIME																150  // ms
 
 
-#define MODE  																			1 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			2 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
@@ -36,7 +36,7 @@
 	#define LOOK
 #elif (MODE==2)
 	#define LOOK_BLANK
-	#define LOOK_BLANK_RATIO													0.85  // This para means x% turn on PA and (1-x)% turn off PA.
+	#define LOOK_BLANK_RATIO													0.4  // This para means x% turn on PA and (1-x)% turn off PA.
 #elif (MODE==3)
 	#define LOOK_DOUBLE
 #endif

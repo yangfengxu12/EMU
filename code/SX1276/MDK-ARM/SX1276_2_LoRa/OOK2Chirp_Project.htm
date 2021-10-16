@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SX1276_2_LoRa\OOK2Chirp_Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SX1276_2_LoRa\OOK2Chirp_Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Oct 12 19:54:53 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sat Oct 16 04:47:16 2021
 <BR><P>
 <H3>Maximum Stack Usage =        660 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -779,7 +779,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276_Burst_Write
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[132]"></a>GPIO_Set</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, sys.o(i.GPIO_Set))
@@ -1391,7 +1391,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM4_Init
 <LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[10f]"></a>Interleaver</STRONG> (Thumb, 482 bytes, Stack size 72 bytes, interleaver.o(i.Interleaver))
@@ -1467,8 +1467,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[115]"></a>LoRa_Generate_Signal</STRONG> (Thumb, 772 bytes, Stack size 40 bytes, simulated_lora.o(i.LoRa_Generate_Signal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = LoRa_Generate_Signal &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
+<P><STRONG><a name="[115]"></a>LoRa_Generate_Signal_With_Blank</STRONG> (Thumb, 954 bytes, Stack size 56 bytes, simulated_lora.o(i.LoRa_Generate_Signal_With_Blank))
+<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = LoRa_Generate_Signal_With_Blank &rArr; SX1276SetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; HW_SPI_InOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
@@ -1479,7 +1479,7 @@ Global Symbols
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LL_GPIO_ResetOutputPin
 <LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_Timer_Calibration_From_SX1276
 <LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert_with_blank
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fast_SetChannel
 </UL>
 <BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1901,7 +1901,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276StartCad
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetTx
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetStby
@@ -2327,7 +2327,7 @@ Global Symbols
 <P><STRONG><a name="[111]"></a>free</STRONG> (Thumb, 88 bytes, Stack size 12 bytes, mallocr.o(i.__free$realloc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = free
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Channel_Coding
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;realloc
@@ -2413,7 +2413,7 @@ Global Symbols
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Add_Header
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Add_CRC
 <LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symbol_start_end_time_cal
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;channel_coding_convert_with_blank
 </UL>
 
 <P><STRONG><a name="[169]"></a>__mathlib_dbl_divzero</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, dunder.o(i.__mathlib_dbl_divzero))
@@ -2467,12 +2467,12 @@ Global Symbols
 <LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[116]"></a>channel_coding_convert</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, simulated_lora.o(i.channel_coding_convert))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = channel_coding_convert &rArr; malloc &rArr; internal_alloc
+<P><STRONG><a name="[116]"></a>channel_coding_convert_with_blank</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, simulated_lora.o(i.channel_coding_convert_with_blank))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = channel_coding_convert_with_blank &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[158]"></a>circular_queue_add</STRONG> (Thumb, 216 bytes, Stack size 32 bytes, queue.o(i.circular_queue_add))
@@ -2510,7 +2510,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -2529,7 +2529,7 @@ Global Symbols
 <P><STRONG><a name="[71]"></a>fputc</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, usart.o(i.fputc))
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[67]"></a>main</STRONG> (Thumb, 1474 bytes, Stack size 64 bytes, main.o(i.main))
+<P><STRONG><a name="[67]"></a>main</STRONG> (Thumb, 1480 bytes, Stack size 64 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 660<LI>Call Chain = main &rArr; SystemClock_Config &rArr; Error_Handler &rArr; TraceSend &rArr; vcom_Trace &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
@@ -2542,7 +2542,7 @@ Global Symbols
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Write
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
 <LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI1_Init
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Channel_Coding
 <LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPM_SetOffMode
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HW_Init
@@ -2591,12 +2591,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[117]"></a>symbol_start_end_time_cal</STRONG> (Thumb, 90 bytes, Stack size 8 bytes, simulated_lora.o(i.symbol_start_end_time_cal))
+<P><STRONG><a name="[117]"></a>symbol_start_end_time_cal</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, simulated_lora.o(i.symbol_start_end_time_cal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = symbol_start_end_time_cal &rArr; malloc &rArr; internal_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[17e]"></a>uart_init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, usart.o(i.uart_init))
@@ -2909,19 +2909,19 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[11c]"></a>LL_GPIO_ResetOutputPin</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_GPIO_ResetOutputPin))
-<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[118]"></a>LL_GPIO_SetOutputPin</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_GPIO_SetOutputPin))
-<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[11d]"></a>LL_TIM_DisableCounter</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_TIM_DisableCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[11b]"></a>LL_TIM_EnableCounter</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, simulated_lora.o(i.LL_TIM_EnableCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal
+<BR><BR>[Called By]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LoRa_Generate_Signal_With_Blank
 </UL>
 
 <P><STRONG><a name="[174]"></a>_fp_digits</STRONG> (Thumb, 366 bytes, Stack size 64 bytes, printfa.o(i._fp_digits), UNUSED)
