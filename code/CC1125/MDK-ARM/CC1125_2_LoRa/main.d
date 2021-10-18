@@ -73,7 +73,6 @@
 .\cc1125_2_lora\main.o: ..\Hardware\usart.h
 .\cc1125_2_lora\main.o: ..\Simulated_LoRa\Simulated_LoRa.h
 .\cc1125_2_lora\main.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\cc1125_2_lora\main.o: ..\Simulated_LoRa\Timer_Calibration.h
 .\cc1125_2_lora\main.o: ..\LoRa_Channel_Coding\LoRa_Channel_Coding.h
 .\cc1125_2_lora\main.o: ..\LoRa_Channel_Coding\Whitening.h
 .\cc1125_2_lora\main.o: ..\LoRa_Channel_Coding\Header.h

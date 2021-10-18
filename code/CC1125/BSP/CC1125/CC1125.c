@@ -266,7 +266,9 @@ void CC1125_Reg_Init()
     CC1125_Single_Write(REG_IF_MIX_CFG,0x00);        //IF Mix Configuration
     CC1125_Single_Write(REG_TOC_CFG,0x0A);           //Timing Offset Correction Configuration
     CC1125_Single_Write(REG_ECG_CFG,0x0C);           //External Clock Frequency Configuration
-    CC1125_Single_Write(REG_FREQ2,0x57);             //Frequency Configuration [23:16]
+    CC1125_Single_Write(REG_FREQ2,0x56);             //Frequency Configuration [23:16]
+		CC1125_Single_Write(REG_FREQ1,0xFC);             //Frequency Configuration [23:16]
+		CC1125_Single_Write(REG_FREQ0,0xCC);             //Frequency Configuration [23:16]
     CC1125_Single_Write(REG_IF_ADC0,0x05);           //Analog to Digital Converter Configuration Reg. 0
     CC1125_Single_Write(REG_FS_DIG1,0x00);           //Frequency Synthesizer Digital Reg. 1
     CC1125_Single_Write(REG_FS_DIG0,0x5F);           //Frequency Synthesizer Digital Reg. 0

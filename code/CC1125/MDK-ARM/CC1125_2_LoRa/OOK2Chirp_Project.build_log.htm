@@ -22,12 +22,35 @@ Dialog DLL:      TCM.DLL V1.46.0.0
  
 <h2>Project:</h2>
 C:\Users\yfx\Documents\GitHub\CC1100_2_LoRa\code\CC1125\MDK-ARM\CC1125_2_LoRa.uvprojx
-Project File Date:  09/15/2021
+Project File Date:  09/22/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'CC1125_2_LoRa'
-".\CC1125_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 0 Warning(s).
+compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(162): warning:  #177-D: variable "chirp_time"  was declared but never referenced
+  	int chirp_time = (1<<LORA_SF_NO1)<<3;
+..\Simulated_LoRa\Simulated_LoRa.c(163): warning:  #177-D: variable "Freq_Offset"  was declared but never referenced
+  	int Freq_Offset = 0;
+..\Simulated_LoRa\Simulated_LoRa.c(182): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(248): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c(284): warning:  #177-D: variable "No1_or_No2"  was declared but never referenced
+  	bool No1_or_No2=true;
+..\Simulated_LoRa\Simulated_LoRa.c(305): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(381): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c(545): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(663): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c: 9 warnings, 0 errors
+linking...
+Program Size: Code=21892 RO-data=796 RW-data=204 ZI-data=42852  
+FromELF: creating hex file...
+".\CC1125_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -50,7 +73,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

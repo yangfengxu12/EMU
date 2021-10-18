@@ -19,11 +19,11 @@
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
 
 
-#define LORA_SF_NO1													 				7				// spread factor
+#define LORA_SF_NO1													 				10				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
 #define LORA_HAS_CRC_NO1														false 	// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
-#define LORA_LOWDATERATEOPTIMIZE_NO1								true		// true or false
+#define LORA_LOWDATERATEOPTIMIZE_NO1								false		// true or false
 
 #define LORA_PREAMBLE_LENGTH_NO1										8
 #define LORA_ID_LENGTH_NO1													2
@@ -49,17 +49,17 @@
 
 
 /**********  common 2 parameters    **************************/
-#define FREQ_STEP                                   19.073486328125
-#define FREQ_SETP_4																	305.17578125
-#define FREQ_STEP_4_8                               78125 /* FREQ_STEP<<4<<8 */
+#define FREQ_STEP                                   76.2939453125
+#define FREQ_STEP_10                               	78125 /* FREQ_STEP<<10 */
 
 /* channel = Freq / FREQ_STEP */
 #define SX_FREQ_TO_CHANNEL( channel, freq )                                                                       \
     do                                                                                                            \
     {                                                                                                             \
-        uint32_t initialFreqInt;                                                                 									\
-        initialFreqInt = (freq << 12)  / FREQ_STEP_4_8;                                                             \
-        channel = (uint16_t)initialFreqInt; 																																								\
+        uint32_t initialFreqInt, initialFreqFrac;                                                                 \
+        initialFreqInt = freq / FREQ_STEP_10;                                                                      \
+        initialFreqFrac = freq - ( initialFreqInt * FREQ_STEP_10 );                                                \
+        channel = ( initialFreqInt << 10 ) + ( ( ( initialFreqFrac << 10 ) + ( FREQ_STEP_10 >> 1 ) ) / FREQ_STEP_10 ); \
     }while( 0 )
 		
 enum Chirp_Status{

@@ -33,7 +33,7 @@ int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, 
 	
 	
 	#ifdef DEBUG
-	for(i=0;i<1;i++)
+	for(i=0;i<buffer_size;i++)
 	{
 		printf("Out[%d]:%x (hex)\n",i,tx_buffer[i]);
 	}
@@ -71,11 +71,11 @@ int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, 
 	free(add_header_data);
 	
 	#ifdef DEBUG
-//	printf("Len of Output:%d\n",noutput_add_CRC);
-//	for(i=0;i<noutput_add_CRC;i++)
-//	{
-//		printf("Out[%d]:%x (hex)\n",i,add_CRC_data[i]);
-//	}
+	printf("Len of Output:%d\n",noutput_add_CRC);
+	for(i=0;i<noutput_add_CRC;i++)
+	{
+		printf("Out[%d]:%x (hex)\n",i,add_CRC_data[i]);
+	}
 	
 	printf("\n------------------Hanmming coding-----------------------\n");
 	#endif
@@ -128,11 +128,11 @@ int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, 
 	free(gray_data);
 	
 	#ifdef DEBUG
-//	printf("Len of Output:%d\n",noutput_modulation);
-//	for(i=0;i<noutput_modulation;i++)
-//	{
-//		printf("Out[%d]:\t%d,\t (int)\n",i,modulation_data[i]);
-//	}
+	printf("Len of Output:%d\n",noutput_modulation);
+	for(i=0;i<noutput_modulation;i++)
+	{
+		printf("Out[%d]:\t%d,\t (int)\n",i,modulation_data[i]);
+	}
 	
 	#endif
 	

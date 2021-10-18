@@ -53,7 +53,7 @@ uint16_t *Interleaver(uint8_t cr, uint8_t sf, bool low_data_rate_optimize, uint8
 //		printf("sf_app%d\n",sf_app);
 		
 		codewords = realloc(codewords,sf_app*sizeof(uint8_t));
-		memset(codewords, 0, sf_app*sizeof(uint8_t)); 	
+		memset(codewords, 0, sf_app*sizeof(uint8_t));	
 
 		if(cw_cnt + sf_app < ninput_items)
 		{
@@ -63,6 +63,10 @@ uint16_t *Interleaver(uint8_t cr, uint8_t sf, bool low_data_rate_optimize, uint8
 		{
 			memcpy(codewords,input+cw_cnt,(ninput_items-cw_cnt)*sizeof(uint8_t));
 		}
+		
+//		for(i=0;i<(ninput_items-cw_cnt);i++)
+//			printf("%d (dec)----%x (hex)\n",codewords[i],codewords[i]);
+//		printf("\n");
 		
 		interleaved = realloc(interleaved,ppm*sizeof(uint16_t));
 		memset(interleaved, 0, ppm*sizeof(uint16_t));
@@ -91,10 +95,10 @@ uint16_t *Interleaver(uint8_t cr, uint8_t sf, bool low_data_rate_optimize, uint8
 
 				interleaved[i] |= (sum_interleaved%2)<<(sf - sf_app - 1);
 			}
+//			printf("interleaved:%x\n",interleaved[i]);
 		}
 		
 		cnt_interleaved += ppm;
-		
 		
 		
 		output = realloc(output,cnt_interleaved*sizeof(uint16_t));

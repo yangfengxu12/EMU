@@ -22,12 +22,23 @@ Dialog DLL:      TCM.DLL V1.46.0.0
  
 <h2>Project:</h2>
 C:\Users\yfx\Documents\GitHub\CC1100_2_LoRa\code\lora_send\STM32CubeExpansion_LRWAN_V1.3.1\Projects\STM32L476RG-Nucleo\Applications\LoRa\PingPong\MDK-ARM\Lora.uvprojx
-Project File Date:  09/07/2021
+Project File Date:  10/18/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'sx1276mb1mas'
-".\sx1276mb1mas\NUCLEO_CUBE_LORA.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+..\LoRaWAN\App\src\main.c(105): warning:  #177-D: variable "isMaster"  was declared but never referenced
+    bool isMaster = true;
+..\LoRaWAN\App\src\main.c(107): warning:  #177-D: variable "Count"  was declared but never referenced
+  	uint32_t Count = 0;
+..\LoRaWAN\App\src\main.c(218): warning:  #177-D: function "OnledEvent"  was declared but never referenced
+  static void OnledEvent(void *context)
+..\LoRaWAN\App\src\main.c: 3 warnings, 0 errors
+linking...
+Program Size: Code=25740 RO-data=860 RW-data=148 ZI-data=2324  
+FromELF: creating hex file...
+".\sx1276mb1mas\NUCLEO_CUBE_LORA.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -40,7 +51,7 @@ Package Vendor: Keil
   F:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
