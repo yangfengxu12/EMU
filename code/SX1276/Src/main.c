@@ -25,10 +25,10 @@
 
 #define BUFFER_SIZE                                 255 // Define the payload size here
 #define PACKET_COUNT																500	//
-#define INTERVAL_TIME																200  // ms
+#define INTERVAL_TIME																3000  // ms
 
 
-#define MODE  																			2 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			1 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
@@ -36,7 +36,7 @@
 	#define LOOK
 #elif (MODE==2)
 	#define LOOK_BLANK
-	#define LOOK_BLANK_RATIO														0.8  // This para means x% turn on PA and (1-x)% turn off PA.
+	#define LOOK_BLANK_RATIO														0.85  // This para means x% turn on PA and (1-x)% turn off PA.
 #elif (MODE==3)
 	#define LOOK_DOUBLE
 #endif
@@ -50,8 +50,11 @@ extern uint32_t time_count;
 extern uint32_t Time_temp;
 
 uint8_t data_1[21] = {0x80, 0x37, 0x00, 0x1e, 0x00, 0x00, 0x01, 0x00, 0x02, 0x79, 0x91, 0x05, 0x55, 0x29, 0x3b, 0x6b, 0xab, 0xd7, 0x47, 0xc0, 0x49};
-uint8_t data_2[21] = {0x80, 0x2c, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0x02, 0xbe, 0x52, 0xf5, 0x2c, 0xe3, 0xf6, 0xc0, 0xe4, 0x11, 0xd1, 0xb1, 0x6b};
+//uint8_t data_2[21] = {0x80, 0x2c, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0x02, 0xbe, 0x52, 0xf5, 0x2c, 0xe3, 0xf6, 0xc0, 0xe4, 0x11, 0xd1, 0xb1, 0x6b};
 
+uint8_t data_2[235] = {0x40, 0x4E, 0x00, 0x1D, 0x00, 0x00, 0x02, 0x00, 0x02, 0xBC, 0x78, 0x8B, 0xD3, 0x19, 0x15, 0x85, 0xA6, 0x76, 0x89, 0xD2, 0xFE, 0xE6, 0xFA, 0x57, 0x7E, 0x96, 0x2C, 0x78, 0x74, 0xDF, 0x3B, 0xB3, 0x4A, 0xBA, 0xC5, 0xD4, 0x5C, 0xA2, 0x09, 0xBA, 0xBB, 0xE8, 0x1E, 0x20, 0x1B, 0x70, 0x40, 0x70, 0x78, 0xA9, 0x4B, 0xF9, 0xB2, 0x26, 0xD1, 0x59, 0x7F, 0x96, 0x79, 0x1A, 0x3E, 0xE3, 0xAF, 0xE7, 0x4D, 0x69, 0x8A, 0x16, 0x3C, 0xD5, 0xC8, 0x90, 0xE1, 0xDE, 0xCE, 0xAC, 0x9B, 0x08, 0x73, 0x62, 0xC0, 0xD6, 0xC2, 0x42, 0x9F, 0xCB, 0x9E, 0x3E, 0x63, 0x86, 0xD3, 0x6A, 0x92, 0x4C, 0x3E, 0x43, 0xA8, 0xE9, 0xBE, 0xAD, 0x66, 0x6C, 0x19, 0xED, 0x06, 0x0C, 0xD9, 0xC4, 0xC7, 0x45, 0x3C, 0x99, 0xEB, 0xFC, 0x07, 0x41, 0xF3, 0x70, 0xD7, 0x15, 0xB2, 0xD2, 0xD3, 0x01, 0xD4, 0x23, 0xAB, 0xE1, 0xE4, 0xD7, 0x80, 0x71, 0x27, 0x35, 0xF6, 0x29, 0x0E, 0x30, 0x3F, 0xEA, 0x0C, 0xB9, 0x8D, 0x4A, 0xAC, 0x4F, 0x13, 0xEB, 0xEC, 0x42, 0x65, 0x5B, 0x9F, 0x70, 0x99, 0x34, 0x07, 0x53, 0x65, 0x19, 0x04, 0xA1, 0x0E, 0x99, 0x2A, 0xB1, 0xB0, 0x39, 0xBE, 0x8F, 0xB7, 0x2D, 0x33, 0x61, 0x3A, 0x41, 0xC2, 0xB3, 0xC6, 0x07, 0x32, 0x17, 0x08, 0x07, 0x22, 0x9F, 0xB6, 0x5A, 0xC3, 0x04, 0x1E, 0xA2, 0x2E, 0xC9, 0xFE, 0xC9, 0x5D, 0x11, 0xD3, 0x11, 0xA5, 0x78, 0xE4, 0xC5, 0x17, 0x8E, 0xF5, 0xC9, 0x1C, 0xE1, 0x83, 0xE6, 0xB9, 0xA0, 0x94, 0x0C, 0x8A, 0xB5, 0x75, 0x89, 0xA7, 0x38, 0x04, 0xCB, 0x36, 0xB2, 0x95, 0xF6, 0xC7, 0x6D, 0x5F, 0x2F, 0xD0, 0xC5, 0x1F};
+
+	
 uint8_t Tx_Buffer[BUFFER_SIZE]={0x01,0x02};
 
 uint16_t BufferSize = BUFFER_SIZE;
@@ -107,57 +110,17 @@ int main(void)
 //	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
 //	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",RF_FREQUENCY_NO1,LORA_SF_NO1,RF_FREQUENCY_NO2,LORA_SF_NO2);
 #endif
-//	for (int j = 0; j < BufferSize; j++)
-//	{
-////		Tx_Buffer[j] = 0x31;
-//		Tx_Buffer[j] =rand()%255;
-//	}
-	
-	printf("id,data 1,data 2,data 3,data 4,data 5,data 6,data 7,data 8,data 9,data 10,data \
-	11,data 12,data 13,data 14,data 15,data 16,data 17,data 18,data 19,data 20,data 21,data\
-	22,data 23,data 24,data 25,data 26,data 27,data 28,data 29,data 30,data 31,data 32,data \
-	33,data 34,data 35,data 36,data 37,data 38,data 39,data 40,data 41,data 42,data 43,data \
-	44,data 45,data 46,data 47,data 48,data 49,data 50,data 51,data 52,data 53,data 54,data \
-	55,data 56,data 57,data 58,data 59,data 60,data 61,data 62,data 63,data 64,data 65,data \
-	66,data 67,data 68,data 69,data 70,data 71,data 72,data 73,data 74,data 75,data 76,data \
-	77,data 78,data 79,data 80,data 81,data 82,data 83,data 84,data 85,data 86,data 87,data \
-	88,data 89,data 90,data 91,data 92,data 93,data 94,data 95,data 96,data 97,data 98,data \
-	99,data 100,data 101,data 102,data 103,data 104,data 105,data 106,data 107,data 108,data \
-	109,data 110,data 111,data 112,data 113,data 114,data 115,data 116,data 117,data 118,data \
-	119,data 120,data 121,data 122,data 123,data 124,data 125,data 126,data 127,data 128,data \
-	129,data 130,data 131,data 132,data 133,data 134,data 135,data 136,data 137,data 138,data \
-	139,data 140,data 141,data 142,data 143,data 144,data 145,data 146,data 147,data 148,data \
-	149,data 150,data 151,data 152,data 153,data 154,data 155,data 156,data 157,data 158,data \
-	159,data 160,data 161,data 162,data 163,data 164,data 165,data 166,data 167,data 168,data \
-	169,data 170,data 171,data 172,data 173,data 174,data 175,data 176,data 177,data 178,data \
-	179,data 180,data 181,data 182,data 183,data 184,data 185,data 186,data 187,data 188,data \
-	189,data 190,data 191,data 192,data 193,data 194,data 195,data 196,data 197,data 198,data \
-	199,data 200,data 201,data 202,data 203,data 204,data 205,data 206,data 207,data 208,data \
-	209,data 210,data 211,data 212,data 213,data 214,data 215,data 216,data 217,data 218,data \
-	219,data 220,data 221,data 222,data 223,data 224,data 225,data 226,data 227,data 228,data \
-	229,data 230,data 231,data 232,data 233,data 234,data 235,data 236,data 237,data 238,data \
-	239,data 240,data 241,data 242,data 243,data 244,data 245,data 246,data 247,data 248,data \
-	249,data 250,data 251,data 252,data 253,data 254,data 255\n");
 	
 	for(i=0;i<PACKET_COUNT;i++)
 	{
-		printf("%d",i);
-		for (int j = 0; j < BufferSize; j++)
-		{
-//			Tx_Buffer[j] = 0x31;
-			Tx_Buffer[j] =rand()%255;
-			printf(",");
-			printf("%x",Tx_Buffer[j]);
-		}
-		printf("\n");
-		packet_freq_points_No1 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
+		packet_freq_points_No1 = LoRa_Channel_Coding(data_2, 235, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 
 		#ifdef LOOK_DOUBLE
 		packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
 		#endif
 		
 		#ifdef LOOK
-		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
+		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,CF);
 		#endif
 		#ifdef LOOK_BLANK
 		LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,LOOK_BLANK_RATIO);
@@ -172,12 +135,12 @@ int main(void)
 		#endif
 		
 		#ifdef ENABLE_USART
-//		printf("Tx done, Count:%d\r\n",i+1);
+		printf("Tx done, Count:%d\r\n",i+1);
 		#endif
 		delay_ms(INTERVAL_TIME);
 	}
 #ifdef ENABLE_USART
-//	printf("finish!!\r\n");
+	printf("finish!!\r\n");
 #endif
 
 }
