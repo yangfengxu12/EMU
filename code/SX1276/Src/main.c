@@ -120,7 +120,7 @@ int main(void)
 		#endif
 		
 		#ifdef LOOK
-		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,CF);
+		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1);
 		#endif
 		#ifdef LOOK_BLANK
 		LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,LOOK_BLANK_RATIO);
