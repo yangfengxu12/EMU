@@ -87,3 +87,4 @@
 .\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Gray_decode.h
 .\sx1276_2_lora\main.o: ..\LoRa_Channel_Coding\Modulation.h
 .\sx1276_2_lora\main.o: ..\Simulated_LoRa\Timer_Calibration_From_SX1276.h
+.\sx1276_2_lora\main.o: ..\energyest\energest.h

@@ -7,6 +7,8 @@
 
 #include "Simulated_LoRa.h"
 
+#include "energest.h"
+
 #include "Timer_Calibration_From_SX1276.h"
 #define Comped_Time (( (uint16_t)TIM4->CNT << 16 ) | (uint16_t)TIM3->CNT ) 
 
@@ -96,7 +98,7 @@ void symbol_start_end_time_cal()
 	Symbol_End_Time_No1 = Symbol_Start_Time_No1 + 1;
 }
 
-void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
+void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len,int CF)
 {
   LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
 															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
@@ -124,19 +126,19 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 	{
 		if(i < LORA_PREAMBLE_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY - 62500;
+			LoRa_Start_Freq_No1[i] = CF - 62500;
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + freq_points[i - LORA_PREAMBLE_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF + freq_points[i - LORA_PREAMBLE_LENGTH_NO1];
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + 62500 + freq_offset;
+			LoRa_Start_Freq_No1[i] = CF + 62500 + freq_offset;
 		}
 		else if(i < LORA_TOTAL_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY + freq_points[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF + freq_points[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
 		}
 		else
 		{
@@ -146,13 +148,16 @@ void channel_coding_convert(int * freq_points,int id_and_payload_symbol_len)
 }
 
 
-void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len,int CF)
 {
 	int chirp_time = (1<<LORA_SF_NO1)<<3;
 	
-	channel_coding_convert(freq_points,id_and_payload_symbol_len);
+	channel_coding_convert(freq_points,id_and_payload_symbol_len,CF);
 	symbol_start_end_time_cal();
 	
+	
+	int LORA_BASE_FREQ_NO1			=										(CF - (LORA_BW >> 1)); // Hz
+	int LORA_MAX_FREQ_NO1				=										(CF + (LORA_BW >> 1)); // Hz
 	/******** debug temps   ***********/
 	
 	/******** end of debug temps   ***********/
@@ -165,11 +170,14 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	
 	Init_Timer_Calibration_From_SX1276();
 	
-	Fast_SetChannel( RF_FREQUENCY );
+	Fast_SetChannel( CF );
 	
 	Send_packets:
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
  	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+	
+	ENERGEST_ON(ENERGEST_TYPE_TRANSMIT);
+	
 	delay_ms(1);
 	
 	LL_TIM_EnableCounter(TIM3);
@@ -238,6 +246,8 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	SX1276SetOpMode( RF_OPMODE_SLEEP );
 	LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 	
+	ENERGEST_OFF(ENERGEST_TYPE_TRANSMIT);
+	
 	free(LoRa_Start_Freq_No1);
 	free(Symbol_Start_Time_No1);
 	free(Symbol_End_Time_No1);
@@ -260,7 +270,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 //
 //
 //*************************************************************/
-void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len)
+void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len,int CF)
 {
   LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
 															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
@@ -288,19 +298,19 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 	{
 		if(i < LORA_PREAMBLE_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 - 62500;
+			LoRa_Start_Freq_No1[i] = CF - 62500;
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 + freq_points[i - LORA_PREAMBLE_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF + freq_points[i - LORA_PREAMBLE_LENGTH_NO1];
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 + 62500 + freq_offset;
+			LoRa_Start_Freq_No1[i] = CF + 62500 + freq_offset;
 		}
 		else if(i < LORA_TOTAL_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 + freq_points[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF + freq_points[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
 		}
 		else
 		{
@@ -310,7 +320,7 @@ void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symb
 }
 
 
-void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank)
+void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank,int CF)
 {
 	
 	
@@ -324,8 +334,11 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 	float blank_start = (int)(tmp*chirp_time/10);
 	float blank_end = (int)((tmp+blank_res*10)*chirp_time/10);
 	
-	channel_coding_convert_with_blank(freq_points,id_and_payload_symbol_len);
+	channel_coding_convert_with_blank(freq_points,id_and_payload_symbol_len,CF);
 	symbol_start_end_time_cal();
+	
+	int LORA_BASE_FREQ_NO1			=										(CF - (LORA_BW >> 1)); // Hz
+	int LORA_MAX_FREQ_NO1				=										(CF + (LORA_BW >> 1)); // Hz
 	
 	/******** debug temps   ***********/
 	
@@ -486,7 +499,7 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 //
 //
 //*************************************************************/
-void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_payload_symbol_len_no1,int* freq_points_no2,int id_and_payload_symbol_len_no2)
+void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_payload_symbol_len_no1,int* freq_points_no2,int id_and_payload_symbol_len_no2,int CF1,int CF2)
 {
 	LORA_TOTAL_LENGTH_NO1			=	LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + \
 															LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1 + \
@@ -503,19 +516,19 @@ void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_paylo
 	{
 		if(i < LORA_PREAMBLE_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 - 62500;
+			LoRa_Start_Freq_No1[i] = CF1 - 62500;
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 + freq_points_no1[i - LORA_PREAMBLE_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF1 + freq_points_no1[i - LORA_PREAMBLE_LENGTH_NO1];
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO1 + LORA_ID_LENGTH_NO1 + LORA_SFD_LENGTH_NO1 + LORA_QUARTER_SFD_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 + 62500 - 500;
+			LoRa_Start_Freq_No1[i] = CF1 + 62500 - 500;
 		}
 		else if(i < LORA_TOTAL_LENGTH_NO1)
 		{
-			LoRa_Start_Freq_No1[i] = RF_FREQUENCY_NO1 + freq_points_no1[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
+			LoRa_Start_Freq_No1[i] = CF1 + freq_points_no1[i - LORA_PREAMBLE_LENGTH_NO1 - LORA_SFD_LENGTH_NO1 -  LORA_QUARTER_SFD_LENGTH_NO1];
 		}
 		else
 		{
@@ -527,19 +540,19 @@ void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_paylo
 	{
 		if(i < LORA_PREAMBLE_LENGTH_NO2)
 		{
-			LoRa_Start_Freq_No2[i] = RF_FREQUENCY_NO2 - 62500;
+			LoRa_Start_Freq_No2[i] = CF2 - 62500;
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO2 + LORA_ID_LENGTH_NO2)
 		{
-			LoRa_Start_Freq_No2[i] = RF_FREQUENCY_NO2 + freq_points_no2[i - LORA_PREAMBLE_LENGTH_NO2];
+			LoRa_Start_Freq_No2[i] = CF2 + freq_points_no2[i - LORA_PREAMBLE_LENGTH_NO2];
 		}
 		else if(i < LORA_PREAMBLE_LENGTH_NO2 + LORA_ID_LENGTH_NO2 + LORA_SFD_LENGTH_NO2 + LORA_QUARTER_SFD_LENGTH_NO2)
 		{
-			LoRa_Start_Freq_No2[i] = RF_FREQUENCY_NO2 + 62500 - 500;
+			LoRa_Start_Freq_No2[i] = CF2 + 62500 - 500;
 		}
 		else if(i < LORA_TOTAL_LENGTH_NO2)
 		{
-			LoRa_Start_Freq_No2[i] = RF_FREQUENCY_NO2 + freq_points_no2[i - LORA_PREAMBLE_LENGTH_NO2 - LORA_SFD_LENGTH_NO2 -  LORA_QUARTER_SFD_LENGTH_NO2];
+			LoRa_Start_Freq_No2[i] = CF2 + freq_points_no2[i - LORA_PREAMBLE_LENGTH_NO2 - LORA_SFD_LENGTH_NO2 -  LORA_QUARTER_SFD_LENGTH_NO2];
 		}
 		else
 		{
@@ -588,16 +601,23 @@ void symbol_start_end_time_cal_double_packets()
 
 
 
-void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbol_len_No1, int * freq_points_No2, int id_and_payload_symbol_len_No2)
+void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbol_len_No1, int * freq_points_No2, int id_and_payload_symbol_len_No2,int CF1,int CF2)
 {
 	bool No1_or_No2=true;
-	channel_coding_convert_double_packets(freq_points_No1,id_and_payload_symbol_len_No1,freq_points_No2,id_and_payload_symbol_len_No2);
+	channel_coding_convert_double_packets(freq_points_No1,id_and_payload_symbol_len_No1,freq_points_No2,id_and_payload_symbol_len_No2,CF1,CF2);
 	symbol_start_end_time_cal_double_packets();
 	
 	/******** debug temps   ***********/
 	
 	
 	/******** end of debug temps   ***********/
+	
+	int LORA_BASE_FREQ_NO1			=										(CF1 - (LORA_BW >> 1)); // Hz
+	int LORA_MAX_FREQ_NO1				=										(CF1 + (LORA_BW >> 1)); // Hz
+	
+	int LORA_BASE_FREQ_NO2			=										(CF2 - (LORA_BW >> 1)); // Hz
+	int LORA_MAX_FREQ_NO2				=										(CF2 + (LORA_BW >> 1)); // Hz
+	
 	int Chip_Position_No1 = 0;
 	int Chip_Position_No2 = 0;
 
@@ -620,7 +640,7 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 	LL_TIM_EnableCounter(TIM4);
 	TIM3->CNT = 0;
 	TIM4->CNT = 0;
-	
+	ENERGEST_ON(ENERGEST_TYPE_TRANSMIT);
 	/*******************/
 // 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 //	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
@@ -748,6 +768,8 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 
 	SX1276SetOpMode( RF_OPMODE_SLEEP );
 	LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+	
+	ENERGEST_OFF(ENERGEST_TYPE_TRANSMIT);
 	
 	free(LoRa_Start_Freq_No1);
 	free(Symbol_Start_Time_No1);

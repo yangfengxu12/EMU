@@ -87,6 +87,7 @@
 ".\sx1276_2_lora\interleaver.o"
 ".\sx1276_2_lora\gray_decode.o"
 ".\sx1276_2_lora\modulation.o"
+".\sx1276_2_lora\energest.o"
 --library_type=microlib --strict --scatter ".\SX1276_2_LoRa\OOK2Chirp_Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
