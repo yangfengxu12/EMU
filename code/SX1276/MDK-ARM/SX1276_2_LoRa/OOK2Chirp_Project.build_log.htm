@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.46.0.0
  
 <h2>Project:</h2>
 C:\Users\yfx\Documents\GitHub\CC1100_2_LoRa\code\SX1276\MDK-ARM\SX1276_2_LoRa.uvprojx
-Project File Date:  10/16/2021
+Project File Date:  10/20/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
@@ -34,10 +34,6 @@ compiling main.c...
     uint16_t datarate,i,len,t;
 ../Src/main.c(81): warning:  #177-D: variable "USART_temp"  was declared but never referenced
   	uint8_t  USART_temp[USART_REC_LEN];
-../Src/main.c(87): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
-  	int *packet_freq_points_No2 = NULL;
-../Src/main.c(90): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
-  	int symbol_len_No2 = NULL;
 ../Src/main.c(92): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
   	int *LoRa_ID_Start_Freq_No1 = NULL;
 ../Src/main.c(93): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
@@ -46,7 +42,7 @@ compiling main.c...
   	int *LoRa_ID_Start_Freq_No2 = NULL;
 ../Src/main.c(96): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
   	int *LoRa_Payload_Start_Freq_No2 = NULL;
-../Src/main.c: 9 warnings, 0 errors
+../Src/main.c: 7 warnings, 0 errors
 compiling Simulated_LoRa.c...
 ..\Simulated_LoRa\Simulated_LoRa.c(151): warning:  #177-D: variable "chirp_time"  was declared but never referenced
   	int chirp_time = (1<<LORA_SF_NO1)<<3;
@@ -64,9 +60,9 @@ compiling Simulated_LoRa.c...
   		Symbol_End:
 ..\Simulated_LoRa\Simulated_LoRa.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=40660 RO-data=1308 RW-data=328 ZI-data=44408  
+Program Size: Code=41532 RO-data=1308 RW-data=328 ZI-data=44408  
 FromELF: creating hex file...
-".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 16 Warning(s).
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 

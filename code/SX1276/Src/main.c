@@ -28,7 +28,7 @@
 #define INTERVAL_TIME																150  // ms
 
 
-#define MODE  																			2 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			3 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
