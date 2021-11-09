@@ -339,7 +339,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>STM32L476xx, USE_STM32L4XX_NUCLEO,USE_HAL_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\LoRaWAN\App\inc;..\Core\inc;..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\..\..\Drivers\BSP\STM32L4xx_Nucleo;..\..\..\..\..\..\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\..\..\Drivers\CMSIS\Include;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Crypto;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Mac;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Phy;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Utilities;..\..\..\..\..\..\Drivers\BSP\X_NUCLEO_IKS01A1;..\..\..\..\..\..\Drivers\BSP\Components\Common;..\..\..\..\..\..\Drivers\BSP\Components\hts221;..\..\..\..\..\..\Drivers\BSP\Components\lps25hb;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Patterns\Basic;..\..\..\..\..\..\Drivers\BSP\\Components\sx1276;..\..\..\..\..\..\Drivers\BSP\sx1276mb1mas</IncludePath>
+              <IncludePath>..\LoRaWAN\App\inc;..\Core\inc;..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\..\..\Drivers\BSP\STM32L4xx_Nucleo;..\..\..\..\..\..\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\..\..\Drivers\CMSIS\Include;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Crypto;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Mac;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Phy;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Utilities;..\..\..\..\..\..\Drivers\BSP\X_NUCLEO_IKS01A1;..\..\..\..\..\..\Drivers\BSP\Components\Common;..\..\..\..\..\..\Drivers\BSP\Components\hts221;..\..\..\..\..\..\Drivers\BSP\Components\lps25hb;..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Patterns\Basic;..\..\..\..\..\..\Drivers\BSP\\Components\sx1276;..\..\..\..\..\..\Drivers\BSP\sx1276mb1mas;..\energyest</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1200,6 +1200,16 @@
               <FileName>trace.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Utilities\trace.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>energyest</GroupName>
+          <Files>
+            <File>
+              <FileName>energest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\energyest\energest.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2402,6 +2412,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>energyest</GroupName>
+          <Files>
+            <File>
+              <FileName>energest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\energyest\energest.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -3601,6 +3621,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>energyest</GroupName>
+          <Files>
+            <File>
+              <FileName>energest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\energyest\energest.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -4746,6 +4776,16 @@
               <FileName>trace.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\Middlewares\Third_Party\LoRaWAN\Utilities\trace.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>energyest</GroupName>
+          <Files>
+            <File>
+              <FileName>energest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\energyest\energest.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5897,6 +5937,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>energyest</GroupName>
+          <Files>
+            <File>
+              <FileName>energest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\energyest\energest.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -7045,6 +7095,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>energyest</GroupName>
+          <Files>
+            <File>
+              <FileName>energest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\energyest\energest.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -7058,7 +7118,7 @@
   <LayerInfo>
     <Layers>
       <Layer>
-        <LayName>&lt;Project Info&gt;</LayName>
+        <LayName>Lora</LayName>
         <LayTarg>0</LayTarg>
         <LayPrjMark>1</LayPrjMark>
       </Layer>

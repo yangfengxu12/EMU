@@ -20,9 +20,9 @@
 #define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
 
 
-#define LORA_SF_NO1													 				7				// spread factor
+#define LORA_SF_NO1													 				8				// spread factor
 #define LORA_CR_NO1																	1				// coding rate [1:4/5, 2:4/6, 3:4/7,  4:4/8]
-#define LORA_HAS_CRC_NO1														false		// true or false
+#define LORA_HAS_CRC_NO1														true		// true or false
 #define LORA_IMPL_HEAD_NO1													false		// true or false
 #define LORA_LOWDATERATEOPTIMIZE_NO1								true		// true or false
 

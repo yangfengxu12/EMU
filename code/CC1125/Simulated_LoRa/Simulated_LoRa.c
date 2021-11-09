@@ -177,7 +177,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	
 	Init_Timer_Calibration_From_CC1125();
 	
-	CC1125_Set_Central_Frequency( LORA_BASE_FREQ_NO1 - LORA_BW/2);
+	CC1125_Set_Central_Frequency( LORA_BASE_FREQ_NO1);
 	
 	Send_packets:
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);

@@ -330,9 +330,9 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 	uint32_t blank_res_position = chirp_time*blank_res;
 	uint32_t blank_position = chirp_time*blank;
 	
-	float tmp = 0.5;
-	float blank_start = (int)(tmp*chirp_time/10);
-	float blank_end = (int)((tmp+blank_res*10)*chirp_time/10);
+	float tmp = 0.85;
+	float blank_start = (int)(tmp*chirp_time);
+	float blank_end = (int)((tmp+blank_res)*chirp_time);
 	
 	channel_coding_convert_with_blank(freq_points,id_and_payload_symbol_len,CF);
 	symbol_start_end_time_cal();
@@ -352,7 +352,7 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 	
 	Init_Timer_Calibration_From_SX1276();
 	
-	Fast_SetChannel(RF_FREQUENCY_NO1);
+	Fast_SetChannel(CF);
 	
 	Send_packets:
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
@@ -430,10 +430,12 @@ void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbo
 //				if(Comped_Time > (Symbol_Start_Time_No1[Chirp_Count_No1] + blank_start) && Comped_Time < (Symbol_Start_Time_No1[Chirp_Count_No1] + blank_end))
 //				{
 //					LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
+//					#if (LORA_SF_NO1 != 7)
 //					SX1276SetOpMode( RF_OPMODE_STANDBY );
 //					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] + blank_end - 120);
 //					SX1276SetOpMode(RF_OPMODE_TRANSMITTER);
-//					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_end-8);
+//					#endif
+//					while(Comped_Time < Symbol_Start_Time_No1[Chirp_Count_No1] +  blank_end-10);
 //					LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
 //				}
 				//start
@@ -640,7 +642,7 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 	LL_TIM_EnableCounter(TIM4);
 	TIM3->CNT = 0;
 	TIM4->CNT = 0;
-	ENERGEST_ON(ENERGEST_TYPE_TRANSMIT);
+//	ENERGEST_ON(ENERGEST_TYPE_TRANSMIT);
 	/*******************/
 // 	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);
 //	LL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
@@ -766,10 +768,10 @@ void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbo
 //		LL_GPIO_TogglePin(GPIOB,GPIO_PIN_2);	
 	}
 
-	SX1276SetOpMode( RF_OPMODE_SLEEP );
+	SX1276SetOpMode( RF_OPMODE_STANDBY );
 	LL_GPIO_ResetOutputPin(GPIOB,GPIO_PIN_5);
 	
-	ENERGEST_OFF(ENERGEST_TYPE_TRANSMIT);
+//	ENERGEST_OFF(ENERGEST_TYPE_TRANSMIT);
 	
 	free(LoRa_Start_Freq_No1);
 	free(Symbol_Start_Time_No1);

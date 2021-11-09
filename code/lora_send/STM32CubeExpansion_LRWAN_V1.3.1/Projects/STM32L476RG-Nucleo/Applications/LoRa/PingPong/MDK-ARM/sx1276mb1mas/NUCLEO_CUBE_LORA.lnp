@@ -41,6 +41,7 @@
 ".\sx1276mb1mas\utilities.o"
 ".\sx1276mb1mas\queue.o"
 ".\sx1276mb1mas\trace.o"
+".\sx1276mb1mas\energest.o"
 --library_type=microlib --strict --scatter ".\sx1276mb1mas\NUCLEO_CUBE_LORA.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
