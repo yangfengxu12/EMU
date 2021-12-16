@@ -339,7 +339,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>STM32L476xx, USE_STM32L4XX_NUCLEO,USE_HAL_DRIVER,USE_FULL_LL_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32L4xx_LL_Driver/Inc;../Drivers/STM32L4xx_LL_Driver/Src;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa;..\LoRa_Channel_Coding;..\MALLOC</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32L4xx_LL_Driver/Inc;../Drivers/STM32L4xx_LL_Driver/Src;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\BSP;..\BSP\SX1276;..\Hardware;..\Utilities;..\Simulated_LoRa;..\LoRa_Channel_Coding;..\MALLOC;..\energyest</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -877,6 +877,16 @@
               <FileName>Modulation.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\LoRa_Channel_Coding\Modulation.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>energyest</GroupName>
+          <Files>
+            <File>
+              <FileName>energest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\energyest\energest.c</FilePath>
             </File>
           </Files>
         </Group>

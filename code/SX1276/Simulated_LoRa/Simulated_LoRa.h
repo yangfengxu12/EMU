@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define RF_FREQUENCY                                486300000// Hz
+#define RF_FREQUENCY                                433000000// Hz
 #define TX_OUTPUT_POWER                             0        // dBm
 #define DATA_RATE																		250000
 
@@ -17,8 +17,8 @@
 /**********  Packet 1 parameters    **************************/
 #define RF_FREQUENCY_NO1														RF_FREQUENCY
 
-#define LORA_BASE_FREQ_NO1													(RF_FREQUENCY_NO1 - (LORA_BW >> 1)) // Hz
-#define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
+//#define LORA_BASE_FREQ_NO1													(RF_FREQUENCY_NO1 - (LORA_BW >> 1)) // Hz
+//#define LORA_MAX_FREQ_NO1														(RF_FREQUENCY_NO1 + (LORA_BW >> 1)) // Hz
 
 
 #define LORA_SF_NO1													 				7				// spread factor
@@ -35,12 +35,12 @@
 /**********  Packet 2 parameters    **************************/
 #define RF_FREQUENCY_NO2														(RF_FREQUENCY_NO1 + 400000) 
 
-#define LORA_BASE_FREQ_NO2													(RF_FREQUENCY_NO2 - (LORA_BW >> 1)) // Hz
-#define LORA_MAX_FREQ_NO2														(RF_FREQUENCY_NO2 + (LORA_BW >> 1)) // Hz
+//#define LORA_BASE_FREQ_NO2													(RF_FREQUENCY_NO2 - (LORA_BW >> 1)) // Hz
+//#define LORA_MAX_FREQ_NO2														(RF_FREQUENCY_NO2 + (LORA_BW >> 1)) // Hz
 
-#define LORA_SF_NO2																	7				// spread factor
+#define LORA_SF_NO2																	8				// spread factor
 #define LORA_CR_NO2																	1				// coding rate [1,2,3,4] ([4/5,4/6,4/7,4/8])
-#define LORA_HAS_CRC_NO2														false		// true or false
+#define LORA_HAS_CRC_NO2														true		// true or false
 #define LORA_IMPL_HEAD_NO2													false		// true or false
 #define LORA_LOWDATERATEOPTIMIZE_NO2								true		// true or false																						
 
@@ -76,17 +76,17 @@ extern uint32_t Time;
 
 void Fast_SetChannel( uint32_t Input_Freq );
 
-void channel_coding_convert(int* freq_points,int id_and_payload_symbol_len);
+void channel_coding_convert(int* freq_points,int id_and_payload_symbol_len,int CF);
 void symbol_start_end_time_cal(void);
-void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len);
+void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len, int CF);
 
 
-void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len);
-void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank);
+void channel_coding_convert_with_blank(int * freq_points,int id_and_payload_symbol_len,int CF);
+void LoRa_Generate_Signal_With_Blank(int * freq_points, int id_and_payload_symbol_len, float blank,int CF);
 
 
-void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_payload_symbol_len_no1,int* freq_points_no2,int id_and_payload_symbol_len_no2);
+void channel_coding_convert_double_packets(int* freq_points_no1,int id_and_payload_symbol_len_no1,int* freq_points_no2,int id_and_payload_symbol_len_no2,int CF1,int CF2);
 void symbol_start_end_time_cal_double_packets(void);
-void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbol_len_No1, int * freq_points_No2, int id_and_payload_symbol_len_No2);
+void LoRa_Generate_Double_Packet(int * freq_points_No1, int id_and_payload_symbol_len_No1, int * freq_points_No2, int id_and_payload_symbol_len_No2,int CF1,int CF2);
 
 #endif

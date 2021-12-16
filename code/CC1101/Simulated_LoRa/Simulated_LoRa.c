@@ -214,7 +214,7 @@ void LoRa_Generate_Signal(int * freq_points, int id_and_payload_symbol_len)
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
  	CC1101_Set_OpMode( STX );
 	
-	delay_ms(1000);
+	delay_ms(10);
 
 	TIM2->CNT = 0;
 	TIM3->CNT = 0;

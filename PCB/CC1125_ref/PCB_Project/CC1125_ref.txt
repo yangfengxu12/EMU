@@ -1,0 +1,10 @@
+Board Information Report
+Filename     : C:\Users\yfx\Documents\GitHub\CC1100_2_LoRa\PCB\CC1125_ref\PCB_Project\CC1125_ref.PcbDoc
+Date         : 2021/12/14
+Time         : 15:43:54
+Time Elapsed : 00:00:00
+
+General
+    Board Size, 53mmx65mm
+    Components on board, 6
+count : 2
