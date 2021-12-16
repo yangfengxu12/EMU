@@ -1,0 +1,9 @@
+Removed Pin From Net: NetName=Connector_GND Pin=current-2
+Removed Pin From Net: NetName=Borad_GND Pin=voltage-2
+Change Component Footprint: Designator=current Old Footprint=HDR1X2 New Footprint=HDR1X3
+Change Component Footprint: Designator=voltage Old Footprint=HDR1X2 New Footprint=HDR1X3
+Change Component Comment : Designator=current Old Comment=Header 2 New Comment=Header 3
+Change Component Comment : Designator=voltage Old Comment=Header 2 New Comment=Header 3
+Added Pin To Net: NetName=Connector_GND Pin=current-3
+Added Pin To Net: NetName=Borad_GND Pin=voltage-3
+Added Room: Name=Sheet1

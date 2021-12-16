@@ -1,0 +1,10 @@
+Board Information Report
+Filename     : C:\Users\yfx\Documents\GitHub\CC1100_2_LoRa\PCB\Power_measure_board\power_measure_board\PCB1.PcbDoc
+Date         : 2021/12/15
+Time         : 17:52:27
+Time Elapsed : 00:00:00
+
+General
+    Board Size, 60.2548mmx80.2548mm
+    Components on board, 11
+count : 2
