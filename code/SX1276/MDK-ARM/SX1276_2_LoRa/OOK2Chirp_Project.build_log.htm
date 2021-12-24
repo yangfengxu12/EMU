@@ -1,0 +1,105 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.32.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 1 1, 1, LIC=NQQMA-1F5F9-MM99I-TXX65-YVSYZ-4K1WG
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.32.0.0
+Toolchain Path:  F:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.32.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
+Dialog DLL:      TCM.DLL V1.46.0.0
+ 
+<h2>Project:</h2>
+C:\Users\yfx\Documents\GitHub\CC1100_2_LoRa\code\SX1276\MDK-ARM\SX1276_2_LoRa.uvprojx
+Project File Date:  12/22/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'SX1276_2_LoRa'
+compiling main.c...
+../Src/main.c(99): warning:  #177-D: variable "datarate"  was declared but never referenced
+    uint16_t datarate,i;
+../Src/main.c(102): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
+  	int *packet_freq_points_No2 = NULL;
+../Src/main.c(105): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
+  	int symbol_len_No2 = NULL;
+../Src/main.c(107): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
+  	int *LoRa_ID_Start_Freq_No1 = NULL;
+../Src/main.c(108): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
+  	int *LoRa_Payload_Start_Freq_No1 = NULL;
+../Src/main.c(110): warning:  #177-D: variable "LoRa_ID_Start_Freq_No2"  was declared but never referenced
+  	int *LoRa_ID_Start_Freq_No2 = NULL;
+../Src/main.c(111): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
+  	int *LoRa_Payload_Start_Freq_No2 = NULL;
+../Src/main.c(45): warning:  #177-D: variable "RadioEvents"  was declared but never referenced
+  static RadioEvents_t RadioEvents;
+../Src/main.c: 8 warnings, 0 errors
+compiling Simulated_LoRa.c...
+..\Simulated_LoRa\Simulated_LoRa.c(183): warning:  #177-D: variable "chirp_time"  was declared but never referenced
+  	int chirp_time = (1<<LORA_SF_NO1)<<3;
+..\Simulated_LoRa\Simulated_LoRa.c(189): warning:  #177-D: variable "LORA_BASE_FREQ_NO1"  was declared but never referenced
+  	int LORA_BASE_FREQ_NO1			=										(CF - (LORA_BW >> 1)); // Hz
+..\Simulated_LoRa\Simulated_LoRa.c(205): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(270): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c(357): warning:  #177-D: variable "No1_or_No2"  was declared but never referenced
+  	bool No1_or_No2=true;
+..\Simulated_LoRa\Simulated_LoRa.c(370): warning:  #177-D: variable "LORA_BASE_FREQ_NO1"  was declared but never referenced
+  	int LORA_BASE_FREQ_NO1			=										(CF - (LORA_BW >> 1)); // Hz
+..\Simulated_LoRa\Simulated_LoRa.c(380): warning:  #550-D: variable "Total_Chip_Count"  was set but never used
+  	uint32_t Total_Chip_Count = 0;
+..\Simulated_LoRa\Simulated_LoRa.c(381): warning:  #550-D: variable "Symbol_Chip_Count"  was set but never used
+  	uint32_t Symbol_Chip_Count = 0;
+..\Simulated_LoRa\Simulated_LoRa.c(387): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(647): warning:  #177-D: variable "LORA_BASE_FREQ_NO1"  was declared but never referenced
+  	int LORA_BASE_FREQ_NO1			=										(CF1 - (LORA_BW >> 1)); // Hz
+..\Simulated_LoRa\Simulated_LoRa.c(650): warning:  #177-D: variable "LORA_BASE_FREQ_NO2"  was declared but never referenced
+  	int LORA_BASE_FREQ_NO2			=										(CF2 - (LORA_BW >> 1)); // Hz
+..\Simulated_LoRa\Simulated_LoRa.c(666): warning:  #177-D: label "Send_packets"  was declared but never referenced
+  	Send_packets:
+..\Simulated_LoRa\Simulated_LoRa.c(785): warning:  #177-D: label "Symbol_End"  was declared but never referenced
+  		Symbol_End:
+..\Simulated_LoRa\Simulated_LoRa.c: 13 warnings, 0 errors
+linking...
+Program Size: Code=35492 RO-data=1240 RW-data=508 ZI-data=43404  
+FromELF: creating hex file...
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 21 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.4.0
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32L4xx_DFP.2.5.0.pack
+                Keil.STM32L4xx_DFP.2.5.0
+                STMicroelectronics STM32L4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_SX1276_2_LoRa
+  F:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  F:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.4.0
+Build Time Elapsed:  00:00:04
+</pre>
+</body>
+</html>

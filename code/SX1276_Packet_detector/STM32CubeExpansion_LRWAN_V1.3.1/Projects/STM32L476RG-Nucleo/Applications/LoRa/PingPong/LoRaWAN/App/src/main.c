@@ -9,7 +9,7 @@
 
 //#define RF_FREQUENCY                                (433000000 + 200000)// Hz
 //#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
-#define RF_FREQUENCY                                486000000 // Hz
+#define RF_FREQUENCY                                433000000 // Hz
 #define LORA_SPREADING_FACTOR                       7 	// [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
@@ -276,7 +276,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
 		if(Buffer[i] != temp)
 		{
 			Payload_error++;
-			printf("%x-->%x %d\n",temp,Buffer[i],i);			
+//			printf("%x-->%x %d\n",temp,Buffer[i],i);			
 		}
 	}
 	if(Payload_error != 0)

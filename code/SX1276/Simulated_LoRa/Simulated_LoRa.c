@@ -5,9 +5,9 @@
 #include "delay.h"
 #include "control_GPIO.h"
 
+#include "LoRa_Channel_Coding.h"
 #include "Simulated_LoRa.h"
 
-#include "energest.h"
 
 #include "Timer_Calibration_From_SX1276.h"
 #define Comped_Time (( (uint16_t)TIM4->CNT << 16 ) | (uint16_t)TIM3->CNT ) 
@@ -44,6 +44,72 @@ uint32_t Channel;
 
 uint8_t Channel_Freq[3] = {0};  //MSB,MID,LSB
 uint8_t Changed_Register_Count = 1;  // the number of changed registers.
+
+
+int simulated_LoRa_tx(
+											uint8_t mode_select, uint8_t snipped_ratio,
+											//channel No.1 parameters
+											uint32_t central_freq_ch1, uint8_t *tx_buffer_ch1,uint8_t tx_buffer_length_ch1, uint16_t bw_ch1, uint8_t sf_ch1, uint8_t cr_ch1, bool has_crc_ch1, bool implict_header_ch1, bool ldro_ch1,
+											//channel No.2 parameters if necessary
+											uint32_t central_freq_ch2, uint8_t *tx_buffer_ch2,uint8_t tx_buffer_length_ch2, uint16_t bw_ch2, uint8_t sf_ch2, uint8_t cr_ch2, bool has_crc_ch2, bool implict_header_ch2, bool ldro_ch2
+)
+{
+	int *packet_freq_points_No1 = NULL;
+	int *packet_freq_points_No2 = NULL;
+	
+	int symbol_len_No1 = 0;
+	int symbol_len_No2 = 0;
+	
+	/******LoRa channel coding preparation******/
+	packet_freq_points_No1 = LoRa_Channel_Coding(tx_buffer_ch1, tx_buffer_length_ch1, bw_ch1, sf_ch1, cr_ch1, has_crc_ch1, implict_header_ch1, &symbol_len_No1, ldro_ch1);
+
+	if(mode_select == multiplexed_lora)
+		packet_freq_points_No2 = LoRa_Channel_Coding(tx_buffer_ch2, tx_buffer_length_ch2, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
+	
+	/******end of LoRa channel coding preparation******/
+	/******transmit CSS waveform******/
+	if(mode_select == normal_lora)
+		LoRa_Generate_Signal(packet_freq_points_No1,symbol_len_No1,central_freq_ch1);
+	else if(mode_select == snipped_lora)
+		LoRa_Generate_Signal_With_Blank(packet_freq_points_No1,symbol_len_No1,snipped_ratio,central_freq_ch1);
+	else if(mode_select == multiplexed_lora)
+		LoRa_Generate_Double_Packet(packet_freq_points_No1,symbol_len_No1,packet_freq_points_No2,symbol_len_No2,central_freq_ch1,central_freq_ch2);
+	else
+		return 0;
+	
+	free(packet_freq_points_No1);
+	if(mode_select == multiplexed_lora)
+		free(packet_freq_points_No2);
+}
+
+
+
+int simulated_LoRa_init_SX1276(uint32_t central_freq, uint8_t tx_power, uint16_t time )
+{
+	int device_datarate = 250000; // SX1276 OOK/FSK datarate
+	uint16_t datarate =0;
+	
+	SX1276SetChannel( central_freq );
+	SX1276SetTxContinuousWave( central_freq, tx_power, time );
+	
+	SX1276Write( REG_OSC, RF_OSC_CLKOUT_1_MHZ );
+	
+	SX1276Write( REG_PLLHOP, ( SX1276Read( REG_PLLHOP ) & RF_PLLHOP_FASTHOP_MASK ) | RF_PLLHOP_FASTHOP_ON );
+	SX1276Write( REG_PLL, ( SX1276Read( REG_PLL ) & RF_PLL_BANDWIDTH_MASK ) | RF_PLL_BANDWIDTH_150 );
+	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MASK ) | RF_PARAMP_0010_US );
+	SX1276Write( REG_PARAMP, ( SX1276Read( REG_PARAMP ) & RF_PARAMP_MODULATIONSHAPING_MASK ) | RF_PARAMP_MODULATIONSHAPING_00 );
+	SX1276Write( REG_OCP, ( SX1276Read( REG_OCP ) & RF_OCP_MASK ) | RF_OCP_OFF );
+	
+	datarate = ( uint16_t )( ( double )XTAL_FREQ / ( double )device_datarate );
+	SX1276Write( REG_BITRATEMSB, ( uint8_t )( datarate >> 8 ) );
+	SX1276Write( REG_BITRATELSB, ( uint8_t )( datarate & 0xFF ) );
+	
+	return 1;
+}
+
+
+
+
 
 void Fast_SetChannel( uint32_t Input_Freq )
 {

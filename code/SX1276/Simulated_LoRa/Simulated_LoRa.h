@@ -3,6 +3,7 @@
 
 #include "stm32l4xx.h"
 #include "fast_spi.h"
+#include <stdbool.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -64,6 +65,13 @@
         channel = ( initialFreqInt << 8 ) + ( ( ( initialFreqFrac << 8 ) + ( FREQ_STEP_8 / 2 ) ) / FREQ_STEP_8 ); \
     }while( 0 )
 		
+enum EMU_MODE_SELECT
+{
+	normal_lora = 0,
+	snipped_lora = 1,
+	multiplexed_lora = 2,
+}EMU_MODE_SELECT;	
+	
 enum Chirp_Status{
 	Preamble = 0,
 	ID,
@@ -71,8 +79,21 @@ enum Chirp_Status{
 	Quarter_SFD,
 	Payload
 };
+
+
 		
 extern uint32_t Time;
+
+int simulated_LoRa_init_SX1276(uint32_t central_freq, uint8_t tx_power, uint16_t time );
+
+int simulated_LoRa_tx(
+											uint8_t mode_select, uint8_t snipped_ratio,
+											//channel No.1 parameters
+											uint32_t central_freq_ch1, uint8_t *tx_buffer_ch1,uint8_t tx_buffer_length_ch1, uint16_t bw_ch1, uint8_t sf_ch1, uint8_t cr_ch1, bool has_crc_ch1, bool implict_header_ch1, bool ldro_ch1,
+											//channel No.2 parameters if necessary
+											uint32_t central_freq_ch2, uint8_t *tx_buffer_ch2,uint8_t tx_buffer_length_ch2, uint16_t bw_ch2, uint8_t sf_ch2, uint8_t cr_ch2, bool has_crc_ch2, bool implict_header_ch2, bool ldro_ch2
+);
+
 
 void Fast_SetChannel( uint32_t Input_Freq );
 
