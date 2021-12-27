@@ -9,8 +9,8 @@
 
 //#define RF_FREQUENCY                                (433000000 + 200000)// Hz
 //#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
-#define RF_FREQUENCY                                433000000 // Hz
-#define LORA_SPREADING_FACTOR                       7 	// [SF7..SF12]
+#define RF_FREQUENCY                                486700000 // Hz
+#define LORA_SPREADING_FACTOR                       12 	// [SF7..SF12]
 
 #define TX_OUTPUT_POWER                             14        // dBm
 
@@ -161,11 +161,11 @@ int main(void)
 								
 	SX1276SetRx(0);
 	SX1276SetMaxPayloadLength( MODEM_LORA, 255 );
-	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
-	printf("Private 0x12\r\n");
+//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PRIVATE_SYNCWORD );
+//	printf("Private 0x12\r\n");
 
-//	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
-//	printf("Public 0x34\r\n");
+	SX1276Write( REG_LR_SYNCWORD, LORA_MAC_PUBLIC_SYNCWORD );
+	printf("Public 0x34\r\n");
 
 
 	printf("FREQ:%d,sf:%d\r\n",RF_FREQUENCY,LORA_SPREADING_FACTOR);
