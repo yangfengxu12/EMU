@@ -18,24 +18,33 @@
 
 #include "Timer_Calibration_From_SX1276.h"
 
-#define BUFFER_SIZE                                 255 // Define the payload size here
+//#define BUFFER_SIZE                                 255 // Define the payload size here
 #define PACKET_COUNT																100	//
 #define INTERVAL_TIME																1000  // ms
-																								
-uint8_t Tx_Buffer[BUFFER_SIZE]={0x01,0x02};
+//																								
+//uint8_t Tx_Buffer[BUFFER_SIZE]={0x01,0x02};
 
-uint16_t BufferSize = BUFFER_SIZE;
+//uint16_t BufferSize = BUFFER_SIZE;
 
-struct LoRa_packet_parameters{
+struct LoRa_Packet_Paras{
 	uint32_t central_freq;
-	uint8_t *tx_payload;
-	uint8_t payload_length; 
 	uint32_t bw; 
+	uint8_t *tx_payload;
+	uint8_t payload_length;
 	uint8_t sf; 
 	uint8_t cr; 
-	bool has_crc_ch1;
-	bool implict_header_ch1;
-	bool ldro_ch1;
+	bool has_crc;
+	bool implict_header;
+	bool ldro;
+};
+
+struct EMU_Paras{
+	uint8_t emu_mode_sel;
+	float emu_gap_width;
+	int tx_power;
+	uint32_t tx_interval_time;
+	struct LoRa_Packet_Paras lora_ch1;
+	struct LoRa_Packet_Paras lora_ch2;
 };
 
 
@@ -77,20 +86,12 @@ int main(void)
 uint8_t data_0x001D004E[64] = {0x40, 0x4E, 0x00, 0x1D, 0x00, 0x00, 0x01, 0x00, 0x02, 0x50, 0xEE, 0xEC, 0x5F, 0x44, 0x0C, 0xFA, 0xC3, 0x36, 0xC8, 0xD6, 0x28, 0x90, 0xBC, 0x6E, 0xAC, 0x66, 0x03, 0xEF, 0x19, 0xCC, 0x36, 0x9C, 0x5A, 0xF9, 0xF0, 0x22, 0x02, 0xB3, 0xEE, 0x4D, 0x7B, 0x77, 0x70, 0xBB, 0x12, 0xAE, 0x85, 0x73, 0xA6, 0x5C, 0x4A, 0x46, 0xEA, 0x13, 0x61, 0x8E, 0x19, 0xA2, 0xC5, 0x81, 0x53, 0x65, 0x1F, 0x3F};
 uint8_t data_0x00420029[64] = {0x40, 0x29, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0x02, 0xF2, 0x54, 0x99, 0xDE, 0x08, 0xC8, 0x64, 0xCC, 0x89, 0xB8, 0x1E, 0x3E, 0x3D, 0x54, 0xE9, 0x70, 0x55, 0x66, 0x22, 0x95, 0x31, 0x81, 0x97, 0x2C, 0xB3, 0xC7, 0x43, 0x75, 0xB4, 0x56, 0x4B, 0x40, 0xBB, 0xAB, 0x93, 0xB3, 0x03, 0x8A, 0xA0, 0x7D, 0xBE, 0xB2, 0xDB, 0x51, 0x50, 0xD0, 0x61, 0x25, 0xA5, 0xEA, 0x50, 0xF7, 0x82, 0x4F, 0xC9};
 	
+	
   uint16_t i;
 	
-	int *LoRa_ID_Start_Freq_No1 = NULL;
-	int *LoRa_Payload_Start_Freq_No1 = NULL;
-
-	int *LoRa_ID_Start_Freq_No2 = NULL;
-	int *LoRa_Payload_Start_Freq_No2 = NULL;
-	
 	HAL_Init();
-
   SystemClock_Config();
-	
   HW_Init();
-	
 	SPI1_Init();
 	delay_init(80);
 	uart_init(115200);
@@ -98,34 +99,54 @@ uint8_t data_0x00420029[64] = {0x40, 0x29, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0
 	Control_GPIO_Init();
 	LPM_SetOffMode(LPM_APPLI_Id, LPM_Disable);
 	
+//	for(int k=0;k<BUFFER_SIZE;k++)
+//	{
+//		Tx_Buffer[k]=0x31;
+////		Tx_Buffer[k]=rand()%255;
+//	}
 	
-	for(int k=0;k<BUFFER_SIZE;k++)
-	{
-		Tx_Buffer[k]=0x31;
-//		Tx_Buffer[k]=rand()%255;
-	}
+	struct EMU_Paras EMU_Paras;
+	EMU_Paras.emu_mode_sel = 0; //EMU mode seletion, 0:normal lora, 1:snipped lora, 2:multiplexed  lora
+	EMU_Paras.emu_gap_width = 0.15; //EMU's gap ratio, only used in snipping mode. unit:%, position at end of symbol
+	EMU_Paras.tx_power = 0;
+	EMU_Paras.tx_interval_time = 1000;
 	
-//	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
-//	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",CF,LORA_SF_NO1,CF2,LORA_SF_NO2);
-//		
-	int tx_power = 0;
-	Simulated_LoRa_Init_SX1276(486300000, tx_power, 3);
+	EMU_Paras.lora_ch1.central_freq = 486300000;
+	EMU_Paras.lora_ch1.bw = 125000; 
+	EMU_Paras.lora_ch1.tx_payload = data_0x001D004E;
+	EMU_Paras.lora_ch1.payload_length = 64;
+	EMU_Paras.lora_ch1.sf = 7; 
+	EMU_Paras.lora_ch1.cr = 1; 
+	EMU_Paras.lora_ch1.has_crc = true;
+	EMU_Paras.lora_ch1.implict_header = false;
+	EMU_Paras.lora_ch1.ldro = false;
+	
+	EMU_Paras.lora_ch2.central_freq = 486700000;
+	EMU_Paras.lora_ch2.bw = 125000; 
+	EMU_Paras.lora_ch2.tx_payload = data_0x00420029;
+	EMU_Paras.lora_ch2.payload_length = 64;
+	EMU_Paras.lora_ch2.sf = 7; 
+	EMU_Paras.lora_ch2.cr = 1; 
+	EMU_Paras.lora_ch2.has_crc = true;
+	EMU_Paras.lora_ch2.implict_header = false;
+	EMU_Paras.lora_ch2.ldro = false;
+	
+	Simulated_LoRa_Init_SX1276(EMU_Paras.lora_ch1.central_freq, EMU_Paras.tx_power);
 
-#ifdef ENABLE_USART
-//	printf("Tx\r\n");
-//	printf("CR=4/%d, CRC=%s, IMPL_HEAD=%s, LDR=%s\n",4+LORA_CR_NO1,LORA_HAS_CRC_NO1?"ON":"OFF",LORA_IMPL_HEAD_NO1?"ON":"OFF",LORA_LOWDATERATEOPTIMIZE_NO1?"ON":"OFF");
-//	printf("FREQ1:%d,sf1:%d,\r\nFREQ2:%d,sf2:%d\r\n",CF1,LORA_SF_NO1,CF2,LORA_SF_NO2);
-#endif
-
+printf("\r\n\r\nEMU Mode: %d\nEMU Gap Width: %.2f\nTx Power: %d\nPacket interval time: %d ms\r\n\r\n",\
+	EMU_Paras.emu_mode_sel,EMU_Paras.emu_gap_width,EMU_Paras.tx_power,EMU_Paras.tx_interval_time);
+	
 	for(i=0;i<PACKET_COUNT;i++)
 	{
 		Simulated_LoRa_Tx(
-											1, //EMU mode seletion, 0:normal lora, 1:snipped lora, 2:multiplexed  lora
-											50, //EMU's gap ratio, only used in snipping mode. unit:%, position at end of symbol
+											EMU_Paras.emu_mode_sel, EMU_Paras.emu_gap_width, 
 											//channel channel 1 LoRa parameters, 
-											486300000, data_0x001D004E,64, 125000, 12, 1, true, false, true,
+											EMU_Paras.lora_ch1.central_freq, EMU_Paras.lora_ch1.tx_payload, EMU_Paras.lora_ch1.payload_length, 
+											EMU_Paras.lora_ch1.bw, EMU_Paras.lora_ch1.sf, EMU_Paras.lora_ch1.cr, EMU_Paras.lora_ch1.has_crc, EMU_Paras.lora_ch1.implict_header, EMU_Paras.lora_ch1.ldro,
+											
 											//channel channel 2 LoRa parameters if necessary
-											486700000, data_0x00420029,64, 125000, 12, 1, true, false, false
+											EMU_Paras.lora_ch2.central_freq, EMU_Paras.lora_ch2.tx_payload, EMU_Paras.lora_ch2.payload_length, 
+											EMU_Paras.lora_ch2.bw, EMU_Paras.lora_ch2.sf, EMU_Paras.lora_ch2.cr, EMU_Paras.lora_ch2.has_crc, EMU_Paras.lora_ch2.implict_header, EMU_Paras.lora_ch2.ldro
 		);
 		printf("Tx done, Count:%d\r\n",i+1);
 		delay_ms(INTERVAL_TIME);

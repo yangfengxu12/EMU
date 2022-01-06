@@ -78,7 +78,7 @@ enum Chirp_Status{
 		
 extern uint32_t Time;
 
-int Simulated_LoRa_Init_SX1276(uint32_t central_freq, uint8_t tx_power, uint16_t time );
+int Simulated_LoRa_Init_SX1276(uint32_t central_freq, uint8_t tx_power);
 
 int Simulated_LoRa_Tx(
 											uint8_t mode_select, uint8_t snipped_ratio,

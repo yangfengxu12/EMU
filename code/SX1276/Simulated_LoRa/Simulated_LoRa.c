@@ -101,13 +101,13 @@ int Simulated_LoRa_Tx(
 	/******end of relase the temps ********/
 }
 
-int Simulated_LoRa_Init_SX1276(uint32_t central_freq, uint8_t tx_power, uint16_t time )
+int Simulated_LoRa_Init_SX1276(uint32_t central_freq, uint8_t tx_power)
 {
 	int device_datarate = 250000; // SX1276 OOK/FSK datarate
 	uint16_t datarate = 0;
 	
 	SX1276SetChannel( central_freq );
-	SX1276SetTxContinuousWave( central_freq, tx_power, time );
+	SX1276SetTxContinuousWave( central_freq, tx_power, 3 );
 	
 	SX1276Write( REG_OSC, RF_OSC_CLKOUT_1_MHZ );
 	
