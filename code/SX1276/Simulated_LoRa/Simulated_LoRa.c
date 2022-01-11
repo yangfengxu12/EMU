@@ -44,7 +44,7 @@ uint8_t Changed_Register_Count = 1;  // the number of changed registers.
 
 
 int Simulated_LoRa_Tx(
-											uint8_t mode_select, uint8_t snipped_ratio,
+											uint8_t mode_select, bool pakcet_type, float snipped_ratio,
 											//channel No.1 parameters
 											uint32_t central_freq_ch1, uint8_t *tx_buffer_ch1,uint8_t tx_buffer_length_ch1, uint32_t bw_ch1, uint8_t sf_ch1, uint8_t cr_ch1, bool has_crc_ch1, bool implict_header_ch1, bool ldro_ch1,
 											//channel No.2 parameters if necessary
@@ -78,17 +78,17 @@ int Simulated_LoRa_Tx(
 		ldro_ch2 = true;
 	
 	/******LoRa channel coding preparation******/
-	packet_freq_points_ch1 = LoRa_Channel_Coding(tx_buffer_ch1, tx_buffer_length_ch1, bw_ch1, sf_ch1, cr_ch1, has_crc_ch1, implict_header_ch1, &symbol_len_ch1, ldro_ch1);
+	packet_freq_points_ch1 = LoRa_Channel_Coding(tx_buffer_ch1, tx_buffer_length_ch1, pakcet_type, bw_ch1, sf_ch1, cr_ch1, has_crc_ch1, implict_header_ch1, &symbol_len_ch1, ldro_ch1);
 
 	if(mode_select == multiplexed_lora)
-		packet_freq_points_ch2 = LoRa_Channel_Coding(tx_buffer_ch2, tx_buffer_length_ch2, bw_ch2, sf_ch2, cr_ch2, has_crc_ch2, implict_header_ch2, &symbol_len_ch2, ldro_ch2);
-	
+		packet_freq_points_ch2 = LoRa_Channel_Coding(tx_buffer_ch2, tx_buffer_length_ch2, pakcet_type, bw_ch2, sf_ch2, cr_ch2, has_crc_ch2, implict_header_ch2, &symbol_len_ch2, ldro_ch2);
 	/******end of LoRa channel coding preparation******/
+	
 	/******transmit CSS waveform******/
 	if(mode_select == normal_lora)
 		LoRa_Generate_Signal(packet_freq_points_ch1,symbol_len_ch1,central_freq_ch1, bw_ch1, sf_ch1);
 	else if(mode_select == snipped_lora)
-		LoRa_Generate_Signal_Sinpping(packet_freq_points_ch1, snipped_ratio, symbol_len_ch1, central_freq_ch1, bw_ch1, sf_ch1);
+		LoRa_Generate_Signal_Sinpping(packet_freq_points_ch1, symbol_len_ch1, snipped_ratio, central_freq_ch1, bw_ch1, sf_ch1);
 	else if(mode_select == multiplexed_lora)
 		LoRa_Generate_Double_Packet(packet_freq_points_ch1,symbol_len_ch1,packet_freq_points_ch2,symbol_len_ch2,central_freq_ch1,central_freq_ch2, bw_ch1, bw_ch2, sf_ch1, sf_ch2);
 	else
@@ -425,12 +425,13 @@ void LoRa_Generate_Signal_Sinpping(int * freq_points, int id_and_payload_symbol_
 	
 	Init_Timer_Calibration_From_SX1276();
 	
-	Fast_SetChannel(central_freq);
+	Fast_SetChannel( central_freq );
 	
 	Send_packets:
 	LL_GPIO_SetOutputPin(GPIOB,GPIO_PIN_5);
-	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
-	delay_ms(5);
+ 	SX1276SetOpMode( RF_OPMODE_TRANSMITTER );
+	
+	delay_ms(1);
 	
 	LL_TIM_EnableCounter(TIM3);
 	LL_TIM_EnableCounter(TIM4);

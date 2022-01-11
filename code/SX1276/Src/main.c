@@ -21,7 +21,6 @@
 //#define BUFFER_SIZE                                 255 // Define the payload size here
 #define PACKET_COUNT																100	//
 #define INTERVAL_TIME																1000  // ms
-//																								
 //uint8_t Tx_Buffer[BUFFER_SIZE]={0x01,0x02};
 
 //uint16_t BufferSize = BUFFER_SIZE;
@@ -43,6 +42,7 @@ struct EMU_Paras{
 	float emu_gap_width;
 	int tx_power;
 	uint32_t tx_interval_time;
+	bool packet_type;
 	struct LoRa_Packet_Paras lora_ch1;
 	struct LoRa_Packet_Paras lora_ch2;
 };
@@ -106,22 +106,23 @@ uint8_t data_0x00420029[64] = {0x40, 0x29, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0
 //	}
 	
 	struct EMU_Paras EMU_Paras;
-	EMU_Paras.emu_mode_sel = 0; //EMU mode seletion, 0:normal lora, 1:snipped lora, 2:multiplexed  lora
+	EMU_Paras.emu_mode_sel = 1; //EMU mode selection, 0:normal lora, 1:snipped lora, 2:multiplexed  lora
 	EMU_Paras.emu_gap_width = 0.15; //EMU's gap ratio, only used in snipping mode. unit:%, position at end of symbol
 	EMU_Paras.tx_power = 0;
 	EMU_Paras.tx_interval_time = 1000;
+	EMU_Paras.packet_type = 0; //0:public(sync word:0x34) 1:private(sync word:0x12)
 	
-	EMU_Paras.lora_ch1.central_freq = 486300000;
+	EMU_Paras.lora_ch1.central_freq = 433000000;
 	EMU_Paras.lora_ch1.bw = 125000; 
 	EMU_Paras.lora_ch1.tx_payload = data_0x001D004E;
 	EMU_Paras.lora_ch1.payload_length = 64;
 	EMU_Paras.lora_ch1.sf = 7; 
 	EMU_Paras.lora_ch1.cr = 1; 
-	EMU_Paras.lora_ch1.has_crc = true;
+	EMU_Paras.lora_ch1.has_crc = false;
 	EMU_Paras.lora_ch1.implict_header = false;
 	EMU_Paras.lora_ch1.ldro = false;
 	
-	EMU_Paras.lora_ch2.central_freq = 486700000;
+	EMU_Paras.lora_ch2.central_freq = EMU_Paras.lora_ch1.central_freq + 400000;
 	EMU_Paras.lora_ch2.bw = 125000; 
 	EMU_Paras.lora_ch2.tx_payload = data_0x00420029;
 	EMU_Paras.lora_ch2.payload_length = 64;
@@ -133,13 +134,27 @@ uint8_t data_0x00420029[64] = {0x40, 0x29, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0
 	
 	Simulated_LoRa_Init_SX1276(EMU_Paras.lora_ch1.central_freq, EMU_Paras.tx_power);
 
-printf("\r\n\r\nEMU Mode: %d\nEMU Gap Width: %.2f\nTx Power: %d\nPacket interval time: %d ms\r\n\r\n",\
-	EMU_Paras.emu_mode_sel,EMU_Paras.emu_gap_width,EMU_Paras.tx_power,EMU_Paras.tx_interval_time);
+	printf("*************************\r\n\r\nEMU Mode: %d\nPacket Type: %s\nEMU Gap Width: %2.f %% \nTx Power: %d dBm\nPacket interval time: %d ms\r\n",\
+	EMU_Paras.emu_mode_sel,EMU_Paras.packet_type?"Private Sync Word 0x12":"Public Sync Word 0x34",EMU_Paras.emu_gap_width*100,EMU_Paras.tx_power,EMU_Paras.tx_interval_time);
+	
+	printf("*************************\r\nChannel 1 Parameters: \r\n\
+Central Frequency: %.2f MHz\nBandwidth: %d KHz\nTx Payload length: %d\nSpread Factor: %d\n\
+Code Rate: %d/5 \nCRC: %s\nImplict Header: %s\nLow Data Rate Optimization: %s\n", \
+	(float)EMU_Paras.lora_ch1.central_freq/1000000, EMU_Paras.lora_ch1.bw/1000,\
+	EMU_Paras.lora_ch1.payload_length, EMU_Paras.lora_ch1.sf, EMU_Paras.lora_ch1.cr+3, \
+	(EMU_Paras.lora_ch1.has_crc?"True":"False"),EMU_Paras.lora_ch1.implict_header?"True":"False",EMU_Paras.lora_ch1.ldro?"True":"False");
+	
+	printf("*************************\r\nChannel 2 Parameters: \r\n\
+Central Frequency: %.2f MHz\nBandwidth: %d KHz\nTx Payload length: %d\nSpread Factor: %d\n\
+Code Rate: %d/5 \nCRC: %s\nImplict Header: %s\nLow Data Rate Optimization: %s\n", \
+	(float)EMU_Paras.lora_ch2.central_freq/1000000, EMU_Paras.lora_ch2.bw/1000,\
+	EMU_Paras.lora_ch2.payload_length, EMU_Paras.lora_ch2.sf, EMU_Paras.lora_ch2.cr+3, \
+	(EMU_Paras.lora_ch2.has_crc?"True":"False"),EMU_Paras.lora_ch2.implict_header?"True":"False",EMU_Paras.lora_ch2.ldro?"True":"False");
 	
 	for(i=0;i<PACKET_COUNT;i++)
 	{
 		Simulated_LoRa_Tx(
-											EMU_Paras.emu_mode_sel, EMU_Paras.emu_gap_width, 
+											EMU_Paras.emu_mode_sel, EMU_Paras.packet_type, EMU_Paras.emu_gap_width, 
 											//channel channel 1 LoRa parameters, 
 											EMU_Paras.lora_ch1.central_freq, EMU_Paras.lora_ch1.tx_payload, EMU_Paras.lora_ch1.payload_length, 
 											EMU_Paras.lora_ch1.bw, EMU_Paras.lora_ch1.sf, EMU_Paras.lora_ch1.cr, EMU_Paras.lora_ch1.has_crc, EMU_Paras.lora_ch1.implict_header, EMU_Paras.lora_ch1.ldro,

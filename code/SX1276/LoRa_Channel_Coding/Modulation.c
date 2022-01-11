@@ -1,6 +1,7 @@
 #include "Modulation.h"
 #include "string.h"
 #include <stdlib.h>
+
 //#include "malloc.h" 
 
 #define DEBUG
@@ -11,14 +12,25 @@
 
 
 
-int *Modulation(uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint16_t ninput_items, uint16_t *noutput_items)
+int *Modulation(bool pakcet_type, uint8_t cr, uint8_t sf, uint32_t bw, uint16_t *input, uint16_t ninput_items, uint16_t *noutput_items)
 {
-	
-//	int id1 = 8;
-//	int id2 = 16;
-	int id1 = 24;
-	int id2 = 32;
+	int id1 = 0;
+	int id2 = 0;
 	int *output;
+	
+	if(pakcet_type)
+	{
+		// private 0x12
+		id1 = 8;
+		id2 = 16;
+	} 
+	else
+	{
+		// public 0x34
+		id1 = 24;
+    id2 = 32;
+	}	
+	
 	
 //	uint8_t *in = malloc(ninput_items*sizeof(uint8_t));
 	

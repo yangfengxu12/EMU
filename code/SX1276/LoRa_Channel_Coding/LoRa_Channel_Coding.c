@@ -11,7 +11,7 @@
 
 
 
-int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, uint8_t sf, uint8_t cr, bool has_crc, bool impl_head, int *symbol_len, bool low_data_rate_optimize)
+int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, bool pakcet_type, uint32_t bw, uint8_t sf, uint8_t cr, bool has_crc, bool impl_head, int *symbol_len, bool low_data_rate_optimize)
 {
 	int i;
 	uint8_t *whitened_data = NULL;
@@ -123,7 +123,7 @@ int *LoRa_Channel_Coding(uint8_t *tx_buffer, uint16_t buffer_size, uint32_t bw, 
 	printf("\n------------------Modualtion-----------------------\n");
 	#endif
 	
-	modulation_data = Modulation(cr, sf, bw, gray_data, noutput_gray, &noutput_modulation);
+	modulation_data = Modulation(pakcet_type, cr, sf, bw, gray_data, noutput_gray, &noutput_modulation);
 	
 	free(gray_data);
 	

@@ -81,7 +81,7 @@ extern uint32_t Time;
 int Simulated_LoRa_Init_SX1276(uint32_t central_freq, uint8_t tx_power);
 
 int Simulated_LoRa_Tx(
-											uint8_t mode_select, uint8_t snipped_ratio,
+											uint8_t mode_select, bool pakcet_type, float snipped_ratio,
 											//channel No.1 parameters
 											uint32_t central_freq_ch1, uint8_t *tx_buffer_ch1,uint8_t tx_buffer_length_ch1, uint32_t bw_ch1, uint8_t sf_ch1, uint8_t cr_ch1, bool has_crc_ch1, bool implict_header_ch1, bool ldro_ch1,
 											//channel No.2 parameters if necessary
