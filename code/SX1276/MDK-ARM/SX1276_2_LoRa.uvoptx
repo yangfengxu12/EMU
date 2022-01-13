@@ -152,9 +152,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>81</LineNumber>
+          <LineNumber>727</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134248686</Address>
+          <Address>134235848</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -163,14 +163,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\81</Expression>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\727</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>408</LineNumber>
+          <LineNumber>598</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134237600</Address>
+          <Address>134221028</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -179,14 +179,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\408</Expression>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\598</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>91</LineNumber>
+          <LineNumber>489</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134248784</Address>
+          <Address>134238290</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -195,29 +195,102 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\91</Expression>
+          <Expression>\\OOK2Chirp_Project\../Simulated_LoRa/Simulated_LoRa.c\489</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>500</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>725</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>854</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\Simulated_LoRa\Simulated_LoRa.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>blank_start</ItemText>
+          <ItemText>gap_width</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>blank_end</ItemText>
+          <ItemText>Input_Freq</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>snipped_ratio</ItemText>
+          <ItemText>gap_position,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gap_width</ItemText>
+          <ItemText>Symbol_Start_Time_Ch1[chirp_count_ch1] ,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>chirp_count_ch1,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Symbol_Start_Time_Ch1[chirp_count_ch1] +  gap_position,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>TIM4-&gt;CNT</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>TIM3-&gt;CNT</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>COMPENSATION_TIME</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -236,7 +309,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>260</SubType>
-          <ItemText>packet_freq_points_ch1</ItemText>
+          <ItemText>Symbol_Start_Time_Ch1</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -244,7 +317,7 @@
         <Mm>
           <WinNumber>2</WinNumber>
           <SubType>260</SubType>
-          <ItemText>packet_freq_points_ch1</ItemText>
+          <ItemText>Input_Freq</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>
@@ -1078,7 +1151,7 @@
 
   <Group>
     <GroupName>Hardware</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

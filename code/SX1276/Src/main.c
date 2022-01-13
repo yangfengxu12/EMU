@@ -61,7 +61,7 @@ int main(void)
 //0x41, 0xC2, 0xB3, 0xC6, 0x07, 0x32, 0x17, 0x08, 0x07, 0x22, 0x9F, 0xB6, 0x5A, 0xC3, 0x04, 0x1E, 0xA2, 0x2E, 0xC9, 0xFE, 0xC9, 0x5D, 0x11, 0xD3, 0x11, 
 //0xA5, 0x78, 0xE4, 0xC5, 0x17, 0x8E, 0xF5, 0xC9, 0x1C, 0xE1, 0x83, 0xE6, 0xB9, 0xA0, 0x94, 0x0C, 0x8A, 0xB5, 0x75, 0x89, 0xA7, 0x38, 0x04, 0xCB, 0x36, 
 //0xB2, 0x95, 0xF6, 0xC7, 0x6D, 0x5F, 0x2F, 0xD0, 0xC5, 0x1F};
-////	
+//	
 //uint8_t data_0x00420029[235]={
 //	0x40, 0x29, 0x00, 0x42, 0x00, 0x00, 0x02, 0x00, 0x02, 0xE3, 0xE7, 0xA0, 0x0B, 0x29, 0x5A, 0xE4, 0x54, 0xA1, 0x66, 0x53, 0x8B, 0x41, 0xD7, 0x14, 0x9C, 
 //	0x86, 0x87, 0x4D, 0xA7, 0x30, 0x92, 0x32, 0x98, 0xF8, 0xEC, 0x9C, 0xD9, 0xFA, 0x0D, 0x88, 0x45, 0x1B, 0xCC, 0x2C, 0xA9, 0x15, 0x08, 0x04, 0xCB, 0xBC, 
@@ -107,30 +107,30 @@ uint8_t data_0x00420029[64] = {0x40, 0x29, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0
 	
 	struct EMU_Paras EMU_Paras;
 	EMU_Paras.emu_mode_sel = 1; //EMU mode selection, 0:normal lora, 1:snipped lora, 2:multiplexed  lora
-	EMU_Paras.emu_gap_width = 0.15; //EMU's gap ratio, only used in snipping mode. unit:%, position at end of symbol
-	EMU_Paras.tx_power = 0;
-	EMU_Paras.tx_interval_time = 1000;
+	EMU_Paras.emu_gap_width = 0.5; //EMU's gap ratio, only used in snipping mode. unit:%, position at end of symbol
+	EMU_Paras.tx_power = 14;
+	EMU_Paras.tx_interval_time = 100;
 	EMU_Paras.packet_type = 0; //0:public(sync word:0x34) 1:private(sync word:0x12)
 	
-	EMU_Paras.lora_ch1.central_freq = 433000000;
+	EMU_Paras.lora_ch1.central_freq = 486300000;
 	EMU_Paras.lora_ch1.bw = 125000; 
 	EMU_Paras.lora_ch1.tx_payload = data_0x001D004E;
 	EMU_Paras.lora_ch1.payload_length = 64;
-	EMU_Paras.lora_ch1.sf = 7; 
+	EMU_Paras.lora_ch1.sf = 12;
 	EMU_Paras.lora_ch1.cr = 1; 
-	EMU_Paras.lora_ch1.has_crc = false;
+	EMU_Paras.lora_ch1.has_crc = true;
 	EMU_Paras.lora_ch1.implict_header = false;
-	EMU_Paras.lora_ch1.ldro = false;
+	EMU_Paras.lora_ch1.ldro = true;
 	
 	EMU_Paras.lora_ch2.central_freq = EMU_Paras.lora_ch1.central_freq + 400000;
 	EMU_Paras.lora_ch2.bw = 125000; 
 	EMU_Paras.lora_ch2.tx_payload = data_0x00420029;
-	EMU_Paras.lora_ch2.payload_length = 64;
-	EMU_Paras.lora_ch2.sf = 7; 
+	EMU_Paras.lora_ch2.payload_length = 1;
+	EMU_Paras.lora_ch2.sf = 12; 
 	EMU_Paras.lora_ch2.cr = 1; 
 	EMU_Paras.lora_ch2.has_crc = true;
 	EMU_Paras.lora_ch2.implict_header = false;
-	EMU_Paras.lora_ch2.ldro = false;
+	EMU_Paras.lora_ch2.ldro = true;
 	
 	Simulated_LoRa_Init_SX1276(EMU_Paras.lora_ch1.central_freq, EMU_Paras.tx_power);
 
@@ -143,14 +143,15 @@ Code Rate: %d/5 \nCRC: %s\nImplict Header: %s\nLow Data Rate Optimization: %s\n"
 	(float)EMU_Paras.lora_ch1.central_freq/1000000, EMU_Paras.lora_ch1.bw/1000,\
 	EMU_Paras.lora_ch1.payload_length, EMU_Paras.lora_ch1.sf, EMU_Paras.lora_ch1.cr+3, \
 	(EMU_Paras.lora_ch1.has_crc?"True":"False"),EMU_Paras.lora_ch1.implict_header?"True":"False",EMU_Paras.lora_ch1.ldro?"True":"False");
-	
+	if(EMU_Paras.emu_mode_sel == 2)
+	{
 	printf("*************************\r\nChannel 2 Parameters: \r\n\
 Central Frequency: %.2f MHz\nBandwidth: %d KHz\nTx Payload length: %d\nSpread Factor: %d\n\
 Code Rate: %d/5 \nCRC: %s\nImplict Header: %s\nLow Data Rate Optimization: %s\n", \
 	(float)EMU_Paras.lora_ch2.central_freq/1000000, EMU_Paras.lora_ch2.bw/1000,\
 	EMU_Paras.lora_ch2.payload_length, EMU_Paras.lora_ch2.sf, EMU_Paras.lora_ch2.cr+3, \
 	(EMU_Paras.lora_ch2.has_crc?"True":"False"),EMU_Paras.lora_ch2.implict_header?"True":"False",EMU_Paras.lora_ch2.ldro?"True":"False");
-	
+	}
 	for(i=0;i<PACKET_COUNT;i++)
 	{
 		Simulated_LoRa_Tx(
