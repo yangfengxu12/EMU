@@ -23,7 +23,7 @@
 #define INTERVAL_TIME																1000 // ms
 
 
-#define MODE  																			1 // #1 LOOK, LOOK run as normal lora
+#define MODE  																			3 // #1 LOOK, LOOK run as normal lora
 																											// #2 LOOK_BLANK, insert blank in symbols
 																											// #3 LOOK_DOUBLE, transmit two packets in diffenert channels at the same time
 
@@ -31,7 +31,7 @@
 	#define LOOK
 #elif (MODE==2)
 	#define LOOK_BLANK
-	#define LOOK_BLANK_RATIO														0.35  // This para means x% turn on PA and (1-x)% turn off PA.
+	#define LOOK_BLANK_RATIO														0.65  // This para means x% turn on PA and (1-x)% turn off PA.
 #elif (MODE==3)
 	#define LOOK_DOUBLE
 #endif
@@ -94,7 +94,7 @@ int main(void)
 		packet_freq_points_No1 = LoRa_Channel_Coding(data_0x001D004E, 64, LORA_BW, LORA_SF_NO1, LORA_CR_NO1, LORA_HAS_CRC_NO1, LORA_IMPL_HEAD_NO1, &symbol_len_No1, LORA_LOWDATERATEOPTIMIZE_NO1);
 
 		#ifdef LOOK_DOUBLE
-		packet_freq_points_No2 = LoRa_Channel_Coding(Tx_Buffer, BufferSize, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
+		packet_freq_points_No2 = LoRa_Channel_Coding(data_0x001D004E, 64, LORA_BW, LORA_SF_NO2, LORA_CR_NO2, LORA_HAS_CRC_NO2, LORA_IMPL_HEAD_NO2, &symbol_len_No2, LORA_LOWDATERATEOPTIMIZE_NO2);
 		#endif
 		
 		#ifdef LOOK
