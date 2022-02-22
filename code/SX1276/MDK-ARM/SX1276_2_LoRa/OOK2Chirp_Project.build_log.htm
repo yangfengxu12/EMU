@@ -1,0 +1,75 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.32.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 1 1, 1, LIC=NQQMA-1F5F9-MM99I-TXX65-YVSYZ-4K1WG
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.32.0.0
+Toolchain Path:  F:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.32.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
+Dialog DLL:      TCM.DLL V1.46.0.0
+ 
+<h2>Project:</h2>
+C:\Users\yfx\Documents\GitHub\CC1100_2_LoRa\code\SX1276\MDK-ARM\SX1276_2_LoRa.uvprojx
+Project File Date:  01/17/2022
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'SX1276_2_LoRa'
+compiling main.c...
+../Src/main.c(100): warning:  #177-D: variable "data_0x00420029"  was declared but never referenced
+  uint8_t data_0x00420029[64] = {0x40, 0x29, 0x00, 0x42, 0x00, 0x00, 0x01, 0x00, 0x02, 0xF2, 0x54, 0x99, 0xDE, 0x08, 0xC8, 0x64, 0xCC, 0x89, 0xB8, 0x1E, 0x3E, 0x3D, 0x54, 0xE9, 0x70, 0x55, 0x66, 0x22, 0x95, 0x31, 0x81, 0x97, 0x2C, 0xB3, 0xC7, 0x43, 0x75, 0xB4, 0x56, 0x4B, 0x40, 0xBB, 0xAB, 0x93, 0xB3, 0x03, 0x8A, 0xA0, 0x7D, 0xBE, 0xB2, 0xDB, 0x51, 0x50, 0xD0, 0x61, 0x25, 0xA5, 0xEA, 0x50, 0xF7, 0x82, 0x4F, 0xC9};
+../Src/main.c(105): warning:  #177-D: variable "packet_freq_points_No2"  was declared but never referenced
+  	int *packet_freq_points_No2 = NULL;
+../Src/main.c(108): warning:  #177-D: variable "symbol_len_No2"  was declared but never referenced
+  	int symbol_len_No2 = NULL;
+../Src/main.c(110): warning:  #177-D: variable "LoRa_ID_Start_Freq_No1"  was declared but never referenced
+  	int *LoRa_ID_Start_Freq_No1 = NULL;
+../Src/main.c(111): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No1"  was declared but never referenced
+  	int *LoRa_Payload_Start_Freq_No1 = NULL;
+../Src/main.c(113): warning:  #177-D: variable "LoRa_ID_Start_Freq_No2"  was declared but never referenced
+  	int *LoRa_ID_Start_Freq_No2 = NULL;
+../Src/main.c(114): warning:  #177-D: variable "LoRa_Payload_Start_Freq_No2"  was declared but never referenced
+  	int *LoRa_Payload_Start_Freq_No2 = NULL;
+../Src/main.c: 7 warnings, 0 errors
+linking...
+Program Size: Code=35788 RO-data=1240 RW-data=508 ZI-data=43436  
+FromELF: creating hex file...
+".\SX1276_2_LoRa\OOK2Chirp_Project.axf" - 0 Error(s), 7 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.4.0
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32L4xx_DFP.2.5.0.pack
+                Keil.STM32L4xx_DFP.2.5.0
+                STMicroelectronics STM32L4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_SX1276_2_LoRa
+  F:\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  F:\Arm\Packs\Keil\STM32L4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.4.0
+Build Time Elapsed:  00:00:13
+</pre>
+</body>
+</html>
